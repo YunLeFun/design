@@ -18,7 +18,8 @@
     "skipDefaultLibCheck": true,
     "noUnusedLocals": true,
     "paths": {
-      "@yunlefun/metadata": ["./packages/metadata/index.ts"]
+      "@yunlefun/metadata": ["./packages/metadata/index.ts"],
+      "@yunlefun/ui/*": ["./packages/ui/*"]
     }
   },
   "include": [

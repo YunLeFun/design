@@ -1,0 +1,30 @@
+// brand
+:root {
+  --ylf-c-brand: #007bff;
+}
+
+:root {
+  --ylf-c-primary: #007bff;
+
+  --ylf-c-text: #333;
+  --ylf-c-text-light: #666;
+  --ylf-c-text-lighter: #999;
+  --ylf-c-text-lightest: #ccc;
+  
+  --ylf-c-bg: #fff;
+
+  --ylf-c-border: #e5e5e5;
+}
+
+.dark {
+  --ylf-c-primary: #007bff;
+
+  --ylf-c-text: #fff;
+  --ylf-c-text-light: #ccc;
+  --ylf-c-text-lighter: #999;
+  --ylf-c-text-lightest: #666;
+
+  --ylf-c-bg: #333;
+
+  --ylf-c-border: #333;
+}

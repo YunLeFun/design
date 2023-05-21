@@ -22,7 +22,10 @@ export default defineConfig(async () => {
 
       // plugins
       Components({
-        dirs: resolve(__dirname, '.vitepress/theme/components'),
+        dirs: [
+          resolve(__dirname, '.vitepress/theme/components'),
+          resolve(__dirname, 'components'),
+        ],
         include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
         dts: './.vitepress/components.d.ts',
         transformer: 'vue3',
@@ -33,6 +36,7 @@ export default defineConfig(async () => {
     resolve: {
       alias: {
         '@yunlefun/metadata': resolve(__dirname, 'metadata/index.ts'),
+        '@yunlefun/ui/*': resolve(__dirname, 'ui/*'),
       },
       dedupe: [
         'vue',

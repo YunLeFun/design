@@ -37,8 +37,7 @@ export function MarkdownTransform(): Plugin {
 
       if (componentNames.includes(name) && i === 'index.md') {
         const frontmatterEnds = code.indexOf('\n---\n')
-        const firstHeader = code.search(/\n#{2,6}\s.+/)
-        const sliceIndex = firstHeader < 0 ? frontmatterEnds < 0 ? 0 : frontmatterEnds + 4 : firstHeader
+        const sliceIndex = frontmatterEnds < 0 ? 0 : frontmatterEnds + 5
 
         const { footer, header } = await getComponentMarkdown(pkg, name)
 
@@ -48,7 +47,7 @@ export function MarkdownTransform(): Plugin {
           code = code.slice(0, sliceIndex) + header + code.slice(sliceIndex)
 
         code = code
-          .replace(/(# \w+?)\n/, `$1\n\n<ComponentInfo fn="${name}"/>\n`)
+          .replace(/(# \w+?)\n/, `$1\n\n<ComponentInfo comp="${name}"/>\n`)
           .replace(/## (Components?(?:\sUsage)?)/i, '## $1\n<LearnMoreComponents />\n\n')
           .replace(/## (Directives?(?:\sUsage)?)/i, '## $1\n<LearnMoreDirectives />\n\n')
       }
@@ -62,6 +61,7 @@ const DIR_SRC = resolve(__dirname, '../..')
 const GITHUB_BLOB_URL = 'https://github.com/YunLeFun/ui/blob/main/packages'
 
 export async function getComponentMarkdown(pkg: string, name: string) {
+  const comp = getComponent(name)
   const URL = `${GITHUB_BLOB_URL}/${pkg}/${name}`
 
   const dirname = join(DIR_SRC, pkg, name)
@@ -116,8 +116,7 @@ const Demo = defineAsyncComponent(() => import('./${demoPath}'))
 
 ## Demo
 
-<DemoContainer>
-<p class="demo-source-link"><a href="${URL}/${demoPath}" target="_blank">source</a></p>
+<DemoContainer source="${URL}/${demoPath}" name="${name}">
 <ClientOnly>
   <Suspense>
     <Demo/>
@@ -135,8 +134,7 @@ import Demo from \'./${demoPath}\'
 
 ## Demo
 
-<DemoContainer>
-<p class="demo-source-link"><a href="${URL}/${demoPath}" target="_blank">source</a></p>
+<DemoContainer source="${URL}/${demoPath}" name="${name}">
 <Demo/>
 </DemoContainer>
 `
@@ -144,7 +142,7 @@ import Demo from \'./${demoPath}\'
 
   const footer = `${typingSection}\n\n${sourceSection}\n${ContributorsSection}\n${changelogSection}\n`
 
-  const header = demoSection
+  const header = `# ${comp?.title + (comp?.title_zh ? ` - ${comp?.title_zh}` : '')}\n${demoSection}`
 
   return {
     footer,

@@ -37,7 +37,7 @@ export async function readComponentsMetadata() {
 
   await Promise.all(componentNames.map(async (compName) => {
     const mdPath = join(dir, compName, 'index.md')
-    const vuePath = join(dir, compName, 'index.vue')
+    const vuePath = join(dir, compName, 'demo.vue')
 
     const mdRaw = await fs.readFile(mdPath, 'utf-8')
 
