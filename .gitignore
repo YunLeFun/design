@@ -13,3 +13,5 @@ cache
 playgrounds/*/pnpm-lock.yaml
 
 .vitepress/cache
+
+esbuild-kit

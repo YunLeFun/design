@@ -1,28 +1,47 @@
+import type { DefaultTheme } from 'vitepress'
 import { defineConfig } from 'vitepress'
+
+import { metadata } from '../metadata/metadata'
+
+export const defaultSideBar: DefaultTheme.Sidebar = [
+  { text: 'Get Started', link: '/guide/' },
+]
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "YunLeFun UI",
-  description: "UI for YunLeFun",
+  title: '@YunLeFun/UI',
+  description: 'UI for YunLeFun',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/markdown-examples' }
+      { text: 'Components', link: '/components/' },
     ],
 
-    sidebar: [
-      {
-        text: 'Examples',
-        items: [
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
-        ]
-      }
-    ],
+    sidebar: {
+      '/guide/': defaultSideBar,
+      '/components/': getComponentsSidebar(),
+    },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/YunLeFun/ui' }
-    ]
-  }
+      { icon: 'github', link: 'https://github.com/YunLeFun/ui' },
+      { icon: 'twitter', link: 'https://twitter.com/YunLeFun' },
+    ],
+  },
 })
+
+function getComponentsSidebar() {
+  const links: DefaultTheme.Sidebar = []
+
+  const components = metadata.components.filter(i => i.name)
+
+  links.push({
+    text: 'Components',
+    items: components.map(i => ({
+      text: i.title + (i.title_zh ? ` - ${i.title_zh}` : ''),
+      link: `/components/${i.name}/`,
+    })),
+  })
+
+  return links
+}

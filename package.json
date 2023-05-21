@@ -1,15 +1,32 @@
 {
-  "name": "@yunlefun/ui",
+  "name": "@yunlefun/ui-monorepo",
   "version": "0.0.0",
+  "private": true,
   "description": "UI for Yunlefun",
   "scripts": {
     "build": "npm run docs:build",
     "dev": "npm run docs:dev",
     "docs:dev": "vitepress dev packages",
     "docs:build": "vitepress build packages",
-    "docs:preview": "vitepress preview packages"
+    "docs:preview": "vitepress preview packages",
+    "lint": "eslint .",
+    "update": "pnpm -C packages/metadata run update && tsx scripts/update.ts",
+    "postinstall": "npm run update"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "^0.39.0",
+    "@types/fs-extra": "^11.0.1",
+    "@types/node": "^20.2.1",
+    "consola": "^3.1.0",
+    "eslint": "^8.41.0",
+    "fast-glob": "^3.2.12",
+    "fs-extra": "^11.1.1",
+    "gray-matter": "^4.0.3",
+    "simple-git": "^3.18.0",
+    "tsx": "^3.12.7",
     "vitepress": "1.0.0-alpha.76"
+  },
+  "dependencies": {
+    "vue": "^3.3.4"
   }
 }

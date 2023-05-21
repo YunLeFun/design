@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "update": "tsx scripts/update.ts"
+  }
+}

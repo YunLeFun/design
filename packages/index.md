@@ -3,20 +3,20 @@
 layout: home
 
 hero:
-  name: "YunLeFun UI"
-  text: "UI for YunLeFun"
-  tagline: My great project tagline
+  name: "@YunLeFun/UI"
+  text: "Build your H5 UI."
+  tagline: Customizable UI components for H5.
   actions:
     - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
+      text: Get Started
+      link: /guide/
     - theme: alt
-      text: API Examples
-      link: /api-examples
+      text: Components
+      link: /components/
 
 features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: Custom
+    details: Copy and customize every component.
   - title: Feature B
     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
   - title: Feature C

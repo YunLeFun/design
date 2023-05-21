@@ -1,5 +1,14 @@
 {
   "cSpell.words": [
     "yunlefun"
-  ]
+  ],
+  "vite.vitepress": true,
+  "vite.vitepressBase": "packages",
+  "vite.vitepressAutoRouting": true,
+  "vite.buildCommand": "npm run docs:build",
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "prettier.enable": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
 }
