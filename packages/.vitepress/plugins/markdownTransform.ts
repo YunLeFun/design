@@ -68,6 +68,10 @@ export async function getComponentMarkdown(pkg: string, name: string) {
   const demoPath = ['demo.vue', 'demo.client.vue'].find(i => fs.existsSync(join(dirname, i)))
   const types = await getTypeDefinition(pkg, name)
 
+  const codeSnippets = `
+  <<< @/components/${name}/demo.vue
+  `
+
   let typingSection = ''
 
   if (types) {
@@ -106,6 +110,8 @@ ${code}
 <Changelog fn="${name}" />
 `
 
+  const demoContainerStart = `<DemoContainer source="${URL}/${demoPath}" name="${name}">`
+
   const demoSection = demoPath
     ? demoPath.endsWith('.client.vue')
       ? `
@@ -116,7 +122,7 @@ const Demo = defineAsyncComponent(() => import('./${demoPath}'))
 
 ## Demo
 
-<DemoContainer source="${URL}/${demoPath}" name="${name}">
+${demoContainerStart}
 <ClientOnly>
   <Suspense>
     <Demo/>
@@ -134,8 +140,18 @@ import Demo from \'./${demoPath}\'
 
 ## Demo
 
-<DemoContainer source="${URL}/${demoPath}" name="${name}">
+${demoContainerStart}
+
+<template #source>
+
+${codeSnippets}
+
+</template>
+
+<template #default>
 <Demo/>
+</template>
+
 </DemoContainer>
 `
     : ''
