@@ -31,11 +31,11 @@ export async function listComponents(dir: string, ignore: string[] = []) {
 
 export async function readComponentsMetadata() {
   const dir = join(DIR_SRC, 'components')
-  const componentsName = await listComponents(dir)
+  const componentNames = await listComponents(dir)
 
   const components: YunLeFunComponent[] = []
 
-  await Promise.all(componentsName.map(async (compName) => {
+  await Promise.all(componentNames.map(async (compName) => {
     const mdPath = join(dir, compName, 'index.md')
     const vuePath = join(dir, compName, 'index.vue')
 

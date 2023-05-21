@@ -1,4 +1,17 @@
 {
+  "name": "@yunlefun/metadata",
+  "private": true,
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "require": "./index.cjs",
+      "import": "./index.mjs"
+    },
+    "./*": "./*"
+  },
+  "main": "./index.cjs",
+  "module": "./index.mjs",
+  "types": "./index.d.ts",
   "scripts": {
     "update": "tsx scripts/update.ts"
   }

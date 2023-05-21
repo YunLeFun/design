@@ -4,6 +4,7 @@ export interface YunLeFunComponent {
   name: string
   description?: string
   lastUpdated?: number
+  docs?: string
 }
 
 export interface PackageIndexes {
