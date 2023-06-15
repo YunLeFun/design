@@ -12,9 +12,8 @@ export function YlfResolver(_options: YlfResolverOptions = {}): ComponentResolve
     type: 'component',
     resolve: (name: string) => {
       if (name.startsWith('Ylf')) {
-        const partialName = name.slice(3)
         return {
-          name: partialName,
+          name,
           from: '@yunlefun/vue-components',
         }
       }

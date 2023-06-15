@@ -2,8 +2,9 @@ import { defineBuildConfig } from 'unbuild'
 
 export default defineBuildConfig({
   entries: [
-    './index',
-    './auto-import-resolver',
+    { builder: 'mkdist', input: './src/' },
+    { builder: 'mkdist', input: './src/', format: 'cjs', ext: 'cjs' },
+    './types',
   ],
 
   declaration: true,

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { BottomMenuItem } from '.'
+import type { BottomMenuItem } from '@yunlefun/vue-components'
 
 defineProps<{
   active: boolean
@@ -44,9 +44,9 @@ const emit = defineEmits(['click'])
   }
 }
 
-.dark {
-  .ylf-bottom-menu-item {
+// .dark {
+//   .ylf-bottom-menu-item {
 
-  }
-}
+//   }
+// }
 </style>

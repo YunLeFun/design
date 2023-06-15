@@ -1,7 +1,6 @@
 <script lang="ts" setup>
+import type { BottomMenuItem } from '@yunlefun/vue-components'
 import { ref } from 'vue'
-
-import type { BottomMenuItem } from './index'
 
 const items: BottomMenuItem[] = [
   {
@@ -32,7 +31,8 @@ function onClick(item: BottomMenuItem) {
     <YlfBottomMenuItem
       v-for="item in items"
       :key="item.to"
-      :item="item" :active="active === item.to"
+      :item="item"
+      :active="active === item.to"
       @click="onClick"
     />
   </YlfBottomMenu>
