@@ -27,7 +27,7 @@ function onClick(item: BottomMenuItem) {
 </script>
 
 <template>
-  <YlfBottomMenu>
+  <YlfBottomMenu shadow>
     <YlfBottomMenuItem
       v-for="item in items"
       :key="item.to"

@@ -13,6 +13,8 @@
     "css"
   ],
   "scripts": {
-    "release": "bumpp && npm publish"
+    "build": "",
+    "prepublishOnly": "npm run build",
+    "release": "bumpp --no-commit --no-tag --no-push && npm publish"
   }
 }

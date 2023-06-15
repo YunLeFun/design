@@ -14,9 +14,10 @@ const emit = defineEmits(['click'])
     :class="{
       active,
     }"
-    class="ylf-bottom-menu-item text-gray-800 hover:text-gray-900 cursor-pointer transition"
+    class="ylf-bottom-menu-item hover:text-gray-900 cursor-pointer transition"
     flex="~ 1"
     justify="center" items="center"
+    text-gray-800 dark="text-white"
     hover="text-blue-500"
     active="text-blue-600"
     p="2"
@@ -36,17 +37,17 @@ const emit = defineEmits(['click'])
 
 <style lang="scss">
 .ylf-bottom-menu-item {
-  color: var(--ylf-c-text);
-  background-color: var(--ylf-c-bg);
+  color: var(--ylf-c-text, black);
+  background-color: var(--ylf-bottom-menu-c-bg, #fff);
 
   &.active {
-    color: var(--ylf-c-primary);
+    color: var(--ylf-c-primary, dodgerblue);
   }
 }
 
-// .dark {
-//   .ylf-bottom-menu-item {
-
-//   }
-// }
+.dark {
+  .ylf-bottom-menu-item {
+    --ylf-bottom-menu-c-bg: #222;
+  }
+}
 </style>
