@@ -5,6 +5,8 @@ defineProps<{
   active: boolean
   item: BottomMenuItem
 }>()
+
+const emit = defineEmits(['click'])
 </script>
 
 <template>
@@ -19,6 +21,7 @@ defineProps<{
     active="text-blue-600"
     p="2"
     :to="item.to"
+    @click="emit('click', item)"
   >
     <div flex="~ col" justify="center" items="center">
       <slot>
@@ -43,6 +46,7 @@ defineProps<{
 
 .dark {
   .ylf-bottom-menu-item {
+
   }
 }
 </style>

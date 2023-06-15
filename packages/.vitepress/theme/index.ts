@@ -4,7 +4,6 @@ import Theme from 'vitepress/theme'
 
 import './styles/vars.css'
 import './styles/index.css'
-import './styles/demo.css'
 import 'uno.css'
 
 import '@yunlefun/ui/styles/css-vars.scss'

@@ -24,7 +24,7 @@
   },
   "include": [
     "packages",
-    "packages/.vitepress/components/*.vue",
+    "packages/.vitepress/vue-components/*.vue",
     "packages/.vitepress/*.ts",
     "meta",
     "vitest.config.ts"

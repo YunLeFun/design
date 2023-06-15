@@ -11,8 +11,8 @@ hero:
       text: Get Started
       link: /guide/
     - theme: alt
-      text: Components
-      link: /components/
+      text: Vue Components
+      link: /vue-components/
 
 features:
   - title: Custom

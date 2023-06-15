@@ -1,0 +1,31 @@
+{
+  "name": "@yunlefun/vue-components",
+  "type": "module",
+  "version": "0.0.1",
+  "description": "Components for YunLeFun",
+  "exports": {
+    "./auto-import-resolver": {
+      "require": "./dist/auto-import-resolver.cjs",
+      "import": "./dist/auto-import-resolver.mjs",
+      "types": "./dist/auto-import-resolver.d.ts"
+    },
+    ".": {
+      "require": "./dist/index.cjs",
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "prepublishOnly": "npm run build",
+    "release": "bumpp --no-commit --no-tag --no-push && npm publish"
+  },
+  "devDependencies": {
+    "unplugin-vue-components": "^0.25.1"
+  }
+}
