@@ -61,7 +61,7 @@ export async function getComponentMarkdown(pkg: string, name: string) {
   const types = await getTypeDefinition(pkg, name)
 
   const codeSnippets = `
-  <<< @/components/${name}/demo.vue
+  <<< @/vue-components/${name}/demo.vue
   `
 
   let typingSection = ''

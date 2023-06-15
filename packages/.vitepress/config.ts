@@ -15,12 +15,12 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Components', link: '/components/' },
+      { text: 'Vue Components', link: '/vue-components/' },
     ],
 
     sidebar: {
       '/guide/': defaultSideBar,
-      '/components/': getComponentsSidebar(),
+      '/vue-components/': getVueComponentsSidebar(),
     },
 
     socialLinks: [
@@ -30,16 +30,16 @@ export default defineConfig({
   },
 })
 
-function getComponentsSidebar() {
+function getVueComponentsSidebar() {
   const links: DefaultTheme.Sidebar = []
 
   const components = metadata.components.filter(i => i.name)
 
   links.push({
-    text: 'Components',
+    text: 'Vue Components',
     items: components.map(i => ({
       text: i.title + (i.title_zh ? ` - ${i.title_zh}` : ''),
-      link: `/components/${i.name}/`,
+      link: `/vue-components/${i.name}/`,
     })),
   })
 

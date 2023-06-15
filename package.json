@@ -15,7 +15,7 @@
     "update": "pnpm -C packages/metadata run update && tsx scripts/update.ts",
     "postinstall": "npm run update",
     "release": "",
-    "release:components": "pnpm -C packages/components run release",
+    "release:vue-components": "pnpm -C packages/vue-components run release",
     "test": "vitest"
   },
   "dependencies": {

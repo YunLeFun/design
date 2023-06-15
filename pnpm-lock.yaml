@@ -89,6 +89,8 @@ importers:
 
   packages/ui: {}
 
+  packages/vue-components: {}
+
 packages:
 
   /@algolia/autocomplete-core@1.9.2(@algolia/client-search@4.17.2)(algoliasearch@4.17.2)(search-insights@2.6.0):
