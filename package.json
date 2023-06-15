@@ -6,6 +6,7 @@
   "description": "UI for Yunlefun",
   "scripts": {
     "build": "npm run docs:build",
+    "build:vue-components": "pnpm -C packages/vue-components run build",
     "dev": "npm run docs:dev",
     "docs:dev": "vitepress dev packages",
     "docs:build": "vitepress build packages",
