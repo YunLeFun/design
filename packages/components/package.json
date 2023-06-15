@@ -1,0 +1,8 @@
+{
+  "name": "@yunlefun/components",
+  "version": "0.0.1",
+  "description": "Components for YunLeFun",
+  "scripts": {
+    "release": "bumpp && npm publish"
+  }
+}

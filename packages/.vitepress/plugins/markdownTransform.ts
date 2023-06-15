@@ -2,15 +2,9 @@ import { join, resolve } from 'node:path'
 import type { Plugin } from 'vite'
 import fs from 'fs-extra'
 import { componentNames, getComponent } from '../../../packages/metadata/metadata'
-import { getTypeDefinition, replacer } from '../../../scripts/utils'
+import { getTypeDefinition } from '../../../scripts/utils'
 
 export function MarkdownTransform(): Plugin {
-  const DIR_TYPES = resolve(__dirname, '../../../types/packages')
-  const hasTypes = fs.existsSync(DIR_TYPES)
-
-  if (!hasTypes)
-    console.warn('No types dist found, run `npm run build:types` first.')
-
   return {
     name: 'ylf-ui-md-transform',
     enforce: 'pre',
@@ -39,10 +33,8 @@ export function MarkdownTransform(): Plugin {
         const frontmatterEnds = code.indexOf('\n---\n')
         const sliceIndex = frontmatterEnds < 0 ? 0 : frontmatterEnds + 5
 
-        const { footer, header } = await getComponentMarkdown(pkg, name)
+        const { header } = await getComponentMarkdown(pkg, name)
 
-        if (hasTypes)
-          code = replacer(code, footer, 'FOOTER', 'tail')
         if (header)
           code = code.slice(0, sliceIndex) + header + code.slice(sliceIndex)
 

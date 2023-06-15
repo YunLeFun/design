@@ -22,6 +22,9 @@ const items: BottomMenuItem[] = [
 ]
 
 const active = ref('/')
+function onClick(item: BottomMenuItem) {
+  active.value = item.to
+}
 </script>
 
 <template>
@@ -30,7 +33,7 @@ const active = ref('/')
       v-for="item in items"
       :key="item.to"
       :item="item" :active="active === item.to"
-      @click="() => { active = item.to }"
+      @click="onClick"
     />
   </YlfBottomMenu>
 </template>
