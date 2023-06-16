@@ -1,1 +1,1 @@
-export * from '../bottom-menu'
+export * from './bottom-menu'

@@ -25,7 +25,7 @@ const items: BottomMenuItem[] = [
 
 const active = ref('/')
 function onClick(item: BottomMenuItem) {
-  active.value = item.to
+  active.value = item.to || ''
 }
 </script>
 
