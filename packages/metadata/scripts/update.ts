@@ -20,6 +20,7 @@ export async function listComponents(dir: string, ignore: string[] = []) {
     cwd: dir,
     ignore: [
       '_*',
+      'src',
       'dist',
       'node_modules',
       ...ignore,
