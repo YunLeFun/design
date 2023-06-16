@@ -19,14 +19,13 @@ const emit = defineEmits(['click'])
     justify="center" items="center"
     text-gray-800 dark="text-white"
     hover="text-blue-500"
-    active="text-blue-600"
     p="2"
     :to="item.to"
     @click="emit('click', item)"
   >
     <div flex="~ col" justify="center" items="center">
       <slot>
-        <div text-xl :class="item.icon" />
+        <div text-xl :class="(active && item.activeIcon) || item.icon" />
         <span text-xs mt="1">
           {{ item.title }}
         </span>

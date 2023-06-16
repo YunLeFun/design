@@ -1,7 +1,7 @@
 {
   "name": "@yunlefun/vue-components",
   "type": "module",
-  "version": "0.0.4-beta.7",
+  "version": "0.0.4-beta.8",
   "description": "Components for YunLeFun",
   "exports": {
     "./auto-import-resolver": {
