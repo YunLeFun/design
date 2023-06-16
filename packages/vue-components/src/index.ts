@@ -1,7 +1,4 @@
-import YlfBottomMenuItem from './components/YlfBottomMenuItem.vue'
-import YlfBottomMenu from './components/YlfBottomMenu.vue'
+export * from './components'
 
-export {
-  YlfBottomMenuItem,
-  YlfBottomMenu,
-}
+// other exports
+export * from './types'

@@ -1,7 +1,7 @@
 {
   "name": "@yunlefun/vue-components",
   "type": "module",
-  "version": "0.0.4-beta.8",
+  "version": "0.0.4-beta.10",
   "description": "Components for YunLeFun",
   "exports": {
     "./auto-import-resolver": {
@@ -10,7 +10,7 @@
       "import": "./dist/auto-import-resolver.mjs"
     },
     ".": {
-      "types": "./index.d.ts",
+      "types": "./dist/index.d.ts",
       "require": "./dist/index.cjs",
       "import": "./dist/index.mjs"
     },
@@ -18,11 +18,9 @@
   },
   "main": "./dist/index.cjs",
   "module": "./dist/index.mjs",
-  "types": "./index.d.ts",
+  "types": "./dist/index.d.ts",
   "files": [
-    "dist",
-    "index.d.ts",
-    "auto-import-resolver.d.ts"
+    "dist"
   ],
   "scripts": {
     "build": "unbuild",
