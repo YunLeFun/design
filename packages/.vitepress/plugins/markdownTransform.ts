@@ -25,7 +25,8 @@ export function MarkdownTransform(): Plugin {
       // convert links to relative
       code = code.replace(/https?:\/\/ui\.yunlefun\.org\//g, '/')
 
-      const [pkg, _name, i] = id.split('/').slice(-3)
+      const [_name, i] = id.split('/').slice(-2)
+      const componentsFolder = 'vue/components'
 
       const name = componentNames.find(n => n.toLowerCase() === _name.toLowerCase()) || _name
 
@@ -33,7 +34,7 @@ export function MarkdownTransform(): Plugin {
         const frontmatterEnds = code.indexOf('\n---\n')
         const sliceIndex = frontmatterEnds < 0 ? 0 : frontmatterEnds + 5
 
-        const { header } = await getComponentMarkdown(pkg, name)
+        const { header } = await getComponentMarkdown(componentsFolder, name)
 
         if (header)
           code = code.slice(0, sliceIndex) + header + code.slice(sliceIndex)
@@ -61,7 +62,7 @@ export async function getComponentMarkdown(pkg: string, name: string) {
   const types = await getTypeDefinition(pkg, name)
 
   const codeSnippets = `
-  <<< @/vue-components/${name}/demo.vue
+  <<< @/vue/components/${name}/demo.vue
   `
 
   let typingSection = ''

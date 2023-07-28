@@ -12,7 +12,7 @@ hero:
       link: /guide/
     - theme: alt
       text: Vue Components
-      link: /vue-components/
+      link: /vue/
 
 features:
   - title: Custom

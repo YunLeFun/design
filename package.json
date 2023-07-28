@@ -6,7 +6,7 @@
   "description": "UI for Yunlefun",
   "scripts": {
     "build": "npm run docs:build",
-    "build:vue-components": "pnpm -C packages/vue-components run build",
+    "build:vue": "pnpm -C packages/vue run build",
     "dev": "npm run docs:dev",
     "docs:dev": "vitepress dev packages",
     "docs:build": "vitepress build packages",
@@ -16,7 +16,7 @@
     "update": "pnpm -C packages/metadata run update && tsx scripts/update.ts",
     "postinstall": "npm run update",
     "release": "",
-    "release:vue-components": "pnpm -C packages/vue-components run release",
+    "release:vue": "pnpm -C packages/vue run release",
     "test": "vitest"
   },
   "dependencies": {

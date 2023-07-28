@@ -29,6 +29,7 @@ export default defineConfig(async () => {
         include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
         dts: './.vitepress/components.d.ts',
         transformer: 'vue3',
+        allowOverrides: true,
       }),
 
       UnoCSS(),

@@ -31,7 +31,7 @@ export async function listComponents(dir: string, ignore: string[] = []) {
 }
 
 export async function readComponentsMetadata() {
-  const vueComponentsDir = join(DIR_SRC, 'vue-components')
+  const vueComponentsDir = join(DIR_SRC, 'vue/components')
   const componentNames = await listComponents(vueComponentsDir)
 
   const components: YunLeFunComponent[] = []
