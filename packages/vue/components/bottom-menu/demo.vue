@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { BottomMenuItem } from '@yunlefun/vue-components'
+import type { BottomMenuItem } from '@yunlefun/vue'
 import { ref } from 'vue'
 
 const items: BottomMenuItem[] = [

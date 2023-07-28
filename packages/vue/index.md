@@ -3,7 +3,22 @@
 ## Usage
 
 ```bash
-pnpm add -D @yunlefun/vue-components
+pnpm add -D @yunlefun/vue
+```
+
+### Use it in Nuxt
+
+```ts
+export default defineNuxtConfig({
+  modules: [
+    // ...
+    '@vueuse/nuxt',
+    '@unocss/nuxt',
+    '@pinia/nuxt',
+    // add this line
+    '@yunlefun/vue/nuxt',
+  ],
+})
 ```
 
 ### Add auto import resolver for vue components
@@ -11,7 +26,6 @@ pnpm add -D @yunlefun/vue-components
 ```ts
 // vite.config.ts
 import { defineConfig } from 'vite'
-import { YlfResolver } from '@yunlefun/vue-components/auto-import-resolver'
 import Components from 'unplugin-vue-components/vite'
 
 export default defineConfig({
@@ -24,9 +38,10 @@ export default defineConfig({
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
       dts: 'src/components.d.ts',
       resolvers: [
-        // add @yunlefun/vue-components auto import resolver
+        // add @yunlefun/vue auto import resolver
         YlfResolver(),
       ],
+      di
     }),
   ]
 })

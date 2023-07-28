@@ -1,15 +1,11 @@
 {
-  "name": "@yunlefun/vue-components",
+  "name": "@yunlefun/vue",
   "type": "module",
-  "version": "0.0.5-beta.4",
+  "version": "0.0.6",
   "description": "Components for YunLeFun",
   "exports": {
-    "./auto-import-resolver": {
-      "types": "./dist/auto-import-resolver.d.ts",
-      "require": "./dist/auto-import-resolver.cjs",
-      "import": "./dist/auto-import-resolver.mjs"
-    },
-    "./components/*": "./dist/runtime/components/*",
+    "./components/*": "./components/*",
+    "./nuxt": "./nuxt.js",
     ".": {
       "types": "./dist/index.d.ts",
       "require": "./dist/index.cjs",
@@ -21,8 +17,9 @@
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "files": [
+    "components",
     "dist",
-    "auto-import-resolver.d.ts"
+    "nuxt.js"
   ],
   "scripts": {
     "build": "unbuild",
@@ -31,6 +28,7 @@
     "typecheck": "vue-tsc --noEmit"
   },
   "devDependencies": {
+    "nuxt": "^3.6.5",
     "unplugin-vue-components": "^0.25.1"
   }
 }

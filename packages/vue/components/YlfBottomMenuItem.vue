@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { BottomMenuItem } from '@yunlefun/vue-components'
+import type { BottomMenuItem } from '@yunlefun/vue'
 
 defineProps<{
   active: boolean

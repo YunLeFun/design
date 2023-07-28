@@ -24,7 +24,7 @@ export default defineConfig(async () => {
       Components({
         dirs: [
           resolve(__dirname, '.vitepress/theme/components'),
-          resolve(__dirname, 'vue-components/src/runtime/components'),
+          resolve(__dirname, 'vue/components'),
         ],
         include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
         dts: './.vitepress/components.d.ts',
