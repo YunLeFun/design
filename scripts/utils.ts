@@ -21,14 +21,14 @@ export async function getTypeDefinition(pkg: string, name: string): Promise<stri
     .replace(/export {}/g, '')
 
   const prettier = await import('prettier')
-  return prettier
+  return (await prettier
     .format(
       types,
       {
         semi: false,
         parser: 'typescript',
       },
-    )
+    ))
     .trim()
 }
 
