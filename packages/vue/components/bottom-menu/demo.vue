@@ -23,8 +23,13 @@ const items: BottomMenuItem[] = [
   },
 ]
 
+// when using vue-router
+// import { useRouter } from 'vue-router'
+// const router = useRouter()
+// const active = computed(() => router.currentRoute.value.path)
 const active = ref('/')
 function onClick(item: BottomMenuItem) {
+  // router.push(item.to)
   active.value = item.to || ''
 }
 </script>
