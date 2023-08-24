@@ -24,12 +24,14 @@ const items: BottomMenuItem[] = [
 ]
 
 // when using vue-router
-// import { useRouter } from 'vue-router'
+// import { useRoute, useRouter } from 'vue-router'
+// const route = useRoute()
 // const router = useRouter()
-// const active = computed(() => router.currentRoute.value.path)
+// const active = computed(() => route.path)
+
 const active = ref('/')
 function onClick(item: BottomMenuItem) {
-  // router.push(item.to)
+  // router.push(item.to || '/')
   active.value = item.to || ''
 }
 </script>

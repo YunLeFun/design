@@ -5,7 +5,7 @@ Vue toolkit(components/composables) for YunLeFun.
 ## Usage
 
 ```bash
-pnpm add -D @yunlefun/vue
+pnpm add -D @yunlefun/vue sass
 ```
 
 ### Use it in Nuxt

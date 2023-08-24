@@ -16,7 +16,7 @@
     "typecheck": "vue-tsc --noEmit",
     "update": "pnpm -C packages/metadata run update && tsx scripts/update.ts",
     "postinstall": "npm run update",
-    "release": "",
+    "release": "npm run release:vue",
     "release:vue": "pnpm -C packages/vue run release",
     "test": "vitest"
   },
