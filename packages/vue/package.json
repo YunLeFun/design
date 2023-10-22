@@ -1,7 +1,7 @@
 {
   "name": "@yunlefun/vue",
   "type": "module",
-  "version": "0.0.8-beta.0",
+  "version": "0.0.8-beta.2",
   "description": "Components for YunLeFun",
   "exports": {
     "./components/*": "./components/*",
@@ -28,7 +28,7 @@
     "typecheck": "vue-tsc --noEmit"
   },
   "devDependencies": {
-    "nuxt": "^3.6.5",
-    "unplugin-vue-components": "^0.25.1"
+    "nuxt": "^3.8.0",
+    "unplugin-vue-components": "^0.25.2"
   }
 }

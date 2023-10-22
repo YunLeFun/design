@@ -14,7 +14,7 @@ const emit = defineEmits(['click'])
     :class="{
       active,
     }"
-    class="ylf-bottom-menu-item hover:text-gray-900 cursor-pointer transition"
+    class="ylf-bottom-menu-item cursor-pointer transition"
     flex="~ 1"
     justify="center" items="center"
     text-gray-800 dark="text-white"

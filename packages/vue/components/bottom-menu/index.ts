@@ -16,5 +16,5 @@ export interface BottomMenuItem {
    * onClick
    * @returns
    */
-  onClick?: () => void
+  onClick?: (...args: any[]) => void
 }
