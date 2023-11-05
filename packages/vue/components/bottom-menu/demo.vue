@@ -48,12 +48,3 @@ function onClick(item: BottomMenuItem) {
   </YlfBottomMenu>
 </template>
 
-<style>
-:root {
-  --ylf-bottom-menu-c-bg: #fafafa;
-}
-
-.dark {
-  --ylf-bottom-menu-c-bg: #222;
-}
-</style>

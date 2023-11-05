@@ -1,7 +1,7 @@
 {
   "name": "@yunlefun/vue",
   "type": "module",
-  "version": "0.0.8-beta.3",
+  "version": "0.0.8-beta.4",
   "description": "Components for YunLeFun",
   "exports": {
     "./components/*": "./components/*",
