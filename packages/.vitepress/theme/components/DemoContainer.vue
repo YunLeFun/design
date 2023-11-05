@@ -51,9 +51,9 @@ const [showSourceCode, toggleSourceCode] = useToggle(false)
 
         <button
           p="2"
-          text-base
+
           color="$ylf-c-text"
-          inline-flex justify="center" items="center" @click="toggleSourceCode()"
+          inline-flex text-base justify="center" items="center" @click="toggleSourceCode()"
         >
           <div i-ri-code-line />
         </button>

@@ -15,4 +15,4 @@ playgrounds/*/pnpm-lock.yaml
 .vitepress/cache
 
 esbuild-kit
-tsx-0
+tsx-*

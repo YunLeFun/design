@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "pnpm@8.9.2",
+  "packageManager": "pnpm@8.10.2",
   "description": "UI for Yunlefun",
   "scripts": {
     "build": "npm run docs:build",
@@ -23,32 +23,33 @@
   "dependencies": {
     "@yunlefun/metadata": "workspace:*",
     "@yunlefun/ui": "workspace:*",
-    "vue": "^3.3.6"
+    "vue": "^3.3.7"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.41.0",
+    "@antfu/eslint-config": "^1.1.0",
     "@iconify-json/ri": "^1.1.12",
     "@nuxt/schema": "^3.8.0",
     "@types/fs-extra": "^11.0.3",
-    "@types/node": "^20.8.7",
+    "@types/node": "^20.8.10",
     "@types/prettier": "^3.0.0",
+    "@unocss/eslint-config": "^0.57.2",
     "@yunlefun/vue": "workspace:*",
     "bumpp": "^9.2.0",
     "consola": "^3.2.3",
-    "eslint": "^8.52.0",
+    "eslint": "^8.53.0",
     "fast-glob": "^3.3.1",
     "fs-extra": "^11.1.1",
     "gray-matter": "^4.0.3",
     "prettier": "^3.0.3",
-    "sass": "^1.69.4",
+    "sass": "^1.69.5",
     "simple-git": "^3.20.0",
     "tsx": "^3.14.0",
     "unbuild": "^2.0.0",
-    "unocss": "^0.56.5",
+    "unocss": "^0.57.2",
     "unplugin-vue-components": "^0.25.2",
     "vite": "^4.5.0",
-    "vitepress": "1.0.0-rc.23",
+    "vitepress": "1.0.0-rc.25",
     "vitest": "^0.34.6",
-    "vue-tsc": "^1.8.19"
+    "vue-tsc": "^1.8.22"
   }
 }

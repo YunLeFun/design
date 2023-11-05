@@ -1,26 +1,26 @@
 {
   "compilerOptions": {
     "target": "es2017",
-    "module": "esnext",
-    "lib": ["ESNext", "DOM", "DOM.Iterable"],
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "strict": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "declaration": true,
-    "declarationDir": "./types",
-    "resolveJsonModule": true,
-    "rootDir": ".",
-    "baseUrl": ".",
     "jsx": "preserve",
-    "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
-    "noUnusedLocals": true,
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "baseUrl": ".",
+    "rootDir": ".",
+    "module": "esnext",
+    "moduleResolution": "node",
     "paths": {
       "@yunlefun/metadata": ["./packages/metadata/index.ts"],
       "@yunlefun/ui/*": ["./packages/ui/*"]
-    }
+    },
+    "resolveJsonModule": true,
+    "strict": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "declaration": true,
+    "declarationDir": "./types",
+    "esModuleInterop": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true
   },
   "include": [
     "packages",

@@ -9,7 +9,7 @@ const lastUpdated = useTimeAgo(new Date(info.value?.lastUpdated || 0))
 </script>
 
 <template>
-  <div class="component-info grid grid-cols-[100px_auto] gap-2 text-sm mt-4 mb-8 items-start">
+  <div class="component-info grid grid-cols-[100px_auto] mb-8 mt-4 items-start gap-2 text-sm">
     <template v-if="info?.lastUpdated">
       <div opacity="50">
         Last Changed

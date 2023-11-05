@@ -1,6 +1,6 @@
 <template>
   <div class="bg-gray-100">
-    <nav class="flex justify-between mx-auto">
+    <nav class="mx-auto flex justify-between">
       <slot />
     </nav>
   </div>
