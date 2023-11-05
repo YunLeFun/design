@@ -37,16 +37,9 @@ const emit = defineEmits(['click'])
 <style lang="scss">
 .ylf-bottom-menu-item {
   color: var(--ylf-c-text, black);
-  background-color: var(--ylf-bottom-menu-c-bg, #fff);
 
   &.active {
     color: var(--ylf-c-primary, dodgerblue);
-  }
-}
-
-.dark {
-  .ylf-bottom-menu-item {
-    --ylf-bottom-menu-c-bg: #222;
   }
 }
 </style>

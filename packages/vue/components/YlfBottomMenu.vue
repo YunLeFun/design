@@ -1,7 +1,5 @@
 <template>
-  <div class="bg-gray-100">
-    <nav class="mx-auto flex justify-between">
-      <slot />
-    </nav>
-  </div>
+  <nav class="mx-auto flex justify-between" bg="$ylf-bottom-menu-c-bg">
+    <slot />
+  </nav>
 </template>

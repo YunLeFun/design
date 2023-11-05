@@ -24,7 +24,7 @@ const [showSourceCode, toggleSourceCode] = useToggle(false)
       h="8"
       border="1px solid $ylf-c-border"
     >
-      <span px="2" inline-flex justify="center" items="center" op="60">
+      <span px="2" flex justify="start" items="center" op="60" class="truncate">
         {{ `packages/vue/components/${name}/demo.vue` }}
       </span>
     </div>
