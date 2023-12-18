@@ -5,6 +5,12 @@ import { metadata } from '../metadata/metadata'
 
 export const defaultSideBar: DefaultTheme.Sidebar = [
   { text: 'Get Started', link: '/guide/' },
+  {
+    text: 'CSS',
+    items: [
+      { text: 'pulse', link: '/css/pulse/' },
+    ],
+  },
 ]
 
 // https://vitepress.dev/reference/site-config
@@ -21,6 +27,7 @@ export default defineConfig({
     sidebar: {
       '/guide/': defaultSideBar,
       '/vue/': getVueComponentsSidebar(),
+      '/': defaultSideBar,
     },
 
     socialLinks: [

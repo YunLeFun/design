@@ -6,6 +6,8 @@ import './styles/vars.css'
 import './styles/index.css'
 import 'uno.css'
 
+import '../../css/index.scss'
+
 import '@yunlefun/ui/styles/css-vars.scss'
 
 export default {
