@@ -11,5 +11,5 @@
 
 .dark .ylf-bottom-menu {
   background-color: var(--ylf-bottom-menu-c-bg, #222);
-} 
+}
 </style>

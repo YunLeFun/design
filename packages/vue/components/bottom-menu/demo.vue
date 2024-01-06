@@ -47,4 +47,3 @@ function onClick(item: BottomMenuItem) {
     />
   </YlfBottomMenu>
 </template>
-
