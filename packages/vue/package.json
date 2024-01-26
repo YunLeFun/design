@@ -28,6 +28,6 @@
     "typecheck": "vue-tsc --noEmit"
   },
   "devDependencies": {
-    "nuxt": "^3.9.1"
+    "nuxt": "^3.9.3"
   }
 }
