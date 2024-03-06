@@ -8,7 +8,7 @@ export default defineNuxtModule({
       dirs.push({
         extensions: ['vue'],
         path: resolve('./components'),
-        pathPrefix: false,
+        pathPrefix: true,
         prefix: '',
       })
     },

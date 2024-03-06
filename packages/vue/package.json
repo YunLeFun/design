@@ -1,11 +1,11 @@
 {
   "name": "@yunlefun/vue",
   "type": "module",
-  "version": "0.0.9",
+  "version": "0.1.1",
   "description": "Components for YunLeFun",
   "exports": {
     "./components/*": "./components/*",
-    "./nuxt": "./nuxt.js",
+    "./nuxt": "./nuxt.mjs",
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
@@ -19,7 +19,7 @@
   "files": [
     "components",
     "dist",
-    "nuxt.js"
+    "nuxt.mjs"
   ],
   "scripts": {
     "build": "unbuild",
