@@ -3,9 +3,9 @@
 layout: home
 
 hero:
-  name: "@YunLeFun/UI"
-  text: "Build your H5 UI."
-  tagline: Customizable UI components for H5.
+  name: "YunLeFun UI"
+  text: "Build custom UI."
+  tagline: Customizable UI components for H5/Custom.
   actions:
     - theme: brand
       text: Get Started

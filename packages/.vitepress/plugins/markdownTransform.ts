@@ -1,8 +1,25 @@
 import type { Plugin } from 'vite'
 import { join, resolve } from 'node:path'
 import fs from 'fs-extra'
+import { DIR_PACKAGE_UTILS, GITHUB_BLOB_URL } from '../../../constants'
 import { componentNames, getComponent } from '../../../packages/metadata/metadata'
 import { getTypeDefinition } from '../../../scripts/utils'
+
+export const DIR_SRC = resolve(__dirname, '../..')
+
+/**
+ * 获取工具函数列表
+ */
+export function getUtilsList() {
+  const files = fs.readdirSync(DIR_PACKAGE_UTILS, {
+    withFileTypes: true,
+  })
+  // 子文件夹
+  const utils = files.filter(i => i.isDirectory() && !i.name.startsWith('.'))
+  return utils
+}
+
+const utils = getUtilsList()
 
 export function MarkdownTransform(): Plugin {
   return {
@@ -11,6 +28,19 @@ export function MarkdownTransform(): Plugin {
     async transform(code, id) {
       if (!id.match(/\.md\b/))
         return null
+
+      const [_name, i] = id.split('/').slice(-2)
+      const name = componentNames.find(n => n.toLowerCase() === _name.toLowerCase()) || _name
+      let type: 'vue' | 'utils' | undefined
+      // inject markdown for utils/*/index.md
+      if (i === 'index.md') {
+        if (utils.findIndex(i => id.startsWith(i.parentPath)) !== -1) {
+          type = 'utils'
+        }
+        else if (componentNames.includes(name)) {
+          type = 'vue'
+        }
+      }
 
       // linkify function names
       code = code.replace(
@@ -25,17 +55,27 @@ export function MarkdownTransform(): Plugin {
       // convert links to relative
       code = code.replace(/https?:\/\/ui\.yunlefun\.org\//g, '/')
 
-      const [_name, i] = id.split('/').slice(-2)
-      const componentsFolder = 'vue/components'
-
-      const name = componentNames.find(n => n.toLowerCase() === _name.toLowerCase()) || _name
-
-      if (componentNames.includes(name) && i === 'index.md') {
+      if (type) {
         const frontmatterEnds = code.indexOf('\n---\n')
         const sliceIndex = frontmatterEnds < 0 ? 0 : frontmatterEnds + 5
 
-        const { header } = await getComponentMarkdown(componentsFolder, name)
-
+        const options = {
+          pkg: '',
+          subPath: '',
+          name,
+        }
+        switch (type) {
+          case 'utils':
+            options.pkg = 'utils'
+            break
+          case 'vue':
+            options.pkg = 'vue'
+            options.subPath = 'components'
+            break
+          default:
+            break
+        }
+        const { header } = await getWrapperMarkdown(options)
         if (header)
           code = code.slice(0, sliceIndex) + header + code.slice(sliceIndex)
 
@@ -50,19 +90,31 @@ export function MarkdownTransform(): Plugin {
   }
 }
 
-const DIR_SRC = resolve(__dirname, '../..')
-const GITHUB_BLOB_URL = 'https://github.com/YunLeFun/ui/blob/main/packages'
-
-export async function getComponentMarkdown(pkg: string, name: string) {
+/**
+ * 包装初始的 Markdown 内容
+ */
+export async function getWrapperMarkdown(options: {
+  /**
+   * package name
+   */
+  pkg: string
+  subPath?: string
+  /**
+   * item name
+   */
+  name: string
+}) {
+  const { pkg, name, subPath = '' } = options
+  const pkgPath = join(pkg, subPath)
   const comp = getComponent(name)
-  const URL = `${GITHUB_BLOB_URL}/${pkg}/${name}`
+  const URL = `${GITHUB_BLOB_URL}/${pkgPath}/${name}`
 
   const dirname = join(DIR_SRC, pkg, name)
   const demoPath = ['demo.vue', 'demo.client.vue'].find(i => fs.existsSync(join(dirname, i)))
   const types = await getTypeDefinition(pkg, name)
 
   const codeSnippets = `
-  <<< @/vue/components/${name}/demo.vue
+  <<< @/${pkgPath}/${name}/demo.vue
   `
 
   let typingSection = ''

@@ -20,11 +20,17 @@ const [showSourceCode, toggleSourceCode] = useToggle(false)
 <template>
   <div class="demo wide">
     <div
-      class="demo-actions" flex justify="between" bg="$vp-c-bg"
+      class="demo-actions items-center justify-start rounded px-2 text-xs"
+      flex="~ gap-1"
+      bg="$vp-c-bg"
       h="8"
       border="1px solid $ylf-c-border"
     >
-      <span px="2" flex justify="start" items="center" op="60" class="truncate">
+      <div i-logos:vue />
+      <span
+        flex justify="start" items="center" op="60"
+        class="truncate"
+      >
         {{ `packages/vue/components/${name}/demo.vue` }}
       </span>
     </div>
@@ -37,7 +43,8 @@ const [showSourceCode, toggleSourceCode] = useToggle(false)
     </div>
 
     <div
-      class="demo-actions" flex justify="end" mb="-4" bg="$vp-c-bg"
+      class="demo-actions rounded"
+      flex justify="end" mb="-4" bg="$vp-c-bg"
       border="1px solid $ylf-c-border"
     >
       <div>

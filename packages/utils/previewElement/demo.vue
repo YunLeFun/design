@@ -10,6 +10,9 @@ function onClick() {
 }
 
 function onCanvasClick() {
+  /**
+   * canvas 使用 cloneNode 会丢失上下文（绘制的内容）
+   */
   previewElement(previewedCanvasRef.value, {
     clone: false,
     scale: 3,
@@ -29,7 +32,10 @@ onMounted(() => {
       PreviewElement
     </div>
 
-    <canvas ref="previewedCanvasRef" class="m-2 size-50 bg-green p-2" @click="onCanvasClick">
+    <canvas
+      ref="previewedCanvasRef" class="m-2 size-50 bg-green p-2"
+      @click="onCanvasClick"
+    >
       PreviewElement
     </canvas>
   </div>
