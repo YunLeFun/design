@@ -1,10 +1,10 @@
+import type { PackageIndexes, YunLeFunComponent } from '../types'
 import { join, resolve } from 'node:path'
+import fg from 'fast-glob'
 import fs from 'fs-extra'
 import matter from 'gray-matter'
-import fg from 'fast-glob'
-import Git from 'simple-git'
 
-import type { PackageIndexes, YunLeFunComponent } from '../types'
+import Git from 'simple-git'
 
 export const DOCS_URL = 'https://ui.yunle.fun'
 export const COMPONENTS_DIR = resolve(__dirname, '..')
@@ -46,7 +46,8 @@ export async function readComponentsMetadata() {
 
     let description = (md
       .replace(/\r\n/g, '\n')
-      .match(/# \w+[\s\n]+(.+?)(?:, |\. |\n|\.\n)/m) || []
+      // eslint-disable-next-line regexp/no-super-linear-backtracking
+      .match(/# \w+\s+(.+?)(?:, |\. |\n|\.\n)/) || []
     )[1] || ''
 
     description = description.trim().charAt(0).toLowerCase() + description.slice(1)

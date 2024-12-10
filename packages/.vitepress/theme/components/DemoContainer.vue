@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { onErrorCaptured, ref } from 'vue'
-
 import { useToggle } from '@vueuse/core'
+
+import { onErrorCaptured, ref } from 'vue'
 
 defineProps<{
   name: string

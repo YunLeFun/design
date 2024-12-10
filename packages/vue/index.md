@@ -24,9 +24,9 @@ export default defineNuxtConfig({
 ### Add auto import resolver for vue components
 
 ```ts
+import Components from 'unplugin-vue-components/vite'
 // vite.config.ts
 import { defineConfig } from 'vite'
-import Components from 'unplugin-vue-components/vite'
 
 export default defineConfig({
   plugins: [

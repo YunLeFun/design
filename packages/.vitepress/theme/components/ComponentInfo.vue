@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useTimeAgo } from '@vueuse/core'
-import { computed } from 'vue'
 import { components } from '@yunlefun/metadata'
+import { computed } from 'vue'
 
 const props = defineProps<{ comp: string }>()
 const info = computed(() => components.find(i => i.name === props.comp))

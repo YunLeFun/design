@@ -1,5 +1,5 @@
-import _metadata from './index.json'
 import type { PackageIndexes } from './types'
+import _metadata from './index.json'
 
 export const metadata = _metadata as PackageIndexes
 export const components = metadata.components as PackageIndexes['components']

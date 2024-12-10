@@ -11,13 +11,29 @@ export const defaultSideBar: DefaultTheme.Sidebar = [
       { text: 'pulse', link: '/css/pulse/' },
     ],
   },
+  {
+    text: 'Utils',
+    items: [
+      { text: 'previewElement', link: '/utils/previewElement/' },
+    ],
+  },
 ]
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: '@YunLeFun/UI',
   description: 'UI for YunLeFun',
+  lastUpdated: true,
+
   themeConfig: {
+    editLink: {
+      pattern: 'https://github.com/YunLeFun/ui/edit/main/packages/:path',
+    },
+
+    search: {
+      provider: 'local',
+    },
+
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
