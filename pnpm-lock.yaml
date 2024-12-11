@@ -93,6 +93,9 @@ importers:
       vitepress:
         specifier: 1.5.0
         version: 1.5.0(@algolia/client-search@5.16.0)(@types/node@22.10.1)(change-case@5.4.4)(postcss@8.4.49)(sass@1.82.0)(search-insights@2.17.3)(terser@5.37.0)(typescript@5.7.2)
+      vitepress-plugin-group-icons:
+        specifier: ^1.3.1
+        version: 1.3.1
       vitest:
         specifier: ^2.1.8
         version: 2.1.8(@types/node@22.10.1)(sass@1.82.0)(terser@5.37.0)
@@ -1080,6 +1083,9 @@ packages:
 
   '@iconify-json/simple-icons@1.2.15':
     resolution: {integrity: sha512-4vxMQwkjsbjVIVGsPjKBnLMqAXu4wSlHmeN35KaJLK0UJNUj/ef6ES5c4bT/U4bSZjD2oZqOjOWTPD+HCrSUkg==}
+
+  '@iconify-json/vscode-icons@1.2.4':
+    resolution: {integrity: sha512-cmSNh18IMlOgCIYqqW5zqvXn7/6bRpr246c+/ywE/Uq3F0zQPcpHhuJp1nAIj275PF7+ouj+MU1jlmuL59pPRA==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -4991,6 +4997,9 @@ packages:
       yaml:
         optional: true
 
+  vitepress-plugin-group-icons@1.3.1:
+    resolution: {integrity: sha512-KHw3vaSqobjePKGWVRchd3PIG9wKrfA9U43yFLp2hTxXxUOIJdTb+e/qj0dEQYGYbwdXFBeErPVYHYNVBDSqow==}
+
   vitepress@1.5.0:
     resolution: {integrity: sha512-q4Q/G2zjvynvizdB3/bupdYkCJe2umSAMv9Ju4d92E6/NXJ59z70xB0q5p/4lpRyAwflDsbwy1mLV9Q5+nlB+g==}
     hasBin: true
@@ -5987,6 +5996,10 @@ snapshots:
       '@iconify/types': 2.0.0
 
   '@iconify-json/simple-icons@1.2.15':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-json/vscode-icons@1.2.4':
     dependencies:
       '@iconify/types': 2.0.0
 
@@ -10867,6 +10880,14 @@ snapshots:
       terser: 5.37.0
       tsx: 4.19.2
       yaml: 2.6.1
+
+  vitepress-plugin-group-icons@1.3.1:
+    dependencies:
+      '@iconify-json/logos': 1.2.3
+      '@iconify-json/vscode-icons': 1.2.4
+      '@iconify/utils': 2.2.0
+    transitivePeerDependencies:
+      - supports-color
 
   vitepress@1.5.0(@algolia/client-search@5.16.0)(@types/node@22.10.1)(change-case@5.4.4)(postcss@8.4.49)(sass@1.82.0)(search-insights@2.17.3)(terser@5.37.0)(typescript@5.7.2):
     dependencies:

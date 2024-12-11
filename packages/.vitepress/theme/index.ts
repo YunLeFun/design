@@ -5,6 +5,7 @@ import { h } from 'vue'
 import './styles/vars.css'
 import './styles/index.css'
 import 'uno.css'
+import 'virtual:group-icons.css'
 
 import '../../css/index.scss'
 

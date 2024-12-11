@@ -2,6 +2,7 @@ import { resolve } from 'node:path'
 import UnoCSS from 'unocss/vite'
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
+import { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 import { MarkdownTransform } from './.vitepress/plugins/markdownTransform'
 
 export default defineConfig(async () => {
@@ -33,6 +34,16 @@ export default defineConfig(async () => {
       }),
 
       UnoCSS(),
+
+      groupIconVitePlugin({
+        customIcon: {
+          postcss: 'vscode-icons:file-type-postcss',
+          playwright: 'vscode-icons:file-type-playwright',
+          vitepress: 'simple-icons:vitepress',
+          scss: 'vscode-icons:file-type-scss',
+          typedoc: 'vscode-icons:file-type-typedoc',
+        },
+      }),
     ],
     resolve: {
       alias: {

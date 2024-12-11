@@ -15,7 +15,7 @@
     "lint": "eslint .",
     "typecheck": "vue-tsc --noEmit",
     "update": "pnpm -C packages/metadata run update && tsx scripts/update.ts",
-    "postinstall": "npm run update",
+    "prepare": "npm run update",
     "release": "npm run release:vue",
     "release:vue": "pnpm -C packages/vue run release",
     "test": "vitest"
@@ -52,6 +52,7 @@
     "unplugin-vue-components": "^0.27.5",
     "vite": "^6.0.3",
     "vitepress": "1.5.0",
+    "vitepress-plugin-group-icons": "^1.3.1",
     "vitest": "^2.1.8",
     "vue-tsc": "^2.1.10"
   }

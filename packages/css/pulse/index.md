@@ -9,3 +9,5 @@
 </div>
 
 <<< @/css/pulse/demo.vue
+
+<<< @/css/pulse/index.scss

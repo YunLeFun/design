@@ -1,6 +1,7 @@
 import type { DefaultTheme } from 'vitepress'
 import { defineConfig } from 'vitepress'
 
+import { groupIconMdPlugin } from 'vitepress-plugin-group-icons'
 import { metadata } from '../metadata/metadata'
 
 export const defaultSideBar: DefaultTheme.Sidebar = [
@@ -50,6 +51,13 @@ export default defineConfig({
       { icon: 'github', link: 'https://github.com/YunLeFun/ui' },
       { icon: 'twitter', link: 'https://twitter.com/YunLeFun' },
     ],
+
+  },
+
+  markdown: {
+    config: (md) => {
+      md.use(groupIconMdPlugin)
+    },
   },
 })
 
