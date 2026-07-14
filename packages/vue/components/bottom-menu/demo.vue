@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import type { BottomMenuItem } from '@yunlefun/vue'
+import type { BottomMenuItem } from './index'
 import { ref } from 'vue'
 
 const items: BottomMenuItem[] = [
@@ -14,6 +14,12 @@ const items: BottomMenuItem[] = [
     activeIcon: 'i-ri-compass-2-fill',
     title: '发现',
     to: '/discover',
+  },
+  {
+    icon: 'i-ri-copper-coin-line',
+    activeIcon: 'i-ri-copper-coin-fill',
+    title: '云币',
+    to: '/coin',
   },
   {
     icon: 'i-ri-user-line',
@@ -37,13 +43,16 @@ function onClick(item: BottomMenuItem) {
 </script>
 
 <template>
-  <YlfBottomMenu shadow>
-    <YlfBottomMenuItem
-      v-for="item in items"
-      :key="item.to"
-      :item="item"
-      :active="active === item.to"
-      @click="onClick"
-    />
-  </YlfBottomMenu>
+  <div class="mx-auto max-w-xs overflow-hidden border border-$ylf-c-border rounded-ylf-xl">
+    <div class="h-28 op-90 bg-brand-gradient" />
+    <YlfBottomMenu shadow>
+      <YlfBottomMenuItem
+        v-for="item in items"
+        :key="item.to"
+        :item="item"
+        :active="active === item.to"
+        @click="onClick"
+      />
+    </YlfBottomMenu>
+  </div>
 </template>

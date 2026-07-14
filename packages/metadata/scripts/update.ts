@@ -44,13 +44,15 @@ export async function readComponentsMetadata() {
 
     const { content: md, data: frontmatter } = matter(mdRaw)
 
-    let description = (md
+    // 文档正文的 H1 由 markdownTransform 在构建期注入，原始 md 没有标题，
+    // 因此取 frontmatter.description，否则取首个正文段落（跳过标题/表格/代码/HTML）。
+    const firstParagraph = md
       .replace(/\r\n/g, '\n')
-      // eslint-disable-next-line regexp/no-super-linear-backtracking
-      .match(/# \w+\s+(.+?)(?:, |\. |\n|\.\n)/) || []
-    )[1] || ''
+      .split('\n')
+      .map(line => line.trim())
+      .find(line => line && !/^[#|`<]/.test(line))
 
-    description = description.trim().charAt(0).toLowerCase() + description.slice(1)
+    const description: string = (frontmatter.description || firstParagraph || '').trim()
 
     const comp: YunLeFunComponent = {
       ...frontmatter,

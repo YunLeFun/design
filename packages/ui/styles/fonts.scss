@@ -1,0 +1,34 @@
+// =============================================================================
+// 云乐坊 · 圆体字体加载（CDN）/ Rounded display webfonts via CDN
+// -----------------------------------------------------------------------------
+// 只为「展示 / 标题」角色加载圆体；正文走 --ylf-font-body（纯系统字体，零下载）。
+// 字族 token 与完整回退链见 ./css-vars.scss，说明见文档 /guide/typography。
+//
+// ⚠️ 性能 / Perf：CSS `@import` 是串行阻塞加载。若你能控制页面 <head>，更推荐改用
+//    <link rel="preconnect"> + <link rel="stylesheet">（文档里给了片段），可省掉本文件。
+//    本文件是「零配置」兜底：`@use '@yunlefun/ui/styles/fonts'` 即自动带上字体
+//    （`@yunlefun/ui/styles` 仅含 token，保持零 webfont）。
+// =============================================================================
+
+// Latin 圆体 —— Baloo 2（仅取展示常用字重）
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap');
+
+// 中文圆体 —— ZCOOL KuaiLe 站酷快乐体
+// (1) 品牌字「云乐坊」文本子集：体积极小，保证 wordmark 首屏即刻以圆体渲染
+@import url('https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&text=%E4%BA%91%E4%B9%90%E5%9D%8A&display=swap');
+// (2) 完整字族：Google Fonts 自动按 unicode-range 分片，页面只下载实际渲染到的字形分片，
+//     正文用系统字体则永不触发整包下载。
+@import url('https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap');
+
+// 角色工具类（按需 opt-in）/ role utilities
+.ylf-font-display {
+  font-family: var(--ylf-font-display);
+}
+
+.ylf-font-wordmark {
+  font-family: var(--ylf-font-wordmark);
+}
+
+.ylf-font-body {
+  font-family: var(--ylf-font-body);
+}

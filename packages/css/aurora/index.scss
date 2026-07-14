@@ -1,0 +1,41 @@
+// 云乐坊 · 缤纷多彩 —— 极光动效与渐变工具
+// 可复用于徽标、Hero、按钮等需要「流光」的地方。
+
+@keyframes ylf-hue {
+  to {
+    background-position: 200% center;
+  }
+}
+
+@keyframes ylf-drift {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate(28px, 32px) scale(1.12);
+  }
+}
+
+// 流光渐变文字
+.ylf-aurora-text {
+  background: var(--ylf-gradient-aurora);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: ylf-hue 8s linear infinite;
+}
+
+// 缓慢漂浮的极光云团
+.ylf-drift {
+  animation: ylf-drift 18s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ylf-aurora-text,
+  .ylf-drift {
+    animation: none;
+  }
+}

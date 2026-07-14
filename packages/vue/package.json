@@ -27,6 +27,9 @@
     "release": "bumpp --no-commit --no-tag --no-push && npm publish",
     "typecheck": "vue-tsc --noEmit"
   },
+  "dependencies": {
+    "reka-ui": "^2.10.0"
+  },
   "devDependencies": {
     "nuxt": "^3.14.1592"
   }

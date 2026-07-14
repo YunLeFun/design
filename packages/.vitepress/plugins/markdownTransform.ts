@@ -49,7 +49,9 @@ export function MarkdownTransform(): Plugin {
           if (ending === ']') // already a link
             return _
           const fn = getComponent(name)!
-          return `[\`${fn.name}\`](${fn.docs}) `
+          // fn.docs 在 metadata 里并不存在（旧 bug，会产出 ./undefined 死链）；
+          // 直接指向组件文档页，并保留被吃掉的尾字符。
+          return `[\`${fn.name}\`](/vue/components/${fn.name}/)${ending}`
         },
       )
       // convert links to relative
@@ -109,7 +111,8 @@ export async function getWrapperMarkdown(options: {
   const comp = getComponent(name)
   const URL = `${GITHUB_BLOB_URL}/${pkgPath}/${name}`
 
-  const dirname = join(DIR_SRC, pkg, name)
+  // 组件 demo 位于 packages/<pkg>/<subPath>/<name>（如 vue/components/button），需带上 subPath
+  const dirname = join(DIR_SRC, pkgPath, name)
   const demoPath = ['demo.vue', 'demo.client.vue'].find(i => fs.existsSync(join(dirname, i)))
   const types = await getTypeDefinition(pkg, name)
 

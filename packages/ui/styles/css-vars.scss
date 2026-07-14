@@ -1,34 +1,125 @@
-// brand
-:root {
-  --ylf-c-brand: #007bff;
-}
+// =============================================================================
+// 云乐坊 · 缤纷多彩 —— 「极光云 / Iridescent Cloud」 design tokens
+// -----------------------------------------------------------------------------
+// 品牌色不是单一色相，而是「光穿过云」的折射：
+//   · 极光渐变 (--ylf-gradient-aurora) 是签名 —— 缤纷多彩
+//   · 鸢尾紫 (--ylf-c-brand) 是日常锚点 —— 沉静
+//   · 所有语义色都从这道光谱里取，于是再花哨也始终是一家人
+// 组件以 var(--ylf-*) 引用这些 token（均带兜底值），加载本文件即生效。
+// =============================================================================
 
 :root {
-  --ylf-c-primary: #007bff;
+  // --- brand 锚点：多巴胺鸢尾紫（高饱和、明快） --------------------------------
+  --ylf-c-brand: #6d5cff;
+  --ylf-c-brand-hover: #8979ff;
+  --ylf-c-brand-active: #5a46f0;
+  --ylf-c-brand-soft: #ece9ff;
 
-  --ylf-c-text: #333;
-  --ylf-c-text-light: #666;
-  --ylf-c-text-lighter: #999;
-  --ylf-c-text-lightest: #ccc;
+  // --- aurora 极光：冷调 dreamy 渐变（蓝 → 鸢尾 → 兰紫，邻近色，不再彩虹） -----
+  // 收敛到三色同族，去掉破坏协调的金/绿；签名一条连续的「夜空极光」丝带。
+  --ylf-aurora-sky: #5ba3ff;
+  --ylf-aurora-iris: #7b61ff;
+  --ylf-aurora-pink: #e879c6;
+  --ylf-gradient-aurora: linear-gradient(115deg, #5ba3ff 0%, #7b61ff 50%, #e879c6 100%);
+  --ylf-gradient-brand: linear-gradient(120deg, #5ba3ff 0%, #6d5cff 55%, #8b6bff 100%);
 
-  --ylf-c-bg: #fff;
-  --ylf-c-bg-light: #f5f5f5;
-  --ylf-c-bg-lighter: #eee;
+  // --- semantic 多巴胺语义色（明快实色） --------------------------------------
+  --ylf-c-success: #10c18c;
+  --ylf-c-warning: #ffb02e;
+  --ylf-c-danger: #ff4d6d;
+  --ylf-c-info: #2c8cff;
 
-  --ylf-c-border: #e5e5e5;
+  // --- neutrals 晴空中性色 ----------------------------------------------------
+  --ylf-c-bg: #fbfcff;
+  --ylf-c-bg-soft: #f2f5fc;
+  --ylf-c-bg-mute: #e8ecf7;
+  --ylf-c-surface: #ffffff;
+
+  --ylf-c-text: #1b2238;
+  --ylf-c-text-2: #5a6178;
+  --ylf-c-text-3: #9098ad;
+  --ylf-c-text-on-accent: #ffffff;
+
+  --ylf-c-border: #e5e9f3;
+  --ylf-c-border-strong: #d3d9ea;
+
+  // --- glass 云玻璃 -----------------------------------------------------------
+  --ylf-glass-bg: rgba(255, 255, 255, 0.62);
+  --ylf-glass-border: rgba(255, 255, 255, 0.7);
+  --ylf-glass-blur: saturate(160%) blur(16px);
+
+  // --- radius 圆角（云是软的） ------------------------------------------------
+  --ylf-radius-sm: 10px;
+  --ylf-radius: 14px;
+  --ylf-radius-lg: 20px;
+  --ylf-radius-xl: 28px;
+  --ylf-radius-pill: 999px;
+
+  // --- shadow 色染柔影（投影带品牌色而非灰） ----------------------------------
+  --ylf-shadow-sm: 0 2px 8px -2px rgba(110, 123, 255, 0.16);
+  --ylf-shadow: 0 10px 28px -8px rgba(110, 123, 255, 0.22);
+  --ylf-shadow-lg: 0 22px 56px -14px rgba(109, 92, 255, 0.3);
+  // 实色主按钮辉光（品牌色）；极光辉光留给 aurora 变体
+  --ylf-glow-brand: 0 10px 30px -6px rgba(109, 92, 255, 0.45);
+  --ylf-glow-aurora: 0 10px 30px -6px rgba(124, 92, 255, 0.5);
+
+  // --- typography -------------------------------------------------------------
+  // 圆体做展示字，呼应「云是软的」：拉丁 Baloo 2 + 中文 ZCOOL KuaiLe 站酷快乐体
+  // （Google Fonts / OFL，圆润活泼）。Baloo 2 无中文字形，故中文需要补一款圆体 display。
+  // 逐字回退 (per-glyph fallback)：
+  //   拉丁 / 数字 → Baloo 2
+  //   中文        → ZCOOL KuaiLe（需加载，仅 display 角色）
+  //               → ui-rounded / 丸ゴシック（系统圆体兜底）
+  //               → 苹方 / 雅黑（非圆体系统中文，最终兜底）→ sans-serif
+  // 字体加载见 ./fonts.scss 或文档 /guide/typography；正文请用 --ylf-font-body（零 webfont）。
+  --ylf-font-display: 'Baloo 2', 'ZCOOL KuaiLe', ui-rounded, 'Hiragino Maru Gothic ProN', 'Hiragino Maru Gothic Pro',
+    'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', 'Source Han Sans SC', sans-serif;
+  // 品牌字 wordmark（如「云乐坊」）：目前等同 display，独立 token 便于单独调校字重/字距
+  --ylf-font-wordmark: var(--ylf-font-display);
+  --ylf-font-body: 'Inter', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', system-ui, sans-serif;
+
+  // --- transition -------------------------------------------------------------
+  --ylf-ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  // --- 向后兼容别名（旧组件仍在用） -------------------------------------------
+  --ylf-c-primary: var(--ylf-c-brand);
+  --ylf-c-text-light: var(--ylf-c-text-2);
+  --ylf-c-text-lighter: var(--ylf-c-text-3);
+  --ylf-c-text-lightest: var(--ylf-c-border-strong);
+  --ylf-c-bg-light: var(--ylf-c-bg-soft);
+  --ylf-c-bg-lighter: var(--ylf-c-bg-mute);
 }
 
 .dark {
-  --ylf-c-primary: #007bff;
+  --ylf-c-brand: #8e7cff;
+  --ylf-c-brand-hover: #a99bff;
+  --ylf-c-brand-active: #7565f5;
+  --ylf-c-brand-soft: #231d52;
 
-  --ylf-c-text: #fff;
-  --ylf-c-text-light: #ccc;
-  --ylf-c-text-lighter: #999;
-  --ylf-c-text-lightest: #666;
+  --ylf-c-success: #2ee0a6;
+  --ylf-c-warning: #ffc04d;
+  --ylf-c-danger: #ff6b85;
+  --ylf-c-info: #59abff;
 
-  --ylf-c-bg: #222;
-  --ylf-c-bg-light: #444;
-  --ylf-c-bg-lighter: #555;
+  // 深色 = 夜空（不是死黑，是深蓝夜空）
+  --ylf-c-bg: #0d1120;
+  --ylf-c-bg-soft: #141a2e;
+  --ylf-c-bg-mute: #1e2541;
+  --ylf-c-surface: #161c32;
 
-  --ylf-c-border: #333;
+  --ylf-c-text: #f1f3fb;
+  --ylf-c-text-2: #aab2cc;
+  --ylf-c-text-3: #6e7693;
+
+  --ylf-c-border: #283054;
+  --ylf-c-border-strong: #354068;
+
+  --ylf-glass-bg: rgba(22, 28, 50, 0.55);
+  --ylf-glass-border: rgba(139, 150, 255, 0.18);
+
+  --ylf-shadow-sm: 0 2px 10px -2px rgba(0, 0, 0, 0.5);
+  --ylf-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.55);
+  --ylf-shadow-lg: 0 24px 60px -14px rgba(0, 0, 0, 0.6);
+  --ylf-glow-brand: 0 12px 34px -6px rgba(142, 124, 255, 0.5);
+  --ylf-glow-aurora: 0 12px 34px -6px rgba(142, 124, 255, 0.55);
 }

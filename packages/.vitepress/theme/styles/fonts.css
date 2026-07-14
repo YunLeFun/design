@@ -1,0 +1,24 @@
+/**
+ * Typography — 仅把圆体展示字应用到「展示 / 标题」角色；正文保持 VitePress 默认
+ * 系统/Inter 字体，使中文圆体 webfont 永不为正文加载。
+ * 字族 token 与回退链：@yunlefun/ui/styles/css-vars.scss（--ylf-font-display）。
+ * 字体本身经 .vitepress/config.ts 的 <link> 加载（preconnect + Google Fonts）。
+ */
+
+/* 首页 Hero 文案（含 wordmark） */
+.VPHero .name,
+.VPHero .text {
+  font-family: var(--ylf-font-wordmark);
+}
+
+/* 顶部导航品牌名 */
+.VPNavBarTitle .title {
+  font-family: var(--ylf-font-display);
+}
+
+/* 文档标题 */
+.vp-doc h1,
+.vp-doc h2,
+.vp-doc h3 {
+  font-family: var(--ylf-font-display);
+}

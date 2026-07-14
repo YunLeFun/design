@@ -2,3 +2,57 @@
   border-top: 0;
   margin-top: 10px;
 }
+
+/* 云乐坊 · Hero —— 圆体标题 + 漂浮的极光云背景 */
+.VPHero .name {
+  font-family: var(--ylf-font-display);
+  letter-spacing: -0.01em;
+}
+
+.VPHero {
+  position: relative;
+}
+
+.VPHero::before {
+  content: '';
+  position: absolute;
+  inset: -30px 0 auto 0;
+  height: 360px;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(
+      440px 300px at 18% 25%,
+      color-mix(in srgb, var(--ylf-aurora-pink) 60%, transparent),
+      transparent 72%
+    ),
+    radial-gradient(
+      440px 300px at 82% 12%,
+      color-mix(in srgb, var(--ylf-aurora-sky) 60%, transparent),
+      transparent 72%
+    ),
+    radial-gradient(
+      380px 280px at 52% 30%,
+      color-mix(in srgb, var(--ylf-aurora-iris) 55%, transparent),
+      transparent 72%
+    );
+  filter: blur(46px);
+  opacity: 0.8;
+  animation: ylf-hero-drift 20s ease-in-out infinite;
+}
+
+.VPHero .container {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes ylf-hero-drift {
+  50% {
+    transform: translate(18px, 22px) scale(1.08);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .VPHero::before {
+    animation: none;
+  }
+}

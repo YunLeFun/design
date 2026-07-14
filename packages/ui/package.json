@@ -12,6 +12,14 @@
     "ui",
     "css"
   ],
+  "exports": {
+    "./styles": "./styles/index.scss",
+    "./styles/*": "./styles/*",
+    "./*": "./*"
+  },
+  "files": [
+    "styles"
+  ],
   "scripts": {
     "build": "",
     "prepublishOnly": "npm run build",
