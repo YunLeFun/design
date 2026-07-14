@@ -1,0 +1,1089 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>云乐坊 · 缤纷多彩 — Design Preview</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ============================================================
+   云乐坊 · 缤纷多彩  —  "Iridescent Cloud" design tokens
+   ============================================================ */
+      :root {
+        /* brand anchor — calm iris/periwinkle (replaces the old hard #007bff) */
+        --ylf-c-brand: #6e7bff;
+        --ylf-c-brand-hover: #8b96ff;
+        --ylf-c-brand-active: #5662f0;
+        --ylf-c-brand-soft: #edefff;
+
+        /* aurora — the signature "缤纷多彩" ribbon */
+        --ylf-aurora-pink: #ff9fb2;
+        --ylf-aurora-gold: #ffd66b;
+        --ylf-aurora-mint: #7fe0c0;
+        --ylf-aurora-sky: #7cc4ff;
+        --ylf-aurora-iris: #9d8bff;
+        --ylf-gradient-aurora: linear-gradient(110deg, #ff9fb2 0%, #ffd66b 27%, #7fe0c0 50%, #7cc4ff 74%, #9d8bff 100%);
+        --ylf-gradient-brand: linear-gradient(120deg, #7cc4ff 0%, #6e7bff 55%, #9d8bff 100%);
+
+        /* semantic — pulled from the aurora so everything stays in family */
+        --ylf-c-success: #1fb089;
+        --ylf-c-warning: #e9a21e;
+        --ylf-c-danger: #fb5c7c;
+        --ylf-c-info: #2e9bff;
+
+        /* sky neutrals (light) */
+        --ylf-c-bg: #fbfcff;
+        --ylf-c-bg-soft: #f2f5fc;
+        --ylf-c-bg-mute: #e8ecf7;
+        --ylf-c-surface: #ffffff;
+        --ylf-c-text: #1b2238;
+        --ylf-c-text-2: #5a6178;
+        --ylf-c-text-3: #9098ad;
+        --ylf-c-border: #e5e9f3;
+        --ylf-c-border-strong: #d3d9ea;
+
+        /* glass */
+        --ylf-glass-bg: rgba(255, 255, 255, 0.62);
+        --ylf-glass-border: rgba(255, 255, 255, 0.7);
+        --ylf-glass-blur: saturate(160%) blur(16px);
+
+        /* radius — clouds are soft */
+        --ylf-radius-sm: 10px;
+        --ylf-radius: 14px;
+        --ylf-radius-lg: 20px;
+        --ylf-radius-xl: 28px;
+        --ylf-radius-pill: 999px;
+
+        /* shadows — soft, color-tinted, floating in sky */
+        --ylf-shadow-sm: 0 2px 8px -2px rgba(110, 123, 255, 0.16);
+        --ylf-shadow: 0 10px 28px -8px rgba(110, 123, 255, 0.22);
+        --ylf-shadow-lg: 0 22px 56px -14px rgba(110, 123, 255, 0.3);
+        --ylf-glow-aurora: 0 10px 30px -6px rgba(157, 139, 255, 0.5);
+
+        --ylf-font-display: 'Baloo 2', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+        --ylf-font-body: 'Inter', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', system-ui, sans-serif;
+      }
+
+      [data-theme='dark'] {
+        --ylf-c-brand: #8b96ff;
+        --ylf-c-brand-hover: #a2abff;
+        --ylf-c-brand-active: #717df5;
+        --ylf-c-brand-soft: #20264a;
+
+        --ylf-c-success: #34d6a8;
+        --ylf-c-warning: #f5bb45;
+        --ylf-c-danger: #ff7a93;
+        --ylf-c-info: #5bb2ff;
+
+        /* night sky neutrals (dark) */
+        --ylf-c-bg: #0d1120;
+        --ylf-c-bg-soft: #141a2e;
+        --ylf-c-bg-mute: #1e2541;
+        --ylf-c-surface: #161c32;
+        --ylf-c-text: #f1f3fb;
+        --ylf-c-text-2: #aab2cc;
+        --ylf-c-text-3: #6e7693;
+        --ylf-c-border: #283054;
+        --ylf-c-border-strong: #354068;
+
+        --ylf-glass-bg: rgba(22, 28, 50, 0.55);
+        --ylf-glass-border: rgba(139, 150, 255, 0.18);
+
+        --ylf-shadow-sm: 0 2px 10px -2px rgba(0, 0, 0, 0.5);
+        --ylf-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.55);
+        --ylf-shadow-lg: 0 24px 60px -14px rgba(0, 0, 0, 0.6);
+        --ylf-glow-aurora: 0 12px 34px -6px rgba(157, 139, 255, 0.55);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        font-family: var(--ylf-font-body);
+        background: var(--ylf-c-bg);
+        color: var(--ylf-c-text);
+        -webkit-font-smoothing: antialiased;
+        transition:
+          background 0.4s ease,
+          color 0.4s ease;
+        overflow-x: hidden;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: var(--ylf-font-display);
+        font-weight: 600;
+        margin: 0;
+      }
+      .wrap {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+      .muted {
+        color: var(--ylf-c-text-2);
+      }
+      .tiny {
+        font-size: 13px;
+      }
+
+      /* ---- top bar ---- */
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 24px;
+        background: var(--ylf-glass-bg);
+        -webkit-backdrop-filter: var(--ylf-glass-blur);
+        backdrop-filter: var(--ylf-glass-blur);
+        border-bottom: 1px solid var(--ylf-c-border);
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .brand .cloud {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        background: var(--ylf-gradient-aurora);
+        display: grid;
+        place-items: center;
+        box-shadow: var(--ylf-glow-aurora);
+        position: relative;
+        overflow: hidden;
+      }
+      .brand .cloud svg {
+        width: 24px;
+        height: 24px;
+        color: #fff;
+        filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.18));
+      }
+      .brand .name {
+        font-family: var(--ylf-font-display);
+        font-weight: 700;
+        font-size: 20px;
+        background: var(--ylf-gradient-aurora);
+        background-size: 200% auto;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        animation: hue 9s linear infinite;
+      }
+      .brand .sub {
+        font-size: 11px;
+        color: var(--ylf-c-text-3);
+        letter-spacing: 0.18em;
+      }
+      @keyframes hue {
+        to {
+          background-position: 200% center;
+        }
+      }
+
+      .toggle {
+        font-family: var(--ylf-font-body);
+        cursor: pointer;
+        border: 1px solid var(--ylf-c-border);
+        background: var(--ylf-c-surface);
+        color: var(--ylf-c-text-2);
+        border-radius: var(--ylf-radius-pill);
+        padding: 8px 16px;
+        font-size: 13px;
+        display: inline-flex;
+        gap: 7px;
+        align-items: center;
+        transition: all 0.2s;
+      }
+      .toggle:hover {
+        border-color: var(--ylf-c-brand);
+        color: var(--ylf-c-brand);
+      }
+
+      /* ---- hero ---- */
+      .hero {
+        position: relative;
+        text-align: center;
+        padding: 92px 0 76px;
+        overflow: hidden;
+      }
+      .blobs {
+        position: absolute;
+        inset: -20% -10% auto;
+        height: 520px;
+        z-index: 0;
+        filter: blur(60px);
+        opacity: 0.8;
+        pointer-events: none;
+      }
+      .blob {
+        position: absolute;
+        border-radius: 50%;
+      }
+      .blob.a {
+        width: 360px;
+        height: 360px;
+        background: var(--ylf-aurora-pink);
+        left: 8%;
+        top: 0;
+        animation: drift 16s ease-in-out infinite;
+      }
+      .blob.b {
+        width: 320px;
+        height: 320px;
+        background: var(--ylf-aurora-sky);
+        right: 10%;
+        top: 30px;
+        animation: drift 19s ease-in-out infinite reverse;
+      }
+      .blob.c {
+        width: 300px;
+        height: 300px;
+        background: var(--ylf-aurora-iris);
+        left: 42%;
+        top: 80px;
+        animation: drift 22s ease-in-out infinite;
+      }
+      .blob.d {
+        width: 240px;
+        height: 240px;
+        background: var(--ylf-aurora-mint);
+        right: 32%;
+        top: -20px;
+        animation: drift 17s ease-in-out infinite reverse;
+      }
+      @keyframes drift {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+        50% {
+          transform: translate(28px, 32px) scale(1.12);
+        }
+      }
+      .hero-inner {
+        position: relative;
+        z-index: 1;
+      }
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: var(--ylf-c-text-2);
+        background: var(--ylf-glass-bg);
+        -webkit-backdrop-filter: var(--ylf-glass-blur);
+        backdrop-filter: var(--ylf-glass-blur);
+        border: 1px solid var(--ylf-glass-border);
+        padding: 7px 16px;
+        border-radius: var(--ylf-radius-pill);
+        box-shadow: var(--ylf-shadow-sm);
+      }
+      .eyebrow .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--ylf-gradient-aurora);
+      }
+      .hero h1 {
+        font-size: clamp(48px, 9vw, 88px);
+        line-height: 1.02;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        margin: 22px 0 0;
+      }
+      .hero h1 .grad {
+        background: var(--ylf-gradient-aurora);
+        background-size: 220% auto;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        animation: hue 8s linear infinite;
+      }
+      .hero p.lede {
+        font-size: 19px;
+        color: var(--ylf-c-text-2);
+        max-width: 540px;
+        margin: 22px auto 34px;
+        line-height: 1.6;
+      }
+      .hero .cta {
+        display: flex;
+        gap: 14px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+
+      /* ---- buttons ---- */
+      .btn {
+        font-family: var(--ylf-font-body);
+        font-weight: 600;
+        font-size: 15px;
+        border: none;
+        cursor: pointer;
+        border-radius: var(--ylf-radius-pill);
+        padding: 12px 26px;
+        display: inline-flex;
+        align-items: center;
+        gap: 9px;
+        transition:
+          transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1),
+          box-shadow 0.25s,
+          background 0.25s,
+          color 0.2s,
+          border-color 0.2s;
+        line-height: 1;
+        white-space: nowrap;
+      }
+      .btn:active {
+        transform: scale(0.96);
+      }
+      .btn:focus-visible {
+        outline: none;
+        box-shadow:
+          0 0 0 4px var(--ylf-c-brand-soft),
+          0 0 0 6px var(--ylf-c-brand);
+      }
+      .btn svg {
+        width: 18px;
+        height: 18px;
+      }
+
+      .btn-primary {
+        color: #fff;
+        background: var(--ylf-gradient-aurora);
+        background-size: 180% auto;
+        box-shadow: var(--ylf-glow-aurora);
+      }
+      .btn-primary:hover {
+        background-position: right center;
+        transform: translateY(-2px);
+        box-shadow: 0 16px 40px -8px rgba(157, 139, 255, 0.6);
+      }
+
+      .btn-brand {
+        color: #fff;
+        background: var(--ylf-c-brand);
+        box-shadow: var(--ylf-shadow-sm);
+      }
+      .btn-brand:hover {
+        background: var(--ylf-c-brand-hover);
+        transform: translateY(-2px);
+        box-shadow: var(--ylf-shadow);
+      }
+
+      .btn-secondary {
+        color: var(--ylf-c-text);
+        background: var(--ylf-c-surface);
+        border: 1px solid var(--ylf-c-border-strong);
+      }
+      .btn-secondary:hover {
+        border-color: var(--ylf-c-brand);
+        color: var(--ylf-c-brand);
+        transform: translateY(-2px);
+      }
+
+      .btn-soft {
+        color: var(--ylf-c-brand);
+        background: var(--ylf-c-brand-soft);
+      }
+      .btn-soft:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--ylf-shadow-sm);
+      }
+
+      .btn-ghost {
+        color: var(--ylf-c-text-2);
+        background: transparent;
+      }
+      .btn-ghost:hover {
+        color: var(--ylf-c-brand);
+        background: var(--ylf-c-brand-soft);
+      }
+
+      .btn-success {
+        color: #fff;
+        background: var(--ylf-c-success);
+      }
+      .btn-warning {
+        color: #fff;
+        background: var(--ylf-c-warning);
+      }
+      .btn-danger {
+        color: #fff;
+        background: var(--ylf-c-danger);
+      }
+      .btn-success:hover,
+      .btn-warning:hover,
+      .btn-danger:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--ylf-shadow);
+      }
+
+      .btn-sm {
+        padding: 8px 18px;
+        font-size: 13px;
+      }
+      .btn-lg {
+        padding: 15px 32px;
+        font-size: 17px;
+      }
+      .btn[disabled] {
+        opacity: 0.45;
+        cursor: not-allowed;
+        transform: none !important;
+        box-shadow: none;
+      }
+
+      /* ---- sections / layout ---- */
+      section.block {
+        padding: 56px 0;
+        border-top: 1px solid var(--ylf-c-border);
+      }
+      .sec-head {
+        margin-bottom: 28px;
+      }
+      .sec-head .kicker {
+        font-size: 13px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--ylf-c-brand);
+        font-weight: 600;
+      }
+      .sec-head h2 {
+        font-size: 30px;
+        margin-top: 8px;
+      }
+      .sec-head p {
+        color: var(--ylf-c-text-2);
+        margin: 8px 0 0;
+        max-width: 560px;
+      }
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        align-items: center;
+      }
+      .stack {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+      .grid {
+        display: grid;
+        gap: 18px;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      }
+      .label {
+        font-size: 12px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--ylf-c-text-3);
+        margin-bottom: 12px;
+        font-weight: 600;
+      }
+
+      /* ---- palette ---- */
+      .swatches {
+        display: grid;
+        gap: 14px;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      }
+      .sw {
+        border-radius: var(--ylf-radius);
+        overflow: hidden;
+        border: 1px solid var(--ylf-c-border);
+        background: var(--ylf-c-surface);
+        box-shadow: var(--ylf-shadow-sm);
+      }
+      .sw .chip {
+        height: 76px;
+      }
+      .sw .meta {
+        padding: 10px 12px;
+      }
+      .sw .meta b {
+        font-size: 13px;
+        font-weight: 600;
+      }
+      .sw .meta code {
+        font-size: 11px;
+        color: var(--ylf-c-text-3);
+        font-family: ui-monospace, monospace;
+      }
+      .aurora-bar {
+        height: 64px;
+        border-radius: var(--ylf-radius);
+        background: var(--ylf-gradient-aurora);
+        box-shadow: var(--ylf-glow-aurora);
+      }
+
+      /* ---- cards ---- */
+      .card {
+        background: var(--ylf-c-surface);
+        border: 1px solid var(--ylf-c-border);
+        border-radius: var(--ylf-radius-lg);
+        padding: 22px;
+        box-shadow: var(--ylf-shadow-sm);
+        transition:
+          transform 0.25s,
+          box-shadow 0.25s;
+      }
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: var(--ylf-shadow);
+      }
+      .card h3 {
+        font-size: 18px;
+        margin-bottom: 6px;
+      }
+      .card p {
+        color: var(--ylf-c-text-2);
+        font-size: 14px;
+        line-height: 1.6;
+        margin: 0;
+      }
+      .card .ic {
+        width: 44px;
+        height: 44px;
+        border-radius: 13px;
+        display: grid;
+        place-items: center;
+        margin-bottom: 14px;
+        color: #fff;
+      }
+      .card-glass {
+        background: var(--ylf-glass-bg);
+        -webkit-backdrop-filter: var(--ylf-glass-blur);
+        backdrop-filter: var(--ylf-glass-blur);
+        border: 1px solid var(--ylf-glass-border);
+      }
+      .card-gradient {
+        position: relative;
+        background: var(--ylf-c-surface);
+      }
+      .card-gradient::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+        padding: 1.5px;
+        background: var(--ylf-gradient-aurora);
+        -webkit-mask:
+          linear-gradient(#000 0 0) content-box,
+          linear-gradient(#000 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none;
+      }
+
+      /* ---- badges ---- */
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12.5px;
+        font-weight: 600;
+        padding: 5px 13px;
+        border-radius: var(--ylf-radius-pill);
+      }
+      .badge-aurora {
+        color: #fff;
+        background: var(--ylf-gradient-aurora);
+      }
+      .badge-brand {
+        color: var(--ylf-c-brand);
+        background: var(--ylf-c-brand-soft);
+      }
+      .badge-success {
+        color: var(--ylf-c-success);
+        background: color-mix(in srgb, var(--ylf-c-success) 14%, transparent);
+      }
+      .badge-warning {
+        color: var(--ylf-c-warning);
+        background: color-mix(in srgb, var(--ylf-c-warning) 16%, transparent);
+      }
+      .badge-danger {
+        color: var(--ylf-c-danger);
+        background: color-mix(in srgb, var(--ylf-c-danger) 14%, transparent);
+      }
+
+      /* ---- form ---- */
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+        max-width: 320px;
+      }
+      .field label {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--ylf-c-text-2);
+      }
+      .input {
+        font-family: var(--ylf-font-body);
+        font-size: 15px;
+        background: var(--ylf-c-surface);
+        border: 1px solid var(--ylf-c-border-strong);
+        border-radius: var(--ylf-radius);
+        padding: 12px 15px;
+        color: var(--ylf-c-text);
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+      }
+      .input::placeholder {
+        color: var(--ylf-c-text-3);
+      }
+      .input:focus {
+        outline: none;
+        border-color: var(--ylf-c-brand);
+        box-shadow: 0 0 0 4px var(--ylf-c-brand-soft);
+      }
+      .switch {
+        width: 52px;
+        height: 30px;
+        border-radius: var(--ylf-radius-pill);
+        background: var(--ylf-c-bg-mute);
+        position: relative;
+        cursor: pointer;
+        transition: background 0.25s;
+        border: none;
+      }
+      .switch::after {
+        content: '';
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: #fff;
+        transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      }
+      .switch.on {
+        background: var(--ylf-gradient-aurora);
+      }
+      .switch.on::after {
+        transform: translateX(22px);
+      }
+
+      /* ---- bottom menu (mobile preview) ---- */
+      .phone {
+        width: 300px;
+        border-radius: 30px;
+        border: 1px solid var(--ylf-c-border);
+        background: var(--ylf-c-bg-soft);
+        padding: 16px 14px 0;
+        box-shadow: var(--ylf-shadow-lg);
+        overflow: hidden;
+      }
+      .phone .screen {
+        height: 200px;
+        border-radius: 18px 18px 0 0;
+        background: var(--ylf-gradient-brand);
+        opacity: 0.9;
+      }
+      .bottom-menu {
+        display: flex;
+        justify-content: space-around;
+        padding: 10px 6px 16px;
+        background: var(--ylf-glass-bg);
+        -webkit-backdrop-filter: var(--ylf-glass-blur);
+        backdrop-filter: var(--ylf-glass-blur);
+        border-top: 1px solid var(--ylf-c-border);
+        margin: 0 -14px;
+      }
+      .bm-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        font-size: 11px;
+        color: var(--ylf-c-text-3);
+        cursor: pointer;
+        transition: color 0.2s;
+      }
+      .bm-item svg {
+        width: 22px;
+        height: 22px;
+      }
+      .bm-item.active {
+        color: transparent;
+        background: var(--ylf-gradient-aurora);
+        -webkit-background-clip: text;
+        background-clip: text;
+      }
+      .bm-item.active svg {
+        color: var(--ylf-c-brand);
+      }
+
+      footer {
+        padding: 40px 0 60px;
+        text-align: center;
+        color: var(--ylf-c-text-3);
+        font-size: 13px;
+        border-top: 1px solid var(--ylf-c-border);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="brand">
+        <div class="cloud">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M17.5 19a4.5 4.5 0 1 0 0-9 6 6 0 0 0-11.5 1.5A4 4 0 0 0 6.5 19h11Z" />
+          </svg>
+        </div>
+        <div>
+          <div class="name">云乐坊</div>
+          <div class="sub">YUNLEFUN&nbsp;UI</div>
+        </div>
+      </div>
+      <button class="toggle" id="themeToggle">
+        <svg
+          viewBox="0 0 24 24"
+          width="15"
+          height="15"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <circle cx="12" cy="12" r="4" />
+          <path
+            d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"
+          />
+        </svg>
+        <span id="themeLabel">夜间</span>
+      </button>
+    </div>
+
+    <header class="hero">
+      <div class="blobs">
+        <div class="blob a"></div>
+        <div class="blob b"></div>
+        <div class="blob c"></div>
+        <div class="blob d"></div>
+      </div>
+      <div class="hero-inner wrap">
+        <div class="eyebrow"><span class="dot"></span> 云乐坊设计系统 · v2</div>
+        <h1>云端之上<br /><span class="grad">缤纷多彩</span></h1>
+        <p class="lede">
+          一套以「云」与「缤纷光谱」为灵魂的组件库。柔软、通透、流光溢彩——让每个云乐坊子应用都属于同一片天空。
+        </p>
+        <div class="cta">
+          <button class="btn btn-primary btn-lg">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+            开始使用
+          </button>
+          <button class="btn btn-secondary btn-lg">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M9 18c-4.5 1-5-2-7-2.5M16 22v-3.9a3.4 3.4 0 0 0-1-2.6c3.1-.3 6.4-1.5 6.4-7A5.4 5.4 0 0 0 20 4.8 5 5 0 0 0 19.9 1S18.7.7 16 2.5a13.4 13.4 0 0 0-7 0C6.3.7 5.1 1 5.1 1A5 5 0 0 0 5 4.8 5.4 5.4 0 0 0 3.6 8.5c0 5.5 3.3 6.7 6.4 7a3.4 3.4 0 0 0-1 2.6V22"
+              />
+            </svg>
+            GitHub
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <!-- COLOR -->
+      <section class="block">
+        <div class="wrap">
+          <div class="sec-head">
+            <div class="kicker">Color</div>
+            <h2>缤纷光谱 · 一道极光</h2>
+            <p>
+              品牌色不是单一色相，而是「光穿过云」的折射。极光渐变是签名；鸢尾紫是日常锚点；语义色全部取自这道光谱。
+            </p>
+          </div>
+          <div class="label">Signature · 极光渐变</div>
+          <div class="aurora-bar" style="margin-bottom: 26px"></div>
+          <div class="label">Tokens</div>
+          <div class="swatches">
+            <div class="sw">
+              <div class="chip" style="background: #6e7bff"></div>
+              <div class="meta"><b>Brand 鸢尾</b><br /><code>#6E7BFF</code></div>
+            </div>
+            <div class="sw">
+              <div class="chip" style="background: #ff9fb2"></div>
+              <div class="meta"><b>Aurora Pink</b><br /><code>#FF9FB2</code></div>
+            </div>
+            <div class="sw">
+              <div class="chip" style="background: #ffd66b"></div>
+              <div class="meta"><b>Aurora Gold</b><br /><code>#FFD66B</code></div>
+            </div>
+            <div class="sw">
+              <div class="chip" style="background: #7fe0c0"></div>
+              <div class="meta"><b>Aurora Mint</b><br /><code>#7FE0C0</code></div>
+            </div>
+            <div class="sw">
+              <div class="chip" style="background: #7cc4ff"></div>
+              <div class="meta"><b>Aurora Sky</b><br /><code>#7CC4FF</code></div>
+            </div>
+            <div class="sw">
+              <div class="chip" style="background: #9d8bff"></div>
+              <div class="meta"><b>Aurora Iris</b><br /><code>#9D8BFF</code></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- BUTTONS -->
+      <section class="block">
+        <div class="wrap">
+          <div class="sec-head">
+            <div class="kicker">Button</div>
+            <h2>彩云按钮</h2>
+            <p>主操作是一枚流光的「彩云」胶囊，悬停时光会流动、轻轻浮起；其余层级保持安静克制。</p>
+          </div>
+          <div class="stack">
+            <div>
+              <div class="label">Variants</div>
+              <div class="row">
+                <button class="btn btn-primary">彩云 Primary</button>
+                <button class="btn btn-brand">鸢尾 Brand</button>
+                <button class="btn btn-secondary">Secondary</button>
+                <button class="btn btn-soft">Soft</button>
+                <button class="btn btn-ghost">Ghost</button>
+              </div>
+            </div>
+            <div>
+              <div class="label">Semantic</div>
+              <div class="row">
+                <button class="btn btn-success">成功</button>
+                <button class="btn btn-warning">提醒</button>
+                <button class="btn btn-danger">危险</button>
+                <button class="btn btn-secondary" disabled>禁用</button>
+              </div>
+            </div>
+            <div>
+              <div class="label">Sizes</div>
+              <div class="row">
+                <button class="btn btn-primary btn-sm">Small</button>
+                <button class="btn btn-primary">Medium</button>
+                <button class="btn btn-primary btn-lg">Large</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CARDS -->
+      <section class="block">
+        <div class="wrap">
+          <div class="sec-head">
+            <div class="kicker">Card</div>
+            <h2>浮云卡片</h2>
+            <p>大圆角、色染柔影、可选云玻璃通透——卡片像浮在天上的云朵，悬停轻轻抬升。</p>
+          </div>
+          <div class="grid">
+            <div class="card">
+              <div class="ic" style="background: var(--ylf-gradient-aurora)">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="m12 3 2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5L12 3Z" />
+                </svg>
+              </div>
+              <h3>柔影卡片</h3>
+              <p>默认表面，色彩浸染的柔和投影，承载主要内容。</p>
+            </div>
+            <div class="card card-glass">
+              <div class="ic" style="background: var(--ylf-c-brand)">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M17.5 19a4.5 4.5 0 1 0 0-9 6 6 0 0 0-11.5 1.5A4 4 0 0 0 6.5 19h11Z" />
+                </svg>
+              </div>
+              <h3>云玻璃卡片</h3>
+              <p>背景模糊通透，适合浮层、导航与覆盖在彩云之上的内容。</p>
+            </div>
+            <div class="card card-gradient">
+              <div class="ic" style="background: var(--ylf-aurora-iris)">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <circle cx="12" cy="12" r="9" />
+                  <path d="M12 7v10M7 12h10" />
+                </svg>
+              </div>
+              <h3>流光描边卡片</h3>
+              <p>极光做边，强调重点内容或精选项，仅在需要时使用。</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ELEMENTS -->
+      <section class="block">
+        <div class="wrap">
+          <div class="sec-head">
+            <div class="kicker">Elements</div>
+            <h2>徽标 · 表单 · 导航</h2>
+            <p>同一套语言贯穿细节：渐变徽标、柔焦输入框、开关与云玻璃底部导航。</p>
+          </div>
+          <div class="grid" style="grid-template-columns: 1fr 1fr; align-items: start; gap: 36px">
+            <div class="stack">
+              <div>
+                <div class="label">Badges</div>
+                <div class="row">
+                  <span class="badge badge-aurora">缤纷</span>
+                  <span class="badge badge-brand">New</span>
+                  <span class="badge badge-success">已发布</span>
+                  <span class="badge badge-warning">Beta</span>
+                  <span class="badge badge-danger">已下线</span>
+                </div>
+              </div>
+              <div>
+                <div class="label">Form</div>
+                <div class="field"><label>云乐坊账号</label><input class="input" placeholder="hello@yunle.fun" /></div>
+                <div class="row" style="margin-top: 14px">
+                  <button class="switch on" id="sw1"></button><span class="tiny muted">跨站免登</span>
+                </div>
+              </div>
+            </div>
+            <div style="display: flex; justify-content: center">
+              <div class="phone">
+                <div class="screen"></div>
+                <div class="bottom-menu">
+                  <div class="bm-item active">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path d="M3 11l9-8 9 8M5 10v10h14V10" /></svg
+                    >首页
+                  </div>
+                  <div class="bm-item">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <circle cx="11" cy="11" r="7" />
+                      <path d="m21 21-4.3-4.3" /></svg
+                    >发现
+                  </div>
+                  <div class="bm-item">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path
+                        d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 1 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"
+                      /></svg
+                    >云币
+                  </div>
+                  <div class="bm-item">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <circle cx="12" cy="8" r="4" />
+                      <path d="M4 21a8 8 0 0 1 16 0" /></svg
+                    >我的
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>云乐坊 · 缤纷多彩 设计预览 — 一片属于云乐坊的天空 ☁️</footer>
+
+    <script>
+      const root = document.documentElement
+      const tt = document.getElementById('themeToggle')
+      const tl = document.getElementById('themeLabel')
+      tt.addEventListener('click', () => {
+        const dark = root.getAttribute('data-theme') === 'dark'
+        root.setAttribute('data-theme', dark ? 'light' : 'dark')
+        tl.textContent = dark ? '夜间' : '日间'
+      })
+      document.getElementById('sw1').addEventListener('click', (e) => e.currentTarget.classList.toggle('on'))
+    </script>
+  </body>
+</html>
