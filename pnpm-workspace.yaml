@@ -1,2 +1,42 @@
+ignoreWorkspaceRootCheck: true
+shamefullyHoist: true
+shellEmulator: true
+trustPolicy: no-downgrade
+trustPolicyExclude:
+  - semver@6.3.1
+  - undici-types@6.21.0
+sideEffectsCache: false
+strictPeerDependencies: false
+
 packages:
   - packages/*
+
+allowBuilds:
+  '@parcel/watcher': true
+  esbuild: true
+  vue-demi: true
+
+overrides:
+  '@babel/core@<7.29.6': 7.29.6
+  '@babel/helpers@<7.26.10': 7.29.2
+  brace-expansion@1: 1.1.13
+  brace-expansion@2: 2.0.3
+  electron-to-chromium: 1.5.392
+  eslint-plugin-jsdoc: 63.0.13
+  flatted@<3.4.2: 3.4.2
+  glob@10: 10.5.0
+  js-yaml@3: 3.15.0
+  lodash@4: 4.18.0
+  mdast-util-to-hast@13: 13.2.1
+  minimatch@3: 3.1.4
+  minimatch@5: 5.1.8
+  minimatch@9: 9.0.7
+  nostics: 1.1.4
+  picomatch@2: 2.3.2
+  picomatch@4: 4.0.4
+  postcss@8: 8.5.13
+  rollup@4: 4.59.0
+  tar@7: 7.5.16
+  vitepress>@vitejs/plugin-vue: 6.0.8
+  vitepress>vite: 7.3.6
+  yaml@2: 2.8.3

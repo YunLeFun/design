@@ -256,11 +256,8 @@ onErrorCaptured((err) => {
   min-height: 180px;
   overflow-x: auto;
   padding: clamp(18px, 4vw, 40px);
-  background: radial-gradient(
-      circle at 12% 10%,
-      color-mix(in srgb, var(--ylf-aurora-sky) 10%, transparent),
-      transparent 34%
-    ),
+  background:
+    radial-gradient(circle at 12% 10%, color-mix(in srgb, var(--ylf-aurora-sky) 10%, transparent), transparent 34%),
     radial-gradient(circle at 88% 90%, color-mix(in srgb, var(--ylf-aurora-pink) 10%, transparent), transparent 34%),
     var(--ylf-c-bg-soft);
 }

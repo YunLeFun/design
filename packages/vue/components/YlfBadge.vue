@@ -1,11 +1,11 @@
 <script lang="ts" setup>
 type BadgeVariant
   = | 'aurora' // 极光填充
-  | 'brand' // 鸢尾柔色
-  | 'success'
-  | 'warning'
-  | 'danger'
-  | 'info'
+    | 'brand' // 鸢尾柔色
+    | 'success'
+    | 'warning'
+    | 'danger'
+    | 'info'
 
 withDefaults(defineProps<{
   variant?: BadgeVariant

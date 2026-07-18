@@ -21,7 +21,7 @@ jobs:
           cache: pnpm
 
       - name: Install
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: Lint
         run: pnpm run lint
@@ -37,7 +37,7 @@ jobs:
           cache: pnpm
 
       - name: Install
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: Build
         run: pnpm run build:vue
@@ -58,6 +58,8 @@ jobs:
           registry-url: https://registry.npmjs.org/
           cache: pnpm
 
-      - run: pnpm install
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run audit
       - run: pnpm run test
+      - run: pnpm run nuxt:verify
       - run: pnpm run registry:verify

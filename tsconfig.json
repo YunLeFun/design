@@ -6,7 +6,7 @@
     "baseUrl": ".",
     "rootDir": ".",
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "paths": {
       "@yunlefun/metadata": ["./packages/metadata/index.ts"],
       "@yunlefun/ui/*": ["./packages/ui/*"]

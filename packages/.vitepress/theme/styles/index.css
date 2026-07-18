@@ -20,7 +20,8 @@
   height: 360px;
   z-index: 0;
   pointer-events: none;
-  background: radial-gradient(
+  background:
+    radial-gradient(
       440px 300px at 18% 25%,
       color-mix(in srgb, var(--ylf-aurora-pink) 60%, transparent),
       transparent 72%

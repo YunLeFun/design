@@ -34,7 +34,8 @@
 
 ```scss
 // 展示 / 标题
---ylf-font-display: 'Baloo 2',
+--ylf-font-display:
+  'Baloo 2',
   // 拉丁字母 / 数字（圆体）
   'ZCOOL KuaiLe',
   // 中文（圆体，需加载，仅 display 角色）

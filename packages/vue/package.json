@@ -28,10 +28,10 @@
     "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {
-    "reka-ui": "^2.10.0"
+    "reka-ui": "^2.10.1"
   },
   "devDependencies": {
-    "nuxt": "^3.14.1592",
-    "typescript": "5.7.2"
+    "nuxt": "^4.4.8",
+    "typescript": "5.9.3"
   }
 }

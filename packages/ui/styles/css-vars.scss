@@ -73,8 +73,9 @@
   //               → ui-rounded / 丸ゴシック（系统圆体兜底）
   //               → 苹方 / 雅黑（非圆体系统中文，最终兜底）→ sans-serif
   // 字体加载见 ./fonts.scss 或文档 /guide/typography；正文请用 --ylf-font-body（零 webfont）。
-  --ylf-font-display: 'Baloo 2', 'ZCOOL KuaiLe', ui-rounded, 'Hiragino Maru Gothic ProN', 'Hiragino Maru Gothic Pro',
-    'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', 'Source Han Sans SC', sans-serif;
+  --ylf-font-display:
+    'Baloo 2', 'ZCOOL KuaiLe', ui-rounded, 'Hiragino Maru Gothic ProN', 'Hiragino Maru Gothic Pro', 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', 'Source Han Sans SC', sans-serif;
   // 品牌字 wordmark（如「云乐坊」）：目前等同 display，独立 token 便于单独调校字重/字距
   --ylf-font-wordmark: var(--ylf-font-display);
   --ylf-font-body: 'Inter', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', system-ui, sans-serif;

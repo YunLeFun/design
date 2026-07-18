@@ -1,8 +1,8 @@
 <script lang="ts" setup>
 type CardVariant
   = | 'soft' // 柔影：默认表面 + 色染柔影
-  | 'glass' // 云玻璃：背景模糊通透
-  | 'gradient' // 流光描边：极光做边
+    | 'glass' // 云玻璃：背景模糊通透
+    | 'gradient' // 流光描边：极光做边
 
 withDefaults(defineProps<{
   variant?: CardVariant

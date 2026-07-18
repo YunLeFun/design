@@ -26,7 +26,7 @@ export function MarkdownTransform(): Plugin {
     name: 'ylf-ui-md-transform',
     enforce: 'pre',
     async transform(code, id) {
-      if (!id.match(/\.md\b/))
+      if (!/\.md\b/.test(id))
         return null
 
       const [_name, i] = id.split('/').slice(-2)

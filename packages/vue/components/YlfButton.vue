@@ -3,13 +3,13 @@ import { computed } from 'vue'
 
 type ButtonVariant
   = | 'primary' // 多巴胺实色（主操作）
-  | 'aurora' // 极光渐变（签名 / 特殊 CTA，opt-in）
-  | 'secondary' // 描边
-  | 'soft' // 柔色填充
-  | 'ghost' // 幽灵
-  | 'success'
-  | 'warning'
-  | 'danger'
+    | 'aurora' // 极光渐变（签名 / 特殊 CTA，opt-in）
+    | 'secondary' // 描边
+    | 'soft' // 柔色填充
+    | 'ghost' // 幽灵
+    | 'success'
+    | 'warning'
+    | 'danger'
 
 type ButtonSize = 'sm' | 'md' | 'lg'
 

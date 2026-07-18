@@ -2,6 +2,7 @@
 .idea
 .claude/settings.local.json
 .nuxt
+.output
 .temp
 *.log
 components.d.ts
@@ -17,3 +18,5 @@ playgrounds/*/pnpm-lock.yaml
 
 esbuild-kit
 tsx-*
+
+**/.fue/**
