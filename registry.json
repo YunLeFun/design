@@ -1,0 +1,37 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry.json",
+  "name": "yunlefun",
+  "homepage": "https://ui.yunle.fun",
+  "items": [
+    {
+      "name": "ylf-button",
+      "type": "registry:item",
+      "title": "YunLeFun Button",
+      "description": "YunLeFun 的多巴胺按钮，包含品牌 token、明暗主题与 SCSS 样式。",
+      "dependencies": [
+        "sass@^1.82.0"
+      ],
+      "files": [
+        {
+          "path": "packages/vue/components/YlfButton.vue",
+          "type": "registry:item",
+          "target": "~/src/components/ui/YlfButton.vue"
+        },
+        {
+          "path": "packages/ui/styles/css-vars.scss",
+          "type": "registry:file",
+          "target": "~/src/styles/ylf-tokens.scss"
+        }
+      ],
+      "docs": "在应用入口导入 `src/styles/ylf-tokens.scss`。按钮本身带有 token 兜底值，但导入完整 token 才能获得统一的明暗主题。",
+      "categories": [
+        "yunlefun",
+        "form"
+      ],
+      "meta": {
+        "status": "pilot",
+        "sourcePackage": "@yunlefun/vue"
+      }
+    }
+  ]
+}

@@ -8,7 +8,8 @@
 // 组件以 var(--ylf-*) 引用这些 token（均带兜底值），加载本文件即生效。
 // =============================================================================
 
-:root {
+:root,
+.ylf-theme-light {
   // --- brand 锚点：多巴胺鸢尾紫（高饱和、明快） --------------------------------
   --ylf-c-brand: #6d5cff;
   --ylf-c-brand-hover: #8979ff;
@@ -90,7 +91,8 @@
   --ylf-c-bg-lighter: var(--ylf-c-bg-mute);
 }
 
-.dark {
+.dark,
+.ylf-theme-dark {
   --ylf-c-brand: #8e7cff;
   --ylf-c-brand-hover: #a99bff;
   --ylf-c-brand-active: #7565f5;
