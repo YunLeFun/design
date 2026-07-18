@@ -12,6 +12,7 @@ const exec = promisify(execFile)
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const pnpm = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm'
 const shadcnVue = resolve(root, `node_modules/.bin/shadcn-vue${process.platform === 'win32' ? '.cmd' : ''}`)
+const remoteRegistryUrl = process.env.YLF_REGISTRY_URL
 
 async function run(command: string, args: string[], cwd: string) {
   const { stderr, stdout } = await exec(command, args, {
@@ -32,15 +33,17 @@ await run(pnpm, ['registry:build'], root)
 
 const registryPayload = await readFile(resolve(root, 'packages/public/r/ylf-button.json'))
 const consumer = await mkdtemp(resolve(tmpdir(), 'yunlefun-registry-'))
-const server = createServer((request, response) => {
-  if (request.url !== '/r/ylf-button.json') {
-    response.writeHead(404).end()
-    return
-  }
+const server = remoteRegistryUrl
+  ? undefined
+  : createServer((request, response) => {
+      if (request.url !== '/r/ylf-button.json') {
+        response.writeHead(404).end()
+        return
+      }
 
-  response.writeHead(200, { 'content-type': 'application/json; charset=utf-8' })
-  response.end(registryPayload)
-})
+      response.writeHead(200, { 'content-type': 'application/json; charset=utf-8' })
+      response.end(registryPayload)
+    })
 
 try {
   await mkdir(resolve(consumer, 'src'), { recursive: true })
@@ -82,10 +85,15 @@ try {
     writeFile(resolve(consumer, 'src/main.ts'), `import { createApp } from 'vue'\nimport YlfButton from './components/ui/YlfButton.vue'\nimport './styles/ylf-tokens.scss'\n\nconst App = { components: { YlfButton }, template: '<YlfButton variant="aurora">开始创作</YlfButton>' }\ncreateApp(App).mount('#app')\n`),
   ])
 
-  await new Promise<void>(resolveListening => server.listen(0, '127.0.0.1', resolveListening))
-  const { port } = server.address() as AddressInfo
+  let registryUrl = remoteRegistryUrl
 
-  await run(shadcnVue, ['add', `http://127.0.0.1:${port}/r/ylf-button.json`, '--yes'], consumer)
+  if (server) {
+    await new Promise<void>(resolveListening => server.listen(0, '127.0.0.1', resolveListening))
+    const { port } = server.address() as AddressInfo
+    registryUrl = `http://127.0.0.1:${port}/r/ylf-button.json`
+  }
+
+  await run(shadcnVue, ['add', registryUrl!, '--yes'], consumer)
   await run(pnpm, ['build'], consumer)
 
   const [installedButton, installedTokens, canonicalButton, canonicalTokens] = await Promise.all([
@@ -101,6 +109,7 @@ try {
   console.log('Registry URL install and consumer production build passed.')
 }
 finally {
-  await new Promise<void>(resolveClosed => server.close(() => resolveClosed()))
+  if (server)
+    await new Promise<void>(resolveClosed => server.close(() => resolveClosed()))
   await rm(consumer, { force: true, recursive: true })
 }

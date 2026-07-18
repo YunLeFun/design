@@ -66,6 +66,12 @@ pnpm registry:build
 pnpm registry:verify
 ```
 
+部署后可传入线上 Registry URL，重复执行同一套安装与构建验收：
+
+```bash
+YLF_REGISTRY_URL=https://ui.yunle.fun/r/ylf-button.json pnpm registry:verify
+```
+
 本地 URL 为 `http://localhost:5173/r/ylf-button.json`。生成文件位于 `packages/public/r`，部署文档站后会原样发布。
 
 ## 源码与生成物
