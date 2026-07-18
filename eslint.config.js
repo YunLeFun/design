@@ -4,5 +4,6 @@ export default antfu(
   {
     unocss: true,
     formatters: true,
+    ignores: ['packages/public/r/**'],
   },
 )

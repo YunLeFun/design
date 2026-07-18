@@ -6,6 +6,8 @@ import { metadata } from '../metadata/metadata'
 
 export const defaultSideBar: DefaultTheme.Sidebar = [
   { text: 'Get Started', link: '/guide/' },
+  { text: 'Architecture', link: '/guide/architecture' },
+  { text: 'Registry Pilot', link: '/guide/registry' },
   { text: 'Typography', link: '/guide/typography' },
   {
     text: 'CSS',
@@ -52,6 +54,7 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
+      { text: 'Guide', link: '/guide/' },
       { text: 'Vue', link: '/vue/' },
     ],
 
