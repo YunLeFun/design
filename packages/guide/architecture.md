@@ -20,12 +20,12 @@ Vue / DOM
 
 ## 各层职责
 
-| 层                | 职责                                     | 稳定性              |
-| ----------------- | ---------------------------------------- | ------------------- |
-| `@yunlefun/ui`    | 色彩、字体、圆角、阴影、动效与主题 token | 稳定公共接口        |
-| `@yunlefun/vue`   | 面向产品的 `Ylf*` 组件接口               | 稳定公共接口        |
-| `reka-ui`         | 无样式 primitives 与复杂交互行为         | 内部实现依赖        |
-| YunLeFun Registry | 页面片段、业务 Blocks、可复制代码        | Button pilot 验证中 |
+| 层                | 职责                                     | 稳定性             |
+| ----------------- | ---------------------------------------- | ------------------ |
+| `@yunlefun/ui`    | 色彩、字体、圆角、阴影、动效与主题 token | 稳定公共接口       |
+| `@yunlefun/vue`   | 面向产品的 `Ylf*` 组件接口               | 稳定公共接口       |
+| `reka-ui`         | 无样式 primitives 与复杂交互行为         | 内部实现依赖       |
+| YunLeFun Registry | 页面片段、业务 Blocks、可复制代码        | 基础分发链路可发布 |
 
 Reka UI 不应直接决定产品视觉，shadcn-vue 的默认 Tailwind 样式也不作为 YunLeFun 的主题来源。可以参考 shadcn-vue 的组合方式和 Registry 协议，但最终代码仍使用 YunLeFun token。
 
@@ -67,7 +67,7 @@ Reka UI 不应直接决定产品视觉，shadcn-vue 的默认 Tailwind 样式也
 - 品牌一致性要求高、调用接口稳定的模块；
 - 需要随版本集中升级 Reka UI 的实现。
 
-YunLeFun Registry 正通过 [Button pilot](/guide/registry) 验证分发链路。正式阶段用于需要业务方取得源码并继续修改的内容：
+YunLeFun Registry 已通过共享 token、Button 和基于 Reka UI 的 Dialog 验证[分发链路](/guide/registry)。后续主要用于需要业务方取得源码并继续修改的内容：
 
 - 登录、设置、导航等页面片段；
 - Data Table、Date Picker、Command Menu 等组合模块；

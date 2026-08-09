@@ -24,5 +24,8 @@
     "build": "",
     "prepublishOnly": "npm run build",
     "release": "bumpp --no-commit --no-tag --no-push && npm publish"
+  },
+  "peerDependencies": {
+    "sass": "^1.101.0"
   }
 }

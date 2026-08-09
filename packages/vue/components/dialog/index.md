@@ -7,11 +7,18 @@ title_zh: 对话框
 
 ## Props
 
-| 属性           | 说明     | 类型      | 默认值  |
-| -------------- | -------- | --------- | ------- |
-| `v-model:open` | 显隐状态 | `boolean` | `false` |
-| `title`        | 标题     | `string`  | —       |
-| `description`  | 描述     | `string`  | —       |
+| 属性              | 说明                             | 类型      | 默认值     |
+| ----------------- | -------------------------------- | --------- | ---------- |
+| `v-model:open`    | 显隐状态                         | `boolean` | `false`    |
+| `title`           | 可见标题                         | `string`  | —          |
+| `description`     | 描述                             | `string`  | —          |
+| `accessibleTitle` | 无可见标题时供辅助技术读取的标题 | `string`  | `'对话框'` |
+
+建议始终提供 `title`。只有视觉设计明确隐藏标题时，才改用描述场景的 `accessible-title`。
+
+## Registry
+
+Dialog 可通过 [Registry 分发](/guide/registry)复制源码；安装时会自动带入 `reka-ui`、Sass 与共享 token。
 
 ## Slots
 

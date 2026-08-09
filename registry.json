@@ -4,23 +4,45 @@
   "homepage": "https://ui.yunle.fun",
   "items": [
     {
+      "name": "ylf-tokens",
+      "type": "registry:file",
+      "title": "YunLeFun Design Tokens",
+      "description": "YunLeFun 的颜色、字体、圆角、阴影、动效与明暗主题 token。",
+      "dependencies": [
+        "sass@^1.101.0"
+      ],
+      "files": [
+        {
+          "path": "packages/ui/styles/css-vars.scss",
+          "type": "registry:file",
+          "target": "~/src/styles/ylf-tokens.scss"
+        }
+      ],
+      "categories": [
+        "yunlefun",
+        "theme"
+      ],
+      "meta": {
+        "status": "stable",
+        "sourcePackage": "@yunlefun/ui"
+      }
+    },
+    {
       "name": "ylf-button",
       "type": "registry:item",
       "title": "YunLeFun Button",
       "description": "YunLeFun 的多巴胺按钮，包含品牌 token、明暗主题与 SCSS 样式。",
       "dependencies": [
-        "sass@^1.82.0"
+        "sass@^1.101.0"
+      ],
+      "registryDependencies": [
+        "https://ui.yunle.fun/r/ylf-tokens.json"
       ],
       "files": [
         {
           "path": "packages/vue/components/YlfButton.vue",
           "type": "registry:item",
           "target": "~/src/components/ui/YlfButton.vue"
-        },
-        {
-          "path": "packages/ui/styles/css-vars.scss",
-          "type": "registry:file",
-          "target": "~/src/styles/ylf-tokens.scss"
         }
       ],
       "docs": "在应用入口导入 `src/styles/ylf-tokens.scss`。按钮本身带有 token 兜底值，但导入完整 token 才能获得统一的明暗主题。",
@@ -29,7 +51,36 @@
         "form"
       ],
       "meta": {
-        "status": "pilot",
+        "status": "stable",
+        "sourcePackage": "@yunlefun/vue"
+      }
+    },
+    {
+      "name": "ylf-dialog",
+      "type": "registry:item",
+      "title": "YunLeFun Dialog",
+      "description": "基于 Reka UI 的 YunLeFun 对话框，包含焦点管理、键盘交互、Portal 与可访问名称。",
+      "dependencies": [
+        "reka-ui@^2.10.1",
+        "sass@^1.101.0"
+      ],
+      "registryDependencies": [
+        "https://ui.yunle.fun/r/ylf-tokens.json"
+      ],
+      "files": [
+        {
+          "path": "packages/vue/components/YlfDialog.vue",
+          "type": "registry:item",
+          "target": "~/src/components/ui/YlfDialog.vue"
+        }
+      ],
+      "docs": "在应用入口导入 `src/styles/ylf-tokens.scss`。始终提供 `title`，或在隐藏标题场景传入有意义的 `accessible-title`。",
+      "categories": [
+        "yunlefun",
+        "overlay"
+      ],
+      "meta": {
+        "status": "stable",
         "sourcePackage": "@yunlefun/vue"
       }
     }

@@ -2,96 +2,105 @@
 outline: deep
 ---
 
-# Registry Pilot
+# Registry 分发
 
-Registry pilot 是一次小范围链路验证：先让一个代表性组件能够从 Registry URL 安装到真实 Vue 项目，再决定是否扩大到 Blocks 和复杂组合组件。它不是把整个组件库立即改成复制源码模式。
+YunLeFun Registry 使用 `shadcn-vue` 的 schema 与 CLI，把需要业务方取得源码并继续修改的组件分发到真实 Vue 项目。稳定基础组件仍优先通过 npm 包统一维护，Registry 不会替代 `@yunlefun/vue`。
 
-当前 pilot 选择 `YlfButton`，因为它依赖少，却能同时验证：
+当前基础链路已达到发布就绪状态：
 
-- `shadcn-vue` Registry schema 与 universal item 安装；
-- 从现有 `YlfButton.vue` 生成分发内容，不维护第二份组件源码；
-- YunLeFun SCSS 与 `--ylf-*` token 随组件落入业务项目；
-- 文档站静态托管 `/r/*.json`；
-- 安装后的类型检查和生产构建。
+| Item         | 内容                                  | 状态   |
+| ------------ | ------------------------------------- | ------ |
+| `ylf-tokens` | `--ylf-*` 明暗主题与品牌 token        | stable |
+| `ylf-button` | `YlfButton.vue`，依赖共享 token       | stable |
+| `ylf-dialog` | `YlfDialog.vue`、Reka UI 与共享 token | stable |
 
-> 当前状态：**实验性 pilot**。npm 包仍是稳定基础组件的首选分发方式。
+三项均为 universal item：不要求消费项目预装 Tailwind 或初始化 `components.json`，并通过明确 target 安装到采用 `src` 目录的 Vue + Vite 项目。
 
 ## 从线上 Registry 安装
 
-在采用 `src` 目录的 Vue + Vite 项目根目录运行，不需要先引入 Tailwind 或初始化 `components.json`：
+安装 Button：
 
 ```bash
-pnpm dlx shadcn-vue@2.8.0 add https://ui.yunle.fun/r/ylf-button.json
+pnpm dlx shadcn-vue@2.8.2 add https://ui.yunle.fun/r/ylf-button.json
 ```
 
-CLI 会把 `YlfButton.vue` 写入 `src/components/ui`，并把 token 写入 `src/styles/ylf-tokens.scss`。在应用入口加载一次 token：
+安装 Dialog：
 
-这里的 universal 表示安装不依赖 Tailwind 和 `components.json`，不表示能自动适配任意项目目录。Nuxt 与自定义 source directory 暂不在本轮 pilot 范围内。
+```bash
+pnpm dlx shadcn-vue@2.8.2 add https://ui.yunle.fun/r/ylf-dialog.json
+```
+
+两个组件都会通过 `registryDependencies` 自动安装 `ylf-tokens`。在应用入口加载一次：
 
 ```ts
 import './styles/ylf-tokens.scss'
 ```
 
-然后直接使用复制到项目中的组件：
+然后使用复制到项目中的组件：
 
 ```vue
 <script setup lang="ts">
 import YlfButton from './components/ui/YlfButton.vue'
+import YlfDialog from './components/ui/YlfDialog.vue'
 </script>
 
 <template>
   <YlfButton variant="aurora">
     开始创作
   </YlfButton>
+
+  <YlfDialog title="确认发布" description="发布后所有访客都能看到。">
+    作品内容
+  </YlfDialog>
 </template>
 ```
 
-## 本地验证
+没有可见标题的 Dialog 必须传入有意义的 `accessible-title`；组件会将它渲染为仅供辅助技术读取的标题。
 
-启动文档站前会自动构建 Registry：
+> universal 表示安装不依赖 Tailwind 和 `components.json`，不表示能自动推断任意目录结构。Registry URL 模式当前约定消费项目使用 `src` 目录。
 
-```bash
-pnpm docs:dev
-```
+## 构建与验证
 
-也可以只生成 JSON：
+构建全部 Registry JSON：
 
 ```bash
 pnpm registry:build
 ```
 
-执行完整的 URL 安装与消费项目生产构建验收：
+执行完整本地验收：
 
 ```bash
 pnpm registry:verify
 ```
 
-部署后可传入线上 Registry URL，重复执行同一套安装与构建验收：
+验证脚本会分别创建两个临时 Vue + Vite 项目，通过 URL 独立安装 Button 与 Dialog，递归安装共享 token，然后执行类型检查和生产构建。安装后的组件与 token 还会逐字节对比仓库中的权威源码。
+
+部署后可对线上 Registry 重复同一套验收：
 
 ```bash
-YLF_REGISTRY_URL=https://ui.yunle.fun/r/ylf-button.json pnpm registry:verify
+YLF_REGISTRY_BASE_URL=https://ui.yunle.fun/r pnpm registry:verify
 ```
-
-本地 URL 为 `http://localhost:5173/r/ylf-button.json`。生成文件位于 `packages/public/r`，部署文档站后会原样发布。
 
 ## 源码与生成物
 
-`registry.json` 只声明分发关系，组件源码仍来自包内的权威文件：
+`registry.json` 只声明分发关系，所有生成物仍来自包内权威文件：
 
 ```text
-packages/vue/components/YlfButton.vue ──┐
-                                       ├─ shadcn-vue build → packages/public/r/ylf-button.json
-packages/ui/styles/css-vars.scss ──────┘
+packages/ui/styles/css-vars.scss ───────→ ylf-tokens.json
+                                              ↑
+packages/vue/components/YlfButton.vue ──→ ylf-button.json
+packages/vue/components/YlfDialog.vue ──→ ylf-dialog.json
 ```
 
-因此修改按钮或 token 后重新构建即可，不需要同步维护 Registry 专用副本。
+`ylf-button` 与 `ylf-dialog` 通过远程 `registryDependencies` 复用 `ylf-tokens`，不再分别携带一份 token 文件。修改组件或 token 后重新构建即可，不维护 Registry 专用副本。
 
-## Pilot 通过标准
+## 发布门槛
 
-1. Registry JSON 可由 `shadcn-vue 2.8.0` 构建并被 URL 安装。
-2. 作为 universal item 安装时不要求 Tailwind 或 `components.json`，文件只写入约定的 `src` 目录。
-3. token 文件安装到明确路径，明暗主题和组件兜底值都可工作。
-4. 在最小 Vue + Vite 项目中通过类型检查和生产构建。
+1. `shadcn-vue 2.8.2` 能构建全部 item，并通过 schema 检查。
+2. Button 与 Dialog 均可从 URL 独立安装到全新 Vue + Vite 项目。
+3. npm 依赖、共享 token、Portal、类型检查和生产构建全部通过。
+4. Dialog 始终具有可访问名称；缺少描述时不保留空的 `aria-describedby`。
 5. Registry 生成物与包内权威源码保持一致。
+6. 单元测试、文档构建和 Nuxt 4 集成构建通过。
 
-通过后，下一项应选择基于 Reka UI 的 `Dialog`，用于验证 npm 依赖、Portal、焦点管理和键盘交互。再之后才评估 Data Table、登录页等真正适合复制源码的 Blocks。
+下一阶段优先为真正需要复制并继续修改的 Data Table、登录页、设置页和 AI 对话等 Blocks 建立 Registry item；基础控件继续以 npm 包为首选。

@@ -12,7 +12,27 @@ const exec = promisify(execFile)
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const pnpm = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm'
 const shadcnVue = resolve(root, `node_modules/.bin/shadcn-vue${process.platform === 'win32' ? '.cmd' : ''}`)
-const remoteRegistryUrl = process.env.YLF_REGISTRY_URL
+const publicRegistryBaseUrl = 'https://ui.yunle.fun/r'
+const legacyRemoteRegistryUrl = process.env.YLF_REGISTRY_URL
+const remoteRegistryBaseUrl = process.env.YLF_REGISTRY_BASE_URL
+  ?? (legacyRemoteRegistryUrl
+    ? new URL('.', legacyRemoteRegistryUrl).toString().replace(/\/$/, '')
+    : undefined)
+
+const registryFiles = {
+  'ylf-button': 'ylf-button.json',
+  'ylf-dialog': 'ylf-dialog.json',
+  'ylf-tokens': 'ylf-tokens.json',
+} as const
+
+type RegistryItemName = keyof typeof registryFiles
+
+interface ConsumerDefinition {
+  item: Exclude<RegistryItemName, 'ylf-tokens'>
+  componentFile: 'YlfButton.vue' | 'YlfDialog.vue'
+  canonicalComponent: string
+  mainSource: string
+}
 
 async function run(command: string, args: string[], cwd: string) {
   const { stderr, stdout } = await exec(command, args, {
@@ -31,85 +51,140 @@ async function run(command: string, args: string[], cwd: string) {
 
 await run(pnpm, ['registry:build'], root)
 
-const registryPayload = await readFile(resolve(root, 'packages/public/r/ylf-button.json'))
-const consumer = await mkdtemp(resolve(tmpdir(), 'yunlefun-registry-'))
-const server = remoteRegistryUrl
+const payloadEntries = await Promise.all(
+  Object.values(registryFiles).map(async file => [
+    `/r/${file}`,
+    await readFile(resolve(root, 'packages/public/r', file), 'utf8'),
+  ] as const),
+)
+const registryPayloads = new Map(payloadEntries)
+let localRegistryBaseUrl: string | undefined
+
+const server = remoteRegistryBaseUrl
   ? undefined
   : createServer((request, response) => {
-      if (request.url !== '/r/ylf-button.json') {
+      const requestPath = request.url?.split('?')[0]
+      const payload = requestPath ? registryPayloads.get(requestPath) : undefined
+
+      if (!payload || !localRegistryBaseUrl) {
         response.writeHead(404).end()
         return
       }
 
       response.writeHead(200, { 'content-type': 'application/json; charset=utf-8' })
-      response.end(registryPayload)
+      response.end(payload.replaceAll(publicRegistryBaseUrl, localRegistryBaseUrl))
     })
 
+const canonicalTokens = await readFile(resolve(root, 'packages/ui/styles/css-vars.scss'), 'utf8')
+const consumers: ConsumerDefinition[] = [
+  {
+    item: 'ylf-button',
+    componentFile: 'YlfButton.vue',
+    canonicalComponent: await readFile(resolve(root, 'packages/vue/components/YlfButton.vue'), 'utf8'),
+    mainSource: `import { createApp, h } from 'vue'
+import YlfButton from './components/ui/YlfButton.vue'
+import './styles/ylf-tokens.scss'
+
+const App = { render: () => h(YlfButton, { variant: 'aurora' }, () => '开始创作') }
+createApp(App).mount('#app')
+`,
+  },
+  {
+    item: 'ylf-dialog',
+    componentFile: 'YlfDialog.vue',
+    canonicalComponent: await readFile(resolve(root, 'packages/vue/components/YlfDialog.vue'), 'utf8'),
+    mainSource: `import { createApp, h } from 'vue'
+import YlfDialog from './components/ui/YlfDialog.vue'
+import './styles/ylf-tokens.scss'
+
+const App = { render: () => h(YlfDialog, { open: true, title: '确认发布' }, () => 'Registry 验证') }
+createApp(App).mount('#app')
+`,
+  },
+]
+
 try {
-  await mkdir(resolve(consumer, 'src'), { recursive: true })
-  await Promise.all([
-    writeFile(resolve(consumer, 'package.json'), `${JSON.stringify({
-      name: 'yunlefun-registry-consumer',
-      private: true,
-      version: '0.0.0',
-      type: 'module',
-      packageManager: 'pnpm@9.15.0',
-      scripts: {
-        build: 'vue-tsc --noEmit && vite build',
-      },
-      dependencies: {
-        vue: '^3.5.13',
-      },
-      devDependencies: {
-        '@vitejs/plugin-vue': '^6.0.8',
-        'typescript': '5.9.3',
-        'vite': '^8.1.5',
-        'vue-tsc': '^3.3.7',
-      },
-    }, null, 2)}\n`),
-    writeFile(resolve(consumer, 'index.html'), '<div id="app"></div><script type="module" src="/src/main.ts"></script>\n'),
-    writeFile(resolve(consumer, 'tsconfig.json'), `${JSON.stringify({
-      compilerOptions: {
-        target: 'ES2022',
-        useDefineForClassFields: true,
-        module: 'ESNext',
-        moduleResolution: 'Bundler',
-        strict: true,
-        jsx: 'preserve',
-        skipLibCheck: true,
-        types: ['vite/client'],
-      },
-      include: ['src/**/*.ts', 'src/**/*.vue'],
-    }, null, 2)}\n`),
-    writeFile(resolve(consumer, 'vite.config.ts'), `import vue from '@vitejs/plugin-vue'\nimport { defineConfig } from 'vite'\n\nexport default defineConfig({ plugins: [vue()] })\n`),
-    writeFile(resolve(consumer, 'src/main.ts'), `import { createApp } from 'vue'\nimport YlfButton from './components/ui/YlfButton.vue'\nimport './styles/ylf-tokens.scss'\n\nconst App = { components: { YlfButton }, template: '<YlfButton variant="aurora">开始创作</YlfButton>' }\ncreateApp(App).mount('#app')\n`),
-  ])
-
-  let registryUrl = remoteRegistryUrl
-
   if (server) {
     await new Promise<void>(resolveListening => server.listen(0, '127.0.0.1', resolveListening))
     const { port } = server.address() as AddressInfo
-    registryUrl = `http://127.0.0.1:${port}/r/ylf-button.json`
+    localRegistryBaseUrl = `http://127.0.0.1:${port}/r`
   }
 
-  await run(shadcnVue, ['add', registryUrl!, '--yes'], consumer)
-  await run(pnpm, ['build'], consumer)
+  const registryBaseUrl = remoteRegistryBaseUrl ?? localRegistryBaseUrl
+  if (!registryBaseUrl)
+    throw new Error('Registry base URL could not be resolved.')
 
-  const [installedButton, installedTokens, canonicalButton, canonicalTokens] = await Promise.all([
-    readFile(resolve(consumer, 'src/components/ui/YlfButton.vue'), 'utf8'),
-    readFile(resolve(consumer, 'src/styles/ylf-tokens.scss'), 'utf8'),
-    readFile(resolve(root, 'packages/vue/components/YlfButton.vue'), 'utf8'),
-    readFile(resolve(root, 'packages/ui/styles/css-vars.scss'), 'utf8'),
-  ])
+  for (const definition of consumers) {
+    const consumer = await mkdtemp(resolve(tmpdir(), `yunlefun-${definition.item}-`))
 
-  if (installedButton !== canonicalButton || installedTokens !== canonicalTokens)
-    throw new Error('Registry install output differs from the canonical YunLeFun sources.')
+    try {
+      await mkdir(resolve(consumer, 'src'), { recursive: true })
+      await Promise.all([
+        writeFile(resolve(consumer, 'package.json'), `${JSON.stringify({
+          name: `yunlefun-${definition.item}-consumer`,
+          private: true,
+          version: '0.0.0',
+          type: 'module',
+          packageManager: 'pnpm@11.14.0',
+          scripts: {
+            build: 'vue-tsc --noEmit && vite build',
+          },
+          dependencies: {
+            vue: '^3.5.40',
+          },
+          devDependencies: {
+            '@vitejs/plugin-vue': '^6.0.8',
+            'typescript': '5.9.3',
+            'vite': '^8.1.5',
+            'vue-tsc': '^3.3.7',
+          },
+        }, null, 2)}\n`),
+        writeFile(resolve(consumer, 'index.html'), '<div id="app"></div><script type="module" src="/src/main.ts"></script>\n'),
+        writeFile(resolve(consumer, 'pnpm-workspace.yaml'), `allowBuilds:
+  '@parcel/watcher': true
+  esbuild: true
+  vue-demi: true
+`),
+        writeFile(resolve(consumer, 'tsconfig.json'), `${JSON.stringify({
+          compilerOptions: {
+            target: 'ES2022',
+            useDefineForClassFields: true,
+            module: 'ESNext',
+            moduleResolution: 'Bundler',
+            strict: true,
+            jsx: 'preserve',
+            skipLibCheck: true,
+            types: ['vite/client'],
+          },
+          include: ['src/**/*.ts', 'src/**/*.vue'],
+        }, null, 2)}\n`),
+        writeFile(resolve(consumer, 'vite.config.ts'), `import vue from '@vitejs/plugin-vue'
+import { defineConfig } from 'vite'
 
-  console.log('Registry URL install and consumer production build passed.')
+export default defineConfig({ plugins: [vue()] })
+`),
+        writeFile(resolve(consumer, 'src/main.ts'), definition.mainSource),
+      ])
+
+      await run(shadcnVue, ['add', `${registryBaseUrl}/${registryFiles[definition.item]}`, '--yes'], consumer)
+      await run(pnpm, ['build'], consumer)
+
+      const [installedComponent, installedTokens] = await Promise.all([
+        readFile(resolve(consumer, 'src/components/ui', definition.componentFile), 'utf8'),
+        readFile(resolve(consumer, 'src/styles/ylf-tokens.scss'), 'utf8'),
+      ])
+
+      if (installedComponent !== definition.canonicalComponent || installedTokens !== canonicalTokens)
+        throw new Error(`${definition.item} install output differs from the canonical YunLeFun sources.`)
+
+      console.log(`${definition.item} URL install and consumer production build passed.`)
+    }
+    finally {
+      await rm(consumer, { force: true, recursive: true })
+    }
+  }
 }
 finally {
   if (server)
     await new Promise<void>(resolveClosed => server.close(() => resolveClosed()))
-  await rm(consumer, { force: true, recursive: true })
 }
