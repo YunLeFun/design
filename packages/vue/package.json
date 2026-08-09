@@ -27,11 +27,22 @@
     "release": "bumpp --no-commit --no-tag --no-push && npm publish",
     "typecheck": "vue-tsc --noEmit"
   },
+  "peerDependencies": {
+    "nuxt": "^4.0.0",
+    "sass": "^1.101.0",
+    "vue": "^3.5.0"
+  },
+  "peerDependenciesMeta": {
+    "nuxt": {
+      "optional": true
+    }
+  },
   "dependencies": {
     "reka-ui": "^2.10.1"
   },
   "devDependencies": {
-    "nuxt": "^4.4.8",
+    "nuxt": "^4.5.2",
+    "sass": "^1.101.0",
     "typescript": "5.9.3"
   }
 }

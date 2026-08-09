@@ -9,14 +9,26 @@ import {
   DialogRoot,
   DialogTitle,
   DialogTrigger,
+  VisuallyHidden,
 } from 'reka-ui'
+import { computed, useSlots } from 'vue'
 
-defineProps<{
+const props = withDefaults(defineProps<{
   title?: string
   description?: string
-}>()
+  /** 没有可见标题时供屏幕阅读器使用 */
+  accessibleTitle?: string
+}>(), {
+  accessibleTitle: '对话框',
+})
 
 const open = defineModel<boolean>('open', { default: false })
+const slots = useSlots()
+const hasVisibleTitle = computed(() => Boolean(props.title || slots.title))
+const hasDescription = computed(() => Boolean(props.description || slots.description))
+const descriptionProps = computed(() => hasDescription.value
+  ? {}
+  : { 'aria-describedby': undefined })
 </script>
 
 <template>
@@ -27,13 +39,17 @@ const open = defineModel<boolean>('open', { default: false })
 
     <DialogPortal>
       <DialogOverlay class="ylf-dialog__overlay" />
-      <DialogContent class="ylf-dialog__content">
-        <DialogTitle v-if="title || $slots.title" class="ylf-dialog__title">
+      <DialogContent class="ylf-dialog__content" v-bind="descriptionProps">
+        <DialogTitle v-if="hasVisibleTitle" class="ylf-dialog__title">
           <slot name="title">
             {{ title }}
           </slot>
         </DialogTitle>
-        <DialogDescription v-if="description || $slots.description" class="ylf-dialog__desc">
+        <VisuallyHidden v-else as-child>
+          <DialogTitle>{{ accessibleTitle }}</DialogTitle>
+        </VisuallyHidden>
+
+        <DialogDescription v-if="hasDescription" class="ylf-dialog__desc">
           <slot name="description">
             {{ description }}
           </slot>
@@ -58,7 +74,7 @@ const open = defineModel<boolean>('open', { default: false })
   position: fixed;
   inset: 0;
   z-index: 100;
-  background: rgba(13, 17, 32, 0.45);
+  background: var(--ylf-c-overlay, rgba(13, 17, 32, 0.45));
   -webkit-backdrop-filter: blur(4px);
   backdrop-filter: blur(4px);
 

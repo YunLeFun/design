@@ -5,9 +5,9 @@ title_zh: 按钮
 
 多巴胺按钮：主操作是一枚高饱和的实色胶囊，明快、笃定、轻轻浮起；想要流光彩云时再用 `aurora` 变体。其余层级保持安静克制。
 
-## Registry Pilot
+## Registry
 
-Button 同时用于验证 YunLeFun Registry。可以通过 URL 将组件源码和品牌 token 复制进业务项目；具体边界、命令和验收标准见 [Registry Pilot](/guide/registry)。稳定基础组件仍优先通过 `@yunlefun/vue` 使用。
+Button 可以通过 URL 将组件源码和共享品牌 token 复制进业务项目；命令、边界和发布验收见 [Registry 分发](/guide/registry)。稳定基础组件仍优先通过 `@yunlefun/vue` 使用。
 
 ## Props
 

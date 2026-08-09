@@ -7,7 +7,7 @@ import { metadata } from '../metadata/metadata'
 export const defaultSideBar: DefaultTheme.Sidebar = [
   { text: 'Get Started', link: '/guide/' },
   { text: 'Architecture', link: '/guide/architecture' },
-  { text: 'Registry Pilot', link: '/guide/registry' },
+  { text: 'Registry', link: '/guide/registry' },
   { text: 'Typography', link: '/guide/typography' },
   {
     text: 'CSS',
