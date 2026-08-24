@@ -1,7 +1,7 @@
 // =============================================================================
 // 云乐坊 · 圆体字体加载（CDN）/ Rounded display webfonts via CDN
 // -----------------------------------------------------------------------------
-// 只为「展示 / 标题」角色加载圆体；正文走 --ylf-font-body（纯系统字体，零下载）。
+// 只为「品牌展示」角色加载圆体；产品标题与正文均走系统字体，零下载。
 // 字族 token 与完整回退链见 ./css-vars.scss，说明见文档 /guide/typography。
 //
 // ⚠️ 性能 / Perf：CSS `@import` 是串行阻塞加载。若你能控制页面 <head>，更推荐改用
@@ -27,6 +27,10 @@
 
 .ylf-font-wordmark {
   font-family: var(--ylf-font-wordmark);
+}
+
+.ylf-font-heading {
+  font-family: var(--ylf-font-heading);
 }
 
 .ylf-font-body {

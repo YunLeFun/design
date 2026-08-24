@@ -77,6 +77,7 @@ export default defineConfig({
     fontFamily: {
       mono: 'var(--vt-font-family-mono)',
       display: 'var(--ylf-font-display)',
+      heading: 'var(--ylf-font-heading)',
       body: 'var(--ylf-font-body)',
     },
   },

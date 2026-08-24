@@ -79,6 +79,11 @@
     'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', 'Source Han Sans SC', sans-serif;
   // 品牌字 wordmark（如「云乐坊」）：目前等同 display，独立 token 便于单独调校字重/字距
   --ylf-font-wordmark: var(--ylf-font-display);
+  // 产品标题：页面、区块与卡片标题默认使用系统圆润无衬线，不触发 webfont 下载
+  // 与 display 分开，避免站酷快乐体、楷体等装饰字体进入密集产品界面。
+  --ylf-font-heading:
+    ui-rounded, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', 'Source Han Sans SC', system-ui,
+    sans-serif;
   --ylf-font-body: 'Inter', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', system-ui, sans-serif;
 
   // --- transition -------------------------------------------------------------

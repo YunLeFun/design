@@ -1,9 +1,9 @@
 # Typography 字体
 
-云乐坊用「圆体」做展示字，呼应品牌「缤纷多彩 / 云是软的」的气质。展示字由两款圆体拼成一条**逐字回退**链：拉丁走 [Baloo 2](https://fonts.google.com/specimen/Baloo+2)，中文走 [ZCOOL KuaiLe 站酷快乐体](https://fonts.google.com/specimen/ZCOOL+KuaiLe)。
+云乐坊把字体分成展示、产品标题和正文三个角色。品牌展示字呼应「缤纷多彩 / 云是软的」的气质：拉丁走 [Baloo 2](https://fonts.google.com/specimen/Baloo+2)，中文走 [ZCOOL KuaiLe 站酷快乐体](https://fonts.google.com/specimen/ZCOOL+KuaiLe)。产品标题与正文则使用系统无衬线字体，保持紧凑和高可读性。
 
 > [!IMPORTANT]
-> 圆体 webfont **只用于展示 / 标题**（wordmark、Hero、`h1`–`h3` 等）。正文用 `--ylf-font-body`（纯系统字体，零下载），避免大体积 CJK 字体拖慢正文渲染。
+> 圆体 webfont **只用于品牌展示**（wordmark、强品牌 Hero 等）。页面、区块和卡片标题使用 `--ylf-font-heading`；不要使用楷体或其他装饰字体。
 
 ## 字族 Token
 
@@ -11,8 +11,9 @@
 
 | Token                 | 角色                   | 说明                                                            |
 | --------------------- | ---------------------- | --------------------------------------------------------------- |
-| `--ylf-font-display`  | 展示 / 标题            | 圆体：Baloo 2 + ZCOOL KuaiLe，按字形回退到系统圆体              |
+| `--ylf-font-display`  | 品牌展示               | 圆体：Baloo 2 + ZCOOL KuaiLe，需要按需加载 webfont              |
 | `--ylf-font-wordmark` | 品牌字（如「云乐坊」） | 当前等同 `--ylf-font-display`，独立 token 便于单独调校字重/字距 |
+| `--ylf-font-heading`  | 产品标题               | 系统圆润无衬线，用于页面、区块和卡片标题，**零下载**            |
 | `--ylf-font-body`     | 正文 / UI              | Inter + 系统中文，**不加载任何 webfont**                        |
 
 ## 为什么是 ZCOOL KuaiLe？
@@ -96,16 +97,18 @@
 .brand {
   font-family: var(--ylf-font-wordmark);
 }
-h1,
-h2 {
+.hero-title {
   font-family: var(--ylf-font-display);
+}
+.section-title {
+  font-family: var(--ylf-font-heading);
 }
 body {
   font-family: var(--ylf-font-body);
 }
 ```
 
-也可用 `fonts.scss` 附带的工具类：`.ylf-font-display` / `.ylf-font-wordmark` / `.ylf-font-body`。
+也可用 `fonts.scss` 附带的工具类：`.ylf-font-display` / `.ylf-font-wordmark` / `.ylf-font-heading` / `.ylf-font-body`。
 
 ## 体积说明 Payload
 
