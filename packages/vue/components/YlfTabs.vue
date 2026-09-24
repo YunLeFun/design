@@ -52,7 +52,7 @@ const model = defineModel<string>()
   position: relative;
   display: flex;
   gap: 4px;
-  border-bottom: 1px solid var(--ylf-c-border, #e5e9f3);
+  border-bottom: 1px solid var(--ylf-c-border, #e2e8f0);
 }
 
 .ylf-tabs__trigger {
@@ -61,18 +61,18 @@ const model = defineModel<string>()
   font-family: inherit;
   font-size: 15px;
   font-weight: 500;
-  color: var(--ylf-c-text-2, #5a6178);
+  color: var(--ylf-c-text-2, #475569);
   background: transparent;
   border: none;
   cursor: pointer;
   transition: color 0.2s ease;
 
   &:hover:not([data-disabled]) {
-    color: var(--ylf-c-text, #1b2238);
+    color: var(--ylf-c-text, #0f172a);
   }
 
   &[data-state='active'] {
-    color: var(--ylf-c-brand, #6d5cff);
+    color: var(--ylf-c-brand, #2563eb);
   }
 
   &[data-disabled] {
@@ -83,7 +83,7 @@ const model = defineModel<string>()
   &:focus-visible {
     outline: none;
     border-radius: var(--ylf-radius-sm, 10px);
-    box-shadow: 0 0 0 3px var(--ylf-c-brand-soft, #ece9ff);
+    box-shadow: 0 0 0 3px var(--ylf-c-brand-soft, #eff6ff);
   }
 }
 
@@ -94,7 +94,7 @@ const model = defineModel<string>()
   width: var(--reka-tabs-indicator-size);
   height: 2.5px;
   border-radius: 999px;
-  background: var(--ylf-c-brand, #6d5cff);
+  background: var(--ylf-c-brand, #2563eb);
   transform: translateX(var(--reka-tabs-indicator-position));
   transition:
     transform 0.25s var(--ylf-ease-bounce, cubic-bezier(0.34, 1.56, 0.64, 1)),

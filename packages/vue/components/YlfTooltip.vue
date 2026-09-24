@@ -38,9 +38,9 @@ withDefaults(defineProps<{
   font-size: 13px;
   line-height: 1.5;
   color: var(--ylf-c-bg, #fbfcff);
-  background: var(--ylf-c-text, #1b2238);
+  background: var(--ylf-c-text, #0f172a);
   border-radius: var(--ylf-radius-sm, 10px);
-  box-shadow: var(--ylf-shadow, 0 10px 28px -8px rgba(109, 92, 255, 0.22));
+  box-shadow: var(--ylf-shadow, 0 10px 28px -8px rgba(15, 23, 42, 0.16));
   transform-origin: var(--reka-tooltip-content-transform-origin);
 
   &[data-state='delayed-open'] {
@@ -48,7 +48,7 @@ withDefaults(defineProps<{
   }
 
   &__arrow {
-    fill: var(--ylf-c-text, #1b2238);
+    fill: var(--ylf-c-text, #0f172a);
   }
 }
 

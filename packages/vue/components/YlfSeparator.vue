@@ -23,7 +23,7 @@ withDefaults(defineProps<{
 <style lang="scss">
 .ylf-separator {
   flex: none;
-  background: var(--ylf-c-border, #e5e9f3);
+  background: var(--ylf-c-border, #e2e8f0);
 
   &--horizontal {
     width: 100%;

@@ -32,11 +32,11 @@ const open = defineModel<boolean>('open', { default: false })
   min-width: 180px;
   max-width: 320px;
   padding: 16px;
-  color: var(--ylf-c-text, #1b2238);
+  color: var(--ylf-c-text, #0f172a);
   background: var(--ylf-c-surface, #fff);
-  border: 1px solid var(--ylf-c-border, #e5e9f3);
+  border: 1px solid var(--ylf-c-border, #e2e8f0);
   border-radius: var(--ylf-radius, 14px);
-  box-shadow: var(--ylf-shadow-lg, 0 22px 56px -14px rgba(109, 92, 255, 0.3));
+  box-shadow: var(--ylf-shadow-lg, 0 22px 56px -14px rgba(15, 23, 42, 0.22));
   transform-origin: var(--reka-popover-content-transform-origin);
 
   &[data-state='open'] {
@@ -45,7 +45,7 @@ const open = defineModel<boolean>('open', { default: false })
 
   &__arrow {
     fill: var(--ylf-c-surface, #fff);
-    stroke: var(--ylf-c-border, #e5e9f3);
+    stroke: var(--ylf-c-border, #e2e8f0);
   }
 }
 

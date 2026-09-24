@@ -31,10 +31,10 @@ withDefaults(defineProps<{
 .ylf-card {
   position: relative;
   border-radius: var(--ylf-radius-lg, 20px);
-  color: var(--ylf-c-text, #1b2238);
+  color: var(--ylf-c-text, #0f172a);
   background: var(--ylf-c-surface, #fff);
-  border: 1px solid var(--ylf-c-border, #e5e9f3);
-  box-shadow: var(--ylf-shadow-sm, 0 2px 8px -2px rgba(110, 123, 255, 0.16));
+  border: 1px solid var(--ylf-c-border, #e2e8f0);
+  box-shadow: var(--ylf-shadow-sm, 0 2px 8px -2px rgba(15, 23, 42, 0.12));
   transition:
     transform 0.25s ease,
     box-shadow 0.25s ease,
@@ -42,7 +42,7 @@ withDefaults(defineProps<{
 
   &.is-hoverable:hover {
     transform: translateY(-4px);
-    box-shadow: var(--ylf-shadow, 0 10px 28px -8px rgba(110, 123, 255, 0.22));
+    box-shadow: var(--ylf-shadow, 0 10px 28px -8px rgba(15, 23, 42, 0.16));
   }
 
   // 云玻璃

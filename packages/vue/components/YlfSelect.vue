@@ -62,9 +62,9 @@ const model = defineModel<string>()
   padding: 10px 14px;
   font-family: inherit;
   font-size: 15px;
-  color: var(--ylf-c-text, #1b2238);
+  color: var(--ylf-c-text, #0f172a);
   background: var(--ylf-c-surface, #fff);
-  border: 1px solid var(--ylf-c-border-strong, #d3d9ea);
+  border: 1px solid var(--ylf-c-border-strong, #cbd5e1);
   border-radius: var(--ylf-radius, 14px);
   cursor: pointer;
   transition:
@@ -72,17 +72,17 @@ const model = defineModel<string>()
     box-shadow 0.2s ease;
 
   &[data-placeholder] {
-    color: var(--ylf-c-text-3, #9098ad);
+    color: var(--ylf-c-text-3, #64748b);
   }
 
   &:hover:not([data-disabled]) {
-    border-color: var(--ylf-c-brand, #6d5cff);
+    border-color: var(--ylf-c-brand, #2563eb);
   }
 
   &:focus-visible {
     outline: none;
-    border-color: var(--ylf-c-brand, #6d5cff);
-    box-shadow: 0 0 0 3px var(--ylf-c-brand-soft, #ece9ff);
+    border-color: var(--ylf-c-brand, #2563eb);
+    box-shadow: 0 0 0 3px var(--ylf-c-brand-soft, #eff6ff);
   }
 
   &[data-disabled] {
@@ -93,7 +93,7 @@ const model = defineModel<string>()
 
 .ylf-select__icon {
   display: inline-flex;
-  color: var(--ylf-c-text-3, #9098ad);
+  color: var(--ylf-c-text-3, #64748b);
 
   svg {
     width: 18px;
@@ -107,9 +107,9 @@ const model = defineModel<string>()
   max-height: var(--reka-select-content-available-height);
   padding: 6px;
   background: var(--ylf-c-surface, #fff);
-  border: 1px solid var(--ylf-c-border, #e5e9f3);
+  border: 1px solid var(--ylf-c-border, #e2e8f0);
   border-radius: var(--ylf-radius, 14px);
-  box-shadow: var(--ylf-shadow-lg, 0 22px 56px -14px rgba(109, 92, 255, 0.3));
+  box-shadow: var(--ylf-shadow-lg, 0 22px 56px -14px rgba(15, 23, 42, 0.22));
 
   &[data-state='open'] {
     animation: ylf-pop-in 0.16s ease;
@@ -123,15 +123,15 @@ const model = defineModel<string>()
   gap: 8px;
   padding: 8px 12px;
   font-size: 14px;
-  color: var(--ylf-c-text, #1b2238);
+  color: var(--ylf-c-text, #0f172a);
   border-radius: var(--ylf-radius-sm, 10px);
   cursor: pointer;
   user-select: none;
   outline: none;
 
   &[data-highlighted] {
-    background: var(--ylf-c-brand-soft, #ece9ff);
-    color: var(--ylf-c-brand, #6d5cff);
+    background: var(--ylf-c-brand-soft, #eff6ff);
+    color: var(--ylf-c-brand, #2563eb);
   }
 
   &[data-disabled] {
@@ -142,7 +142,7 @@ const model = defineModel<string>()
 
 .ylf-select__check {
   display: inline-flex;
-  color: var(--ylf-c-brand, #6d5cff);
+  color: var(--ylf-c-brand, #2563eb);
 
   svg {
     width: 15px;

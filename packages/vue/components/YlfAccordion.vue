@@ -55,14 +55,14 @@ const model = defineModel<string | string[]>()
 
 <style lang="scss">
 .ylf-accordion {
-  border: 1px solid var(--ylf-c-border, #e5e9f3);
+  border: 1px solid var(--ylf-c-border, #e2e8f0);
   border-radius: var(--ylf-radius, 14px);
   overflow: hidden;
   background: var(--ylf-c-surface, #fff);
 }
 
 .ylf-accordion__item + .ylf-accordion__item {
-  border-top: 1px solid var(--ylf-c-border, #e5e9f3);
+  border-top: 1px solid var(--ylf-c-border, #e2e8f0);
 }
 
 .ylf-accordion__header {
@@ -80,14 +80,14 @@ const model = defineModel<string | string[]>()
   font-size: 15px;
   font-weight: 500;
   text-align: left;
-  color: var(--ylf-c-text, #1b2238);
+  color: var(--ylf-c-text, #0f172a);
   background: transparent;
   border: none;
   cursor: pointer;
   transition: background 0.18s ease;
 
   &:hover {
-    background: var(--ylf-c-bg-soft, #f2f5fc);
+    background: var(--ylf-c-bg-soft, #f1f5f9);
   }
 
   &[data-disabled] {
@@ -97,7 +97,7 @@ const model = defineModel<string | string[]>()
 
   &:focus-visible {
     outline: none;
-    box-shadow: inset 0 0 0 2px var(--ylf-c-brand, #6d5cff);
+    box-shadow: inset 0 0 0 2px var(--ylf-c-brand, #2563eb);
   }
 }
 
@@ -105,7 +105,7 @@ const model = defineModel<string | string[]>()
   flex: none;
   width: 18px;
   height: 18px;
-  color: var(--ylf-c-text-3, #9098ad);
+  color: var(--ylf-c-text-3, #64748b);
   transition: transform 0.25s ease;
 }
 
@@ -117,7 +117,7 @@ const model = defineModel<string | string[]>()
   overflow: hidden;
   font-size: 14px;
   line-height: 1.6;
-  color: var(--ylf-c-text-2, #5a6178);
+  color: var(--ylf-c-text-2, #475569);
 
   &[data-state='open'] {
     animation: ylf-acc-down 0.25s ease;

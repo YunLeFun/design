@@ -2,7 +2,7 @@
   "name": "@yunlefun/vue",
   "type": "module",
   "version": "0.1.1",
-  "description": "Components for YunLeFun",
+  "description": "Vue components and Nuxt integration for YunLeFun Design",
   "exports": {
     "./components/*": "./components/*",
     "./nuxt": "./nuxt.mjs",

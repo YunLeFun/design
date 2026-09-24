@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 
 type ButtonVariant
-  = | 'primary' // 多巴胺实色（主操作）
+  = | 'primary' // 晴空蓝实色（主操作）
     | 'aurora' // 极光渐变（签名 / 特殊 CTA，opt-in）
     | 'secondary' // 描边
     | 'soft' // 柔色填充
@@ -109,8 +109,8 @@ function onClick(e: MouseEvent) {
   &:focus-visible {
     outline: none;
     box-shadow:
-      0 0 0 3px var(--ylf-c-brand-soft, #edefff),
-      0 0 0 5px var(--ylf-c-brand, #6e7bff);
+      0 0 0 3px var(--ylf-c-brand-soft, #eff6ff),
+      0 0 0 5px var(--ylf-c-brand, #2563eb);
   }
 
   // --- sizes ---
@@ -129,22 +129,22 @@ function onClick(e: MouseEvent) {
     font-size: 17px;
   }
 
-  // --- primary：多巴胺实色（主操作，单色不花） ---
+  // --- primary：晴空蓝实色（主操作，单色不花） ---
   &--primary {
     color: var(--ylf-c-text-on-accent, #fff);
-    background: var(--ylf-c-brand, #6d5cff);
-    box-shadow: var(--ylf-glow-brand, 0 10px 30px -6px rgba(109, 92, 255, 0.45));
+    background: var(--ylf-c-brand, #2563eb);
+    box-shadow: var(--ylf-glow-brand, 0 6px 18px -8px rgba(37, 99, 235, 0.35));
 
     &:hover {
-      background: var(--ylf-c-brand-hover, #8979ff);
+      background: var(--ylf-c-brand-hover, #1d4ed8);
       transform: translateY(-2px);
-      box-shadow: 0 16px 40px -8px rgba(109, 92, 255, 0.55);
+      box-shadow: var(--ylf-glow-brand-hover, 0 8px 22px -8px rgba(37, 99, 235, 0.4));
     }
   }
 
   // --- aurora：极光渐变（签名 / 特殊 CTA，opt-in） ---
   &--aurora {
-    color: var(--ylf-c-text-on-accent, #fff);
+    color: var(--ylf-c-text-on-aurora, #020617);
     background-image: var(--ylf-gradient-aurora, linear-gradient(110deg, #ff4d8d, #ffc233, #19d08b, #2fb4ff, #9a5cff));
     background-size: 180% auto;
     box-shadow: var(--ylf-glow-aurora, 0 10px 30px -6px rgba(124, 92, 255, 0.5));
@@ -152,42 +152,42 @@ function onClick(e: MouseEvent) {
     &:hover {
       background-position: right center;
       transform: translateY(-2px);
-      box-shadow: 0 16px 40px -8px rgba(124, 92, 255, 0.6);
+      box-shadow: var(--ylf-glow-aurora-hover, 0 16px 40px -8px rgba(124, 92, 255, 0.6));
     }
   }
 
   // --- secondary：描边 ---
   &--secondary {
-    color: var(--ylf-c-text, #1b2238);
+    color: var(--ylf-c-text, #0f172a);
     background: var(--ylf-c-surface, #fff);
-    border-color: var(--ylf-c-border-strong, #d3d9ea);
+    border-color: var(--ylf-c-border-strong, #cbd5e1);
 
     &:hover {
-      color: var(--ylf-c-brand, #6e7bff);
-      border-color: var(--ylf-c-brand, #6e7bff);
+      color: var(--ylf-c-brand, #2563eb);
+      border-color: var(--ylf-c-brand, #2563eb);
       transform: translateY(-2px);
     }
   }
 
   // --- soft：柔色填充 ---
   &--soft {
-    color: var(--ylf-c-brand, #6e7bff);
-    background: var(--ylf-c-brand-soft, #edefff);
+    color: var(--ylf-c-brand, #2563eb);
+    background: var(--ylf-c-brand-soft, #eff6ff);
 
     &:hover {
       transform: translateY(-2px);
-      box-shadow: var(--ylf-shadow-sm, 0 2px 8px -2px rgba(110, 123, 255, 0.16));
+      box-shadow: var(--ylf-shadow-sm, 0 2px 8px -2px rgba(15, 23, 42, 0.12));
     }
   }
 
   // --- ghost：幽灵 ---
   &--ghost {
-    color: var(--ylf-c-text-2, #5a6178);
+    color: var(--ylf-c-text-2, #475569);
     background: transparent;
 
     &:hover {
-      color: var(--ylf-c-brand, #6e7bff);
-      background: var(--ylf-c-brand-soft, #edefff);
+      color: var(--ylf-c-brand, #2563eb);
+      background: var(--ylf-c-brand-soft, #eff6ff);
     }
   }
 
@@ -199,20 +199,20 @@ function onClick(e: MouseEvent) {
 
     &:hover {
       transform: translateY(-2px);
-      box-shadow: var(--ylf-shadow, 0 10px 28px -8px rgba(110, 123, 255, 0.22));
+      box-shadow: var(--ylf-shadow, 0 10px 28px -8px rgba(15, 23, 42, 0.16));
     }
   }
 
   &--success {
-    background: var(--ylf-c-success, #1fb089);
+    background: var(--ylf-c-success, #065f46);
   }
 
   &--warning {
-    background: var(--ylf-c-warning, #e9a21e);
+    background: var(--ylf-c-warning, #92400e);
   }
 
   &--danger {
-    background: var(--ylf-c-danger, #fb5c7c);
+    background: var(--ylf-c-danger, #b91c1c);
   }
 
   // --- 状态 ---

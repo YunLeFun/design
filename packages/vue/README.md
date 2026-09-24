@@ -1,52 +1,41 @@
 # @yunlefun/vue
 
-Vue toolkit(components/composables) for YunLeFun.
+YunLeFun Design 的 Vue 组件实现，提供 `Ylf*` 组件与 Nuxt 集成。
 
-## Usage
+## 安装
 
 ```bash
-pnpm add -D @yunlefun/vue sass
+pnpm add @yunlefun/ui @yunlefun/vue
+pnpm add -D sass
 ```
 
-### Use it in Nuxt
+在应用 SCSS 入口加载共享主题：
+
+```scss
+@use '@yunlefun/ui/styles';
+```
+
+## Vue / Vite
+
+```vue
+<script setup lang="ts">
+import YlfButton from '@yunlefun/vue/components/YlfButton.vue'
+</script>
+
+<template>
+  <YlfButton>保存资料</YlfButton>
+</template>
+```
+
+## Nuxt
 
 ```ts
 export default defineNuxtConfig({
-  modules: [
-    // ...
-    '@vueuse/nuxt',
-    '@unocss/nuxt',
-    '@pinia/nuxt',
-    // add this line
-    '@yunlefun/vue/nuxt',
-  ],
+  modules: ['@yunlefun/vue/nuxt'],
+  css: ['@yunlefun/ui/styles'],
 })
 ```
 
-### Add auto import resolver for vue components
+根入口目前提供类型和组件目录信息，组件通过 `components/*.vue` 子路径或 Nuxt 模块使用；没有公开的 `YlfResolver`。
 
-```ts
-import Components from 'unplugin-vue-components/vite'
-// vite.config.ts
-import { defineConfig } from 'vite'
-
-export default defineConfig({
-  plugins: [
-    // https://github.com/antfu/unplugin-vue-components
-    Components({
-      // allow auto load markdown components under `./src/components/`
-      extensions: ['vue', 'md'],
-      // allow auto import and register components used in markdown
-      include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
-      dts: 'src/components.d.ts',
-      resolvers: [
-        // add @yunlefun/vue auto import resolver
-        YlfResolver(),
-      ],
-      di
-    }),
-  ]
-})
-```
-
-You can use `<YlfXxx />` components in your vue files directly.
+更多内容见 [Vue 接入](./index.md)、[子包职责](../guide/packages.md)与[设计体系](../guide/design-system.md)。

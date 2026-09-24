@@ -96,8 +96,8 @@ const descriptionProps = computed(() => hasDescription.value
   transform: translate(-50%, -50%);
   border-radius: var(--ylf-radius-lg, 20px);
   background: var(--ylf-c-surface, #fff);
-  border: 1px solid var(--ylf-c-border, #e5e9f3);
-  box-shadow: var(--ylf-shadow-lg, 0 22px 56px -14px rgba(109, 92, 255, 0.3));
+  border: 1px solid var(--ylf-c-border, #e2e8f0);
+  box-shadow: var(--ylf-shadow-lg, 0 22px 56px -14px rgba(15, 23, 42, 0.22));
 
   &[data-state='open'] {
     animation: ylf-dialog-in 0.22s var(--ylf-ease-bounce, cubic-bezier(0.34, 1.56, 0.64, 1));
@@ -113,14 +113,14 @@ const descriptionProps = computed(() => hasDescription.value
   font-family: var(--ylf-font-display, inherit);
   font-size: 19px;
   font-weight: 700;
-  color: var(--ylf-c-text, #1b2238);
+  color: var(--ylf-c-text, #0f172a);
 }
 
 .ylf-dialog__desc {
   margin: 0 0 16px;
   font-size: 14px;
   line-height: 1.6;
-  color: var(--ylf-c-text-2, #5a6178);
+  color: var(--ylf-c-text-2, #475569);
 }
 
 .ylf-dialog__close {
@@ -135,15 +135,15 @@ const descriptionProps = computed(() => hasDescription.value
   border: none;
   border-radius: var(--ylf-radius-sm, 10px);
   background: transparent;
-  color: var(--ylf-c-text-3, #9098ad);
+  color: var(--ylf-c-text-3, #64748b);
   cursor: pointer;
   transition:
     background 0.18s ease,
     color 0.18s ease;
 
   &:hover {
-    background: var(--ylf-c-bg-mute, #e8ecf7);
-    color: var(--ylf-c-text, #1b2238);
+    background: var(--ylf-c-bg-mute, #e2e8f0);
+    color: var(--ylf-c-text, #0f172a);
   }
 
   svg {

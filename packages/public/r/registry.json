@@ -31,7 +31,7 @@
       "name": "ylf-button",
       "type": "registry:item",
       "title": "YunLeFun Button",
-      "description": "YunLeFun 的多巴胺按钮，包含品牌 token、明暗主题与 SCSS 样式。",
+      "description": "YunLeFun 的晴空蓝主色按钮，包含可选极光变体、共享 token、明暗主题与 SCSS 样式。",
       "dependencies": [
         "sass@^1.101.0"
       ],

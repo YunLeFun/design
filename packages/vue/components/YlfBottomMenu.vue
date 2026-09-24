@@ -23,10 +23,10 @@ withDefaults(defineProps<{
   background: var(--ylf-bottom-menu-c-bg, var(--ylf-glass-bg, rgba(255, 255, 255, 0.62)));
   -webkit-backdrop-filter: var(--ylf-glass-blur, saturate(160%) blur(16px));
   backdrop-filter: var(--ylf-glass-blur, saturate(160%) blur(16px));
-  border-top: 1px solid var(--ylf-c-border, #e5e9f3);
+  border-top: 1px solid var(--ylf-c-border, #e2e8f0);
 
   &.is-shadow {
-    box-shadow: var(--ylf-shadow, 0 10px 28px -8px rgba(110, 123, 255, 0.22));
+    box-shadow: var(--ylf-shadow, 0 10px 28px -8px rgba(15, 23, 42, 0.16));
   }
 }
 </style>

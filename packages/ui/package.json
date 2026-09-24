@@ -1,7 +1,7 @@
 {
   "name": "@yunlefun/ui",
   "version": "0.0.2",
-  "description": "UI for YunLeFun",
+  "description": "Shared styles and design tokens for YunLeFun Design",
   "author": "YunLeFun",
   "homepage": "https://ui.yunle.fun",
   "repository": {

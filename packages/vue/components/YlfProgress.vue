@@ -37,14 +37,14 @@ const percent = computed(() => Math.max(0, Math.min(100, (props.value / props.ma
   height: 8px;
   overflow: hidden;
   border-radius: 999px;
-  background: var(--ylf-c-bg-mute, #e8ecf7);
+  background: var(--ylf-c-bg-mute, #e2e8f0);
 }
 
 .ylf-progress__indicator {
   width: 100%;
   height: 100%;
   border-radius: 999px;
-  background: var(--ylf-c-brand, #6d5cff);
+  background: var(--ylf-c-brand, #2563eb);
   transition: transform 0.4s var(--ylf-ease-bounce, cubic-bezier(0.34, 1.56, 0.64, 1));
 }
 

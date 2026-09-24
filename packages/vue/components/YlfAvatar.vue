@@ -31,7 +31,7 @@ withDefaults(defineProps<{
   overflow: hidden;
   border-radius: 50%;
   user-select: none;
-  background: var(--ylf-c-brand-soft, #ece9ff);
+  background: var(--ylf-c-brand-soft, #eff6ff);
 
   &--sm {
     width: 32px;
@@ -64,7 +64,7 @@ withDefaults(defineProps<{
     width: 100%;
     height: 100%;
     font-weight: 600;
-    color: var(--ylf-c-brand, #6d5cff);
+    color: var(--ylf-c-brand, #2563eb);
   }
 }
 </style>

@@ -53,10 +53,12 @@
 
 .ic-aurora {
   background: var(--ylf-gradient-aurora);
+  color: var(--ylf-c-text-on-aurora);
 }
 
 .ic-brand {
   background: var(--ylf-c-brand);
+  color: var(--ylf-c-text-on-accent);
 }
 
 .ic-iris {

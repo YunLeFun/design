@@ -35,7 +35,7 @@ const emit = defineEmits(['click'])
   border: none;
   background: transparent;
   cursor: pointer;
-  color: var(--ylf-c-text-3, #9098ad);
+  color: var(--ylf-c-text-3, #64748b);
   transition:
     color 0.2s ease,
     transform 0.2s var(--ylf-ease-bounce, cubic-bezier(0.34, 1.56, 0.64, 1));
@@ -53,14 +53,7 @@ const emit = defineEmits(['click'])
   }
 
   &.active {
-    color: var(--ylf-c-brand, #6e7bff);
-
-    .ylf-bottom-menu-item__label {
-      background: var(--ylf-gradient-aurora, linear-gradient(110deg, #ff9fb2, #ffd66b, #7fe0c0, #7cc4ff, #9d8bff));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
+    color: var(--ylf-c-brand, #2563eb);
   }
 }
 

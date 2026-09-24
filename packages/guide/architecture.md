@@ -6,6 +6,8 @@ outline: deep
 
 YunLeFun Design 采用分层实现：Reka UI 负责复杂行为，YunLeFun 提供稳定接口和品牌视觉，业务应用只需要学习 `Ylf*` 组件。
 
+Design 与 UI 的概念边界见[设计体系](/guide/design-system)，所有包的用途和成熟度见[子包职责](/guide/packages)。本页重点说明组件实现与分发边界。
+
 ```text
 业务应用 / YunLeFun Blocks
           ↓
@@ -49,7 +51,7 @@ Reka UI 不应直接决定产品视觉，shadcn-vue 的默认 Tailwind 样式也
 
 ```scss
 .ylf-example {
-  color: var(--ylf-c-text, #1b2238);
+  color: var(--ylf-c-text, #0f172a);
   background: var(--ylf-c-surface, #fff);
   border-radius: var(--ylf-radius, 14px);
 }
@@ -74,6 +76,8 @@ YunLeFun Registry 已通过共享 token、Button 和基于 Reka UI 的 Dialog �
 - AI 对话、消息列表等产品 Blocks。
 
 同一个基础控件不同时维护 npm 与复制代码两个权威版本。
+
+Registry 从 npm 包对应的同一份源码生成。源码复制到应用后，后续更新由应用维护者合并；npm 用户则通过升级包获得修复。生成物可验证一致，不代表消费项目中的副本会自动同步。
 
 ## 文档与预览
 

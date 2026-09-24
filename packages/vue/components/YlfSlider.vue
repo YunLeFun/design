@@ -51,14 +51,14 @@ const model = defineModel<number[]>({ default: () => [50] })
     flex-grow: 1;
     height: 6px;
     border-radius: 999px;
-    background: var(--ylf-c-bg-mute, #e8ecf7);
+    background: var(--ylf-c-bg-mute, #e2e8f0);
   }
 
   &__range {
     position: absolute;
     height: 100%;
     border-radius: 999px;
-    background: var(--ylf-c-brand, #6d5cff);
+    background: var(--ylf-c-brand, #2563eb);
   }
 
   &__thumb {
@@ -67,18 +67,18 @@ const model = defineModel<number[]>({ default: () => [50] })
     height: 18px;
     border-radius: 50%;
     background: #fff;
-    border: 2px solid var(--ylf-c-brand, #6d5cff);
-    box-shadow: var(--ylf-shadow-sm, 0 2px 8px -2px rgba(109, 92, 255, 0.16));
+    border: 2px solid var(--ylf-c-brand, #2563eb);
+    box-shadow: var(--ylf-shadow-sm, 0 2px 8px -2px rgba(15, 23, 42, 0.12));
     cursor: grab;
     transition: box-shadow 0.2s ease;
 
     &:hover {
-      box-shadow: 0 0 0 6px var(--ylf-c-brand-soft, #ece9ff);
+      box-shadow: 0 0 0 6px var(--ylf-c-brand-soft, #eff6ff);
     }
 
     &:focus-visible {
       outline: none;
-      box-shadow: 0 0 0 4px var(--ylf-c-brand-soft, #ece9ff);
+      box-shadow: 0 0 0 4px var(--ylf-c-brand-soft, #eff6ff);
     }
 
     &:active {

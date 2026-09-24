@@ -41,10 +41,10 @@ const checked = defineModel<boolean | 'indeterminate'>({ default: false })
   display: inline-grid;
   place-items: center;
   padding: 0;
-  border: 2px solid var(--ylf-c-border-strong, #d3d9ea);
+  border: 2px solid var(--ylf-c-border-strong, #cbd5e1);
   border-radius: 7px;
   background: var(--ylf-c-surface, #fff);
-  color: #fff;
+  color: var(--ylf-c-text-on-accent, #fff);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   transition:
@@ -53,18 +53,18 @@ const checked = defineModel<boolean | 'indeterminate'>({ default: false })
     box-shadow 0.2s ease;
 
   &:hover:not([data-disabled]) {
-    border-color: var(--ylf-c-brand, #6d5cff);
+    border-color: var(--ylf-c-brand, #2563eb);
   }
 
   &:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 3px var(--ylf-c-brand-soft, #ece9ff);
+    box-shadow: 0 0 0 3px var(--ylf-c-brand-soft, #eff6ff);
   }
 
   &[data-state='checked'],
   &[data-state='indeterminate'] {
-    background: var(--ylf-c-brand, #6d5cff);
-    border-color: var(--ylf-c-brand, #6d5cff);
+    background: var(--ylf-c-brand, #2563eb);
+    border-color: var(--ylf-c-brand, #2563eb);
   }
 
   &[data-disabled] {

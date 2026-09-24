@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 type BadgeVariant
   = | 'aurora' // 极光填充
-    | 'brand' // 鸢尾柔色
+    | 'brand' // 晴空蓝柔色
     | 'success'
     | 'warning'
     | 'danger'
@@ -41,33 +41,33 @@ withDefaults(defineProps<{
   }
 
   &--aurora {
-    color: var(--ylf-c-text-on-accent, #fff);
+    color: var(--ylf-c-text-on-aurora, #020617);
     background-image: var(--ylf-gradient-aurora, linear-gradient(110deg, #ff9fb2, #ffd66b, #7fe0c0, #7cc4ff, #9d8bff));
   }
 
   &--brand {
-    color: var(--ylf-c-brand, #6e7bff);
-    background: var(--ylf-c-brand-soft, #edefff);
+    color: var(--ylf-c-brand, #2563eb);
+    background: var(--ylf-c-brand-soft, #eff6ff);
   }
 
   &--success {
-    color: var(--ylf-c-success, #1fb089);
-    background: color-mix(in srgb, var(--ylf-c-success, #1fb089) 14%, transparent);
+    color: var(--ylf-c-success, #065f46);
+    background: color-mix(in srgb, var(--ylf-c-success, #065f46) 14%, transparent);
   }
 
   &--warning {
-    color: var(--ylf-c-warning, #e9a21e);
-    background: color-mix(in srgb, var(--ylf-c-warning, #e9a21e) 16%, transparent);
+    color: var(--ylf-c-warning, #92400e);
+    background: color-mix(in srgb, var(--ylf-c-warning, #92400e) 16%, transparent);
   }
 
   &--danger {
-    color: var(--ylf-c-danger, #fb5c7c);
-    background: color-mix(in srgb, var(--ylf-c-danger, #fb5c7c) 14%, transparent);
+    color: var(--ylf-c-danger, #b91c1c);
+    background: color-mix(in srgb, var(--ylf-c-danger, #b91c1c) 14%, transparent);
   }
 
   &--info {
-    color: var(--ylf-c-info, #2e9bff);
-    background: color-mix(in srgb, var(--ylf-c-info, #2e9bff) 14%, transparent);
+    color: var(--ylf-c-info, #0369a1);
+    background: color-mix(in srgb, var(--ylf-c-info, #0369a1) 14%, transparent);
   }
 }
 </style>

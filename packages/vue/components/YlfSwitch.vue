@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 // 行为 / 可访问性由 reka-ui 提供（role=switch、键盘、焦点、data-state）；
-// 外观全部走 --ylf token，所以视觉识别仍是「极光 / 多巴胺」。
+// 外观全部走 --ylf token，所以视觉识别仍是「晴空蓝为主、极光点缀」。
 import { SwitchRoot, SwitchThumb } from 'reka-ui'
 
 withDefaults(defineProps<{
@@ -41,7 +41,7 @@ const checked = defineModel<boolean>({ default: false })
   padding: 0;
   border: none;
   border-radius: var(--ylf-radius-pill, 999px);
-  background: var(--ylf-c-bg-mute, #e8ecf7);
+  background: var(--ylf-c-bg-mute, #e2e8f0);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   transition:
@@ -56,8 +56,8 @@ const checked = defineModel<boolean>({ default: false })
   &:focus-visible {
     outline: none;
     box-shadow:
-      0 0 0 3px var(--ylf-c-brand-soft, #ece9ff),
-      0 0 0 5px var(--ylf-c-brand, #6d5cff);
+      0 0 0 3px var(--ylf-c-brand-soft, #eff6ff),
+      0 0 0 5px var(--ylf-c-brand, #2563eb);
   }
 
   &[data-disabled] {
@@ -65,9 +65,9 @@ const checked = defineModel<boolean>({ default: false })
     cursor: not-allowed;
   }
 
-  // on 态：brand 实色（多巴胺）
+  // on 态：晴空蓝主色
   &[data-state='checked'] {
-    background: var(--ylf-c-brand, #6d5cff);
+    background: var(--ylf-c-brand, #2563eb);
   }
 
   // on 态：aurora 极光渐变（opt-in）
@@ -88,6 +88,7 @@ const checked = defineModel<boolean>({ default: false })
   }
 
   &[data-state='checked'] &__thumb {
+    background: var(--ylf-c-text-on-accent, #fff);
     transform: translateX(calc(var(--_w) - var(--_h) + var(--_pad)));
   }
 }

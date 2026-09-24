@@ -65,7 +65,7 @@ const model = defineModel<string>()
   padding: 0;
   border: none;
   background: transparent;
-  color: var(--ylf-c-text, #1b2238);
+  color: var(--ylf-c-text, #0f172a);
   font: inherit;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
@@ -76,7 +76,7 @@ const model = defineModel<string>()
     height: 20px;
     display: inline-grid;
     place-items: center;
-    border: 2px solid var(--ylf-c-border-strong, #d3d9ea);
+    border: 2px solid var(--ylf-c-border-strong, #cbd5e1);
     border-radius: 50%;
     background: var(--ylf-c-surface, #fff);
     transition:
@@ -85,7 +85,7 @@ const model = defineModel<string>()
   }
 
   &:hover:not([data-disabled]) .ylf-radio__control {
-    border-color: var(--ylf-c-brand, #6d5cff);
+    border-color: var(--ylf-c-brand, #2563eb);
   }
 
   &:focus-visible {
@@ -93,11 +93,11 @@ const model = defineModel<string>()
   }
 
   &:focus-visible .ylf-radio__control {
-    box-shadow: 0 0 0 3px var(--ylf-c-brand-soft, #ece9ff);
+    box-shadow: 0 0 0 3px var(--ylf-c-brand-soft, #eff6ff);
   }
 
   &[data-state='checked'] .ylf-radio__control {
-    border-color: var(--ylf-c-brand, #6d5cff);
+    border-color: var(--ylf-c-brand, #2563eb);
   }
 
   &[data-disabled] {
@@ -110,7 +110,7 @@ const model = defineModel<string>()
     width: 10px;
     height: 10px;
     border-radius: 50%;
-    background: var(--ylf-c-brand, #6d5cff);
+    background: var(--ylf-c-brand, #2563eb);
   }
 
   &__label {

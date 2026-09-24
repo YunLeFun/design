@@ -3,7 +3,7 @@ title: Switch
 title_zh: 开关
 ---
 
-开关：行为与可访问性基于 [reka-ui](https://reka-ui.com)（`role="switch"`、键盘 Space / Enter、焦点管理），外观走「极光 / 多巴胺」token —— reka 管行为，我们管皮肤。
+开关：行为与可访问性基于 [reka-ui](https://reka-ui.com)（`role="switch"`、键盘 Space / Enter、焦点管理），外观使用共享主题 token —— reka 管行为，我们管皮肤。
 
 ## Props
 

@@ -2,6 +2,8 @@
 
 云乐坊把字体分成展示、产品标题和正文三个角色。品牌展示字呼应「缤纷多彩 / 云是软的」的气质：拉丁走 [Baloo 2](https://fonts.google.com/specimen/Baloo+2)，中文走 [ZCOOL KuaiLe 站酷快乐体](https://fonts.google.com/specimen/ZCOOL+KuaiLe)。产品标题与正文则使用系统无衬线字体，保持紧凑和高可读性。
 
+字体角色属于统一的[视觉基础](/guide/foundations)。主站现有站酷小薇属于特定展示模块，迁移时显式指定展示角色，不将装饰字体扩散到产品标题和表单。
+
 > [!IMPORTANT]
 > 圆体 webfont **只用于品牌展示**（wordmark、强品牌 Hero 等）。页面、区块和卡片标题使用 `--ylf-font-heading`；不要使用楷体或其他装饰字体。
 

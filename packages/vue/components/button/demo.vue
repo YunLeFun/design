@@ -12,7 +12,7 @@ function fakeLoad() {
   <div class="flex flex-col gap-5">
     <div class="flex flex-wrap items-center gap-3">
       <YlfButton variant="primary">
-        多巴胺 Primary
+        晴空蓝 Primary
       </YlfButton>
       <YlfButton variant="aurora">
         极光 Aurora
@@ -54,7 +54,7 @@ function fakeLoad() {
         Large
       </YlfButton>
       <YlfButton :round="false">
-        直角
+        标准圆角
       </YlfButton>
     </div>
 

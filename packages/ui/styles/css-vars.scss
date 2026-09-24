@@ -1,20 +1,18 @@
 // =============================================================================
-// 云乐坊 · 缤纷多彩 —— 「极光云 / Iridescent Cloud」 design tokens
+// YunLeFun Design —— 晴空蓝为主，极光点缀
 // -----------------------------------------------------------------------------
-// 品牌色不是单一色相，而是「光穿过云」的折射：
-//   · 极光渐变 (--ylf-gradient-aurora) 是签名 —— 缤纷多彩
-//   · 鸢尾紫 (--ylf-c-brand) 是日常锚点 —— 沉静
-//   · 所有语义色都从这道光谱里取，于是再花哨也始终是一家人
+// 晴空蓝负责主操作、链接和选中状态；极光用于可选的品牌展示。
+// 语义色负责状态，前景与背景成组维护，明暗主题共享相同角色。
 // 组件以 var(--ylf-*) 引用这些 token（均带兜底值），加载本文件即生效。
 // =============================================================================
 
 :root,
 .ylf-theme-light {
-  // --- brand 锚点：多巴胺鸢尾紫（高饱和、明快） --------------------------------
-  --ylf-c-brand: #6d5cff;
-  --ylf-c-brand-hover: #8979ff;
-  --ylf-c-brand-active: #5a46f0;
-  --ylf-c-brand-soft: #ece9ff;
+  // --- brand：晴空蓝 ---------------------------------------------------------
+  --ylf-c-brand: #2563eb;
+  --ylf-c-brand-hover: #1d4ed8;
+  --ylf-c-brand-active: #1e40af;
+  --ylf-c-brand-soft: #eff6ff;
 
   // --- aurora 极光：冷调 dreamy 渐变（蓝 → 鸢尾 → 兰紫，邻近色，不再彩虹） -----
   // 收敛到三色同族，去掉破坏协调的金/绿；签名一条连续的「夜空极光」丝带。
@@ -22,27 +20,28 @@
   --ylf-aurora-iris: #7b61ff;
   --ylf-aurora-pink: #e879c6;
   --ylf-gradient-aurora: linear-gradient(115deg, #5ba3ff 0%, #7b61ff 50%, #e879c6 100%);
-  --ylf-gradient-brand: linear-gradient(120deg, #5ba3ff 0%, #6d5cff 55%, #8b6bff 100%);
+  --ylf-gradient-brand: linear-gradient(115deg, #2563eb, #0ea5e9 55%, #0891b2);
 
-  // --- semantic 多巴胺语义色（明快实色） --------------------------------------
-  --ylf-c-success: #10c18c;
-  --ylf-c-warning: #ffb02e;
-  --ylf-c-danger: #ff4d6d;
-  --ylf-c-info: #2c8cff;
+  // --- semantic：兼顾实色控件白字与浅色表面文字 -------------------------------
+  --ylf-c-success: #065f46;
+  --ylf-c-warning: #92400e;
+  --ylf-c-danger: #b91c1c;
+  --ylf-c-info: #0369a1;
 
   // --- neutrals 晴空中性色 ----------------------------------------------------
-  --ylf-c-bg: #fbfcff;
-  --ylf-c-bg-soft: #f2f5fc;
-  --ylf-c-bg-mute: #e8ecf7;
+  --ylf-c-bg: #f8fafc;
+  --ylf-c-bg-soft: #f1f5f9;
+  --ylf-c-bg-mute: #e2e8f0;
   --ylf-c-surface: #ffffff;
 
-  --ylf-c-text: #1b2238;
-  --ylf-c-text-2: #5a6178;
-  --ylf-c-text-3: #9098ad;
+  --ylf-c-text: #0f172a;
+  --ylf-c-text-2: #475569;
+  --ylf-c-text-3: #64748b;
   --ylf-c-text-on-accent: #ffffff;
+  --ylf-c-text-on-aurora: #020617;
 
-  --ylf-c-border: #e5e9f3;
-  --ylf-c-border-strong: #d3d9ea;
+  --ylf-c-border: #e2e8f0;
+  --ylf-c-border-strong: #cbd5e1;
   --ylf-c-overlay: rgba(13, 17, 32, 0.45);
 
   // --- glass 云玻璃 -----------------------------------------------------------
@@ -58,12 +57,14 @@
   --ylf-radius-pill: 999px;
 
   // --- shadow 色染柔影（投影带品牌色而非灰） ----------------------------------
-  --ylf-shadow-sm: 0 2px 8px -2px rgba(110, 123, 255, 0.16);
-  --ylf-shadow: 0 10px 28px -8px rgba(110, 123, 255, 0.22);
-  --ylf-shadow-lg: 0 22px 56px -14px rgba(109, 92, 255, 0.3);
+  --ylf-shadow-sm: 0 2px 8px -2px rgba(15, 23, 42, 0.12);
+  --ylf-shadow: 0 10px 28px -8px rgba(15, 23, 42, 0.16);
+  --ylf-shadow-lg: 0 22px 56px -14px rgba(15, 23, 42, 0.22);
   // 实色主按钮辉光（品牌色）；极光辉光留给 aurora 变体
-  --ylf-glow-brand: 0 10px 30px -6px rgba(109, 92, 255, 0.45);
+  --ylf-glow-brand: 0 6px 18px -8px rgba(37, 99, 235, 0.35);
+  --ylf-glow-brand-hover: 0 8px 22px -8px rgba(37, 99, 235, 0.4);
   --ylf-glow-aurora: 0 10px 30px -6px rgba(124, 92, 255, 0.5);
+  --ylf-glow-aurora-hover: 0 16px 40px -8px rgba(124, 92, 255, 0.6);
 
   // --- typography -------------------------------------------------------------
   // 圆体做展示字，呼应「云是软的」：拉丁 Baloo 2 + 中文 ZCOOL KuaiLe 站酷快乐体
@@ -100,36 +101,40 @@
 
 .dark,
 .ylf-theme-dark {
-  --ylf-c-brand: #8e7cff;
-  --ylf-c-brand-hover: #a99bff;
-  --ylf-c-brand-active: #7565f5;
-  --ylf-c-brand-soft: #231d52;
+  --ylf-c-brand: #60a5fa;
+  --ylf-c-brand-hover: #93c5fd;
+  --ylf-c-brand-active: #3b82f6;
+  --ylf-c-brand-soft: #172554;
+  --ylf-gradient-brand: linear-gradient(115deg, #3b82f6, #22d3ee 55%, #06b6d4);
 
-  --ylf-c-success: #2ee0a6;
-  --ylf-c-warning: #ffc04d;
-  --ylf-c-danger: #ff6b85;
-  --ylf-c-info: #59abff;
+  --ylf-c-success: #34d399;
+  --ylf-c-warning: #fbbf24;
+  --ylf-c-danger: #fb7185;
+  --ylf-c-info: #38bdf8;
 
   // 深色 = 夜空（不是死黑，是深蓝夜空）
-  --ylf-c-bg: #0d1120;
-  --ylf-c-bg-soft: #141a2e;
-  --ylf-c-bg-mute: #1e2541;
-  --ylf-c-surface: #161c32;
+  --ylf-c-bg: #0b1022;
+  --ylf-c-bg-soft: #0f1630;
+  --ylf-c-bg-mute: #1f2a47;
+  --ylf-c-surface: #121a30;
 
-  --ylf-c-text: #f1f3fb;
-  --ylf-c-text-2: #aab2cc;
-  --ylf-c-text-3: #6e7693;
+  --ylf-c-text: #e5e7eb;
+  --ylf-c-text-2: #cbd5e1;
+  --ylf-c-text-3: #94a3b8;
+  --ylf-c-text-on-accent: #0f172a;
 
-  --ylf-c-border: #283054;
-  --ylf-c-border-strong: #354068;
+  --ylf-c-border: #2a3658;
+  --ylf-c-border-strong: #3c4c74;
   --ylf-c-overlay: rgba(3, 6, 18, 0.7);
 
-  --ylf-glass-bg: rgba(22, 28, 50, 0.55);
-  --ylf-glass-border: rgba(139, 150, 255, 0.18);
+  --ylf-glass-bg: rgba(18, 26, 48, 0.55);
+  --ylf-glass-border: rgba(96, 165, 250, 0.18);
 
   --ylf-shadow-sm: 0 2px 10px -2px rgba(0, 0, 0, 0.5);
   --ylf-shadow: 0 12px 30px -8px rgba(0, 0, 0, 0.55);
   --ylf-shadow-lg: 0 24px 60px -14px rgba(0, 0, 0, 0.6);
-  --ylf-glow-brand: 0 12px 34px -6px rgba(142, 124, 255, 0.5);
+  --ylf-glow-brand: 0 6px 18px -8px rgba(96, 165, 250, 0.3);
+  --ylf-glow-brand-hover: 0 8px 22px -8px rgba(96, 165, 250, 0.4);
   --ylf-glow-aurora: 0 12px 34px -6px rgba(142, 124, 255, 0.55);
+  --ylf-glow-aurora-hover: 0 16px 40px -8px rgba(142, 124, 255, 0.6);
 }

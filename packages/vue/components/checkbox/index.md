@@ -3,7 +3,7 @@ title: Checkbox
 title_zh: 复选框
 ---
 
-复选框：行为与可访问性基于 [reka-ui](https://reka-ui.com)（`role="checkbox"`、键盘、`indeterminate` 三态），外观走「极光 / 多巴胺」token。
+复选框：行为与可访问性基于 [reka-ui](https://reka-ui.com)（`role="checkbox"`、键盘、`indeterminate` 三态），外观使用共享主题 token。
 
 ## Props
 

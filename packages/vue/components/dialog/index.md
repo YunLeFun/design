@@ -3,7 +3,7 @@ title: Dialog
 title_zh: 对话框
 ---
 
-对话框：行为与可访问性全部基于 [reka-ui](https://reka-ui.com)（遮罩、焦点陷阱、`Esc` / 点击外部关闭、滚动锁、`aria-labelledby` / `aria-describedby`），外观走「极光 / 多巴胺」token。
+对话框：行为与可访问性全部基于 [reka-ui](https://reka-ui.com)（遮罩、焦点陷阱、`Esc` / 点击外部关闭、滚动锁、`aria-labelledby` / `aria-describedby`），外观使用共享主题 token。
 
 ## Props
 

@@ -3,7 +3,7 @@ title: Radio
 title_zh: 单选框
 ---
 
-单选框组：行为与可访问性基于 [reka-ui](https://reka-ui.com)（`role="radiogroup"`、方向键 roving focus），外观走「极光 / 多巴胺」token。
+单选框组：行为与可访问性基于 [reka-ui](https://reka-ui.com)（`role="radiogroup"`、方向键 roving focus），外观使用共享主题 token。
 
 ## Props
 

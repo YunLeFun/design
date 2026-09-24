@@ -20,12 +20,18 @@ Nuxt 项目可以注册组件自动导入：
 ```ts
 export default defineNuxtConfig({
   modules: ['@yunlefun/vue/nuxt'],
+  css: ['@yunlefun/ui/styles'],
 })
 ```
 
 ## 从哪里开始
 
+- 阅读 [Design 与 UI](/guide/design-system)，理解设计系统、样式包和组件库的关系。
+- 阅读[子包职责](/guide/packages)，区分共享包、实验工具和内部构建工具。
+- 阅读[视觉基础](/guide/foundations)，使用晴空蓝主色、字体角色和明暗主题。
+- 在 [Vue 接入](/vue/)中查看显式导入与 Nuxt 模块的完整示例。
 - 阅读[设计体系架构](/guide/architecture)，了解 Reka UI、YunLeFun 组件与 Registry 的职责。
 - 使用 [Registry 分发](/guide/registry)，通过 URL 安装共享 token、`YlfButton` 或 `YlfDialog` 源码。
 - 在 [Vue 组件](/vue/)中查看实时 Demo；每个预览都可以独立切换明暗主题和设备宽度。
 - 阅读[字体规范](/guide/typography)，按需加载展示字体。
+- 已有应用按[迁移指南](/guide/migration)逐步接入，区分源码更新、包发布与线上部署。

@@ -5,18 +5,24 @@ import { groupIconMdPlugin } from 'vitepress-plugin-group-icons'
 import { metadata } from '../metadata/metadata'
 
 export const defaultSideBar: DefaultTheme.Sidebar = [
-  { text: 'Get Started', link: '/guide/' },
-  { text: 'Architecture', link: '/guide/architecture' },
-  { text: 'Registry', link: '/guide/registry' },
-  { text: 'Typography', link: '/guide/typography' },
+  { text: '开始使用', link: '/guide/' },
+  { text: 'Design 与 UI', link: '/guide/design-system' },
+  { text: '子包职责', link: '/guide/packages' },
+  { text: '视觉基础', link: '/guide/foundations' },
+  { text: '字体规范', link: '/guide/typography' },
+  { text: '组件架构', link: '/guide/architecture' },
+  { text: 'Registry 分发', link: '/guide/registry' },
+  { text: '应用迁移', link: '/guide/migration' },
   {
-    text: 'CSS',
+    text: '样式示例',
+    link: '/css/',
     items: [
       { text: 'pulse', link: '/css/pulse/' },
     ],
   },
   {
-    text: 'Utils',
+    text: '实验工具',
+    link: '/utils/',
     items: [
       { text: 'previewElement', link: '/utils/previewElement/' },
     ],
@@ -53,9 +59,10 @@ export default defineConfig({
 
     // https://vitepress.dev/reference/default-theme-config
     nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Guide', link: '/guide/' },
-      { text: 'Vue', link: '/vue/' },
+      { text: '首页', link: '/' },
+      { text: '设计体系', link: '/guide/design-system' },
+      { text: '开始使用', link: '/guide/' },
+      { text: 'Vue 组件', link: '/vue/' },
     ],
 
     sidebar: {

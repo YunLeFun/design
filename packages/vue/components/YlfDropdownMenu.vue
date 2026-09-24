@@ -45,9 +45,9 @@ const emit = defineEmits<{ select: [value: string] }>()
   min-width: 180px;
   padding: 6px;
   background: var(--ylf-c-surface, #fff);
-  border: 1px solid var(--ylf-c-border, #e5e9f3);
+  border: 1px solid var(--ylf-c-border, #e2e8f0);
   border-radius: var(--ylf-radius, 14px);
-  box-shadow: var(--ylf-shadow-lg, 0 22px 56px -14px rgba(109, 92, 255, 0.3));
+  box-shadow: var(--ylf-shadow-lg, 0 22px 56px -14px rgba(15, 23, 42, 0.22));
   transform-origin: var(--reka-dropdown-menu-content-transform-origin);
 
   &[data-state='open'] {
@@ -59,15 +59,15 @@ const emit = defineEmits<{ select: [value: string] }>()
     align-items: center;
     padding: 8px 12px;
     font-size: 14px;
-    color: var(--ylf-c-text, #1b2238);
+    color: var(--ylf-c-text, #0f172a);
     border-radius: var(--ylf-radius-sm, 10px);
     cursor: pointer;
     user-select: none;
     outline: none;
 
     &[data-highlighted] {
-      background: var(--ylf-c-brand-soft, #ece9ff);
-      color: var(--ylf-c-brand, #6d5cff);
+      background: var(--ylf-c-brand-soft, #eff6ff);
+      color: var(--ylf-c-brand, #2563eb);
     }
 
     &[data-disabled] {
@@ -79,7 +79,7 @@ const emit = defineEmits<{ select: [value: string] }>()
   &__sep {
     height: 1px;
     margin: 6px 4px;
-    background: var(--ylf-c-border, #e5e9f3);
+    background: var(--ylf-c-border, #e2e8f0);
   }
 }
 
