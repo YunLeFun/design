@@ -25,8 +25,8 @@ export const defaultSideBar: DefaultTheme.Sidebar = [
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: '@YunLeFun/UI',
-  description: '云乐坊 · 缤纷多彩 —— 以「云」与极光光谱为灵魂的 UI 组件库',
+  title: 'YunLeFun Design',
+  description: '云乐坊设计系统：统一的设计规范、品牌视觉、设计变量与可复用 UI 组件。',
   lastUpdated: true,
 
   // 圆体展示字（仅 display 角色）：拉丁 Baloo 2 + 中文 ZCOOL KuaiLe 站酷快乐体。
@@ -44,7 +44,7 @@ export default defineConfig({
 
   themeConfig: {
     editLink: {
-      pattern: 'https://github.com/YunLeFun/ui/edit/main/packages/:path',
+      pattern: 'https://github.com/YunLeFun/design/edit/main/packages/:path',
     },
 
     search: {
@@ -65,7 +65,7 @@ export default defineConfig({
     },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/YunLeFun/ui' },
+      { icon: 'github', link: 'https://github.com/YunLeFun/design' },
       { icon: 'twitter', link: 'https://twitter.com/YunLeFun' },
     ],
 

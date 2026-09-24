@@ -1,6 +1,6 @@
 # 开始使用
 
-YunLeFun UI 是云乐坊应用共享的 Vue 设计体系。稳定组件通过 npm 包统一维护，复杂交互由 Reka UI 提供行为和无障碍能力，视觉由 `--ylf-*` token 驱动。
+YunLeFun Design 是云乐坊应用共享的设计系统，统一维护设计规范、品牌视觉与 UI 实现。稳定的 Vue 组件通过 npm 包统一维护，复杂交互由 Reka UI 提供行为和无障碍能力，视觉由 `--ylf-*` token 驱动。
 
 ## 安装
 

@@ -1,10 +1,10 @@
 {
-  "name": "@yunlefun/ui-monorepo",
+  "name": "@yunlefun/design-monorepo",
   "type": "module",
   "version": "0.0.0",
   "private": true,
   "packageManager": "pnpm@11.14.0",
-  "description": "UI for Yunlefun",
+  "description": "YunLeFun Design System",
   "engines": {
     "node": ">=22.19.0"
   },

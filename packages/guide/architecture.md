@@ -4,7 +4,7 @@ outline: deep
 
 # 设计体系架构
 
-YunLeFun UI 采用分层实现：Reka UI 负责复杂行为，YunLeFun 提供稳定接口和品牌视觉，业务应用只需要学习 `Ylf*` 组件。
+YunLeFun Design 采用分层实现：Reka UI 负责复杂行为，YunLeFun 提供稳定接口和品牌视觉，业务应用只需要学习 `Ylf*` 组件。
 
 ```text
 业务应用 / YunLeFun Blocks

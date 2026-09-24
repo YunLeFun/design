@@ -1,4 +1,4 @@
-export const GITHUB_BLOB_URL = 'https://github.com/YunLeFun/ui/blob/main/packages'
+export const GITHUB_BLOB_URL = 'https://github.com/YunLeFun/design/blob/main/packages'
 
 function r(p: string) {
   return new URL(p, import.meta.url).pathname

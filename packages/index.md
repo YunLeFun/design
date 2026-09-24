@@ -3,9 +3,9 @@
 layout: home
 
 hero:
-  name: "云乐坊 UI"
+  name: "YunLeFun Design"
   text: "云端之上，缤纷多彩"
-  tagline: 一套以「云」与极光光谱为灵魂的组件库，让每个云乐坊子应用都属于同一片天空。
+  tagline: 云乐坊设计系统，将设计规范、品牌视觉与可复用组件连接起来，让每个云乐坊应用都属于同一片天空。
   actions:
     - theme: brand
       text: 开始使用
