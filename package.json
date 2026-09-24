@@ -13,6 +13,7 @@
     "build": "pnpm run docs:build",
     "build:vue": "pnpm -C packages/vue run build",
     "build:ui": "pnpm -C packages/ui run build",
+    "ci:publish": "node scripts/publish-packages.mjs",
     "dev": "pnpm run docs:dev",
     "docs:dev": "pnpm registry:build && vitepress dev packages",
     "docs:build": "pnpm build:ui && pnpm registry:build && vitepress build packages",
