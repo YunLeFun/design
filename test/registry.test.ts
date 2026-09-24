@@ -41,6 +41,10 @@ describe('registry distribution', () => {
         path: 'packages/vue/components/YlfButton.vue',
         type: 'registry:item',
         target: '~/src/components/ui/YlfButton.vue',
+      }, {
+        path: 'packages/vue/components/theme.ts',
+        type: 'registry:file',
+        target: '~/src/components/ui/theme.ts',
       }],
     })
     expect(dialog).toMatchObject({
@@ -66,10 +70,11 @@ describe('registry distribution', () => {
       readJson('packages/public/r/ylf-button.json'),
       readJson('packages/public/r/ylf-dialog.json'),
     ])
-    const [tokens, button, dialog] = await Promise.all([
+    const [tokens, button, dialog, theme] = await Promise.all([
       readFile(resolve(root, 'packages/ui/styles/css-vars.scss'), 'utf8'),
       readFile(resolve(root, 'packages/vue/components/YlfButton.vue'), 'utf8'),
       readFile(resolve(root, 'packages/vue/components/YlfDialog.vue'), 'utf8'),
+      readFile(resolve(root, 'packages/vue/components/theme.ts'), 'utf8'),
     ])
 
     expect(builtTokens).toMatchObject({
@@ -87,6 +92,10 @@ describe('registry distribution', () => {
         path: 'packages/vue/components/YlfButton.vue',
         target: '~/src/components/ui/YlfButton.vue',
         content: button,
+      }), expect.objectContaining({
+        path: 'packages/vue/components/theme.ts',
+        target: '~/src/components/ui/theme.ts',
+        content: theme,
       })],
     })
     expect(builtDialog).toMatchObject({

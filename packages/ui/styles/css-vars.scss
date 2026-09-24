@@ -1,32 +1,103 @@
 // =============================================================================
-// YunLeFun Design —— 晴空蓝为主，极光点缀
+// YunLeFun Design —— 晴空蓝为主，高饱和纯色点缀
 // -----------------------------------------------------------------------------
-// 晴空蓝负责主操作、链接和选中状态；极光用于可选的品牌展示。
+// 晴空蓝负责主操作、链接和选中状态；明黄、青、橙、粉、绿用于有明确用途的局部强调。
 // 语义色负责状态，前景与背景成组维护，明暗主题共享相同角色。
 // 组件以 var(--ylf-*) 引用这些 token（均带兜底值），加载本文件即生效。
 // =============================================================================
 
+// 默认强调色跟随品牌主色，在每个明暗主题边界重新解析。
+@mixin brand-accent {
+  --ylf-accent-blue: var(--ylf-c-brand);
+  --ylf-accent-blue-hover: var(--ylf-c-brand-hover);
+  --ylf-accent-blue-soft: var(--ylf-c-brand-soft);
+  --ylf-accent-blue-text: var(--ylf-c-brand);
+  --ylf-accent-blue-on: var(--ylf-c-text-on-accent);
+
+  --ylf-accent: var(--ylf-accent-blue);
+  --ylf-accent-hover: var(--ylf-accent-blue-hover);
+  --ylf-accent-soft: var(--ylf-accent-blue-soft);
+  --ylf-accent-text: var(--ylf-accent-blue-text);
+  --ylf-accent-on: var(--ylf-accent-blue-on);
+}
+
+// 状态与强调色共享同一色组，在每个主题范围内重新解析别名。
+@mixin status-colors {
+  @each $status, $tone in (success: green, warning: sun, danger: coral, info: cyan) {
+    --ylf-status-#{$status}: var(--ylf-accent-#{$tone});
+    --ylf-status-#{$status}-hover: var(--ylf-accent-#{$tone}-hover);
+    --ylf-status-#{$status}-on: var(--ylf-accent-#{$tone}-on);
+    --ylf-status-#{$status}-soft: var(--ylf-accent-#{$tone}-soft);
+    --ylf-status-#{$status}-text: var(--ylf-accent-#{$tone}-text);
+    // 旧名称用于文字；实色组件使用 status / status-on 这一对。
+    --ylf-c-#{$status}: var(--ylf-status-#{$status}-text);
+  }
+}
+
 :root,
 .ylf-theme-light {
   // --- brand：晴空蓝 ---------------------------------------------------------
-  --ylf-c-brand: #2563eb;
+  --ylf-c-brand: var(--ylf-palette-blue);
   --ylf-c-brand-hover: #1d4ed8;
   --ylf-c-brand-active: #1e40af;
   --ylf-c-brand-soft: #eff6ff;
 
-  // --- aurora 极光：冷调 dreamy 渐变（蓝 → 鸢尾 → 兰紫，邻近色，不再彩虹） -----
-  // 收敛到三色同族，去掉破坏协调的金/绿；签名一条连续的「夜空极光」丝带。
-  --ylf-aurora-sky: #5ba3ff;
-  --ylf-aurora-iris: #7b61ff;
-  --ylf-aurora-pink: #e879c6;
-  --ylf-gradient-aurora: linear-gradient(115deg, #5ba3ff 0%, #7b61ff 50%, #e879c6 100%);
-  --ylf-gradient-brand: linear-gradient(115deg, #2563eb, #0ea5e9 55%, #0891b2);
+  @include brand-accent;
 
-  // --- semantic：兼顾实色控件白字与浅色表面文字 -------------------------------
-  --ylf-c-success: #065f46;
-  --ylf-c-warning: #92400e;
-  --ylf-c-danger: #b91c1c;
-  --ylf-c-info: #0369a1;
+  // --- palette：原始色只表达色相，不直接承担状态文字 -------------------------
+  --ylf-palette-blue: #2563eb;
+  --ylf-palette-sun: #facc15;
+  --ylf-palette-cyan: #06b6d4;
+  --ylf-palette-coral: #ff6b4a;
+  --ylf-palette-pink: #ec4899;
+  --ylf-palette-green: #22c55e;
+
+  // 六段纯色拼接，用于品牌区分隔；不作为文字背景。
+  --ylf-spectrum-stops:
+    var(--ylf-palette-blue) 0% 16.667%, var(--ylf-palette-cyan) 16.667% 33.333%, var(--ylf-palette-green) 33.333% 50%,
+    var(--ylf-palette-sun) 50% 66.667%, var(--ylf-palette-coral) 66.667% 83.333%, var(--ylf-palette-pink) 83.333% 100%;
+
+  // --- accent：亮色、悬停、浅底与文字成组，明暗主题使用相同接口 ---------------
+  --ylf-accent-sun: var(--ylf-palette-sun);
+  --ylf-accent-sun-hover: #eab308;
+  --ylf-accent-sun-soft: #fef9c3;
+  --ylf-accent-sun-text: #854d0e;
+  --ylf-accent-sun-on: #64380e;
+  --ylf-accent-cyan: var(--ylf-palette-cyan);
+  --ylf-accent-cyan-hover: #22d3ee;
+  --ylf-accent-cyan-soft: #cffafe;
+  --ylf-accent-cyan-text: #155e75;
+  --ylf-accent-cyan-on: #083e4f;
+  --ylf-accent-coral: var(--ylf-palette-coral);
+  --ylf-accent-coral-hover: #ff856b;
+  --ylf-accent-coral-soft: #ffede6;
+  --ylf-accent-coral-text: #9a3412;
+  --ylf-accent-coral-on: #551b0a;
+  --ylf-accent-pink: var(--ylf-palette-pink);
+  --ylf-accent-pink-hover: #f472b6;
+  --ylf-accent-pink-soft: #fce7f3;
+  --ylf-accent-pink-text: #9d174d;
+  --ylf-accent-pink-on: #400a2b;
+  --ylf-accent-green: var(--ylf-palette-green);
+  --ylf-accent-green-hover: #4ade80;
+  --ylf-accent-green-soft: #dcfce7;
+  --ylf-accent-green-text: #166534;
+  --ylf-accent-green-on: #124324;
+
+  // 精选：明黄装饰 + 中性文字；不用于提醒或错误状态。
+  --ylf-c-feature: var(--ylf-accent-sun);
+  --ylf-c-feature-bg: var(--ylf-accent-sun-soft);
+  --ylf-c-feature-text: var(--ylf-c-text);
+
+  // 旧 token 仅供迁移：旧渐变已收敛为单一明黄色，不再维护紫粉极光。
+  --ylf-aurora-sky: var(--ylf-accent-cyan);
+  --ylf-aurora-iris: var(--ylf-accent-coral);
+  --ylf-aurora-pink: var(--ylf-accent-pink);
+  --ylf-gradient-aurora: linear-gradient(var(--ylf-accent-sun), var(--ylf-accent-sun));
+  --ylf-gradient-brand: linear-gradient(var(--ylf-c-brand), var(--ylf-c-brand));
+
+  // --- semantic：固定语义，复用多巴胺色板与对应前景 ---------------------------
+  @include status-colors;
 
   // --- neutrals 晴空中性色 ----------------------------------------------------
   --ylf-c-bg: #f8fafc;
@@ -38,7 +109,7 @@
   --ylf-c-text-2: #475569;
   --ylf-c-text-3: #64748b;
   --ylf-c-text-on-accent: #ffffff;
-  --ylf-c-text-on-aurora: #020617;
+  --ylf-c-text-on-aurora: var(--ylf-accent-sun-on);
 
   --ylf-c-border: #e2e8f0;
   --ylf-c-border-strong: #cbd5e1;
@@ -60,11 +131,11 @@
   --ylf-shadow-sm: 0 2px 8px -2px rgba(15, 23, 42, 0.12);
   --ylf-shadow: 0 10px 28px -8px rgba(15, 23, 42, 0.16);
   --ylf-shadow-lg: 0 22px 56px -14px rgba(15, 23, 42, 0.22);
-  // 实色主按钮辉光（品牌色）；极光辉光留给 aurora 变体
+  // 旧阴影名保留别名，新组件使用表面阴影
   --ylf-glow-brand: 0 6px 18px -8px rgba(37, 99, 235, 0.35);
   --ylf-glow-brand-hover: 0 8px 22px -8px rgba(37, 99, 235, 0.4);
-  --ylf-glow-aurora: 0 10px 30px -6px rgba(124, 92, 255, 0.5);
-  --ylf-glow-aurora-hover: 0 16px 40px -8px rgba(124, 92, 255, 0.6);
+  --ylf-glow-aurora: var(--ylf-shadow-sm);
+  --ylf-glow-aurora-hover: var(--ylf-shadow-sm);
 
   // --- typography -------------------------------------------------------------
   // 圆体做展示字，呼应「云是软的」：拉丁 Baloo 2 + 中文 ZCOOL KuaiLe 站酷快乐体
@@ -87,7 +158,38 @@
     sans-serif;
   --ylf-font-body: 'Inter', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', system-ui, sans-serif;
 
+  // --- scale：字号、间距与阅读宽度 --------------------------------------------
+  --ylf-font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+  --ylf-text-xs: 0.75rem;
+  --ylf-text-sm: 0.875rem;
+  --ylf-text-base: 1rem;
+  --ylf-text-lg: 1.25rem;
+  --ylf-text-xl: 1.5rem;
+  --ylf-text-2xl: 2rem;
+  --ylf-text-display: clamp(2.25rem, 4.5vw, 4rem);
+  --ylf-leading-heading: 1.25;
+  --ylf-leading-body: 1.75;
+  --ylf-space-1: 4px;
+  --ylf-space-2: 8px;
+  --ylf-space-3: 12px;
+  --ylf-space-4: 16px;
+  --ylf-space-6: 24px;
+  --ylf-space-8: 32px;
+  --ylf-space-12: 48px;
+  --ylf-space-16: 64px;
+  --ylf-layout-page: 1200px;
+  --ylf-layout-reading: 720px;
+
+  // --- atmosphere：可选网格与晴空背景，不自动应用到业务页面 --------------------
+  --ylf-grid-size: 32px;
+  --ylf-c-grid: rgba(37, 99, 235, 0.06);
+  --ylf-c-sky: #dbeafe;
+  --ylf-c-cloud: #ffffff;
+
   // --- transition -------------------------------------------------------------
+  --ylf-duration-fast: 160ms;
+  --ylf-duration-normal: 240ms;
+  --ylf-ease-standard: cubic-bezier(0.2, 0, 0, 1);
   --ylf-ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
 
   // --- 向后兼容别名（旧组件仍在用） -------------------------------------------
@@ -105,12 +207,26 @@
   --ylf-c-brand-hover: #93c5fd;
   --ylf-c-brand-active: #3b82f6;
   --ylf-c-brand-soft: #172554;
-  --ylf-gradient-brand: linear-gradient(115deg, #3b82f6, #22d3ee 55%, #06b6d4);
 
-  --ylf-c-success: #34d399;
-  --ylf-c-warning: #fbbf24;
-  --ylf-c-danger: #fb7185;
-  --ylf-c-info: #38bdf8;
+  @include brand-accent;
+
+  --ylf-accent-sun-soft: #30290f;
+  --ylf-accent-sun-text: #fde047;
+  --ylf-accent-cyan-soft: #10313d;
+  --ylf-accent-cyan-text: #67e8f9;
+  --ylf-accent-coral-soft: #39231f;
+  --ylf-accent-coral-text: #fda48c;
+  --ylf-accent-pink-soft: #351e32;
+  --ylf-accent-pink-text: #f9a8d4;
+  --ylf-accent-green-soft: #142e26;
+  --ylf-accent-green-text: #86efac;
+
+  @include status-colors;
+
+  // 在局部夜空预览中也重新解析派生变量。
+  --ylf-c-feature-bg: var(--ylf-accent-sun-soft);
+  --ylf-c-feature-text: var(--ylf-c-text);
+  --ylf-gradient-brand: linear-gradient(var(--ylf-c-brand), var(--ylf-c-brand));
 
   // 深色 = 夜空（不是死黑，是深蓝夜空）
   --ylf-c-bg: #0b1022;
@@ -126,6 +242,9 @@
   --ylf-c-border: #2a3658;
   --ylf-c-border-strong: #3c4c74;
   --ylf-c-overlay: rgba(3, 6, 18, 0.7);
+  --ylf-c-grid: rgba(96, 165, 250, 0.08);
+  --ylf-c-sky: #172554;
+  --ylf-c-cloud: #1f2a47;
 
   --ylf-glass-bg: rgba(18, 26, 48, 0.55);
   --ylf-glass-border: rgba(96, 165, 250, 0.18);
@@ -135,6 +254,60 @@
   --ylf-shadow-lg: 0 24px 60px -14px rgba(0, 0, 0, 0.6);
   --ylf-glow-brand: 0 6px 18px -8px rgba(96, 165, 250, 0.3);
   --ylf-glow-brand-hover: 0 8px 22px -8px rgba(96, 165, 250, 0.4);
-  --ylf-glow-aurora: 0 12px 34px -6px rgba(142, 124, 255, 0.55);
-  --ylf-glow-aurora-hover: 0 16px 40px -8px rgba(142, 124, 255, 0.6);
+  --ylf-glow-aurora: var(--ylf-shadow-sm);
+  --ylf-glow-aurora-hover: var(--ylf-shadow-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root,
+  .ylf-theme-light,
+  .ylf-theme-dark {
+    --ylf-duration-fast: 0ms;
+    --ylf-duration-normal: 0ms;
+  }
+}
+
+// 所有强调组件共用的色彩上下文，也可供原生 HTML 使用。
+[data-ylf-tone='blue'] {
+  @include brand-accent;
+}
+
+[data-ylf-tone='sun'] {
+  --ylf-accent: var(--ylf-accent-sun);
+  --ylf-accent-hover: var(--ylf-accent-sun-hover);
+  --ylf-accent-soft: var(--ylf-accent-sun-soft);
+  --ylf-accent-text: var(--ylf-accent-sun-text);
+  --ylf-accent-on: var(--ylf-accent-sun-on);
+}
+
+[data-ylf-tone='cyan'] {
+  --ylf-accent: var(--ylf-accent-cyan);
+  --ylf-accent-hover: var(--ylf-accent-cyan-hover);
+  --ylf-accent-soft: var(--ylf-accent-cyan-soft);
+  --ylf-accent-text: var(--ylf-accent-cyan-text);
+  --ylf-accent-on: var(--ylf-accent-cyan-on);
+}
+
+[data-ylf-tone='coral'] {
+  --ylf-accent: var(--ylf-accent-coral);
+  --ylf-accent-hover: var(--ylf-accent-coral-hover);
+  --ylf-accent-soft: var(--ylf-accent-coral-soft);
+  --ylf-accent-text: var(--ylf-accent-coral-text);
+  --ylf-accent-on: var(--ylf-accent-coral-on);
+}
+
+[data-ylf-tone='pink'] {
+  --ylf-accent: var(--ylf-accent-pink);
+  --ylf-accent-hover: var(--ylf-accent-pink-hover);
+  --ylf-accent-soft: var(--ylf-accent-pink-soft);
+  --ylf-accent-text: var(--ylf-accent-pink-text);
+  --ylf-accent-on: var(--ylf-accent-pink-on);
+}
+
+[data-ylf-tone='green'] {
+  --ylf-accent: var(--ylf-accent-green);
+  --ylf-accent-hover: var(--ylf-accent-green-hover);
+  --ylf-accent-soft: var(--ylf-accent-green-soft);
+  --ylf-accent-text: var(--ylf-accent-green-text);
+  --ylf-accent-on: var(--ylf-accent-green-on);
 }

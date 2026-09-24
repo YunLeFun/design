@@ -14,7 +14,7 @@ outline: deep
 | `@yunlefun/vue` · `packages/vue`           | `YlfButton`、`YlfDialog` 等 Vue 组件，以及 Nuxt 组件自动导入 | Vue / Nuxt 应用，已有构建和发布脚本              |
 | `@yunlefun/ui-utils` · `packages/utils`    | 不依赖 Vue 的 DOM 工具，目前主要是 `previewElement`          | 实验性源码工具；尚无完整的构建、类型和包导出配置 |
 | `@yunlefun/metadata` · `packages/metadata` | 生成组件名称、标题、说明和更新时间的索引                     | 私有内部包，供文档导航与构建使用                 |
-| `packages/css`                             | pulse、animation、aurora 等样式示例和文档站效果              | 没有 `package.json`，不是独立 npm 包             |
+| `packages/css`                             | pulse、animation 等样式示例；aurora 仅保留旧文件             | 没有 `package.json`，不是独立 npm 包             |
 | `registry.json` 与 `packages/public/r`     | 声明并生成可通过 URL 安装的组件源码                          | 分发渠道，不是另一套组件实现                     |
 | `@yunlefun/design-monorepo`                | 管理构建、验证与工作区依赖                                   | 私有根包，业务应用不安装                         |
 
@@ -22,16 +22,19 @@ outline: deep
 
 ## `@yunlefun/ui`：设计基础
 
-这个包当前提供 SCSS 文件，业务项目需要 Sass 编译支持。它不包含 Vue 组件，也不导入 Vue、路由、认证 SDK 或业务 API。
+这个包提供编译好的 CSS 和 SCSS 源码。CSS 入口无需 Sass；仅在使用 SCSS 入口时需要 Sass 编译支持。它不包含 Vue 组件，也不导入 Vue、路由、认证 SDK 或业务 API。
 
 ```bash
 pnpm add @yunlefun/ui
-pnpm add -D sass
 ```
 
-```scss
-@use '@yunlefun/ui/styles';
+```ts
+import '@yunlefun/ui/css'
+// 可选的网格与晴空背景
+import '@yunlefun/ui/patterns.css'
 ```
+
+需要 SCSS 时安装 `sass`，使用 `@use '@yunlefun/ui/styles'`。CSS 与 SCSS 从同一份 token 源码构建，入口选择其一。
 
 基础入口只加载 token。需要品牌展示字体时再选择 `@yunlefun/ui/styles/fonts` 或自行托管字体；字体角色和加载方式见[字体规范](/guide/typography)。
 

@@ -9,8 +9,8 @@ function step(d: number) {
 
 <template>
   <div class="flex flex-col gap-5">
-    <YlfProgress :value="value" />
-    <YlfProgress :value="value" variant="aurora" />
+    <YlfProgress :value="value" aria-label="主色进度" />
+    <YlfProgress :value="value" variant="accent" tone="green" aria-label="完成进度" />
     <div class="flex items-center gap-3">
       <YlfButton size="sm" variant="secondary" @click="step(-10)">
         −10

@@ -1,15 +1,18 @@
 <script lang="ts" setup>
+import type { YlfAccentTone } from './theme'
 // 行为 / 可访问性由 reka-ui 提供（role=switch、键盘、焦点、data-state）；
-// 外观全部走 --ylf token，所以视觉识别仍是「晴空蓝为主、极光点缀」。
+// 外观全部走 --ylf token，所以视觉识别仍是「晴空蓝为主、高饱和纯色点缀」。
 import { SwitchRoot, SwitchThumb } from 'reka-ui'
 
 withDefaults(defineProps<{
-  /** on 态轨道：brand 实色（默认）或 aurora 极光渐变 */
-  variant?: 'brand' | 'aurora'
+  /** on 态轨道：brand 主色（默认）或 accent 纯色；aurora 是 accent 的旧别名 */
+  variant?: 'brand' | 'accent' | 'aurora'
+  tone?: YlfAccentTone
   size?: 'sm' | 'md'
   disabled?: boolean
 }>(), {
   variant: 'brand',
+  tone: 'blue',
   size: 'md',
   disabled: false,
 })
@@ -22,6 +25,7 @@ const checked = defineModel<boolean>({ default: false })
     v-model="checked"
     :disabled="disabled"
     class="ylf-switch"
+    :data-ylf-tone="tone"
     :class="[`ylf-switch--${variant}`, `ylf-switch--${size}`]"
   >
     <SwitchThumb class="ylf-switch__thumb" />
@@ -45,8 +49,8 @@ const checked = defineModel<boolean>({ default: false })
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   transition:
-    background 0.25s ease,
-    box-shadow 0.2s ease;
+    background var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease),
+    box-shadow var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease);
 
   &--sm {
     --_w: 40px;
@@ -70,9 +74,10 @@ const checked = defineModel<boolean>({ default: false })
     background: var(--ylf-c-brand, #2563eb);
   }
 
-  // on 态：aurora 极光渐变（opt-in）
+  // 选中的强调轨道，前景与填充色成组。
+  &--accent[data-state='checked'],
   &--aurora[data-state='checked'] {
-    background-image: var(--ylf-gradient-aurora, linear-gradient(110deg, #ff4d8d, #ffc233, #19d08b, #2fb4ff, #9a5cff));
+    background: var(--ylf-accent, var(--ylf-c-brand, #2563eb));
   }
 
   &__thumb {
@@ -83,13 +88,17 @@ const checked = defineModel<boolean>({ default: false })
     background: #fff;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
     transform: translateX(var(--_pad));
-    transition: transform 0.25s var(--ylf-ease-bounce, cubic-bezier(0.34, 1.56, 0.64, 1));
+    transition: transform var(--ylf-duration-normal, 240ms) var(--ylf-ease-bounce, cubic-bezier(0.34, 1.56, 0.64, 1));
     will-change: transform;
   }
 
   &[data-state='checked'] &__thumb {
     background: var(--ylf-c-text-on-accent, #fff);
     transform: translateX(calc(var(--_w) - var(--_h) + var(--_pad)));
+  }
+  &--accent[data-state='checked'] &__thumb,
+  &--aurora[data-state='checked'] &__thumb {
+    background: var(--ylf-accent-on, var(--ylf-c-text-on-accent, #fff));
   }
 }
 

@@ -1,14 +1,12 @@
-<script lang="ts" setup>
+<script lang="ts" setup generic="T extends string = string">
 import { SelectContent, SelectIcon, SelectItem, SelectItemIndicator, SelectItemText, SelectPortal, SelectRoot, SelectTrigger, SelectValue, SelectViewport } from 'reka-ui'
+import { computed } from 'vue'
 
-interface SelectOption {
-  label: string
-  value: string
-  disabled?: boolean
-}
+defineOptions({ inheritAttrs: false })
 
-withDefaults(defineProps<{
-  options: SelectOption[]
+const props = withDefaults(defineProps<{
+  /** color 可使用 CSS 色值或公共 token，例如 var(--ylf-accent-blue) */
+  options: { label: string, value: T, disabled?: boolean, color?: string }[]
   placeholder?: string
   disabled?: boolean
 }>(), {
@@ -16,13 +14,17 @@ withDefaults(defineProps<{
   disabled: false,
 })
 
-const model = defineModel<string>()
+const model = defineModel<T>()
+const selectedOption = computed(() => props.options.find(option => option.value === model.value))
 </script>
 
 <template>
   <SelectRoot v-model="model" :disabled="disabled">
-    <SelectTrigger class="ylf-select__trigger" :aria-label="placeholder">
-      <SelectValue :placeholder="placeholder" />
+    <SelectTrigger class="ylf-select__trigger" :aria-label="$attrs.id || $attrs['aria-labelledby'] ? undefined : placeholder" v-bind="$attrs">
+      <SelectValue :placeholder="placeholder" class="ylf-select__label">
+        <span v-if="selectedOption?.color" class="ylf-select__swatch" :style="{ backgroundColor: selectedOption.color }" aria-hidden="true" />
+        <span>{{ selectedOption?.label ?? placeholder }}</span>
+      </SelectValue>
       <SelectIcon class="ylf-select__icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M6 9l6 6 6-6" />
@@ -39,7 +41,10 @@ const model = defineModel<string>()
             :disabled="o.disabled"
             class="ylf-select__item"
           >
-            <SelectItemText>{{ o.label }}</SelectItemText>
+            <SelectItemText class="ylf-select__label">
+              <span v-if="o.color" class="ylf-select__swatch" :style="{ backgroundColor: o.color }" aria-hidden="true" />
+              <span>{{ o.label }}</span>
+            </SelectItemText>
             <SelectItemIndicator class="ylf-select__check">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M5 12.5l4.5 4.5L19 7" />
@@ -59,9 +64,11 @@ const model = defineModel<string>()
   justify-content: space-between;
   gap: 8px;
   min-width: 180px;
+  min-height: 44px;
   padding: 10px 14px;
   font-family: inherit;
   font-size: 15px;
+  line-height: 1.5;
   color: var(--ylf-c-text, #0f172a);
   background: var(--ylf-c-surface, #fff);
   border: 1px solid var(--ylf-c-border-strong, #cbd5e1);
@@ -91,7 +98,24 @@ const model = defineModel<string>()
   }
 }
 
+.ylf-select__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.ylf-select__swatch {
+  flex: none;
+  box-sizing: border-box;
+  width: 12px;
+  height: 12px;
+  border: 1px solid color-mix(in srgb, var(--ylf-c-text, #0f172a) 15%, transparent);
+  border-radius: 50%;
+}
+
 .ylf-select__icon {
+  flex: none;
   display: inline-flex;
   color: var(--ylf-c-text-3, #64748b);
 
@@ -103,7 +127,9 @@ const model = defineModel<string>()
 
 .ylf-select__content {
   z-index: 105;
+  box-sizing: border-box;
   min-width: var(--reka-select-trigger-width);
+  max-width: var(--reka-select-content-available-width);
   max-height: var(--reka-select-content-available-height);
   padding: 6px;
   background: var(--ylf-c-surface, #fff);
@@ -114,6 +140,10 @@ const model = defineModel<string>()
   &[data-state='open'] {
     animation: ylf-pop-in 0.16s ease;
   }
+}
+
+.ylf-select__viewport {
+  max-height: calc(var(--reka-select-content-available-height) - 14px);
 }
 
 .ylf-select__item {

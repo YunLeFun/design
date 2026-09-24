@@ -3,9 +3,9 @@ import { ref } from 'vue'
 
 const picked = ref('')
 const options = [
-  { label: '晴空蓝', value: 'sky' },
-  { label: '鸢尾紫', value: 'iris' },
-  { label: '兰紫粉', value: 'pink' },
+  { label: '晴空蓝', value: 'blue', color: 'var(--ylf-accent-blue)' },
+  { label: '明黄', value: 'sun', color: 'var(--ylf-accent-sun)' },
+  { label: '桃粉', value: 'pink', color: 'var(--ylf-accent-pink)' },
   { label: '暂不可选', value: 'x', disabled: true },
 ]
 </script>

@@ -2,11 +2,22 @@ import { resolve } from 'node:path'
 import UnoCSS from 'unocss/vite'
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
+import { postcssIsolateStyles } from 'vitepress'
 import { groupIconVitePlugin } from 'vitepress-plugin-group-icons'
 import { MarkdownTransform } from './.vitepress/plugins/markdownTransform'
 
 export default defineConfig(async () => {
   return {
+    css: {
+      postcss: {
+        plugins: [
+          // Markdown 排版不应改变演示组件与 Portal 内部的标题、段落和按钮。
+          postcssIsolateStyles({
+            includeFiles: [/vp-doc\.css$/, /theme\/styles\/(index|fonts)\.css$/],
+          }),
+        ],
+      },
+    },
     server: {
       hmr: {
         overlay: false,

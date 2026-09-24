@@ -44,6 +44,6 @@ export default defineNuxtConfig({
 
 ## 组件与主题
 
-日常操作使用默认的晴空蓝主色。需要品牌展示时显式选择 `variant="aurora"`，不要用极光替代成功、警告或错误语义。
+日常操作使用默认的晴空蓝主色。`variant="accent"` 也默认晴空蓝；精选内容可显式选择 `tone="sun"`，不要用装饰色替代成功、警告或错误语义。完整接口见[色彩与组件](/guide/colors)。
 
 组件 API、主要状态和交互示例见侧边栏。需要复制并继续修改源码时，阅读 [Registry 分发](/guide/registry)；包的完整边界见[子包职责](/guide/packages)。

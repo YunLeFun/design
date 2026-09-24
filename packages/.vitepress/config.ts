@@ -5,26 +5,34 @@ import { groupIconMdPlugin } from 'vitepress-plugin-group-icons'
 import { metadata } from '../metadata/metadata'
 
 export const defaultSideBar: DefaultTheme.Sidebar = [
-  { text: '开始使用', link: '/guide/' },
-  { text: 'Design 与 UI', link: '/guide/design-system' },
-  { text: '子包职责', link: '/guide/packages' },
-  { text: '视觉基础', link: '/guide/foundations' },
-  { text: '字体规范', link: '/guide/typography' },
-  { text: '组件架构', link: '/guide/architecture' },
-  { text: 'Registry 分发', link: '/guide/registry' },
-  { text: '应用迁移', link: '/guide/migration' },
   {
-    text: '样式示例',
-    link: '/css/',
+    text: '设计语言',
     items: [
-      { text: 'pulse', link: '/css/pulse/' },
+      { text: 'Design 与 UI', link: '/guide/design-system' },
+      { text: '视觉基础', link: '/guide/foundations' },
+      { text: '色彩与组件', link: '/guide/colors' },
+      { text: '品牌与界面', link: '/guide/patterns' },
+      { text: '字体规范', link: '/guide/typography' },
     ],
   },
   {
-    text: '实验工具',
-    link: '/utils/',
+    text: '开发与接入',
     items: [
-      { text: 'previewElement', link: '/utils/previewElement/' },
+      { text: '开始使用', link: '/guide/' },
+      { text: '子包职责', link: '/guide/packages' },
+      { text: '组件架构', link: '/guide/architecture' },
+      { text: '公共使用与发布', link: '/guide/adoption' },
+      { text: 'Registry 分发', link: '/guide/registry' },
+      { text: '应用迁移', link: '/guide/migration' },
+    ],
+  },
+  {
+    text: '样式与实验',
+    items: [
+      { text: '样式示例', link: '/css/' },
+      { text: 'Pulse 动效', link: '/css/pulse/' },
+      { text: '实验工具', link: '/utils/' },
+      { text: '元素预览', link: '/utils/previewElement/' },
     ],
   },
 ]
@@ -49,12 +57,33 @@ export default defineConfig({
   ],
 
   themeConfig: {
+    outline: { label: '本页内容', level: [2, 3] },
+    sidebarMenuLabel: '目录',
+    returnToTopLabel: '返回顶部',
+    darkModeSwitchLabel: '外观',
+    lightModeSwitchTitle: '切换到晴空模式',
+    darkModeSwitchTitle: '切换到夜空模式',
+    docFooter: { prev: '上一篇', next: '下一篇' },
+    lastUpdated: { text: '最近更新' },
     editLink: {
       pattern: 'https://github.com/YunLeFun/design/edit/main/packages/:path',
+      text: '在 GitHub 编辑此页',
     },
 
     search: {
       provider: 'local',
+      options: {
+        translations: {
+          button: { buttonText: '搜索文档', buttonAriaLabel: '搜索文档' },
+          modal: {
+            displayDetails: '显示详细内容',
+            resetButtonTitle: '清空搜索',
+            backButtonTitle: '关闭搜索',
+            noResultsText: '没有找到相关内容',
+            footer: { selectText: '选择', navigateText: '切换', closeText: '关闭' },
+          },
+        },
+      },
     },
 
     // https://vitepress.dev/reference/default-theme-config
@@ -94,7 +123,7 @@ function getVueComponentsSidebar() {
   const components = metadata.components.filter(i => i.name)
 
   links.push({
-    text: 'Vue Components',
+    text: 'Vue 组件',
     collapsed: false,
     items: components.map(i => ({
       text: i.title + (i.title_zh ? ` - ${i.title_zh}` : ''),

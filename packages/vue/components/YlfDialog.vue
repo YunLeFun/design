@@ -110,7 +110,7 @@ const descriptionProps = computed(() => hasDescription.value
 
 .ylf-dialog__title {
   margin: 0 0 6px;
-  font-family: var(--ylf-font-display, inherit);
+  font-family: var(--ylf-font-heading, inherit);
   font-size: 19px;
   font-weight: 700;
   color: var(--ylf-c-text, #0f172a);

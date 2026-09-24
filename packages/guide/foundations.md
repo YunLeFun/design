@@ -4,22 +4,21 @@ outline: deep
 
 # 视觉基础
 
-默认方向是**晴空蓝为主、极光点缀**。所有组件读取 `@yunlefun/ui` 的语义变量，主题数值在 `packages/ui/styles/css-vars.scss` 中维护。
+默认方向是**晴空蓝为主、高饱和纯色点缀**。所有组件读取 `@yunlefun/ui` 的语义变量，主题数值在 `packages/ui/styles/css-vars.scss` 中维护。
 
 ## 颜色的角色
 
-| 角色             | Token                   | 浅色         | 深色         |
-| ---------------- | ----------------------- | ------------ | ------------ |
-| 日常品牌与主操作 | `--ylf-c-brand`         | `#2563eb`    | `#60a5fa`    |
-| 页面背景         | `--ylf-c-bg`            | `#f8fafc`    | `#0b1022`    |
-| 内容表面         | `--ylf-c-surface`       | `#ffffff`    | `#121a30`    |
-| 主要文字         | `--ylf-c-text`          | `#0f172a`    | `#e5e7eb`    |
-| 次要文字         | `--ylf-c-text-2`        | `#475569`    | `#cbd5e1`    |
-| 极光展示         | `--ylf-gradient-aurora` | 蓝 → 紫 → 粉 | 蓝 → 紫 → 粉 |
+| 角色             | Token             | 浅色      | 深色      |
+| ---------------- | ----------------- | --------- | --------- |
+| 日常品牌与主操作 | `--ylf-c-brand`   | `#2563eb` | `#60a5fa` |
+| 页面背景         | `--ylf-c-bg`      | `#f8fafc` | `#0b1022` |
+| 内容表面         | `--ylf-c-surface` | `#ffffff` | `#121a30` |
+| 主要文字         | `--ylf-c-text`    | `#0f172a` | `#e5e7eb` |
+| 次要文字         | `--ylf-c-text-2`  | `#475569` | `#cbd5e1` |
 
-主色的 hover、active 和 soft 状态也从 token 读取。成功、提醒、危险与信息分别使用 `--ylf-c-success`、`--ylf-c-warning`、`--ylf-c-danger`、`--ylf-c-info`。
+主色的 hover、active 和 soft 状态也从 token 读取。成功、提醒、危险与信息分别映射到鲜绿、明黄、珊瑚橙和青色。实色背景使用 `--ylf-status-{状态}`，前景使用配套的 `-on`；浅底使用 `-soft` 与 `-text`。旧 `--ylf-c-success / warning / danger / info` 仅作为文字色别名，详见[色彩与组件](/guide/colors)。
 
-实色操作上的文字用 `--ylf-c-text-on-accent`；极光填充上的文字用 `--ylf-c-text-on-aurora`。二者独立，避免浅色主题中的白字直接叠在明亮极光上。
+主色操作上的文字用 `--ylf-c-text-on-accent`；多巴胺强调色使用独立的 `--ylf-accent-{tone}-on` 前景。亮色不直接承担小字号文字，搭配成组维护的浅底与文字 token。完整色板、共享上下文和组件用法见[色彩与组件](/guide/colors)。
 
 玻璃表面和渐变的可读性取决于实际背景，需要在真实页面中验证。不能仅凭单个颜色值宣称整套组件已经通过无障碍验收。
 
@@ -29,11 +28,41 @@ outline: deep
 
 默认展示字体保留 Baloo 2 与站酷快乐体的现有实现；正文和产品标题使用系统字体。品牌字体按需加载，不因为安装基础样式自动下载。具体用法见[字体规范](/guide/typography)。
 
-推荐排版尺度：正文 16px，辅助信息 14px，卡片标题 18–20px，页面标题 28–36px，品牌展示标题 40–64px。正文行高取 1.5–1.75；标题根据行数调整，窄屏允许自然换行。这些是排版规则，尚非已导出的字号 token API。
+### 字号与行高 Token
+
+以下变量已在样式包中导出。`rem` 随用户的根字号设置缩放；表中的像素值按根字号 16px 计算。
+
+| Token                   | 默认值          | 用途               |
+| ----------------------- | --------------- | ------------------ |
+| `--ylf-text-xs`         | 12px            | 注释与非关键元信息 |
+| `--ylf-text-sm`         | 14px            | 辅助信息、紧凑界面 |
+| `--ylf-text-base`       | 16px            | 正文               |
+| `--ylf-text-lg`         | 20px            | 卡片与小节标题     |
+| `--ylf-text-xl`         | 24px            | 区块标题           |
+| `--ylf-text-2xl`        | 32px            | 页面标题           |
+| `--ylf-text-display`    | 36–64px，自适应 | 品牌展示           |
+| `--ylf-leading-heading` | 1.25            | 短标题             |
+| `--ylf-leading-body`    | 1.75            | 正文与说明         |
+| `--ylf-font-mono`       | 系统等宽字体    | 代码与 token 名称  |
+
+长中文标题可按场景放宽行高，窄屏允许自然换行；品牌展示字号不进入表单。文档中的说明文字不能仅靠变浅和缩小来降低层级。
 
 ## 间距与布局
 
-以 4px 为基础步长，优先使用 4、8、12、16、24、32、48、64px。控件内部、同组字段、区块之间逐级增大间距；不同业务页面可选择适合内容的宽度与密度。
+以 4px 为基础步长。`--ylf-space-1 / 2 / 3 / 4 / 6 / 8 / 12 / 16` 分别为 4、8、12、16、24、32、48、64px；后缀表示步数。
+
+控件内部优先 8–12px，同组字段 16–24px，区块之间 32–64px。内容容器使用 `--ylf-layout-page`（1200px），文档阅读列使用 `--ylf-layout-reading`（720px），同时配合 `width: 100%` 和侧边留白。两者都是宽度上限，不是固定宽度。
+
+```css
+.content {
+  width: 100%;
+  max-width: var(--ylf-layout-reading);
+  margin-inline: auto;
+  padding-inline: var(--ylf-space-6);
+}
+```
+
+横向宽度在页面、导航、目录之间分配。390px 手机侧边留白建议 24px；多列布局在内容放不下时折叠，不缩小字号来勉强塞入。
 
 - 首页先让访客理解可以体验哪些应用，品牌氛围围绕内容展开。
 - 探索页保持搜索、筛选、结果和空状态的稳定位置。
@@ -44,9 +73,24 @@ outline: deep
 
 现有圆角 token 为 10、14、20、28px 和 pill。小控件、标准控件、内容容器依层次选用，胶囊用于按钮和标签等合适的形态。
 
-`--ylf-shadow-sm`、`--ylf-shadow`、`--ylf-shadow-lg` 表达表面层级；主操作的强调阴影与极光展示阴影分别维护。日常控件的反馈优先通过颜色、边框和状态完成，持续装饰动效应可关闭。
+`--ylf-shadow-sm`、`--ylf-shadow`、`--ylf-shadow-lg` 表达表面层级；组件使用中性表面阴影，纯色强调不增加彩色发光。日常控件的反馈优先通过颜色、边框和状态完成，持续装饰动效应可关闭。
 
-新增动效遵守 `prefers-reduced-motion`。品牌展示可以更鲜明，正文、表单和长时间使用的工作区保持稳定。
+交互反馈使用 `--ylf-duration-fast`（160ms），布局或面板变化使用 `--ylf-duration-normal`（240ms），配合 `--ylf-ease-standard`。系统开启 `prefers-reduced-motion: reduce` 时，两种时长都变为 0ms。独立实现的弹簧、循环动画也需要单独处理这个媒体查询。
+
+品牌展示可以更鲜明，正文、表单和长时间使用的工作区保持稳定。默认不播放循环背景动画；纯展示卡片显式使用 `<YlfCard :hoverable="false">`，避免悬停上浮被误认为可点击。
+
+## 云景与网格
+
+`--ylf-c-sky`、`--ylf-c-cloud` 和 `--ylf-c-grid` 分别表达天空、云形和细网格，随明暗主题成组变化。它们只用于装饰，不承载文字或交互状态。`--ylf-grid-size` 默认 32px。
+
+可选背景通过单独入口加载，基础样式不会自动改变页面背景：
+
+```scss
+@use '@yunlefun/ui/styles';
+@use '@yunlefun/ui/styles/patterns.scss';
+```
+
+`ylf-pattern-sky` 提供浅到深的天空表面，`ylf-pattern-grid` 提供细网格。两个类都定义背景图像；需要同时展示时使用嵌套容器，不叠在同一个元素上。文档首页提供了实际用例，更多场景见[品牌与界面](/guide/patterns)。
 
 ## 交互与文案
 

@@ -5,12 +5,6 @@
  * 字体本身经 .vitepress/config.ts 的 <link> 加载（preconnect + Google Fonts）。
  */
 
-/* 首页 Hero 文案（含 wordmark） */
-.VPHero .name,
-.VPHero .text {
-  font-family: var(--ylf-font-wordmark);
-}
-
 /* 顶部导航品牌名 */
 .VPNavBarTitle .title {
   font-family: var(--ylf-font-display);

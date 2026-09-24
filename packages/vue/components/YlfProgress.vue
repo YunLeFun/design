@@ -1,16 +1,19 @@
 <script lang="ts" setup>
+import type { YlfAccentTone } from './theme'
 import { ProgressIndicator, ProgressRoot } from 'reka-ui'
 import { computed } from 'vue'
 
 const props = withDefaults(defineProps<{
   value?: number
   max?: number
-  /** 进度条填充：brand 实色或 aurora 渐变 */
-  variant?: 'brand' | 'aurora'
+  /** 进度条填充：brand 主色或 accent 纯色；aurora 是 accent 的旧别名 */
+  variant?: 'brand' | 'accent' | 'aurora'
+  tone?: YlfAccentTone
 }>(), {
   value: 0,
   max: 100,
   variant: 'brand',
+  tone: 'blue',
 })
 
 const percent = computed(() => Math.max(0, Math.min(100, (props.value / props.max) * 100)))
@@ -21,6 +24,7 @@ const percent = computed(() => Math.max(0, Math.min(100, (props.value / props.ma
     :model-value="value"
     :max="max"
     class="ylf-progress"
+    :data-ylf-tone="tone"
     :class="`ylf-progress--${variant}`"
   >
     <ProgressIndicator
@@ -48,8 +52,9 @@ const percent = computed(() => Math.max(0, Math.min(100, (props.value / props.ma
   transition: transform 0.4s var(--ylf-ease-bounce, cubic-bezier(0.34, 1.56, 0.64, 1));
 }
 
+.ylf-progress--accent .ylf-progress__indicator,
 .ylf-progress--aurora .ylf-progress__indicator {
-  background-image: var(--ylf-gradient-aurora, linear-gradient(115deg, #5ba3ff, #7b61ff, #e879c6));
+  background: var(--ylf-accent, var(--ylf-c-brand, #2563eb));
 }
 
 @media (prefers-reduced-motion: reduce) {

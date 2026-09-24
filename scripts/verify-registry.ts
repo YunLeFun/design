@@ -85,7 +85,7 @@ const consumers: ConsumerDefinition[] = [
 import YlfButton from './components/ui/YlfButton.vue'
 import './styles/ylf-tokens.scss'
 
-const App = { render: () => h(YlfButton, { variant: 'aurora' }, () => '开始创作') }
+const App = { render: () => h(YlfButton, { variant: 'accent', tone: 'coral' }, () => '开始创作') }
 createApp(App).mount('#app')
 `,
   },

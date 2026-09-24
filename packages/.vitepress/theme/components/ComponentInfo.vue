@@ -1,20 +1,22 @@
 <script setup lang="ts">
-import { useTimeAgo } from '@vueuse/core'
 import { components } from '@yunlefun/metadata'
 import { computed } from 'vue'
 
 const props = defineProps<{ comp: string }>()
 const info = computed(() => components.find(i => i.name === props.comp))
-const lastUpdated = useTimeAgo(new Date(info.value?.lastUpdated || 0))
+// 文档是静态生成的，绝对日期不会随访问时间变化而产生 hydration 差异。
+const lastUpdated = computed(() => info.value?.lastUpdated
+  ? new Date(info.value.lastUpdated).toISOString()
+  : undefined)
 </script>
 
 <template>
   <div class="component-info grid grid-cols-[100px_auto] mb-8 mt-4 items-start gap-2 text-sm">
-    <template v-if="info?.lastUpdated">
+    <template v-if="lastUpdated">
       <div opacity="50">
-        Last Changed
+        更新日期
       </div>
-      <div>{{ lastUpdated }}</div>
+      <time :datetime="lastUpdated" :title="lastUpdated">{{ lastUpdated.slice(0, 10) }} UTC</time>
     </template>
   </div>
 </template>

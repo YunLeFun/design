@@ -119,7 +119,7 @@ onErrorCaptured((err) => {
 
     <div class="ylf-demo-preview__stage">
       <div
-        class="ylf-demo-preview__frame"
+        class="ylf-demo-preview__frame vp-raw"
         :class="frameClass"
         :style="frameStyle"
       >
@@ -152,7 +152,7 @@ onErrorCaptured((err) => {
   border: 1px solid var(--ylf-c-border);
   border-radius: var(--ylf-radius-lg);
   background: var(--ylf-c-surface);
-  box-shadow: var(--ylf-shadow-sm);
+  box-shadow: none;
 }
 
 .ylf-demo-preview__toolbar {
@@ -211,8 +211,8 @@ onErrorCaptured((err) => {
 
 .ylf-demo-preview__control-group button,
 .ylf-demo-preview__icon-button {
-  width: 30px;
-  height: 30px;
+  width: 36px;
+  height: 36px;
   display: inline-grid;
   place-items: center;
   padding: 0;
@@ -256,15 +256,14 @@ onErrorCaptured((err) => {
   min-height: 180px;
   overflow-x: auto;
   padding: clamp(18px, 4vw, 40px);
-  background:
-    radial-gradient(circle at 12% 10%, color-mix(in srgb, var(--ylf-aurora-sky) 10%, transparent), transparent 34%),
-    radial-gradient(circle at 88% 90%, color-mix(in srgb, var(--ylf-aurora-pink) 10%, transparent), transparent 34%),
-    var(--ylf-c-bg-soft);
+  background-color: var(--ylf-c-bg-soft);
+  background-image: radial-gradient(var(--ylf-c-grid) 1px, transparent 1px);
+  background-size: 12px 12px;
 }
 
 .ylf-demo-preview__frame {
   width: 100%;
-  min-width: 320px;
+  min-width: 0;
   margin: 0 auto;
   overflow: visible;
   border: 1px solid var(--ylf-c-border);
@@ -273,9 +272,9 @@ onErrorCaptured((err) => {
   box-shadow: var(--ylf-shadow-sm);
   color: var(--ylf-c-text);
   transition:
-    max-width 0.28s ease,
-    background-color 0.2s ease,
-    border-color 0.2s ease;
+    max-width var(--ylf-duration-normal) var(--ylf-ease-standard),
+    background-color var(--ylf-duration-fast) ease,
+    border-color var(--ylf-duration-fast) ease;
 }
 
 .ylf-demo-preview__canvas {
@@ -329,7 +328,7 @@ onErrorCaptured((err) => {
   }
 
   .ylf-demo-preview__frame {
-    min-width: 290px;
+    min-width: 0;
   }
 
   .ylf-demo-preview__canvas {

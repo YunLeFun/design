@@ -14,8 +14,10 @@ withDefaults(defineProps<{
 <template>
   <div class="ylf-logo" :class="[`ylf-logo--${size}`, `ylf-logo--${layout}`]">
     <span class="ylf-logo__mark" aria-hidden="true">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M17.5 19a4.5 4.5 0 1 0 0-9 6 6 0 0 0-11.5 1.5A4 4 0 0 0 6.5 19h11Z" />
+      <svg viewBox="0 0 100 70" fill="currentColor">
+        <path d="M44 35L27.5 44.5263V25.4737L44 35Z" />
+        <circle cx="65" cy="35" r="9" />
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M85 0H15V15H0V55H15V70H85V55H100V15H85V0ZM85 15H15V55H85V15Z" />
       </svg>
     </span>
     <span v-if="wordmark" class="ylf-logo__name">云乐坊</span>
@@ -39,33 +41,24 @@ withDefaults(defineProps<{
     flex: none;
     display: grid;
     place-items: center;
-    border-radius: 28%;
-    color: #fff;
-    background: var(--ylf-gradient-aurora, linear-gradient(110deg, #ff9fb2, #ffd66b, #7fe0c0, #7cc4ff, #9d8bff));
-    box-shadow: var(--ylf-glow-aurora, 0 10px 30px -6px rgba(157, 139, 255, 0.5));
+    color: var(--ylf-c-brand, #2563eb);
 
     svg {
-      width: 58%;
-      height: 58%;
-      filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.18));
+      width: 100%;
+      height: 100%;
     }
   }
 
   &__name {
     font-family: var(--ylf-font-wordmark, var(--ylf-font-display, sans-serif));
     font-weight: 700;
-    background: var(--ylf-gradient-aurora, linear-gradient(110deg, #ff9fb2, #ffd66b, #7fe0c0, #7cc4ff, #9d8bff));
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    animation: ylf-logo-hue 9s linear infinite;
+    color: var(--ylf-c-text, #0f172a);
   }
 
   // sizes
   &--sm &__mark {
-    width: 30px;
-    height: 30px;
+    width: 36px;
+    height: 25.2px;
   }
 
   &--sm &__name {
@@ -73,8 +66,8 @@ withDefaults(defineProps<{
   }
 
   &--md &__mark {
-    width: 42px;
-    height: 42px;
+    width: 48px;
+    height: 33.6px;
   }
 
   &--md &__name {
@@ -82,24 +75,12 @@ withDefaults(defineProps<{
   }
 
   &--lg &__mark {
-    width: 64px;
-    height: 64px;
+    width: 72px;
+    height: 50.4px;
   }
 
   &--lg &__name {
     font-size: 34px;
-  }
-}
-
-@keyframes ylf-logo-hue {
-  to {
-    background-position: 200% center;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ylf-logo__name {
-    animation: none;
   }
 }
 </style>

@@ -45,7 +45,7 @@ import YlfDialog from './components/ui/YlfDialog.vue'
 </script>
 
 <template>
-  <YlfButton variant="aurora">
+  <YlfButton variant="accent" tone="sun">
     开始创作
   </YlfButton>
 

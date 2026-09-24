@@ -14,8 +14,11 @@ function fakeLoad() {
       <YlfButton variant="primary">
         晴空蓝 Primary
       </YlfButton>
-      <YlfButton variant="aurora">
-        极光 Aurora
+      <YlfButton variant="accent">
+        默认强调
+      </YlfButton>
+      <YlfButton variant="accent" tone="sun">
+        发现精选
       </YlfButton>
       <YlfButton variant="secondary">
         Secondary
@@ -25,6 +28,36 @@ function fakeLoad() {
       </YlfButton>
       <YlfButton variant="ghost">
         Ghost
+      </YlfButton>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-3">
+      <YlfButton variant="accent" tone="cyan">
+        打开工具
+      </YlfButton>
+      <YlfButton variant="accent" tone="coral">
+        参与活动
+      </YlfButton>
+      <YlfButton variant="accent" tone="pink">
+        开始创作
+      </YlfButton>
+      <YlfButton variant="accent" tone="green">
+        完成设置
+      </YlfButton>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-3">
+      <YlfButton variant="accent" tone="pink" appearance="soft">
+        收藏灵感
+      </YlfButton>
+      <YlfButton variant="accent" tone="cyan" appearance="outline">
+        看看工具
+      </YlfButton>
+      <YlfButton variant="success" appearance="soft">
+        保存成功
+      </YlfButton>
+      <YlfButton variant="danger" appearance="outline">
+        移除内容
       </YlfButton>
     </div>
 

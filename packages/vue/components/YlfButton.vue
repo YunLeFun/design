@@ -1,9 +1,11 @@
 <script lang="ts" setup>
+import type { YlfAccentTone, YlfColorAppearance } from './theme'
 import { computed } from 'vue'
 
 type ButtonVariant
   = | 'primary' // 晴空蓝实色（主操作）
-    | 'aurora' // 极光渐变（签名 / 特殊 CTA，opt-in）
+    | 'accent' // 高饱和纯色强调
+    | 'aurora' // @deprecated 使用 accent；旧调用映射到纯色
     | 'secondary' // 描边
     | 'soft' // 柔色填充
     | 'ghost' // 幽灵
@@ -15,6 +17,10 @@ type ButtonSize = 'sm' | 'md' | 'lg'
 
 const props = withDefaults(defineProps<{
   variant?: ButtonVariant
+  /** 仅 accent 变体使用，默认晴空蓝 */
+  tone?: YlfAccentTone
+  /** accent 与状态变体的强调程度 */
+  appearance?: YlfColorAppearance
   size?: ButtonSize
   /** 胶囊圆角，默认开启（云是软的） */
   round?: boolean
@@ -26,6 +32,8 @@ const props = withDefaults(defineProps<{
   tag?: string
 }>(), {
   variant: 'primary',
+  tone: 'blue',
+  appearance: 'solid',
   size: 'md',
   round: true,
   block: false,
@@ -39,6 +47,7 @@ const emit = defineEmits<{ click: [e: MouseEvent] }>()
 const classes = computed(() => [
   `ylf-button--${props.variant}`,
   `ylf-button--${props.size}`,
+  `is-${props.appearance}`,
   {
     'is-round': props.round,
     'is-block': props.block,
@@ -59,6 +68,7 @@ function onClick(e: MouseEvent) {
     :is="tag"
     class="ylf-button"
     :class="classes"
+    :data-ylf-tone="tone"
     :disabled="tag === 'button' ? (disabled || loading) : undefined"
     :aria-busy="loading || undefined"
     @click="onClick"
@@ -87,11 +97,11 @@ function onClick(e: MouseEvent) {
   user-select: none;
   text-decoration: none;
   transition:
-    transform 0.18s var(--ylf-ease-bounce, cubic-bezier(0.34, 1.56, 0.64, 1)),
-    box-shadow 0.25s ease,
-    background 0.25s ease,
-    color 0.2s ease,
-    border-color 0.2s ease;
+    transform var(--ylf-duration-fast, 160ms) var(--ylf-ease-bounce, cubic-bezier(0.34, 1.56, 0.64, 1)),
+    box-shadow var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease),
+    background var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease),
+    color var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease),
+    border-color var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease);
 
   &.is-round {
     --_radius: var(--ylf-radius-pill, 999px);
@@ -133,26 +143,28 @@ function onClick(e: MouseEvent) {
   &--primary {
     color: var(--ylf-c-text-on-accent, #fff);
     background: var(--ylf-c-brand, #2563eb);
-    box-shadow: var(--ylf-glow-brand, 0 6px 18px -8px rgba(37, 99, 235, 0.35));
+    box-shadow: var(--ylf-shadow-sm);
 
     &:hover {
       background: var(--ylf-c-brand-hover, #1d4ed8);
       transform: translateY(-2px);
-      box-shadow: var(--ylf-glow-brand-hover, 0 8px 22px -8px rgba(37, 99, 235, 0.4));
+      box-shadow: var(--ylf-shadow-sm);
     }
   }
 
-  // --- aurora：极光渐变（签名 / 特殊 CTA，opt-in） ---
+  // 强调色来自共享上下文；实色上的文字与填充色成组维护。
+  &--accent,
   &--aurora {
-    color: var(--ylf-c-text-on-aurora, #020617);
-    background-image: var(--ylf-gradient-aurora, linear-gradient(110deg, #ff4d8d, #ffc233, #19d08b, #2fb4ff, #9a5cff));
-    background-size: 180% auto;
-    box-shadow: var(--ylf-glow-aurora, 0 10px 30px -6px rgba(124, 92, 255, 0.5));
+    --_color: var(--ylf-accent, var(--ylf-c-brand, #2563eb));
+    --_soft: var(--ylf-accent-soft, var(--ylf-c-brand-soft, #eff6ff));
+    --_text: var(--ylf-accent-text, var(--ylf-c-brand, #2563eb));
+
+    color: var(--ylf-accent-on, var(--ylf-c-text-on-accent, #fff));
+    background: var(--ylf-accent, var(--ylf-c-brand, #2563eb));
+    box-shadow: var(--ylf-shadow-sm);
 
     &:hover {
-      background-position: right center;
-      transform: translateY(-2px);
-      box-shadow: var(--ylf-glow-aurora-hover, 0 16px 40px -8px rgba(124, 92, 255, 0.6));
+      background: var(--ylf-accent-hover, var(--ylf-c-brand-hover, #1d4ed8));
     }
   }
 
@@ -192,27 +204,52 @@ function onClick(e: MouseEvent) {
   }
 
   // --- 语义色 ---
-  &--success,
-  &--warning,
-  &--danger {
-    color: var(--ylf-c-text-on-accent, #fff);
+  @each $status, $fill, $on, $hover in (success, #22c55e, #124324, #4ade80), (warning, #facc15, #64380e, #eab308),
+    (danger, #ff6b4a, #551b0a, #ff856b)
+  {
+    &--#{$status} {
+      --_color: var(--ylf-status-#{$status}, #{$fill});
+      --_soft: var(--ylf-status-#{$status}-soft, var(--ylf-c-bg-soft, #f1f5f9));
+      --_text: var(--ylf-status-#{$status}-text, #{$on});
 
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--ylf-shadow, 0 10px 28px -8px rgba(15, 23, 42, 0.16));
+      color: var(--ylf-status-#{$status}-on, $on);
+      background: var(--ylf-status-#{$status}, $fill);
+
+      &:hover {
+        background: var(--ylf-status-#{$status}-hover, $hover);
+      }
     }
   }
 
-  &--success {
-    background: var(--ylf-c-success, #065f46);
-  }
-
-  &--warning {
-    background: var(--ylf-c-warning, #92400e);
-  }
-
+  &--accent,
+  &--aurora,
+  &--success,
+  &--warning,
   &--danger {
-    background: var(--ylf-c-danger, #b91c1c);
+    &.is-soft,
+    &.is-outline {
+      color: var(--_text);
+      box-shadow: none;
+
+      &:hover {
+        background: var(--_soft);
+        border-color: var(--_text);
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--ylf-c-brand, #2563eb);
+        outline-offset: 3px;
+      }
+    }
+
+    &.is-soft {
+      background: var(--_soft);
+    }
+
+    &.is-outline {
+      background: transparent;
+      border-color: var(--_text);
+    }
   }
 
   // --- 状态 ---

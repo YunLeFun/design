@@ -1,59 +1,90 @@
+/* 文档外壳使用与组件相同的基础变量。VitePress 负责导航、搜索和目录行为。 */
+html {
+  scroll-padding-top: 96px;
+}
+::selection {
+  background: color-mix(in srgb, var(--ylf-c-brand) 20%, transparent);
+}
+.VPNavBar .content-body,
+.VPNavBar:not(.has-sidebar):not(.home.top) {
+  background: color-mix(in srgb, var(--ylf-c-bg) 92%, transparent);
+  backdrop-filter: blur(12px);
+}
+.VPNavBarTitle .title {
+  gap: var(--ylf-space-3);
+}
+.ylf-docs-mark {
+  margin-right: var(--ylf-space-3);
+}
+.VPNavBarMenuLink.active {
+  box-shadow: inset 0 -2px var(--ylf-c-brand);
+}
+.VPSidebarItem.level-1.is-active > .item {
+  margin-inline: -10px;
+  padding-inline: 10px;
+  border-radius: 6px;
+  background: var(--ylf-c-brand-soft);
+}
+.VPSidebarItem.level-1.is-active > .item .text {
+  font-weight: 600;
+}
+.VPDoc .content-container {
+  max-width: var(--ylf-layout-reading) !important;
+}
+.vp-doc {
+  font-size: var(--ylf-text-base);
+  line-height: var(--ylf-leading-body);
+}
+.vp-doc h1 {
+  text-wrap: balance;
+  font-size: clamp(1.875rem, 3vw, 2.25rem);
+  line-height: var(--ylf-leading-heading);
+  letter-spacing: -0.025em;
+}
+.vp-doc h1 + p {
+  margin-block: var(--ylf-space-6) var(--ylf-space-8);
+  color: var(--ylf-c-text-2);
+}
 .vp-doc h2 {
-  border-top: 0;
-  margin-top: 10px;
+  margin-top: var(--ylf-space-12);
+  padding-top: var(--ylf-space-6);
+  border-top: 1px solid var(--ylf-c-border);
+  font-size: var(--ylf-text-xl);
+}
+.vp-doc h3 {
+  margin-top: var(--ylf-space-8);
+  font-size: var(--ylf-text-lg);
+}
+.vp-doc p,
+.vp-doc li {
+  line-height: var(--ylf-leading-body);
+}
+.vp-doc table {
+  font-size: var(--ylf-text-sm);
+}
+.vp-doc th {
+  background: var(--ylf-c-bg-soft);
+  white-space: nowrap;
+}
+.vp-doc tr:nth-child(2n) {
+  background: color-mix(in srgb, var(--ylf-c-bg-soft) 40%, transparent);
+}
+.vp-doc .custom-block {
+  border-radius: var(--ylf-radius-sm);
+  border-left-width: 3px;
+}
+.VPDocFooter .pager-link {
+  border-radius: var(--ylf-radius);
+  background: var(--ylf-c-surface);
+}
+:where(.ylf-design-home) a:focus-visible {
+  outline: 2px solid var(--ylf-c-brand);
+  outline-offset: 5px;
 }
 
-/* 云乐坊 · Hero —— 圆体标题 + 漂浮的极光云背景 */
-.VPHero .name {
-  font-family: var(--ylf-font-display);
-  letter-spacing: -0.01em;
-}
-
-.VPHero {
-  position: relative;
-}
-
-.VPHero::before {
-  content: '';
-  position: absolute;
-  inset: -30px 0 auto 0;
-  height: 360px;
-  z-index: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(
-      440px 300px at 18% 25%,
-      color-mix(in srgb, var(--ylf-aurora-pink) 60%, transparent),
-      transparent 72%
-    ),
-    radial-gradient(
-      440px 300px at 82% 12%,
-      color-mix(in srgb, var(--ylf-aurora-sky) 60%, transparent),
-      transparent 72%
-    ),
-    radial-gradient(
-      380px 280px at 52% 30%,
-      color-mix(in srgb, var(--ylf-aurora-iris) 55%, transparent),
-      transparent 72%
-    );
-  filter: blur(46px);
-  opacity: 0.8;
-  animation: ylf-hero-drift 20s ease-in-out infinite;
-}
-
-.VPHero .container {
-  position: relative;
-  z-index: 1;
-}
-
-@keyframes ylf-hero-drift {
-  50% {
-    transform: translate(18px, 22px) scale(1.08);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .VPHero::before {
-    animation: none;
+@media (max-width: 640px) {
+  .vp-doc th,
+  .vp-doc td {
+    min-width: 160px;
   }
 }
