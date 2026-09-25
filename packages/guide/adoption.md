@@ -4,7 +4,7 @@ outline: deep
 
 # 公共使用与发布
 
-YunLeFun Design 当前可作为 Web 产品的设计基础试用：共享 token、明暗主题、Vue 组件与源码分发已经接通。`@yunlefun/ui@0.0.3` 和 `@yunlefun/vue@0.1.2` 已发布到 npm，主站已通过包入口复用 token；文档站仍展示开发中的源码，消费时应固定已验证的版本。
+YunLeFun Design 当前可作为 Web 产品的设计基础试用：共享 token、明暗主题、Vue 组件与源码分发已经接通。`@yunlefun/ui@0.0.4` 和 `@yunlefun/vue@0.1.3` 已发布到 npm，主站已通过包入口复用 token；文档站仍展示开发中的源码，消费时应固定已验证的版本。
 
 ## 公共接口
 

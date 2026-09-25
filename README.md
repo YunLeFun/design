@@ -47,7 +47,7 @@ import '@yunlefun/ui/css'
 
 Vue 组件从明确的子路径导入；Nuxt 可通过模块注册组件。完整示例见[开始使用](./packages/guide/index.md)与 [Vue 接入](./packages/vue/index.md)。
 
-仅使用 CSS token 的项目不需要安装 Vue 或 Sass；Vue SFC 组件仍需要 Sass。当前公开版本为 `@yunlefun/ui@0.0.3` 和 `@yunlefun/vue@0.1.2`；主站已从 npm 包复用共享 token。
+仅使用 CSS token 的项目不需要安装 Vue 或 Sass；Vue SFC 组件仍需要 Sass。当前公开版本为 `@yunlefun/ui@0.0.4` 和 `@yunlefun/vue@0.1.3`；主站已从 npm 包复用共享 token。
 
 ## 开发与文档
 
