@@ -3,10 +3,15 @@
   "version": "0.0.3",
   "description": "Shared styles and design tokens for YunLeFun Design",
   "author": "YunLeFun",
+  "license": "MIT",
   "homepage": "https://ui.yunle.fun",
   "repository": {
     "type": "git",
-    "url": "https://github.com/YunLeFun/design.git"
+    "url": "git+https://github.com/YunLeFun/design.git",
+    "directory": "packages/ui"
+  },
+  "bugs": {
+    "url": "https://github.com/YunLeFun/design/issues"
   },
   "keywords": [
     "ui",
@@ -23,6 +28,9 @@
     "dist",
     "styles"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "sass styles/index.scss dist/index.css --no-source-map --style=compressed && sass styles/patterns.scss dist/patterns.css --no-source-map --style=compressed",
     "prepack": "npm run build",

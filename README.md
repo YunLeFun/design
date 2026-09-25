@@ -1,5 +1,7 @@
 # YunLeFun Design
 
+![CI](https://github.com/YunLeFun/design/actions/workflows/ci.yml/badge.svg) · [MIT 许可证](./LICENSE) · [贡献指南](./CONTRIBUTING.md) · [安全报告](./SECURITY.md)
+
 云乐坊设计系统，统一维护设计原则、品牌视觉、交互规范与可复用 UI 实现。默认视觉为**晴空蓝为主，高饱和纯色点缀**。
 
 ## Design 与 UI
@@ -20,11 +22,11 @@
 | `@yunlefun/ui`       | 与 Vue 无关的 CSS / SCSS 和设计变量 | 共享样式包                              |
 | `@yunlefun/vue`      | `Ylf*` Vue 组件与 Nuxt 接入         | 共享组件包                              |
 | `@yunlefun/ui-utils` | DOM 工具，目前主要是元素预览        | 实验性源码，发布入口尚未完善            |
-| `@yunlefun/metadata` | 生成组件索引，支持文档导航和构建    | 私有内部包                              |
+| `@yunlefun/metadata` | 生成组件索引，支持文档导航和构建    | 源码公开，不发布到 npm                  |
 | `packages/css`       | 动画等样式示例                      | 普通目录，不是 npm 包                   |
 | Registry             | 从共享源码生成可复制条目            | 分发渠道，目前有 tokens、Button、Dialog |
 
-`@yunlefun/design-monorepo` 是私有根包，不供业务安装。源码中的新主题需要经过包发布和应用升级后才会进入业务站点。
+`@yunlefun/design-monorepo` 设置了 `private: true` 以防止误发到 npm；这不限制仓库源码的 MIT 开源许可。源码中的新主题需要经过包发布和应用升级后才会进入业务站点。
 
 ## 使用
 
@@ -45,7 +47,7 @@ import '@yunlefun/ui/css'
 
 Vue 组件从明确的子路径导入；Nuxt 可通过模块注册组件。完整示例见[开始使用](./packages/guide/index.md)与 [Vue 接入](./packages/vue/index.md)。
 
-仅使用 CSS token 的项目不需要安装 Vue 或 Sass；Vue SFC 组件仍需要 Sass。新入口和视觉 API 对应当前源码，使用前需确认消费版本已包含改动。
+仅使用 CSS token 的项目不需要安装 Vue 或 Sass；Vue SFC 组件仍需要 Sass。当前公开版本为 `@yunlefun/ui@0.0.3` 和 `@yunlefun/vue@0.1.2`；主站已从 npm 包复用共享 token。
 
 ## 开发与文档
 
@@ -65,3 +67,9 @@ pnpm ui:verify
 ```
 
 组件或 token 变更后，由 `pnpm registry:build` 更新分发产物。更多边界见[架构](./packages/guide/architecture.md)与 [Registry 分发](./packages/guide/registry.md)。
+
+## 开源协作与发布
+
+欢迎通过 Issue 和 Pull Request 参与改进。行为规范见[社区行为准则](./CODE_OF_CONDUCT.md)，漏洞请按[安全策略](./SECURITY.md)私下报告。公共组件仍处于早期版本，支持范围和验收要求见[公共使用与发布](./packages/guide/adoption.md)。
+
+维护者通过带 `release-` 前缀的 Git 标签触发 npm Trusted Publishing；两个包共用 [OIDC 发布工作流](./.github/workflows/release.yml)，不使用长期 npm 发布令牌。版本准备、信任关系配置与验证步骤见[发布指南](./RELEASING.md)。

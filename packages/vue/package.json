@@ -3,6 +3,17 @@
   "type": "module",
   "version": "0.1.2",
   "description": "Vue components and Nuxt integration for YunLeFun Design",
+  "author": "YunLeFun",
+  "license": "MIT",
+  "homepage": "https://ui.yunle.fun",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YunLeFun/design.git",
+    "directory": "packages/vue"
+  },
+  "bugs": {
+    "url": "https://github.com/YunLeFun/design/issues"
+  },
   "exports": {
     "./components/*": "./components/*",
     "./nuxt": "./nuxt.mjs",
@@ -21,6 +32,9 @@
     "dist",
     "nuxt.mjs"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "unbuild",
     "prepublishOnly": "npm run build",
