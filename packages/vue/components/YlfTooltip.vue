@@ -6,15 +6,17 @@ withDefaults(defineProps<{
   content?: string
   side?: 'top' | 'right' | 'bottom' | 'left'
   delay?: number
+  disabled?: boolean
 }>(), {
   side: 'top',
   delay: 300,
+  disabled: false,
 })
 </script>
 
 <template>
   <TooltipProvider :delay-duration="delay">
-    <TooltipRoot>
+    <TooltipRoot :disabled="disabled">
       <TooltipTrigger as-child>
         <slot />
       </TooltipTrigger>

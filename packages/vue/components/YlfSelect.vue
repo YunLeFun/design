@@ -6,10 +6,13 @@ defineOptions({ inheritAttrs: false })
 
 const props = withDefaults(defineProps<{
   /** color 可使用 CSS 色值或公共 token，例如 var(--ylf-accent-blue) */
-  options: { label: string, value: T, disabled?: boolean, color?: string }[]
+  options: readonly { label: string, value: T, disabled?: boolean, color?: string }[]
+  /** Compact workbench or comfortable form density. */
+  size?: 'sm' | 'md'
   placeholder?: string
   disabled?: boolean
 }>(), {
+  size: 'md',
   placeholder: '请选择',
   disabled: false,
 })
@@ -20,19 +23,21 @@ const selectedOption = computed(() => props.options.find(option => option.value 
 
 <template>
   <SelectRoot v-model="model" :disabled="disabled">
-    <SelectTrigger class="ylf-select__trigger" :aria-label="$attrs.id || $attrs['aria-labelledby'] ? undefined : placeholder" v-bind="$attrs">
+    <SelectTrigger class="ylf-select__trigger" :data-size="size" :aria-label="$attrs.id || $attrs['aria-labelledby'] ? undefined : placeholder" v-bind="$attrs">
       <SelectValue :placeholder="placeholder" class="ylf-select__label">
         <span v-if="selectedOption?.color" class="ylf-select__swatch" :style="{ backgroundColor: selectedOption.color }" aria-hidden="true" />
         <span>{{ selectedOption?.label ?? placeholder }}</span>
       </SelectValue>
       <SelectIcon class="ylf-select__icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M6 9l6 6 6-6" />
-        </svg>
+        <slot name="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+        </slot>
       </SelectIcon>
     </SelectTrigger>
     <SelectPortal>
-      <SelectContent class="ylf-select__content" position="popper" :side-offset="6">
+      <SelectContent class="ylf-select__content" :data-size="size" position="popper" :side-offset="6">
         <SelectViewport class="ylf-select__viewport">
           <SelectItem
             v-for="o in options"
@@ -46,9 +51,11 @@ const selectedOption = computed(() => props.options.find(option => option.value 
               <span>{{ o.label }}</span>
             </SelectItemText>
             <SelectItemIndicator class="ylf-select__check">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M5 12.5l4.5 4.5L19 7" />
-              </svg>
+              <slot name="indicator">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M5 12.5l4.5 4.5L19 7" />
+                </svg>
+              </slot>
             </SelectItemIndicator>
           </SelectItem>
         </SelectViewport>
@@ -119,7 +126,7 @@ const selectedOption = computed(() => props.options.find(option => option.value 
   display: inline-flex;
   color: var(--ylf-c-text-3, #64748b);
 
-  svg {
+  :where(svg, i, span) {
     width: 18px;
     height: 18px;
   }
@@ -174,9 +181,30 @@ const selectedOption = computed(() => props.options.find(option => option.value 
   display: inline-flex;
   color: var(--ylf-c-brand, #2563eb);
 
-  svg {
+  :where(svg, i, span) {
     width: 15px;
     height: 15px;
+  }
+}
+
+.ylf-select__trigger[data-size='sm'] {
+  min-width: 0;
+  min-height: 34px;
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: var(--ylf-radius-sm, 10px);
+}
+
+.ylf-select__content[data-size='sm'] .ylf-select__item {
+  min-height: 30px;
+  padding: 5px 8px;
+  font-size: 12px;
+}
+
+@media (pointer: coarse) {
+  .ylf-select__trigger[data-size='sm'],
+  .ylf-select__content[data-size='sm'] .ylf-select__item {
+    min-height: 44px;
   }
 }
 
