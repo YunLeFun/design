@@ -113,6 +113,8 @@ pnpm docs:build
 
 公共接入范围、当前缺口与打包验证见[公共使用与发布](/guide/adoption)。
 
+当前 15 个 Reka UI 封装的具体行为、验收环境和本轮修复见[组件验收](/guide/component-acceptance)。
+
 1. 公共 props、slots 和 events 使用产品语言，而不是直接泄漏底层实现。
 2. 复杂行为复用 Reka UI，并验证键盘操作、焦点顺序和可访问名称。
 3. 所有颜色、圆角、阴影与字体来自 `--ylf-*` token。

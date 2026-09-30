@@ -21,6 +21,7 @@ export const defaultSideBar: DefaultTheme.Sidebar = [
       { text: '开始使用', link: '/guide/' },
       { text: '子包职责', link: '/guide/packages' },
       { text: '组件架构', link: '/guide/architecture' },
+      { text: '组件验收', link: '/guide/component-acceptance' },
       { text: '公共使用与发布', link: '/guide/adoption' },
       { text: 'Registry 分发', link: '/guide/registry' },
       { text: '应用迁移', link: '/guide/migration' },

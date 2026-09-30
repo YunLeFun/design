@@ -9,7 +9,7 @@ interface AccordionItemData {
 }
 
 withDefaults(defineProps<{
-  items: AccordionItemData[]
+  items: readonly AccordionItemData[]
   type?: 'single' | 'multiple'
   collapsible?: boolean
 }>(), {

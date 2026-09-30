@@ -1,9 +1,12 @@
 <script lang="ts" setup>
 import { PopoverArrow, PopoverContent, PopoverPortal, PopoverRoot, PopoverTrigger } from 'reka-ui'
 
+defineOptions({ inheritAttrs: false })
+
 withDefaults(defineProps<{
   side?: 'top' | 'right' | 'bottom' | 'left'
   align?: 'start' | 'center' | 'end'
+  portalTo?: string | HTMLElement
 }>(), {
   side: 'bottom',
   align: 'center',
@@ -17,8 +20,8 @@ const open = defineModel<boolean>('open', { default: false })
     <PopoverTrigger as-child>
       <slot name="trigger" />
     </PopoverTrigger>
-    <PopoverPortal>
-      <PopoverContent :side="side" :align="align" :side-offset="8" class="ylf-popover">
+    <PopoverPortal :to="portalTo">
+      <PopoverContent v-bind="$attrs" :side="side" :align="align" :side-offset="8" class="ylf-popover">
         <slot />
         <PopoverArrow class="ylf-popover__arrow" :width="12" :height="6" />
       </PopoverContent>

@@ -7,14 +7,17 @@ title_zh: 对话框
 
 ## Props
 
-| 属性              | 说明                             | 类型      | 默认值     |
-| ----------------- | -------------------------------- | --------- | ---------- |
-| `v-model:open`    | 显隐状态                         | `boolean` | `false`    |
-| `title`           | 可见标题                         | `string`  | —          |
-| `description`     | 描述                             | `string`  | —          |
-| `accessibleTitle` | 无可见标题时供辅助技术读取的标题 | `string`  | `'对话框'` |
+| 属性              | 说明                             | 类型                    | 默认值                  |
+| ----------------- | -------------------------------- | ----------------------- | ----------------------- |
+| `v-model:open`    | 显隐状态                         | `boolean`               | `false`                 |
+| `title`           | 可见标题                         | `string`                | —                       |
+| `description`     | 描述                             | `string`                | —                       |
+| `accessibleTitle` | 无可见标题时供辅助技术读取的标题 | `string`                | `'对话框'`              |
+| `portalTo`        | 已存在的主题内浮层容器           | `string \| HTMLElement` | ConfigProvider / `body` |
 
 建议始终提供 `title`。只有视觉设计明确隐藏标题时，才改用描述场景的 `accessible-title`。
+
+`class`、`id`、`data-*` 和事件传给对话框内容；显式的 `aria-describedby` 可关联调用方的说明。焦点陷阱、Escape 关闭和关闭后回到触发器仍由 Reka UI 管理。局部主题中把 `portal-to` 指向同一主题边界内的容器。长标题会换行并为关闭按钮保留空间。
 
 ## Registry
 

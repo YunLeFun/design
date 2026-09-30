@@ -8,7 +8,7 @@ interface TabItem {
 }
 
 withDefaults(defineProps<{
-  items: TabItem[]
+  items: readonly TabItem[]
   orientation?: 'horizontal' | 'vertical'
 }>(), {
   orientation: 'horizontal',

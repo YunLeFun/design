@@ -23,6 +23,7 @@
     "registry:build": "shadcn-vue build registry.json -o packages/public/r",
     "registry:verify": "tsx scripts/verify-registry.ts",
     "ui:verify": "tsx scripts/verify-ui-package.ts",
+    "vue:verify": "pnpm build:vue && tsx scripts/verify-vue-package.ts",
     "typecheck": "vue-tsc --noEmit",
     "update": "pnpm -C packages/metadata run update && tsx scripts/update.ts",
     "prepare": "pnpm run update",

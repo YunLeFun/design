@@ -26,7 +26,7 @@ const options = [
   { value: 'grid', label: '网格视图' },
   { value: 'list', label: '列表视图' },
 ] as const
-const icons = { grid: 'i-lucide-grid-2x2', list: 'i-lucide-list' }
+const icons = { grid: 'i-ri-grid-line', list: 'i-ri-list-check' }
 </script>
 
 <template>

@@ -21,3 +21,5 @@ title_zh: 单选框
 | `label`    | 文案     | `string`   |
 | `value`    | 值       | `string`   |
 | `disabled` | 禁用该项 | `boolean?` |
+
+`options` 支持只读数组。通过 `aria-label` 或 `aria-labelledby` 指定整组名称，单项名称来自 `label`。方向键跳过禁用项；`name` / `required` 透传给 Reka UI，可用于原生表单。

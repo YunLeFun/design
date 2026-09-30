@@ -13,11 +13,15 @@ import {
 } from 'reka-ui'
 import { computed, useSlots } from 'vue'
 
+defineOptions({ inheritAttrs: false })
+
 const props = withDefaults(defineProps<{
   title?: string
   description?: string
   /** 没有可见标题时供屏幕阅读器使用 */
   accessibleTitle?: string
+  /** Existing container in the same theme boundary. */
+  portalTo?: string | HTMLElement
 }>(), {
   accessibleTitle: '对话框',
 })
@@ -37,9 +41,9 @@ const descriptionProps = computed(() => hasDescription.value
       <slot name="trigger" />
     </DialogTrigger>
 
-    <DialogPortal>
+    <DialogPortal :to="portalTo">
       <DialogOverlay class="ylf-dialog__overlay" />
-      <DialogContent class="ylf-dialog__content" v-bind="descriptionProps">
+      <DialogContent class="ylf-dialog__content" v-bind="{ ...descriptionProps, ...$attrs }">
         <DialogTitle v-if="hasVisibleTitle" class="ylf-dialog__title">
           <slot name="title">
             {{ title }}
@@ -110,6 +114,8 @@ const descriptionProps = computed(() => hasDescription.value
 
 .ylf-dialog__title {
   margin: 0 0 6px;
+  padding-right: 32px;
+  overflow-wrap: anywhere;
   font-family: var(--ylf-font-heading, inherit);
   font-size: 19px;
   font-weight: 700;
@@ -118,6 +124,7 @@ const descriptionProps = computed(() => hasDescription.value
 
 .ylf-dialog__desc {
   margin: 0 0 16px;
+  overflow-wrap: anywhere;
   font-size: 14px;
   line-height: 1.6;
   color: var(--ylf-c-text-2, #475569);
@@ -146,9 +153,23 @@ const descriptionProps = computed(() => hasDescription.value
     color: var(--ylf-c-text, #0f172a);
   }
 
+  &:focus-visible {
+    outline: 2px solid var(--ylf-c-brand, #2563eb);
+    outline-offset: 2px;
+  }
+
   svg {
     width: 18px;
     height: 18px;
+  }
+}
+
+@media (pointer: coarse) {
+  .ylf-dialog__close {
+    top: 10px;
+    right: 10px;
+    width: 44px;
+    height: 44px;
   }
 }
 

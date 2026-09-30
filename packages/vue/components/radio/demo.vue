@@ -12,7 +12,7 @@ const options = [
 
 <template>
   <div class="flex flex-col gap-4">
-    <YlfRadioGroup v-model="picked" :options="options" orientation="horizontal" />
+    <YlfRadioGroup v-model="picked" :options="options" orientation="horizontal" aria-label="主题颜色" />
     <p class="text-sm op-70">
       当前：{{ picked }}
     </p>

@@ -43,3 +43,9 @@ const options = [
 ## 工作台密度与图标
 
 `size="sm"` 使用 34px 高度、紧凑文字与 10px 圆角，适合排序、项目范围等工具栏控件；默认 `md` 保持 44px 表单尺寸。触摸设备中紧凑选择器与选项仍至少 44px。`#icon` 和 `#indicator` 可传入应用已有的 UnoCSS / Iconify 图标；未提供时保留内置 SVG。
+
+## 表单与局部主题
+
+`name?: string` 和 `required?: boolean`（默认 `false`）传给底层表单控件。放在 `<form>` 内时，选择值进入原生 `FormData`；禁用字段不提交。`id`、`aria-label`、`aria-labelledby`、`class` 和事件传给触发按钮。使用实际字段名称作为可访问名称，例如 `aria-label="主题颜色"` 或关联的 `<label for>`。
+
+`portalTo?: string | HTMLElement` 指定已存在的浮层容器，例如 `portal-to="#settings-portals"`。容器应位于页面相同的 `.ylf-theme-light` / `.ylf-theme-dark` 边界中。不传时保留 Reka UI 的 ConfigProvider 配置，最终回退到 `body`。

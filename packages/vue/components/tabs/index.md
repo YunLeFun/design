@@ -16,3 +16,5 @@ title_zh: 标签页
 ## Slots
 
 每个标签的内容用 `value` 同名插槽提供，如 `#cloud`、`#fun`。
+
+`items` 支持只读数组。标签和内容面板的 ARIA 关联由 Reka UI 管理；方向键、Home / End 改变焦点并自动选中，跳过禁用项。切换普通筛选条件而不展示关联面板时使用 Segmented Control。

@@ -16,3 +16,5 @@ title_zh: 开关
 | `disabled` | 禁用                      | `boolean`                                       | `false` |
 
 `tone` 接受 `blue | sun | cyan | coral | pink | green`，默认 `blue`（晴空蓝），只在 `accent` 下生效。旧 `aurora` 值映射到 `accent`。同一流程中的同类状态使用同一种颜色。
+
+通过 `aria-label` 或关联的 `<label for>` 提供用途名称。Space / Enter 切换状态，禁用时不响应操作。`name`、`value` 和 `required` 透传给 Reka UI，用于原生表单提交。

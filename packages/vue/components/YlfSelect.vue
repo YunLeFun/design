@@ -11,10 +11,16 @@ const props = withDefaults(defineProps<{
   size?: 'sm' | 'md'
   placeholder?: string
   disabled?: boolean
+  /** Native form field name and validation. */
+  name?: string
+  required?: boolean
+  /** Existing container in the same theme boundary. */
+  portalTo?: string | HTMLElement
 }>(), {
   size: 'md',
   placeholder: '请选择',
   disabled: false,
+  required: false,
 })
 
 const model = defineModel<T>()
@@ -22,7 +28,7 @@ const selectedOption = computed(() => props.options.find(option => option.value 
 </script>
 
 <template>
-  <SelectRoot v-model="model" :disabled="disabled">
+  <SelectRoot v-model="model" :disabled="disabled" :name="name" :required="required">
     <SelectTrigger class="ylf-select__trigger" :data-size="size" :aria-label="$attrs.id || $attrs['aria-labelledby'] ? undefined : placeholder" v-bind="$attrs">
       <SelectValue :placeholder="placeholder" class="ylf-select__label">
         <span v-if="selectedOption?.color" class="ylf-select__swatch" :style="{ backgroundColor: selectedOption.color }" aria-hidden="true" />
@@ -36,7 +42,7 @@ const selectedOption = computed(() => props.options.find(option => option.value 
         </slot>
       </SelectIcon>
     </SelectTrigger>
-    <SelectPortal>
+    <SelectPortal :to="portalTo">
       <SelectContent class="ylf-select__content" :data-size="size" position="popper" :side-offset="6">
         <SelectViewport class="ylf-select__viewport">
           <SelectItem

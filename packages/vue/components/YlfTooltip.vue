@@ -2,11 +2,14 @@
 // 行为 / 定位 / a11y 由 reka-ui 提供；皮肤走 token。
 import { TooltipArrow, TooltipContent, TooltipPortal, TooltipProvider, TooltipRoot, TooltipTrigger } from 'reka-ui'
 
+defineOptions({ inheritAttrs: false })
+
 withDefaults(defineProps<{
   content?: string
   side?: 'top' | 'right' | 'bottom' | 'left'
   delay?: number
   disabled?: boolean
+  portalTo?: string | HTMLElement
 }>(), {
   side: 'top',
   delay: 300,
@@ -17,10 +20,10 @@ withDefaults(defineProps<{
 <template>
   <TooltipProvider :delay-duration="delay">
     <TooltipRoot :disabled="disabled">
-      <TooltipTrigger as-child>
+      <TooltipTrigger as-child v-bind="$attrs">
         <slot />
       </TooltipTrigger>
-      <TooltipPortal>
+      <TooltipPortal :to="portalTo">
         <TooltipContent :side="side" :side-offset="6" class="ylf-tooltip">
           <slot name="content">
             {{ content }}

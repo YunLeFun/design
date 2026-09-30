@@ -10,13 +10,14 @@ withDefaults(defineProps<{
 }>(), {
   size: 'md',
   fallback: '',
+  alt: '',
 })
 </script>
 
 <template>
   <AvatarRoot class="ylf-avatar" :class="`ylf-avatar--${size}`">
     <AvatarImage v-if="src" :src="src" :alt="alt" class="ylf-avatar__img" />
-    <AvatarFallback class="ylf-avatar__fallback" :delay-ms="200">
+    <AvatarFallback class="ylf-avatar__fallback" :delay-ms="200" :role="alt || fallback ? 'img' : undefined" :aria-label="alt || fallback || undefined">
       {{ fallback }}
     </AvatarFallback>
   </AvatarRoot>

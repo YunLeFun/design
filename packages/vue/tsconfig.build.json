@@ -1,0 +1,19 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "./components",
+    "declaration": true,
+    "declarationDir": "./dist/components",
+    "emitDeclarationOnly": true,
+    "outDir": "./dist/components"
+  },
+  "include": [
+    "components/Ylf*.vue",
+    "components/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "components/*/demo.vue"
+  ]
+}

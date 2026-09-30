@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 // 行为 / 可访问性由 reka-ui 提供（role=radiogroup、方向键 roving focus）；皮肤走 token。
 import { RadioGroupIndicator, RadioGroupItem, RadioGroupRoot } from 'reka-ui'
+import { nextTick } from 'vue'
 
 interface RadioOption {
   label: string
@@ -8,8 +9,8 @@ interface RadioOption {
   disabled?: boolean
 }
 
-withDefaults(defineProps<{
-  options: RadioOption[]
+const props = withDefaults(defineProps<{
+  options: readonly RadioOption[]
   disabled?: boolean
   orientation?: 'vertical' | 'horizontal'
 }>(), {
@@ -18,6 +19,22 @@ withDefaults(defineProps<{
 })
 
 const model = defineModel<string>()
+
+function selectFocusedRadio(event: KeyboardEvent) {
+  if (props.disabled || !event.defaultPrevented || !['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key))
+    return
+  const group = event.currentTarget as HTMLElement
+  // Reka 2.10.x defers selection until after focus; a fast keyup can clear its flag.
+  // Let Reka move focus and skip disabled items, then synchronize that choice.
+  nextTick(() => {
+    const focused = document.activeElement
+    if (!(focused instanceof HTMLElement) || !group.contains(focused) || focused.getAttribute('role') !== 'radio')
+      return
+    const option = props.options.find(option => option.value === focused.getAttribute('value'))
+    if (option && !option.disabled && model.value !== option.value)
+      model.value = option.value
+  })
+}
 </script>
 
 <template>
@@ -27,6 +44,7 @@ const model = defineModel<string>()
     :orientation="orientation"
     class="ylf-radio-group"
     :class="`ylf-radio-group--${orientation}`"
+    @keydown="selectFocusedRadio"
   >
     <RadioGroupItem
       v-for="opt in options"

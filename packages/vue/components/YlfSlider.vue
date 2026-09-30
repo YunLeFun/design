@@ -6,13 +6,19 @@ withDefaults(defineProps<{
   max?: number
   step?: number
   disabled?: boolean
+  /** Accessible name for a single value or the range as a whole. */
+  label?: string
+  /** Per-thumb accessible names, such as minimum and maximum price. */
+  thumbLabels?: readonly string[]
 }>(), {
   min: 0,
   max: 100,
   step: 1,
   disabled: false,
+  label: '数值',
 })
 
+const emit = defineEmits<{ valueCommit: [value: number[]] }>()
 const model = defineModel<number[]>({ default: () => [50] })
 </script>
 
@@ -24,11 +30,17 @@ const model = defineModel<number[]>({ default: () => [50] })
     :step="step"
     :disabled="disabled"
     class="ylf-slider"
+    @value-commit="emit('valueCommit', $event)"
   >
     <SliderTrack class="ylf-slider__track">
       <SliderRange class="ylf-slider__range" />
     </SliderTrack>
-    <SliderThumb v-for="(_, i) in model" :key="i" class="ylf-slider__thumb" />
+    <SliderThumb
+      v-for="(_, i) in model"
+      :key="i"
+      class="ylf-slider__thumb"
+      :aria-label="thumbLabels?.[i] || (model.length === 1 ? label : `${label} ${i + 1}`)"
+    />
   </SliderRoot>
 </template>
 
@@ -66,7 +78,7 @@ const model = defineModel<number[]>({ default: () => [50] })
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background: #fff;
+    background: var(--ylf-c-surface, #fff);
     border: 2px solid var(--ylf-c-brand, #2563eb);
     box-shadow: var(--ylf-shadow-sm, 0 2px 8px -2px rgba(15, 23, 42, 0.12));
     cursor: grab;
@@ -84,6 +96,24 @@ const model = defineModel<number[]>({ default: () => [50] })
     &:active {
       cursor: grabbing;
     }
+  }
+}
+
+@media (pointer: coarse) {
+  .ylf-slider {
+    height: 44px;
+  }
+
+  .ylf-slider__thumb::before {
+    position: absolute;
+    inset: -13px;
+    content: '';
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ylf-slider__thumb {
+    transition: none;
   }
 }
 </style>

@@ -38,6 +38,8 @@ export default defineNuxtConfig({
 
 根入口目前提供类型和组件目录信息，组件通过 `components/*.vue` 子路径或 Nuxt 模块使用；没有公开的 `YlfResolver`。
 
+组件子路径提供预生成类型声明，运行时继续使用原始 SFC。现有 15 个 Reka UI 封装的验收范围见[组件验收](../guide/component-acceptance.md)。
+
 更多内容见 [Vue 接入](./index.md)、[子包职责](../guide/packages.md)与[设计体系](../guide/design-system.md)。
 
 ## AI 提示词入口

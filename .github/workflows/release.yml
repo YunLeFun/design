@@ -28,7 +28,7 @@ jobs:
       - run: pnpm exec vitest run
       - run: pnpm run audit
       - run: pnpm run ui:verify
-      - run: pnpm run build:vue
+      - run: pnpm run vue:verify
       - run: pnpm run nuxt:verify
       - run: pnpm run registry:verify
       - run: pnpm run docs:build

@@ -34,12 +34,13 @@ interface ConsumerDefinition {
   mainSource: string
 }
 
-async function run(command: string, args: string[], cwd: string) {
+async function run(command: string, args: string[], cwd: string, extraEnv: Record<string, string> = {}) {
   const { stderr, stdout } = await exec(command, args, {
     cwd,
     env: {
       ...process.env,
       CI: 'true',
+      ...extraEnv,
     },
   })
 
@@ -58,6 +59,9 @@ const payloadEntries = await Promise.all(
   ] as const),
 )
 const registryPayloads = new Map(payloadEntries)
+// Button and Dialog use inline SVG, so no external icon mapping is needed.
+// Keep local URL installation independent of shadcn's icon registry availability.
+registryPayloads.set('/r/icons/index.json', '{}')
 let localRegistryBaseUrl: string | undefined
 
 const server = remoteRegistryBaseUrl
@@ -166,7 +170,7 @@ export default defineConfig({ plugins: [vue()] })
         writeFile(resolve(consumer, 'src/main.ts'), definition.mainSource),
       ])
 
-      await run(shadcnVue, ['add', `${registryBaseUrl}/${registryFiles[definition.item]}`, '--yes'], consumer)
+      await run(shadcnVue, ['add', `${registryBaseUrl}/${registryFiles[definition.item]}`, '--yes'], consumer, localRegistryBaseUrl ? { REGISTRY_URL: localRegistryBaseUrl } : {})
       await run(pnpm, ['build'], consumer)
 
       const [installedComponent, installedTokens] = await Promise.all([

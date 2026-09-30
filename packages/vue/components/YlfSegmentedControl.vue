@@ -155,7 +155,7 @@ function updateValue(value: unknown): void {
 
 .ylf-segmented__count {
   min-width: 16px;
-  color: var(--ylf-c-text-3, #64748b);
+  color: var(--ylf-c-text-2, #475569);
   font-size: 10px;
   font-variant-numeric: tabular-nums;
   text-align: center;

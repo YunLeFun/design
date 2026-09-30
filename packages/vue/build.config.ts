@@ -7,7 +7,8 @@ export default defineBuildConfig({
   ],
 
   declaration: true,
-  clean: true,
+  // The build script cleans once, then emits SFC types before export validation.
+  clean: false,
   rollup: {
     emitCJS: true,
   },

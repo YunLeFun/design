@@ -1,7 +1,7 @@
 {
   "name": "@yunlefun/vue",
   "type": "module",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Vue components and Nuxt integration for YunLeFun Design",
   "author": "YunLeFun",
   "license": "MIT",
@@ -15,6 +15,10 @@
     "url": "https://github.com/YunLeFun/design/issues"
   },
   "exports": {
+    "./components/*.vue": {
+      "types": "./dist/components/*.vue.d.ts",
+      "default": "./components/*.vue"
+    },
     "./components/*": "./components/*",
     "./nuxt": "./nuxt.mjs",
     ".": {
@@ -41,7 +45,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "unbuild",
+    "build": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\" && vue-tsc --project tsconfig.build.json && unbuild",
     "prepublishOnly": "npm run build",
     "release": "bumpp --no-commit --no-tag --no-push && npm publish",
     "typecheck": "vue-tsc --noEmit"

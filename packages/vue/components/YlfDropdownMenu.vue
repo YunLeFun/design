@@ -1,6 +1,15 @@
 <script lang="ts" setup>
 import { DropdownMenuContent, DropdownMenuItem, DropdownMenuPortal, DropdownMenuRoot, DropdownMenuSeparator, DropdownMenuTrigger } from 'reka-ui'
 
+defineOptions({ inheritAttrs: false })
+
+defineProps<{
+  items: readonly MenuItem[]
+  portalTo?: string | HTMLElement
+}>()
+
+const emit = defineEmits<{ select: [value: string] }>()
+
 interface MenuItem {
   label?: string
   value?: string
@@ -9,27 +18,23 @@ interface MenuItem {
   separator?: boolean
 }
 
-defineProps<{
-  items: MenuItem[]
-}>()
-
-const emit = defineEmits<{ select: [value: string] }>()
+const open = defineModel<boolean>('open', { default: false })
 </script>
 
 <template>
-  <DropdownMenuRoot>
+  <DropdownMenuRoot v-model:open="open">
     <DropdownMenuTrigger as-child>
       <slot name="trigger" />
     </DropdownMenuTrigger>
-    <DropdownMenuPortal>
-      <DropdownMenuContent class="ylf-menu" :side-offset="6" align="start">
+    <DropdownMenuPortal :to="portalTo">
+      <DropdownMenuContent v-bind="$attrs" class="ylf-menu" :side-offset="6" align="start">
         <template v-for="(it, i) in items" :key="i">
           <DropdownMenuSeparator v-if="it.separator" class="ylf-menu__sep" />
           <DropdownMenuItem
             v-else
             class="ylf-menu__item"
             :disabled="it.disabled"
-            @select="it.value && emit('select', it.value)"
+            @select="it.value !== undefined && emit('select', it.value)"
           >
             {{ it.label }}
           </DropdownMenuItem>
@@ -80,6 +85,12 @@ const emit = defineEmits<{ select: [value: string] }>()
     height: 1px;
     margin: 6px 4px;
     background: var(--ylf-c-border, #e2e8f0);
+  }
+}
+
+@media (pointer: coarse) {
+  .ylf-menu__item {
+    min-height: 44px;
   }
 }
 

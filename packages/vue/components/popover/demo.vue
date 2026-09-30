@@ -1,5 +1,5 @@
 <template>
-  <YlfPopover side="bottom" align="start">
+  <YlfPopover side="bottom" align="start" aria-label="云乐坊介绍">
     <template #trigger>
       <YlfButton variant="primary">
         打开浮层

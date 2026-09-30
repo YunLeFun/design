@@ -8,13 +8,13 @@ const range = ref([20, 70])
 <template>
   <div class="flex flex-col gap-6">
     <div class="flex flex-col gap-2">
-      <YlfSlider v-model="single" />
+      <YlfSlider v-model="single" label="音量" />
       <p class="m-0 text-sm op-70">
         单值：{{ single[0] }}
       </p>
     </div>
     <div class="flex flex-col gap-2">
-      <YlfSlider v-model="range" />
+      <YlfSlider v-model="range" label="价格区间" :thumb-labels="['最低价格', '最高价格']" />
       <p class="m-0 text-sm op-70">
         区间：{{ range[0] }} – {{ range[1] }}
       </p>
