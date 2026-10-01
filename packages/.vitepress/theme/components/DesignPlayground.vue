@@ -133,6 +133,33 @@ function resetAppearance() {
   background-image: radial-gradient(ellipse at 50% 0%, var(--ylf-c-bg) 0, transparent 75%);
   box-shadow: inset 0 1px 0 var(--ylf-c-highlight);
 }
+.ylf-theme-dark .design-playground__sky {
+  --ylf-c-sky: #112539;
+  --ylf-c-cloud: #233b51;
+  --ylf-c-highlight: rgba(203, 229, 249, 0.17);
+
+  background-color: #080f1c;
+  background-image:
+    radial-gradient(ellipse at 80% 22%, rgba(129, 185, 211, 0.12), transparent 52%),
+    linear-gradient(165deg, #080f1c 15%, #102438 70%, #193b50);
+}
+.ylf-theme-dark .design-playground__sky::after {
+  content: '';
+  position: absolute;
+  top: 78px;
+  left: 74px;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: rgba(217, 236, 252, 0.7);
+  box-shadow:
+    68px -24px 0 -0.25px rgba(217, 236, 252, 0.45),
+    131px 18px 0 -0.5px rgba(217, 236, 252, 0.5),
+    -25px 53px 0 -0.25px rgba(217, 236, 252, 0.4),
+    183px 58px 0 -0.5px rgba(217, 236, 252, 0.35),
+    229px -28px 0 -0.25px rgba(217, 236, 252, 0.45);
+  pointer-events: none;
+}
 .design-playground__portal {
   display: contents;
 }
@@ -141,6 +168,9 @@ function resetAppearance() {
   inset: 0;
   opacity: 0.65;
   mask-image: linear-gradient(transparent, #000 35%, transparent);
+}
+.ylf-theme-dark .design-playground__grid {
+  opacity: 0.18;
 }
 .design-playground__sun {
   position: absolute;
@@ -161,13 +191,11 @@ function resetAppearance() {
     transform var(--ylf-duration-normal);
 }
 .ylf-theme-dark .design-playground__sun {
-  background: var(--ylf-c-brand);
-  border-color: var(--ylf-c-brand);
-  box-shadow:
-    inset -18px 5px 0 var(--ylf-c-sky),
-    0 0 0 14px color-mix(in srgb, var(--ylf-c-brand) 8%, transparent),
-    0 0 0 30px color-mix(in srgb, var(--ylf-c-brand) 4%, transparent);
-  transform: rotate(-18deg);
+  background: linear-gradient(145deg, #f5faff, #b3cde5);
+  border-color: transparent;
+  box-shadow: none;
+  mask-image: radial-gradient(circle 42px at 68% 32%, transparent 97%, #000 100%);
+  transform: rotate(-12deg);
 }
 .design-playground__cloud {
   position: absolute;
