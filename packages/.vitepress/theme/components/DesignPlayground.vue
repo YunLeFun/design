@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { YlfAccentTone, YlfColorAppearance } from '../../../vue/components/theme'
 import { ConfigProvider } from 'reka-ui'
-import { computed, shallowRef, useId } from 'vue'
+import { useData } from 'vitepress'
+import { computed, onMounted, shallowRef, useId } from 'vue'
 import YlfBadge from '../../../vue/components/YlfBadge.vue'
 import YlfButton from '../../../vue/components/YlfButton.vue'
 import YlfCard from '../../../vue/components/YlfCard.vue'
@@ -22,7 +23,19 @@ const appearances: { value: YlfColorAppearance, label: string }[] = [
   { value: 'soft', label: '柔色' },
   { value: 'outline', label: '描边' },
 ]
-const night = shallowRef(false)
+const { isDark } = useData()
+// 云景配色跟随全局 CSS，挂载后再读取主题偏好以保持 SSR 标记一致。
+const isMounted = shallowRef(false)
+const night = computed({
+  get: () => isMounted.value && isDark.value,
+  set: (value: boolean) => {
+    isDark.value = value
+  },
+})
+
+onMounted(() => {
+  isMounted.value = true
+})
 const tone = shallowRef<YlfAccentTone>('blue')
 const appearance = shallowRef<YlfColorAppearance>('solid')
 const dialogOpen = shallowRef(false)
@@ -46,7 +59,7 @@ function resetAppearance() {
 </script>
 
 <template>
-  <section class="design-playground" :class="night ? 'ylf-theme-dark' : 'ylf-theme-light'" aria-label="设计主题交互预览">
+  <section class="design-playground" aria-label="设计主题交互预览">
     <div class="design-playground__sky ylf-pattern-sky">
       <div class="design-playground__grid ylf-pattern-grid" aria-hidden="true" />
       <div class="design-playground__sun" aria-hidden="true" />
@@ -133,7 +146,7 @@ function resetAppearance() {
   background-image: radial-gradient(ellipse at 50% 0%, var(--ylf-c-bg) 0, transparent 75%);
   box-shadow: inset 0 1px 0 var(--ylf-c-highlight);
 }
-.ylf-theme-dark .design-playground__sky {
+.dark .design-playground__sky {
   --ylf-c-sky: #112539;
   --ylf-c-cloud: #233b51;
   --ylf-c-highlight: rgba(203, 229, 249, 0.17);
@@ -143,7 +156,7 @@ function resetAppearance() {
     radial-gradient(ellipse at 80% 22%, rgba(129, 185, 211, 0.12), transparent 52%),
     linear-gradient(165deg, #080f1c 15%, #102438 70%, #193b50);
 }
-.ylf-theme-dark .design-playground__sky::after {
+.dark .design-playground__sky::after {
   content: '';
   position: absolute;
   top: 78px;
@@ -169,7 +182,7 @@ function resetAppearance() {
   opacity: 0.65;
   mask-image: linear-gradient(transparent, #000 35%, transparent);
 }
-.ylf-theme-dark .design-playground__grid {
+.dark .design-playground__grid {
   opacity: 0.18;
 }
 .design-playground__sun {
@@ -190,7 +203,7 @@ function resetAppearance() {
     box-shadow var(--ylf-duration-normal),
     transform var(--ylf-duration-normal);
 }
-.ylf-theme-dark .design-playground__sun {
+.dark .design-playground__sun {
   background: linear-gradient(145deg, #f5faff, #b3cde5);
   border-color: transparent;
   box-shadow: none;
