@@ -21,7 +21,7 @@ outline: deep
 首版为固定版本的 GitHub Release 安装包，安装方式与 npm 包相同：
 
 ```sh
-pnpm add -D https://github.com/YunLeFun/design/releases/download/theme-v0.1.0/vitepress-theme-yunlefun-0.1.0.tgz
+pnpm add -D https://github.com/YunLeFun/design/releases/download/theme-v0.1.1/vitepress-theme-yunlefun-0.1.1.tgz
 ```
 
 在 `.vitepress/theme/index.ts` 引入主题和 CSS：

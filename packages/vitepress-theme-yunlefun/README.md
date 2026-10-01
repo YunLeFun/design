@@ -12,7 +12,7 @@
 首版通过 GitHub Release 分发固定版本的 npm 格式安装包：
 
 ```sh
-pnpm add -D https://github.com/YunLeFun/design/releases/download/theme-v0.1.0/vitepress-theme-yunlefun-0.1.0.tgz
+pnpm add -D https://github.com/YunLeFun/design/releases/download/theme-v0.1.1/vitepress-theme-yunlefun-0.1.1.tgz
 ```
 
 `@yunlefun/ui` 会作为依赖安装。VitePress 与 Vue 由站点提供。
