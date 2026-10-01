@@ -9,6 +9,7 @@ import YlfCard from '../../../vue/components/YlfCard.vue'
 import YlfDialog from '../../../vue/components/YlfDialog.vue'
 import YlfSelect from '../../../vue/components/YlfSelect.vue'
 import YlfSwitch from '../../../vue/components/YlfSwitch.vue'
+import { useAppearanceTransition } from '../composables/useAppearanceTransition'
 import DesignCloud from './DesignCloud.vue'
 
 const tones: { value: YlfAccentTone, label: string, color: string }[] = [
@@ -25,12 +26,13 @@ const appearances: { value: YlfColorAppearance, label: string }[] = [
   { value: 'outline', label: '描边' },
 ]
 const { isDark } = useData()
+const { setAppearance, toggleAppearance } = useAppearanceTransition()
 // 云景配色跟随全局 CSS，挂载后再读取主题偏好以保持 SSR 标记一致。
 const isMounted = shallowRef(false)
 const night = computed({
   get: () => isMounted.value && isDark.value,
   set: (value: boolean) => {
-    isDark.value = value
+    setAppearance(value)
   },
 })
 
@@ -60,9 +62,14 @@ function resetAppearance() {
 
 <template>
   <section class="design-playground" aria-label="设计主题交互预览">
-    <div class="design-playground__sky ylf-pattern-sky">
+    <div class="design-playground__sky">
+      <div class="design-playground__day ylf-theme-light" aria-hidden="true" />
+      <div class="design-playground__night" aria-hidden="true" />
       <div class="design-playground__grid ylf-pattern-grid" aria-hidden="true" />
-      <div class="design-playground__sun" aria-hidden="true" />
+      <div class="design-playground__celestial" aria-hidden="true">
+        <div class="design-playground__sun ylf-theme-light" />
+        <div class="design-playground__moon" />
+      </div>
       <DesignCloud class="design-playground__cloud" />
       <div class="design-playground__caption">
         <span :class="night ? 'i-ri-moon-clear-line' : 'i-ri-sun-line'" aria-hidden="true" />
@@ -81,7 +88,7 @@ function resetAppearance() {
         <p>从光线到触感，试试属于你的云端界面。</p>
         <div class="design-playground__setting">
           <label :for="nightId">夜空模式</label>
-          <YlfSwitch :id="nightId" v-model="night" />
+          <YlfSwitch :id="nightId" :model-value="night" @update:model-value="toggleAppearance" />
         </div>
         <div class="design-playground__setting">
           <label :for="toneId">强调色</label>
@@ -133,19 +140,36 @@ function resetAppearance() {
   overflow: hidden;
   border: 1px solid var(--ylf-c-border);
   border-radius: 120px 120px 32px 32px;
-  background-color: var(--ylf-c-sky);
-  background-image: radial-gradient(ellipse at 50% 0%, var(--ylf-c-bg) 0, transparent 75%);
   box-shadow: inset 0 1px 0 var(--ylf-c-highlight);
 }
-.dark .design-playground__sky {
+.design-playground__day,
+.design-playground__night {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.design-playground__day {
+  background-color: var(--ylf-c-sky);
+  background-image: radial-gradient(ellipse at 50% 0%, var(--ylf-c-bg) 0, transparent 75%);
+}
+.design-playground__night {
+  opacity: 0;
   background-color: #0b101b;
   background-image:
     radial-gradient(circle at 80% 32%, rgba(173, 191, 209, 0.13), transparent 36%),
     linear-gradient(165deg, #0b101b 15%, #111b2a 65%, #203144);
+}
+.dark .design-playground__day {
+  opacity: 0;
+}
+.dark .design-playground__night {
+  opacity: 1;
+}
+.dark .design-playground__sky {
   border-color: rgba(148, 169, 192, 0.18);
   box-shadow: inset 0 1px 0 rgba(210, 226, 240, 0.1);
 }
-.dark .design-playground__sky::after {
+.design-playground__sky::after {
   content: '';
   position: absolute;
   top: 78px;
@@ -153,6 +177,7 @@ function resetAppearance() {
   width: 2px;
   height: 2px;
   border-radius: 50%;
+  opacity: 0;
   background: rgba(217, 236, 252, 0.7);
   box-shadow:
     68px -24px 0 -0.25px rgba(217, 236, 252, 0.45),
@@ -161,6 +186,9 @@ function resetAppearance() {
     183px 58px 0 -0.5px rgba(217, 236, 252, 0.35),
     229px -28px 0 -0.25px rgba(217, 236, 252, 0.45);
   pointer-events: none;
+}
+.dark .design-playground__sky::after {
+  opacity: 1;
 }
 .design-playground__portal {
   display: contents;
@@ -174,34 +202,47 @@ function resetAppearance() {
 .dark .design-playground__grid {
   opacity: 0.1;
 }
-.design-playground__sun {
+.design-playground__celestial {
   position: absolute;
   width: 100px;
   height: 100px;
   top: 58px;
   right: 58px;
-  border: 1px solid color-mix(in srgb, var(--ylf-accent-sun) 75%, #fff);
+  pointer-events: none;
+}
+.design-playground__sun,
+.design-playground__moon {
+  position: absolute;
+  inset: 0;
   border-radius: 50%;
+}
+.design-playground__sun {
+  border: 1px solid color-mix(in srgb, var(--ylf-accent-sun) 75%, #fff);
   background: var(--ylf-accent-sun);
   box-shadow:
     inset 0 3px 4px rgba(255, 255, 255, 0.5),
     0 0 0 14px color-mix(in srgb, var(--ylf-accent-sun) 10%, transparent),
     0 0 0 30px color-mix(in srgb, var(--ylf-accent-sun) 5%, transparent);
-  transition:
-    background var(--ylf-duration-normal),
-    box-shadow var(--ylf-duration-normal),
-    transform var(--ylf-duration-normal);
 }
 .dark .design-playground__sun {
+  opacity: 0;
+  transform: translateY(6px) scale(0.9);
+}
+.design-playground__moon {
+  opacity: 0;
   background:
     radial-gradient(circle at 30% 80%, rgba(53, 69, 89, 0.28), transparent 50%),
     radial-gradient(circle at 65% 25%, #dbe5ee, #b4c4d4 55%, #738ba3);
   border-color: transparent;
   box-shadow: inset 2px -3px 5px rgba(34, 51, 71, 0.2);
   mask-image: radial-gradient(circle 42px at 68% 32%, transparent 97%, #000 100%);
+  transform: translateY(10px) scale(0.9) rotate(-12deg);
+}
+.dark .design-playground__moon {
+  opacity: 1;
   transform: rotate(-12deg);
 }
-.dark .design-playground__sun::after {
+.design-playground__moon::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -246,15 +287,28 @@ function resetAppearance() {
 }
 .design-playground__card {
   position: relative;
+  isolation: isolate;
   margin: -91px 22px 0;
   border-radius: 22px;
   border-color: color-mix(in srgb, var(--ylf-accent) 25%, var(--ylf-c-border));
 }
-.dark .design-playground__card {
-  border-color: rgba(159, 178, 201, 0.22);
+.design-playground__card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  opacity: 0;
+  pointer-events: none;
   background:
     radial-gradient(ellipse at 100% 0%, rgba(184, 205, 227, 0.06), transparent 55%),
     linear-gradient(150deg, rgba(31, 41, 58, 0.97), rgba(21, 29, 44, 0.98));
+}
+.dark .design-playground__card::before {
+  opacity: 1;
+}
+.dark .design-playground__card {
+  border-color: rgba(159, 178, 201, 0.22);
   box-shadow:
     inset 0 1px 0 rgba(220, 232, 248, 0.12),
     0 -8px 18px -12px rgba(2, 7, 15, 0.9),
@@ -341,13 +395,8 @@ function resetAppearance() {
   .design-playground h2 {
     font-size: 17px;
   }
-  .design-playground__sun {
+  .design-playground__celestial {
     right: 32px;
-  }
-}
-@media (prefers-reduced-motion: reduce) {
-  .design-playground__sun {
-    transition: none;
   }
 }
 </style>

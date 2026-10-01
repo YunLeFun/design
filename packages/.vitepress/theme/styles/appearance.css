@@ -1,0 +1,24 @@
+/* 仅为主动切换主题启用过渡，首次加载和文档路由保持静止。 */
+/* VueUse 临时禁用普通 transition；主动切换时覆盖这一规则。 */
+html.ylf-appearance-fade,
+.ylf-appearance-fade *,
+.ylf-appearance-fade *::before,
+.ylf-appearance-fade *::after {
+  transition-property:
+    color, background-color, border-color, box-shadow, fill, stroke, stop-color, opacity, transform, filter !important;
+  transition-duration: 320ms !important;
+  transition-timing-function: cubic-bezier(0.2, 0, 0, 1) !important;
+  transition-delay: 0s !important;
+}
+.ylf-appearance-fade .design-playground__sun,
+.ylf-appearance-fade .design-playground__moon {
+  transition-duration: 420ms !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.ylf-appearance-fade,
+  .ylf-appearance-fade *,
+  .ylf-appearance-fade *::before,
+  .ylf-appearance-fade *::after {
+    transition: none !important;
+  }
+}
