@@ -1,0 +1,60 @@
+{
+  "name": "vitepress-theme-yunlefun",
+  "type": "module",
+  "version": "0.1.0",
+  "description": "Shared YunLeFun VitePress theme with sky and night surfaces, accessible Markdown and native navigation",
+  "author": "YunLeFun",
+  "license": "MIT",
+  "homepage": "https://ui.yunle.fun/guide/vitepress-theme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YunLeFun/design.git",
+    "directory": "packages/vitepress-theme-yunlefun"
+  },
+  "keywords": [
+    "vitepress",
+    "theme",
+    "yunlefun"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./index.mjs"
+    },
+    "./config": {
+      "types": "./dist/config.d.mts",
+      "import": "./dist/config.mjs"
+    },
+    "./appearance": {
+      "types": "./dist/appearance.d.mts",
+      "import": "./dist/appearance.mjs"
+    },
+    "./style.css": "./styles/style.css"
+  },
+  "files": [
+    "LICENSE",
+    "README.md",
+    "components",
+    "dist",
+    "index.d.ts",
+    "index.mjs",
+    "styles"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "prepack": "npm run build"
+  },
+  "peerDependencies": {
+    "vitepress": "^1.6.4 || ^2.0.0-alpha.16",
+    "vue": "^3.5.0"
+  },
+  "dependencies": {
+    "@yunlefun/ui": "workspace:^"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

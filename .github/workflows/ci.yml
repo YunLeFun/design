@@ -40,7 +40,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build
-        run: pnpm run build:vue
+        run: pnpm run build:theme && pnpm run build:vue
 
       - name: Typecheck
         run: pnpm run typecheck
@@ -60,6 +60,19 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm run audit
+      - run: pnpm run build:theme
       - run: pnpm run test
       - run: pnpm run nuxt:verify
       - run: pnpm run registry:verify
+
+  theme:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm theme:verify

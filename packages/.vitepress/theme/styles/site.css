@@ -1,0 +1,17 @@
+.ylf-docs-mark {
+  margin-right: var(--ylf-space-3);
+}
+:where(.ylf-design-home) a:focus-visible {
+  outline: 2px solid var(--ylf-c-brand);
+  outline-offset: 5px;
+}
+.ylf-appearance-fade .design-playground__sun,
+.ylf-appearance-fade .design-playground__moon {
+  transition-duration: 420ms !important;
+}
+.vp-doc .ylf-demo-preview__source div[class*='language-'] {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}

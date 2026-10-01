@@ -1,6 +1,6 @@
 /**
  * YunLeFun Design —— 将 VitePress 主题变量映射到共享设计 token。
- * token 定义见 @yunlefun/ui/styles/css-vars.scss（已在 theme/index.ts 引入）。
+ * token 定义来自 @yunlefun/ui/css；不需要 Sass。
  * -------------------------------------------------------------------------- */
 
 :root,

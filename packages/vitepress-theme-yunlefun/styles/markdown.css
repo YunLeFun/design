@@ -180,12 +180,6 @@
   border: 0;
   box-shadow: none;
 }
-.vp-doc .ylf-demo-preview__source div[class*='language-'] {
-  margin: 0;
-  border: 0;
-  border-radius: 0;
-  box-shadow: none;
-}
 .vp-doc .vp-code-group .tabs input:focus-visible + label {
   outline: 2px solid var(--ylf-c-brand);
   outline-offset: -4px;
@@ -251,5 +245,41 @@
   .vp-doc blockquote,
   .vp-doc .custom-block {
     padding-inline: var(--ylf-space-4);
+  }
+}
+
+/* 文档标题采用 docs 的青色锚点与晴光短线，正文保持中性阅读表面。 */
+.vp-doc h1 {
+  position: relative;
+  padding-bottom: var(--ylf-space-6);
+}
+.vp-doc h1::after {
+  position: absolute;
+  inset-inline-start: 0;
+  bottom: 0;
+  width: 72px;
+  height: 4px;
+  content: '';
+  background: linear-gradient(90deg, var(--ylf-accent-cyan) 0 74%, var(--ylf-accent-sun) 74%);
+}
+.vp-doc :is(h1, h2, h3) .header-anchor {
+  color: var(--ylf-accent-cyan-text);
+}
+.vp-doc h1 .header-anchor {
+  opacity: 1;
+}
+.vp-doc .ylf-doc-table:focus-visible {
+  border-radius: var(--ylf-radius);
+}
+
+@media (max-width: 639px) {
+  .vp-doc h1 {
+    padding-inline-start: 0.85em;
+  }
+  .vp-doc h1 .header-anchor {
+    margin-left: 0;
+  }
+  .vp-doc h1::after {
+    inset-inline-start: 0.85em;
   }
 }

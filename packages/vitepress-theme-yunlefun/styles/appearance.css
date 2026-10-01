@@ -10,10 +10,6 @@ html.ylf-appearance-fade,
   transition-timing-function: cubic-bezier(0.2, 0, 0, 1) !important;
   transition-delay: 0s !important;
 }
-.ylf-appearance-fade .design-playground__sun,
-.ylf-appearance-fade .design-playground__moon {
-  transition-duration: 420ms !important;
-}
 @media (prefers-reduced-motion: reduce) {
   html.ylf-appearance-fade,
   .ylf-appearance-fade *,

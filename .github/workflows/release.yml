@@ -24,6 +24,7 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm run lint
+      - run: pnpm run build:theme
       - run: pnpm run typecheck
       - run: pnpm exec vitest run
       - run: pnpm run audit

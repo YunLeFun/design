@@ -8,15 +8,16 @@ outline: deep
 
 ## Current packages and directories {#当前包和目录}
 
-| Package or directory                       | Purpose                                                                    | Consumers and current status                                 |
-| ------------------------------------------ | -------------------------------------------------------------------------- | ------------------------------------------------------------ |
-| `@yunlefun/ui` · `packages/ui`             | Shared colors, font roles, radii, shadows, themes and optional fonts       | Web styling foundations; package exports configured          |
-| `@yunlefun/vue` · `packages/vue`           | Vue components such as `YlfButton` and `YlfDialog`, plus Nuxt auto imports | Vue/Nuxt applications; build and release scripts configured  |
-| `@yunlefun/ui-utils` · `packages/utils`    | Framework independent DOM utilities, mainly `previewElement`               | Experimental source; build, types and exports are incomplete |
-| `@yunlefun/metadata` · `packages/metadata` | Generated index of names, titles, descriptions and update dates            | Private internal documentation/build package                 |
-| `packages/css`                             | Pulse and animation examples; legacy aurora files retained                 | No `package.json`; not an npm package                        |
-| `registry.json` and `packages/public/r`    | Declare and generate source installed by URL                               | A distribution channel for the same implementations          |
-| `@yunlefun/design-monorepo`                | Workspace dependencies, builds and verification                            | Private root; applications do not install it                 |
+| Package or directory                                             | Purpose                                                                    | Consumers and current status                                   |
+| ---------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| `@yunlefun/ui` · `packages/ui`                                   | Shared colors, font roles, radii, shadows, themes and optional fonts       | Web styling foundations; package exports configured            |
+| `@yunlefun/vue` · `packages/vue`                                 | Vue components such as `YlfButton` and `YlfDialog`, plus Nuxt auto imports | Vue/Nuxt applications; build and release scripts configured    |
+| `vitepress-theme-yunlefun` · `packages/vitepress-theme-yunlefun` | Shared VitePress theme, Markdown and appearance transitions                | design / docs / wiki; [Integration](/en/guide/vitepress-theme) |
+| `@yunlefun/ui-utils` · `packages/utils`                          | Framework independent DOM utilities, mainly `previewElement`               | Experimental source; build, types and exports are incomplete   |
+| `@yunlefun/metadata` · `packages/metadata`                       | Generated index of names, titles, descriptions and update dates            | Private internal documentation/build package                   |
+| `packages/css`                                                   | Pulse and animation examples; legacy aurora files retained                 | No `package.json`; not an npm package                          |
+| `registry.json` and `packages/public/r`                          | Declare and generate source installed by URL                               | A distribution channel for the same implementations            |
+| `@yunlefun/design-monorepo`                                      | Workspace dependencies, builds and verification                            | Private root; applications do not install it                   |
 
 Release configuration describes repository capability; it does not establish that the latest local changes are already on npm.
 

@@ -8,15 +8,16 @@ outline: deep
 
 ## 当前包和目录
 
-| 包或目录                                   | 作用                                                         | 使用者与当前状态                                 |
-| ------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------ |
-| `@yunlefun/ui` · `packages/ui`             | 共享颜色、字体角色、圆角、阴影、主题变量；可选字体加载       | Web 应用的样式基础，已有包导出配置               |
-| `@yunlefun/vue` · `packages/vue`           | `YlfButton`、`YlfDialog` 等 Vue 组件，以及 Nuxt 组件自动导入 | Vue / Nuxt 应用，已有构建和发布脚本              |
-| `@yunlefun/ui-utils` · `packages/utils`    | 不依赖 Vue 的 DOM 工具，目前主要是 `previewElement`          | 实验性源码工具；尚无完整的构建、类型和包导出配置 |
-| `@yunlefun/metadata` · `packages/metadata` | 生成组件名称、标题、说明和更新时间的索引                     | 私有内部包，供文档导航与构建使用                 |
-| `packages/css`                             | pulse、animation 等样式示例；aurora 仅保留旧文件             | 没有 `package.json`，不是独立 npm 包             |
-| `registry.json` 与 `packages/public/r`     | 声明并生成可通过 URL 安装的组件源码                          | 分发渠道，不是另一套组件实现                     |
-| `@yunlefun/design-monorepo`                | 管理构建、验证与工作区依赖                                   | 私有根包，业务应用不安装                         |
+| 包或目录                                                         | 作用                                                         | 使用者与当前状态                                         |
+| ---------------------------------------------------------------- | ------------------------------------------------------------ | -------------------------------------------------------- |
+| `@yunlefun/ui` · `packages/ui`                                   | 共享颜色、字体角色、圆角、阴影、主题变量；可选字体加载       | Web 应用的样式基础，已有包导出配置                       |
+| `@yunlefun/vue` · `packages/vue`                                 | `YlfButton`、`YlfDialog` 等 Vue 组件，以及 Nuxt 组件自动导入 | Vue / Nuxt 应用，已有构建和发布脚本                      |
+| `vitepress-theme-yunlefun` · `packages/vitepress-theme-yunlefun` | 共享 VitePress 主题、Markdown 和亮暗过渡                     | design / docs / wiki；[主题接入](/guide/vitepress-theme) |
+| `@yunlefun/ui-utils` · `packages/utils`                          | 不依赖 Vue 的 DOM 工具，目前主要是 `previewElement`          | 实验性源码工具；尚无完整的构建、类型和包导出配置         |
+| `@yunlefun/metadata` · `packages/metadata`                       | 生成组件名称、标题、说明和更新时间的索引                     | 私有内部包，供文档导航与构建使用                         |
+| `packages/css`                                                   | pulse、animation 等样式示例；aurora 仅保留旧文件             | 没有 `package.json`，不是独立 npm 包                     |
+| `registry.json` 与 `packages/public/r`                           | 声明并生成可通过 URL 安装的组件源码                          | 分发渠道，不是另一套组件实现                             |
+| `@yunlefun/design-monorepo`                                      | 管理构建、验证与工作区依赖                                   | 私有根包，业务应用不安装                                 |
 
 表中的“已有发布配置”描述仓库能力，不代表本地最新改动已经发布到 npm。
 

@@ -1,0 +1,97 @@
+/* 原生首页沿用共享表面，业务首页可以继续提供自己的组件。 */
+:root {
+  --vp-home-hero-name-color: var(--ylf-c-brand);
+  --vp-home-hero-image-background-image: none;
+  --vp-button-alt-border: var(--ylf-c-border-strong);
+  --vp-button-alt-text: var(--ylf-c-text);
+  --vp-button-alt-bg: var(--ylf-c-surface);
+  --vp-button-alt-hover-border: var(--ylf-c-brand);
+  --vp-button-alt-hover-text: var(--ylf-c-brand);
+  --vp-button-alt-hover-bg: var(--ylf-c-surface-raised);
+}
+.VPHomeHero .name,
+.VPHomeHero .text {
+  font-family: var(--ylf-font-heading);
+  font-weight: 750;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+.VPHomeHero .tagline {
+  max-width: 640px;
+  line-height: var(--ylf-leading-body);
+}
+.VPHomeHero .image-src {
+  max-width: min(300px, 68vw);
+  max-height: 300px;
+  border-radius: var(--ylf-radius-xl);
+  box-shadow: var(--ylf-shadow);
+}
+.VPButton {
+  border-radius: var(--ylf-radius-sm);
+  font-weight: 600;
+}
+.VPButton.brand {
+  box-shadow: var(--ylf-glow-brand);
+}
+.VPFeature {
+  border: 1px solid var(--ylf-c-border);
+  border-radius: var(--ylf-radius);
+  background: var(--ylf-c-surface);
+  box-shadow: var(--ylf-shadow-control);
+  transition:
+    border-color var(--ylf-duration-fast),
+    background-color var(--ylf-duration-fast);
+}
+.VPFeature:hover {
+  border-color: var(--ylf-c-brand);
+  background: var(--ylf-c-surface-raised);
+}
+.VPFeature .icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--ylf-c-border);
+  border-radius: var(--ylf-radius-sm);
+  background: var(--ylf-c-brand-soft);
+  color: var(--ylf-c-brand);
+}
+.VPFeature .icon svg {
+  width: 22px;
+  height: 22px;
+}
+.VPFeature .title {
+  font-family: var(--ylf-font-heading);
+}
+.VPHome .vp-doc {
+  margin-top: var(--ylf-space-12);
+  padding-top: var(--ylf-space-8);
+  border-top: 1px solid var(--ylf-c-border);
+}
+@media (min-width: 960px) {
+  .VPHomeHero .container {
+    display: flex;
+    align-items: center;
+    gap: var(--ylf-space-12);
+  }
+  .VPHomeHero .main {
+    flex: 1;
+    width: auto;
+    min-width: 0;
+    max-width: none;
+  }
+  .VPHomeHero .image {
+    flex: 0 1 320px;
+    min-width: 0;
+    max-width: 40%;
+  }
+  .VPHomeHero .image-container {
+    width: 100%;
+    height: 320px;
+    transform: none;
+  }
+  .VPHomeHero .image-src {
+    max-width: min(300px, 100%);
+  }
+}

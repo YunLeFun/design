@@ -1,7 +1,8 @@
 import type { DefaultTheme } from 'vitepress'
 import { defineConfig } from 'vitepress'
-
 import { groupIconMdPlugin } from 'vitepress-plugin-group-icons'
+
+import { withYunlefun } from 'vitepress-theme-yunlefun/config'
 import { metadata } from '../metadata/metadata'
 import { markdownTables } from './plugins/markdownTables'
 
@@ -20,6 +21,7 @@ export const defaultSideBar: DefaultTheme.Sidebar = [
     text: '开发与接入',
     items: [
       { text: '开始使用', link: '/guide/' },
+      { text: 'VitePress 主题', link: '/guide/vitepress-theme' },
       { text: '子包职责', link: '/guide/packages' },
       { text: '组件架构', link: '/guide/architecture' },
       { text: '组件验收', link: '/guide/component-acceptance' },
@@ -48,6 +50,7 @@ const englishLabels: Record<string, string> = {
   '字体规范': 'Typography',
   '开发与接入': 'Development and adoption',
   '开始使用': 'Get started',
+  'VitePress 主题': 'VitePress theme',
   '子包职责': 'Package responsibilities',
   '组件架构': 'Component architecture',
   '组件验收': 'Component acceptance',
@@ -72,7 +75,7 @@ const englishSidebar: DefaultTheme.Sidebar = defaultSideBar.map(section => ({
 }))
 
 // https://vitepress.dev/reference/site-config
-export default defineConfig({
+export default defineConfig(withYunlefun({
   lang: 'zh-Hans',
   title: '云乐坊设计系统',
   description: '云乐坊设计系统：统一的设计规范、品牌视觉、设计变量与可复用 UI 组件。',
@@ -204,22 +207,9 @@ export default defineConfig({
     config: (md) => {
       md.use(groupIconMdPlugin)
       md.use(markdownTables)
-      // Explicit IDs keep bilingual chapter links stable, but are not spoken labels.
-      md.core.ruler.after('anchor', 'ylf-heading-labels', (state) => {
-        for (let index = 0; index < state.tokens.length; index++) {
-          if (state.tokens[index].type !== 'heading_open')
-            continue
-          const inline = state.tokens[index + 1]
-          const title = inline.content.replace(/\s*\{#[^}]+\}\s*$/, '')
-          for (const child of inline.children || []) {
-            if (child.type === 'link_open' && child.attrGet('class')?.includes('header-anchor'))
-              child.attrSet('aria-label', title)
-          }
-        }
-      })
     },
   },
-})
+}))
 
 function getVueComponentsSidebar(english = false) {
   const prefix = english ? '/en' : ''

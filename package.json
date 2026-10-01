@@ -15,8 +15,8 @@
     "build:ui": "pnpm -C packages/ui run build",
     "ci:publish": "node scripts/publish-packages.mjs",
     "dev": "pnpm run docs:dev",
-    "docs:dev": "pnpm registry:build && vitepress dev packages",
-    "docs:build": "pnpm build:ui && pnpm registry:build && vitepress build packages",
+    "docs:dev": "pnpm build:theme && pnpm registry:build && vitepress dev packages",
+    "docs:build": "pnpm build:ui && pnpm build:theme && pnpm registry:build && vitepress build packages",
     "docs:preview": "vitepress preview packages",
     "lint": "eslint .",
     "nuxt:verify": "pnpm -C packages/vue exec nuxt build ../../test/fixtures/nuxt4",
@@ -29,12 +29,15 @@
     "prepare": "pnpm run update",
     "release": "pnpm run release:vue",
     "release:vue": "pnpm -C packages/vue run release",
-    "test": "vitest"
+    "test": "vitest",
+    "build:theme": "pnpm -C packages/vitepress-theme-yunlefun run build",
+    "theme:verify": "node scripts/verify-theme-package.mjs"
   },
   "dependencies": {
     "@yunlefun/metadata": "workspace:*",
     "@yunlefun/ui": "workspace:*",
     "@yunlefun/vue": "workspace:*",
+    "vitepress-theme-yunlefun": "workspace:*",
     "vue": "^3.5.41"
   },
   "devDependencies": {
