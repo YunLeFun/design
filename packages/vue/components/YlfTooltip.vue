@@ -39,17 +39,18 @@ withDefaults(defineProps<{
 .ylf-tooltip {
   z-index: 110;
   max-width: 240px;
-  padding: 7px 11px;
+  padding: 8px 12px;
   font-size: 13px;
   line-height: 1.5;
   color: var(--ylf-c-bg, #fbfcff);
   background: var(--ylf-c-text, #0f172a);
   border-radius: var(--ylf-radius-sm, 10px);
+  border: 1px solid color-mix(in srgb, var(--ylf-c-bg, #fbfcff) 15%, transparent);
   box-shadow: var(--ylf-shadow, 0 10px 28px -8px rgba(15, 23, 42, 0.16));
   transform-origin: var(--reka-tooltip-content-transform-origin);
 
   &[data-state='delayed-open'] {
-    animation: ylf-pop-in 0.16s ease;
+    animation: ylf-tooltip-in 0.16s ease;
   }
 
   &__arrow {
@@ -57,7 +58,7 @@ withDefaults(defineProps<{
   }
 }
 
-@keyframes ylf-pop-in {
+@keyframes ylf-tooltip-in {
   from {
     opacity: 0;
     transform: scale(0.94);

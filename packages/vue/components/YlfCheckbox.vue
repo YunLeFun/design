@@ -44,6 +44,7 @@ const checked = defineModel<boolean | 'indeterminate'>({ default: false })
   border: 2px solid var(--ylf-c-border-strong, #cbd5e1);
   border-radius: 7px;
   background: var(--ylf-c-surface, #fff);
+  box-shadow: var(--ylf-shadow-control);
   color: var(--ylf-c-text-on-accent, #fff);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
@@ -57,7 +58,8 @@ const checked = defineModel<boolean | 'indeterminate'>({ default: false })
   }
 
   &:focus-visible {
-    outline: none;
+    outline: 2px solid var(--ylf-c-brand, #2563eb);
+    outline-offset: 3px;
     box-shadow: 0 0 0 3px var(--ylf-c-brand-soft, #eff6ff);
   }
 
@@ -65,6 +67,7 @@ const checked = defineModel<boolean | 'indeterminate'>({ default: false })
   &[data-state='indeterminate'] {
     background: var(--ylf-c-brand, #2563eb);
     border-color: var(--ylf-c-brand, #2563eb);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22);
   }
 
   &[data-disabled] {

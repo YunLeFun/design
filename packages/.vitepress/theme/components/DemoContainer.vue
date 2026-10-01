@@ -152,7 +152,7 @@ onErrorCaptured((err) => {
   border: 1px solid var(--ylf-c-border);
   border-radius: var(--ylf-radius-lg);
   background: var(--ylf-c-surface);
-  box-shadow: none;
+  box-shadow: var(--ylf-shadow-control);
 }
 
 .ylf-demo-preview__toolbar {
@@ -206,7 +206,8 @@ onErrorCaptured((err) => {
   gap: 2px;
   padding: 2px;
   border-radius: var(--ylf-radius-sm);
-  background: var(--ylf-c-bg-soft);
+  background: var(--ylf-c-surface-inset, var(--ylf-c-bg-soft));
+  box-shadow: var(--ylf-shadow-inset);
 }
 
 .ylf-demo-preview__control-group button,
@@ -241,7 +242,7 @@ onErrorCaptured((err) => {
   &[aria-pressed='true'] {
     color: var(--ylf-c-brand);
     background: var(--ylf-c-surface);
-    box-shadow: 0 1px 4px rgba(27, 34, 56, 0.12);
+    box-shadow: var(--ylf-shadow-control);
   }
 }
 
@@ -258,7 +259,7 @@ onErrorCaptured((err) => {
   padding: clamp(18px, 4vw, 40px);
   background-color: var(--ylf-c-bg-soft);
   background-image: radial-gradient(var(--ylf-c-grid) 1px, transparent 1px);
-  background-size: 12px 12px;
+  background-size: 16px 16px;
 }
 
 .ylf-demo-preview__frame {
@@ -268,8 +269,8 @@ onErrorCaptured((err) => {
   overflow: visible;
   border: 1px solid var(--ylf-c-border);
   border-radius: var(--ylf-radius);
-  background: var(--ylf-c-bg);
-  box-shadow: var(--ylf-shadow-sm);
+  background: var(--ylf-c-surface-raised, var(--ylf-c-bg));
+  box-shadow: var(--ylf-shadow-control);
   color: var(--ylf-c-text);
   transition:
     max-width var(--ylf-duration-normal) var(--ylf-ease-standard),

@@ -5,6 +5,7 @@ import { computed, shallowRef, useId } from 'vue'
 import YlfBadge from '../../../vue/components/YlfBadge.vue'
 import YlfButton from '../../../vue/components/YlfButton.vue'
 import YlfCard from '../../../vue/components/YlfCard.vue'
+import YlfDialog from '../../../vue/components/YlfDialog.vue'
 import YlfSelect from '../../../vue/components/YlfSelect.vue'
 import YlfSwitch from '../../../vue/components/YlfSwitch.vue'
 
@@ -24,6 +25,8 @@ const appearances: { value: YlfColorAppearance, label: string }[] = [
 const night = shallowRef(false)
 const tone = shallowRef<YlfAccentTone>('blue')
 const appearance = shallowRef<YlfColorAppearance>('solid')
+const dialogOpen = shallowRef(false)
+const cloudFillId = `ylf-cloud-fill-${useId()}`
 const toneLabel = computed(() => tones.find(item => item.value === tone.value)!.label)
 const nightId = useId()
 const toneId = useId()
@@ -46,24 +49,32 @@ function resetAppearance() {
   <section class="design-playground" :class="night ? 'ylf-theme-dark' : 'ylf-theme-light'" aria-label="设计主题交互预览">
     <div class="design-playground__sky ylf-pattern-sky">
       <div class="design-playground__grid ylf-pattern-grid" aria-hidden="true" />
-      <svg class="design-playground__cloud" viewBox="0 0 400 150" fill="currentColor" aria-hidden="true">
-        <path d="M0 150V117c20-29 58-29 80-7 1-29 25-52 55-48 13-41 76-51 104-14 39-11 65 11 68 42 44-15 81 11 93 33v27Z" />
+      <div class="design-playground__sun" aria-hidden="true" />
+      <svg class="design-playground__cloud" viewBox="0 0 400 220" fill="none" aria-hidden="true">
+        <defs>
+          <linearGradient :id="cloudFillId" x1="200" y1="60" x2="210" y2="190" gradientUnits="userSpaceOnUse">
+            <stop stop-color="var(--ylf-c-cloud)" />
+            <stop offset="1" stop-color="var(--ylf-c-sky)" />
+          </linearGradient>
+        </defs>
+        <path d="M102 181c-30 0-53-21-53-48 0-28 24-50 53-50 7 0 14 1 20 4 5-36 35-62 72-62 36 0 66 25 72 58 8-3 17-5 26-5 34 0 61 24 61 53 0 28-26 50-58 50H102Z" :fill="`url(#${cloudFillId})`" stroke="var(--ylf-c-highlight)" stroke-width="1.5" />
+        <path d="M83 102c7-5 15-7 23-7m33-12c8-25 28-42 56-42" stroke="var(--ylf-c-highlight)" stroke-width="4" stroke-linecap="round" />
       </svg>
       <div class="design-playground__caption">
         <span :class="night ? 'i-ri-moon-clear-line' : 'i-ri-sun-line'" aria-hidden="true" />
-        <span>{{ night ? '夜空，也清晰' : '今天，晴空正好' }}</span>
+        <span>{{ night ? '灵感在夜空继续' : '今天，晴空正好' }}</span>
       </div>
     </div>
     <div :id="portalTargetId" class="design-playground__portal vp-raw" />
     <ConfigProvider :teleport-to="portalTargetSelector">
-      <YlfCard class="design-playground__card" :hoverable="false" variant="tinted" :tone="tone" padding="var(--ylf-space-6)">
+      <YlfCard class="design-playground__card" :hoverable="false" variant="glass" :tone="tone" padding="var(--ylf-space-6)">
         <div class="design-playground__heading">
-          <h2>一点轻盈，恰到好处</h2>
+          <h2>把晴空握在手里</h2>
           <YlfBadge variant="accent" :tone="tone" :appearance="appearance">
             {{ toneLabel }}
           </YlfBadge>
         </div>
-        <p>试着切换外观，看看同一组组件的不同表情。</p>
+        <p>从光线到触感，试试属于你的云端界面。</p>
         <div class="design-playground__setting">
           <label :for="nightId">夜空模式</label>
           <YlfSwitch :id="nightId" v-model="night" />
@@ -80,15 +91,27 @@ function resetAppearance() {
           <YlfButton variant="accent" :tone="tone" :appearance="appearance" @click="nextTone">
             换个颜色
           </YlfButton>
+          <YlfDialog v-model:open="dialogOpen" title="灵感，轻轻落在云端" description="细腻的光线与清晰的层次，让每一次交互都更从容。">
+            <template #trigger>
+              <YlfButton variant="secondary">
+                体验浮层
+              </YlfButton>
+            </template>
+            <div class="design-playground__dialog-scene" aria-hidden="true">
+              <span class="i-ri-cloud-line" />
+            </div>
+            <div class="design-playground__dialog-actions">
+              <YlfButton block @click="dialogOpen = false">
+                继续探索
+              </YlfButton>
+            </div>
+          </YlfDialog>
           <YlfButton variant="ghost" @click="resetAppearance">
             重置
           </YlfButton>
         </div>
       </YlfCard>
     </ConfigProvider>
-    <p class="design-playground__footnote">
-      真实组件 · 即刻体验
-    </p>
   </section>
 </template>
 
@@ -97,17 +120,18 @@ function resetAppearance() {
   position: relative;
   isolation: isolate;
   min-width: 0;
-  border: 1px solid var(--ylf-c-border);
-  border-radius: var(--ylf-radius-xl);
-  background: var(--ylf-c-bg-soft);
+  padding-bottom: 1px;
   color: var(--ylf-c-text);
-  transition: background-color var(--ylf-duration-normal) var(--ylf-ease-standard);
 }
 .design-playground__sky {
   position: relative;
-  height: 195px;
+  height: 330px;
   overflow: hidden;
-  border-radius: var(--ylf-radius-xl) var(--ylf-radius-xl) 0 0;
+  border: 1px solid var(--ylf-c-border);
+  border-radius: 120px 120px 32px 32px;
+  background-color: var(--ylf-c-sky);
+  background-image: radial-gradient(ellipse at 50% 0%, var(--ylf-c-bg) 0, transparent 75%);
+  box-shadow: inset 0 1px 0 var(--ylf-c-highlight);
 }
 .design-playground__portal {
   display: contents;
@@ -115,87 +139,157 @@ function resetAppearance() {
 .design-playground__grid {
   position: absolute;
   inset: 0;
-  mask-image: linear-gradient(#000, transparent);
+  opacity: 0.65;
+  mask-image: linear-gradient(transparent, #000 35%, transparent);
+}
+.design-playground__sun {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  top: 58px;
+  right: 58px;
+  border: 1px solid color-mix(in srgb, var(--ylf-accent-sun) 75%, #fff);
+  border-radius: 50%;
+  background: var(--ylf-accent-sun);
+  box-shadow:
+    inset 0 3px 4px rgba(255, 255, 255, 0.5),
+    0 0 0 14px color-mix(in srgb, var(--ylf-accent-sun) 10%, transparent),
+    0 0 0 30px color-mix(in srgb, var(--ylf-accent-sun) 5%, transparent);
+  transition:
+    background var(--ylf-duration-normal),
+    box-shadow var(--ylf-duration-normal),
+    transform var(--ylf-duration-normal);
+}
+.ylf-theme-dark .design-playground__sun {
+  background: var(--ylf-c-brand);
+  border-color: var(--ylf-c-brand);
+  box-shadow:
+    inset -18px 5px 0 var(--ylf-c-sky),
+    0 0 0 14px color-mix(in srgb, var(--ylf-c-brand) 8%, transparent),
+    0 0 0 30px color-mix(in srgb, var(--ylf-c-brand) 4%, transparent);
+  transform: rotate(-18deg);
 }
 .design-playground__cloud {
   position: absolute;
   width: 100%;
-  height: 150px;
-  bottom: 0;
-  color: var(--ylf-c-cloud);
+  height: 245px;
+  top: 59px;
+  left: -18px;
+  filter: drop-shadow(0 14px 9px color-mix(in srgb, var(--ylf-c-brand) 14%, transparent));
 }
 .design-playground__caption {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--ylf-space-2);
-  padding-top: 42px;
-  color: var(--ylf-c-brand);
-  font-size: var(--ylf-text-sm);
+  gap: 8px;
+  width: fit-content;
+  margin: 24px auto 0;
+  padding: 7px 13px;
+  border: 1px solid var(--ylf-glass-border);
+  border-radius: var(--ylf-radius-pill);
+  background: var(--ylf-glass-bg);
+  color: var(--ylf-c-text-2);
+  font-size: 12px;
+  backdrop-filter: var(--ylf-glass-blur);
 }
 .design-playground__caption > span:first-child {
-  font-size: 20px;
+  font-size: 16px;
+  color: var(--ylf-c-brand);
 }
 .design-playground__card {
-  margin: -56px var(--ylf-space-6) 0;
+  position: relative;
+  margin: -91px 22px 0;
+  border-radius: 22px;
+  border-color: color-mix(in srgb, var(--ylf-accent) 25%, var(--ylf-c-border));
 }
 .design-playground__heading {
   display: flex;
-  gap: var(--ylf-space-2);
+  gap: 8px;
   align-items: center;
   justify-content: space-between;
 }
 .design-playground h2 {
-  font-size: 18px;
-  line-height: 1.5;
-  font-weight: 600;
   margin: 0;
+  font: 650 20px/1.5 var(--ylf-font-heading);
+  letter-spacing: -0.025em;
 }
 .design-playground__card > p {
-  margin: var(--ylf-space-3) 0 var(--ylf-space-6);
+  margin: 8px 0 22px;
   color: var(--ylf-c-text-2);
-  font-size: var(--ylf-text-sm);
-  line-height: var(--ylf-leading-body);
+  font-size: 13px;
+  line-height: 1.75;
 }
 .design-playground__setting {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--ylf-space-3);
-  min-height: 52px;
-  font-size: var(--ylf-text-sm);
+  gap: 12px;
+  min-height: 56px;
+  font-size: 14px;
+}
+.design-playground__setting + .design-playground__setting {
+  border-top: 1px solid color-mix(in srgb, var(--ylf-c-border) 60%, transparent);
 }
 .design-playground__setting label {
   flex: 1;
   cursor: pointer;
 }
 .design-playground__setting :deep(.design-playground__select) {
-  width: 132px;
+  width: 140px;
   min-width: 0;
   max-width: 60%;
-  font-size: var(--ylf-text-sm);
+  font-size: 14px;
 }
 .design-playground__actions {
   display: flex;
-  gap: var(--ylf-space-2);
-  padding-top: var(--ylf-space-6);
-  margin-top: var(--ylf-space-3);
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding-top: 22px;
+  margin-top: 10px;
   border-top: 1px solid var(--ylf-c-border);
 }
-.design-playground__footnote {
-  margin: var(--ylf-space-4) 0;
-  text-align: center;
-  color: var(--ylf-c-text-3);
-  font-size: var(--ylf-text-xs);
+.design-playground__actions :deep(.ylf-button) {
+  padding-inline: 18px;
+  font-size: 13px;
+}
+.design-playground__actions :deep(.ylf-button--ghost) {
+  margin-left: auto;
+  padding-inline: 8px;
+}
+.design-playground__dialog-scene {
+  display: grid;
+  place-items: center;
+  height: 128px;
+  border: 1px solid var(--ylf-c-border);
+  border-radius: var(--ylf-radius);
+  background: var(--ylf-c-sky);
+  color: var(--ylf-c-brand);
+  box-shadow: var(--ylf-shadow-inset);
+}
+.design-playground__dialog-scene span {
+  font-size: 72px;
+  filter: drop-shadow(0 8px 4px color-mix(in srgb, var(--ylf-c-brand) 20%, transparent));
+}
+.design-playground__dialog-actions {
+  margin-top: 24px;
 }
 @media (min-width: 768px) and (max-width: 959px), (max-width: 400px) {
   .design-playground__card {
-    margin-inline: var(--ylf-space-3);
-    padding: var(--ylf-space-4) !important;
+    margin-inline: 10px;
+    padding: 20px !important;
   }
   .design-playground h2 {
-    font-size: 16px;
+    font-size: 17px;
+  }
+  .design-playground__sun {
+    right: 32px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .design-playground__sun {
+    transition: none;
   }
 }
 </style>

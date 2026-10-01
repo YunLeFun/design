@@ -82,6 +82,7 @@ function onClick(e: MouseEvent) {
 <style lang="scss">
 .ylf-button {
   --_radius: var(--ylf-radius, 14px);
+  --_fill: var(--ylf-c-brand, #2563eb);
 
   display: inline-flex;
   align-items: center;
@@ -112,12 +113,9 @@ function onClick(e: MouseEvent) {
     width: 100%;
   }
 
-  &:active {
-    transform: scale(0.96);
-  }
-
   &:focus-visible {
-    outline: none;
+    outline: 2px solid var(--ylf-c-brand, #2563eb);
+    outline-offset: 4px;
     box-shadow:
       0 0 0 3px var(--ylf-c-brand-soft, #eff6ff),
       0 0 0 5px var(--ylf-c-brand, #2563eb);
@@ -143,25 +141,36 @@ function onClick(e: MouseEvent) {
   &--primary {
     color: var(--ylf-c-text-on-accent, #fff);
     background: var(--ylf-c-brand, #2563eb);
-    box-shadow: var(--ylf-shadow-sm);
+    border-color: color-mix(in srgb, var(--_fill) 85%, #000);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.22),
+      0 2px 0 color-mix(in srgb, var(--_fill) 80%, #000),
+      0 6px 14px -6px color-mix(in srgb, var(--_fill) 40%, transparent);
 
     &:hover {
       background: var(--ylf-c-brand-hover, #1d4ed8);
-      transform: translateY(-2px);
-      box-shadow: var(--ylf-shadow-sm);
+      transform: translateY(-1px);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.22),
+        0 3px 0 color-mix(in srgb, var(--_fill) 80%, #000),
+        0 8px 18px -6px color-mix(in srgb, var(--_fill) 35%, transparent);
     }
   }
 
   // 强调色来自共享上下文；实色上的文字与填充色成组维护。
   &--accent,
   &--aurora {
+    --_fill: var(--ylf-accent, var(--ylf-c-brand, #2563eb));
     --_color: var(--ylf-accent, var(--ylf-c-brand, #2563eb));
     --_soft: var(--ylf-accent-soft, var(--ylf-c-brand-soft, #eff6ff));
     --_text: var(--ylf-accent-text, var(--ylf-c-brand, #2563eb));
 
     color: var(--ylf-accent-on, var(--ylf-c-text-on-accent, #fff));
     background: var(--ylf-accent, var(--ylf-c-brand, #2563eb));
-    box-shadow: var(--ylf-shadow-sm);
+    border-color: color-mix(in srgb, var(--_fill) 82%, #000);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.2),
+      0 2px 0 color-mix(in srgb, var(--_fill) 78%, #000);
 
     &:hover {
       background: var(--ylf-accent-hover, var(--ylf-c-brand-hover, #1d4ed8));
@@ -173,11 +182,12 @@ function onClick(e: MouseEvent) {
     color: var(--ylf-c-text, #0f172a);
     background: var(--ylf-c-surface, #fff);
     border-color: var(--ylf-c-border-strong, #cbd5e1);
+    box-shadow: var(--ylf-shadow-control);
 
     &:hover {
       color: var(--ylf-c-brand, #2563eb);
       border-color: var(--ylf-c-brand, #2563eb);
-      transform: translateY(-2px);
+      transform: translateY(-1px);
     }
   }
 
@@ -185,9 +195,10 @@ function onClick(e: MouseEvent) {
   &--soft {
     color: var(--ylf-c-brand, #2563eb);
     background: var(--ylf-c-brand-soft, #eff6ff);
+    border-color: color-mix(in srgb, var(--ylf-c-brand, #2563eb) 12%, transparent);
 
     &:hover {
-      transform: translateY(-2px);
+      transform: translateY(-1px);
       box-shadow: var(--ylf-shadow-sm, 0 2px 8px -2px rgba(15, 23, 42, 0.12));
     }
   }
@@ -253,6 +264,10 @@ function onClick(e: MouseEvent) {
   }
 
   // --- 状态 ---
+  &:active:not(.is-disabled, .is-loading) {
+    transform: translateY(1px) scale(0.985);
+  }
+
   &.is-disabled,
   &:disabled {
     opacity: 0.45;

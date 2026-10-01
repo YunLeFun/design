@@ -36,14 +36,15 @@ const open = defineModel<boolean>('open', { default: false })
   max-width: 320px;
   padding: 16px;
   color: var(--ylf-c-text, #0f172a);
-  background: var(--ylf-c-surface, #fff);
+  background: var(--ylf-c-panel, var(--ylf-c-surface, #fff));
   border: 1px solid var(--ylf-c-border, #e2e8f0);
   border-radius: var(--ylf-radius, 14px);
-  box-shadow: var(--ylf-shadow-lg, 0 22px 56px -14px rgba(15, 23, 42, 0.22));
+  box-shadow: var(--ylf-shadow-panel, 0 22px 56px -14px rgba(15, 23, 42, 0.22));
+  backdrop-filter: var(--ylf-glass-blur, blur(16px));
   transform-origin: var(--reka-popover-content-transform-origin);
 
   &[data-state='open'] {
-    animation: ylf-pop-in 0.18s var(--ylf-ease-bounce, cubic-bezier(0.34, 1.56, 0.64, 1));
+    animation: ylf-popover-in 0.18s var(--ylf-ease-bounce, cubic-bezier(0.34, 1.56, 0.64, 1));
   }
 
   &__arrow {
@@ -52,7 +53,7 @@ const open = defineModel<boolean>('open', { default: false })
   }
 }
 
-@keyframes ylf-pop-in {
+@keyframes ylf-popover-in {
   from {
     opacity: 0;
     transform: scale(0.96);

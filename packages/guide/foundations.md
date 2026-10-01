@@ -22,6 +22,21 @@ outline: deep
 
 玻璃表面和渐变的可读性取决于实际背景，需要在真实页面中验证。不能仅凭单个颜色值宣称整套组件已经通过无障碍验收。
 
+## 表面与光线
+
+表面按内容、控件、浮层分配材质。细节由明暗主题成组维护，组件不单独复制一套深色样式。
+
+| Token                    | 用途                             |
+| ------------------------ | -------------------------------- |
+| `--ylf-c-surface-raised` | 轻微提亮的内容分组               |
+| `--ylf-c-surface-inset`  | 分段选择器、工具栏的凹槽         |
+| `--ylf-c-highlight`      | 细薄的顶部高光                   |
+| `--ylf-c-panel`          | 高不透明度浮层，优先保证正文可读 |
+| `--ylf-c-edge`           | 表面接触边缘                     |
+| `--ylf-overlay-blur`     | 模态遮罩的背景柔化               |
+
+`glass` 卡片适合有云景等背景的品牌展示，`panel` 用在需要长时间阅读或操作的浮层。装饰光线不承担文字颜色或状态含义。
+
 ## 字体与层级
 
 展示、品牌字、产品标题和正文分别使用 `--ylf-font-display`、`--ylf-font-wordmark`、`--ylf-font-heading` 和 `--ylf-font-body`。
@@ -73,7 +88,7 @@ outline: deep
 
 现有圆角 token 为 10、14、20、28px 和 pill。小控件、标准控件、内容容器依层次选用，胶囊用于按钮和标签等合适的形态。
 
-`--ylf-shadow-sm`、`--ylf-shadow`、`--ylf-shadow-lg` 表达表面层级；组件使用中性表面阴影，纯色强调不增加彩色发光。日常控件的反馈优先通过颜色、边框和状态完成，持续装饰动效应可关闭。
+`--ylf-shadow-sm`、`--ylf-shadow`、`--ylf-shadow-lg` 表达表面层级。控件用 `--ylf-shadow-control` 保留细薄高光和接触阴影；轨道与凹槽用 `--ylf-shadow-inset`；Dialog、菜单和 Popover 用 `--ylf-shadow-panel` 表达悬浮层。主按钮的薄边与按压回应点击，品牌云景可以表达日夜变化；静态内容保持稳定。
 
 交互反馈使用 `--ylf-duration-fast`（160ms），布局或面板变化使用 `--ylf-duration-normal`（240ms），配合 `--ylf-ease-standard`。系统开启 `prefers-reduced-motion: reduce` 时，两种时长都变为 0ms。独立实现的弹簧、循环动画也需要单独处理这个媒体查询。
 

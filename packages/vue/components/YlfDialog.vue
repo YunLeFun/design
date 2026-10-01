@@ -79,11 +79,11 @@ const descriptionProps = computed(() => hasDescription.value
   inset: 0;
   z-index: 100;
   background: var(--ylf-c-overlay, rgba(13, 17, 32, 0.45));
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: var(--ylf-overlay-blur, blur(10px));
+  backdrop-filter: var(--ylf-overlay-blur, blur(10px));
 
   &[data-state='open'] {
-    animation: ylf-dialog-overlay-in 0.2s ease;
+    animation: ylf-dialog-overlay-in var(--ylf-duration-normal, 240ms) ease;
   }
 }
 
@@ -93,18 +93,20 @@ const descriptionProps = computed(() => hasDescription.value
   top: 50%;
   left: 50%;
   width: calc(100vw - 32px);
-  max-width: 460px;
+  max-width: 480px;
   max-height: calc(100vh - 32px);
   overflow: auto;
-  padding: 24px;
+  padding: 28px;
   transform: translate(-50%, -50%);
   border-radius: var(--ylf-radius-lg, 20px);
-  background: var(--ylf-c-surface, #fff);
+  background: var(--ylf-c-panel, var(--ylf-c-surface, #fff));
   border: 1px solid var(--ylf-c-border, #e2e8f0);
-  box-shadow: var(--ylf-shadow-lg, 0 22px 56px -14px rgba(15, 23, 42, 0.22));
+  box-shadow: var(--ylf-shadow-panel, 0 22px 56px -14px rgba(15, 23, 42, 0.22));
+  -webkit-backdrop-filter: var(--ylf-glass-blur, blur(16px));
+  backdrop-filter: var(--ylf-glass-blur, blur(16px));
 
   &[data-state='open'] {
-    animation: ylf-dialog-in 0.22s var(--ylf-ease-bounce, cubic-bezier(0.34, 1.56, 0.64, 1));
+    animation: ylf-dialog-in var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease);
   }
 
   &:focus-visible {
@@ -113,20 +115,22 @@ const descriptionProps = computed(() => hasDescription.value
 }
 
 .ylf-dialog__title {
-  margin: 0 0 6px;
+  margin: 0 0 10px;
   padding-right: 32px;
   overflow-wrap: anywhere;
   font-family: var(--ylf-font-heading, inherit);
-  font-size: 19px;
-  font-weight: 700;
+  font-size: 24px;
+  font-weight: 650;
+  line-height: 1.35;
+  letter-spacing: -0.03em;
   color: var(--ylf-c-text, #0f172a);
 }
 
 .ylf-dialog__desc {
-  margin: 0 0 16px;
+  margin: 0 0 24px;
   overflow-wrap: anywhere;
   font-size: 14px;
-  line-height: 1.6;
+  line-height: 1.75;
   color: var(--ylf-c-text-2, #475569);
 }
 
@@ -141,7 +145,8 @@ const descriptionProps = computed(() => hasDescription.value
   padding: 0;
   border: none;
   border-radius: var(--ylf-radius-sm, 10px);
-  background: transparent;
+  background: var(--ylf-c-surface-raised, transparent);
+  box-shadow: inset 0 1px 0 var(--ylf-c-highlight, transparent);
   color: var(--ylf-c-text-3, #64748b);
   cursor: pointer;
   transition:
@@ -159,8 +164,13 @@ const descriptionProps = computed(() => hasDescription.value
   }
 
   svg {
-    width: 18px;
-    height: 18px;
+    width: 16px;
+    height: 16px;
+    transition: transform var(--ylf-duration-fast, 160ms) ease;
+  }
+
+  &:hover svg {
+    transform: rotate(90deg);
   }
 }
 
@@ -182,7 +192,7 @@ const descriptionProps = computed(() => hasDescription.value
 @keyframes ylf-dialog-in {
   from {
     opacity: 0;
-    transform: translate(-50%, -46%) scale(0.96);
+    transform: translate(-50%, -47%) scale(0.98);
   }
 }
 
@@ -190,6 +200,10 @@ const descriptionProps = computed(() => hasDescription.value
   .ylf-dialog__overlay[data-state='open'],
   .ylf-dialog__content[data-state='open'] {
     animation: none;
+  }
+
+  .ylf-dialog__close svg {
+    transition: none;
   }
 }
 </style>

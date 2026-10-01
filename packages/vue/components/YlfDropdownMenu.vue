@@ -49,14 +49,15 @@ const open = defineModel<boolean>('open', { default: false })
   z-index: 105;
   min-width: 180px;
   padding: 6px;
-  background: var(--ylf-c-surface, #fff);
+  background: var(--ylf-c-panel, var(--ylf-c-surface, #fff));
   border: 1px solid var(--ylf-c-border, #e2e8f0);
   border-radius: var(--ylf-radius, 14px);
-  box-shadow: var(--ylf-shadow-lg, 0 22px 56px -14px rgba(15, 23, 42, 0.22));
+  box-shadow: var(--ylf-shadow-panel, 0 22px 56px -14px rgba(15, 23, 42, 0.22));
+  backdrop-filter: var(--ylf-glass-blur, blur(16px));
   transform-origin: var(--reka-dropdown-menu-content-transform-origin);
 
   &[data-state='open'] {
-    animation: ylf-pop-in 0.16s ease;
+    animation: ylf-menu-in 0.16s ease;
   }
 
   &__item {
@@ -69,10 +70,12 @@ const open = defineModel<boolean>('open', { default: false })
     cursor: pointer;
     user-select: none;
     outline: none;
+    transition: background var(--ylf-duration-fast, 160ms) ease;
 
     &[data-highlighted] {
       background: var(--ylf-c-brand-soft, #eff6ff);
       color: var(--ylf-c-brand, #2563eb);
+      box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ylf-c-brand, #2563eb) 12%, transparent);
     }
 
     &[data-disabled] {
@@ -94,7 +97,7 @@ const open = defineModel<boolean>('open', { default: false })
   }
 }
 
-@keyframes ylf-pop-in {
+@keyframes ylf-menu-in {
   from {
     opacity: 0;
     transform: scale(0.96);
@@ -104,6 +107,10 @@ const open = defineModel<boolean>('open', { default: false })
 @media (prefers-reduced-motion: reduce) {
   .ylf-menu[data-state='open'] {
     animation: none;
+  }
+
+  .ylf-menu__item {
+    transition: none;
   }
 }
 </style>

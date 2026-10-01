@@ -36,7 +36,7 @@ const entries = [
           </YlfButton>
         </div>
         <p class="design-hero__note">
-          晴空为底，让好心情多一点颜色。
+          轻盈的表面，清晰的反馈。每个细节都可亲手体验。
         </p>
       </div>
       <DesignPlayground />
@@ -81,7 +81,7 @@ const entries = [
   grid-template-columns: 1.05fr 1fr;
   align-items: center;
   gap: var(--ylf-space-16);
-  padding: 80px 0 var(--ylf-space-16);
+  padding: 64px 0 72px;
 }
 .design-hero__name {
   margin: 0 0 var(--ylf-space-6);
@@ -92,9 +92,9 @@ const entries = [
   margin: 0;
   font-family: var(--ylf-font-heading);
   font-size: var(--ylf-text-display);
-  font-weight: 650;
+  font-weight: 700;
   letter-spacing: -0.045em;
-  line-height: 1.2;
+  line-height: 1.18;
 }
 .design-hero__description {
   max-width: 28em;

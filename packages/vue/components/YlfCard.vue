@@ -41,7 +41,7 @@ withDefaults(defineProps<{
   color: var(--ylf-c-text, #0f172a);
   background: var(--ylf-c-surface, #fff);
   border: 1px solid var(--ylf-c-border, #e2e8f0);
-  box-shadow: var(--ylf-shadow-sm, 0 2px 8px -2px rgba(15, 23, 42, 0.12));
+  box-shadow: var(--ylf-shadow-control, 0 2px 8px -2px rgba(15, 23, 42, 0.12));
   transition:
     transform var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease),
     box-shadow var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease),
@@ -58,6 +58,7 @@ withDefaults(defineProps<{
     border-color: var(--ylf-glass-border, rgba(255, 255, 255, 0.7));
     -webkit-backdrop-filter: var(--ylf-glass-blur, saturate(160%) blur(16px));
     backdrop-filter: var(--ylf-glass-blur, saturate(160%) blur(16px));
+    box-shadow: var(--ylf-shadow-panel, 0 22px 56px -14px rgba(15, 23, 42, 0.22));
   }
 
   &--accent,

@@ -46,6 +46,9 @@ const checked = defineModel<boolean>({ default: false })
   border: none;
   border-radius: var(--ylf-radius-pill, 999px);
   background: var(--ylf-c-bg-mute, #e2e8f0);
+  box-shadow:
+    var(--ylf-shadow-inset),
+    inset 0 0 0 1px var(--ylf-c-edge, transparent);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   transition:
@@ -86,7 +89,10 @@ const checked = defineModel<boolean>({ default: false })
     height: calc(var(--_h) - var(--_pad) * 2);
     border-radius: 50%;
     background: #fff;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.4),
+      0 1px 2px rgba(0, 0, 0, 0.12),
+      0 3px 5px rgba(0, 0, 0, 0.18);
     transform: translateX(var(--_pad));
     transition: transform var(--ylf-duration-normal, 240ms) var(--ylf-ease-bounce, cubic-bezier(0.34, 1.56, 0.64, 1));
     will-change: transform;

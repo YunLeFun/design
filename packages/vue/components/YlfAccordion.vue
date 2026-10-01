@@ -59,6 +59,7 @@ const model = defineModel<string | string[]>()
   border-radius: var(--ylf-radius, 14px);
   overflow: hidden;
   background: var(--ylf-c-surface, #fff);
+  box-shadow: var(--ylf-shadow-control);
 }
 
 .ylf-accordion__item + .ylf-accordion__item {
@@ -88,6 +89,11 @@ const model = defineModel<string | string[]>()
 
   &:hover {
     background: var(--ylf-c-bg-soft, #f1f5f9);
+  }
+
+  &[data-state='open'] {
+    color: var(--ylf-c-brand, #2563eb);
+    background: color-mix(in srgb, var(--ylf-c-brand-soft, #eff6ff) 60%, transparent);
   }
 
   &[data-disabled] {
@@ -129,7 +135,7 @@ const model = defineModel<string | string[]>()
 }
 
 .ylf-accordion__body {
-  padding: 0 16px 16px;
+  padding: 12px 16px 16px;
 }
 
 @keyframes ylf-acc-down {

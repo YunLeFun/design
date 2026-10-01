@@ -69,7 +69,8 @@ function updateValue(value: unknown): void {
   padding: 3px;
   border: 1px solid var(--ylf-c-border, #e2e8f0);
   border-radius: var(--ylf-radius-sm, 10px);
-  background: var(--ylf-c-bg-soft, #f1f5f9);
+  background: var(--ylf-c-surface-inset, var(--ylf-c-bg-soft, #f1f5f9));
+  box-shadow: var(--ylf-shadow-inset);
   font-family: var(--ylf-font-body, inherit);
 }
 
@@ -122,7 +123,7 @@ function updateValue(value: unknown): void {
   color: var(--ylf-c-brand, #2563eb);
   background: var(--ylf-c-surface, #fff);
   border-color: var(--ylf-c-border, #e2e8f0);
-  box-shadow: var(--ylf-shadow-sm);
+  box-shadow: var(--ylf-shadow-control, var(--ylf-shadow-sm));
 }
 
 .ylf-segmented__item:focus-visible {

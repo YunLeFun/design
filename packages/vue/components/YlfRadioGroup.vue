@@ -97,6 +97,7 @@ function selectFocusedRadio(event: KeyboardEvent) {
     border: 2px solid var(--ylf-c-border-strong, #cbd5e1);
     border-radius: 50%;
     background: var(--ylf-c-surface, #fff);
+    box-shadow: var(--ylf-shadow-control);
     transition:
       border-color 0.18s ease,
       box-shadow 0.2s ease;
@@ -112,6 +113,8 @@ function selectFocusedRadio(event: KeyboardEvent) {
 
   &:focus-visible .ylf-radio__control {
     box-shadow: 0 0 0 3px var(--ylf-c-brand-soft, #eff6ff);
+    outline: 2px solid var(--ylf-c-brand, #2563eb);
+    outline-offset: 3px;
   }
 
   &[data-state='checked'] .ylf-radio__control {

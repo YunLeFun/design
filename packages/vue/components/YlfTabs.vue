@@ -65,7 +65,10 @@ const model = defineModel<string>()
   background: transparent;
   border: none;
   cursor: pointer;
-  transition: color 0.2s ease;
+  border-radius: var(--ylf-radius-sm, 10px) var(--ylf-radius-sm, 10px) 0 0;
+  transition:
+    color var(--ylf-duration-fast, 160ms) ease,
+    background var(--ylf-duration-fast, 160ms) ease;
 
   &:hover:not([data-disabled]) {
     color: var(--ylf-c-text, #0f172a);
@@ -73,6 +76,7 @@ const model = defineModel<string>()
 
   &[data-state='active'] {
     color: var(--ylf-c-brand, #2563eb);
+    background: color-mix(in srgb, var(--ylf-c-brand-soft, #eff6ff) 65%, transparent);
   }
 
   &[data-disabled] {
@@ -81,7 +85,8 @@ const model = defineModel<string>()
   }
 
   &:focus-visible {
-    outline: none;
+    outline: 2px solid var(--ylf-c-brand, #2563eb);
+    outline-offset: -3px;
     border-radius: var(--ylf-radius-sm, 10px);
     box-shadow: 0 0 0 3px var(--ylf-c-brand-soft, #eff6ff);
   }
@@ -95,6 +100,7 @@ const model = defineModel<string>()
   height: 2.5px;
   border-radius: 999px;
   background: var(--ylf-c-brand, #2563eb);
+  box-shadow: 0 1px 4px color-mix(in srgb, var(--ylf-c-brand, #2563eb) 25%, transparent);
   transform: translateX(var(--reka-tabs-indicator-position));
   transition:
     transform 0.25s var(--ylf-ease-bounce, cubic-bezier(0.34, 1.56, 0.64, 1)),

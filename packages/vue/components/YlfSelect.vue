@@ -86,6 +86,7 @@ const selectedOption = computed(() => props.options.find(option => option.value 
   background: var(--ylf-c-surface, #fff);
   border: 1px solid var(--ylf-c-border-strong, #cbd5e1);
   border-radius: var(--ylf-radius, 14px);
+  box-shadow: var(--ylf-shadow-control);
   cursor: pointer;
   transition:
     border-color 0.18s ease,
@@ -97,6 +98,13 @@ const selectedOption = computed(() => props.options.find(option => option.value 
 
   &:hover:not([data-disabled]) {
     border-color: var(--ylf-c-brand, #2563eb);
+  }
+
+  &[data-state='open'] {
+    border-color: var(--ylf-c-brand, #2563eb);
+    box-shadow:
+      var(--ylf-shadow-control),
+      0 0 0 3px var(--ylf-c-brand-soft, #eff6ff);
   }
 
   &:focus-visible {
@@ -131,11 +139,16 @@ const selectedOption = computed(() => props.options.find(option => option.value 
   flex: none;
   display: inline-flex;
   color: var(--ylf-c-text-3, #64748b);
+  transition: transform var(--ylf-duration-fast, 160ms) ease;
 
   :where(svg, i, span) {
     width: 18px;
     height: 18px;
   }
+}
+
+.ylf-select__trigger[data-state='open'] .ylf-select__icon {
+  transform: rotate(180deg);
 }
 
 .ylf-select__content {
@@ -145,13 +158,15 @@ const selectedOption = computed(() => props.options.find(option => option.value 
   max-width: var(--reka-select-content-available-width);
   max-height: var(--reka-select-content-available-height);
   padding: 6px;
-  background: var(--ylf-c-surface, #fff);
+  background: var(--ylf-c-panel, var(--ylf-c-surface, #fff));
   border: 1px solid var(--ylf-c-border, #e2e8f0);
   border-radius: var(--ylf-radius, 14px);
-  box-shadow: var(--ylf-shadow-lg, 0 22px 56px -14px rgba(15, 23, 42, 0.22));
+  box-shadow: var(--ylf-shadow-panel, 0 22px 56px -14px rgba(15, 23, 42, 0.22));
+  backdrop-filter: var(--ylf-glass-blur, blur(16px));
+  transform-origin: var(--reka-select-content-transform-origin);
 
   &[data-state='open'] {
-    animation: ylf-pop-in 0.16s ease;
+    animation: ylf-select-in 0.16s ease;
   }
 }
 
@@ -171,10 +186,12 @@ const selectedOption = computed(() => props.options.find(option => option.value 
   cursor: pointer;
   user-select: none;
   outline: none;
+  transition: background var(--ylf-duration-fast, 160ms) ease;
 
   &[data-highlighted] {
     background: var(--ylf-c-brand-soft, #eff6ff);
     color: var(--ylf-c-brand, #2563eb);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ylf-c-brand, #2563eb) 12%, transparent);
   }
 
   &[data-disabled] {
@@ -214,7 +231,7 @@ const selectedOption = computed(() => props.options.find(option => option.value 
   }
 }
 
-@keyframes ylf-pop-in {
+@keyframes ylf-select-in {
   from {
     opacity: 0;
     transform: scale(0.96);
@@ -224,6 +241,11 @@ const selectedOption = computed(() => props.options.find(option => option.value 
 @media (prefers-reduced-motion: reduce) {
   .ylf-select__content[data-state='open'] {
     animation: none;
+  }
+
+  .ylf-select__icon,
+  .ylf-select__item {
+    transition: none;
   }
 }
 </style>
