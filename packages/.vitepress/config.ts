@@ -38,11 +38,80 @@ export const defaultSideBar: DefaultTheme.Sidebar = [
   },
 ]
 
+const englishLabels: Record<string, string> = {
+  '设计语言': 'Design language',
+  'Design 与 UI': 'Design and UI',
+  '视觉基础': 'Visual foundations',
+  '色彩与组件': 'Colors and components',
+  '品牌与界面': 'Brand and interfaces',
+  '字体规范': 'Typography',
+  '开发与接入': 'Development and adoption',
+  '开始使用': 'Get started',
+  '子包职责': 'Package responsibilities',
+  '组件架构': 'Component architecture',
+  '组件验收': 'Component acceptance',
+  '公共使用与发布': 'Public use and releases',
+  'Registry 分发': 'Registry distribution',
+  '应用迁移': 'Application migration',
+  '样式与实验': 'Styles and experiments',
+  '样式示例': 'Style examples',
+  'Pulse 动效': 'Pulse animation',
+  '实验工具': 'Experimental utilities',
+  '元素预览': 'Element preview',
+}
+
+const englishSidebar: DefaultTheme.Sidebar = defaultSideBar.map(section => ({
+  ...section,
+  text: englishLabels[section.text!],
+  items: section.items?.map(item => ({
+    ...item,
+    text: englishLabels[item.text!],
+    link: `/en${item.link}`,
+  })),
+}))
+
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  lang: 'zh-Hans',
   title: 'YunLeFun Design',
   description: '云乐坊设计系统：统一的设计规范、品牌视觉、设计变量与可复用 UI 组件。',
   lastUpdated: true,
+
+  locales: {
+    root: { label: '简体中文', lang: 'zh-Hans' },
+    en: {
+      label: 'English',
+      lang: 'en',
+      description: 'YunLeFun Design: shared design principles, brand visuals, tokens and reusable UI components.',
+      themeConfig: {
+        langMenuLabel: 'Change language',
+        skipToContentLabel: 'Skip to content',
+        outline: { label: 'On this page', level: [2, 3] },
+        sidebarMenuLabel: 'Menu',
+        returnToTopLabel: 'Back to top',
+        darkModeSwitchLabel: 'Appearance',
+        lightModeSwitchTitle: 'Switch to daylight',
+        darkModeSwitchTitle: 'Switch to night sky',
+        docFooter: { prev: 'Previous page', next: 'Next page' },
+        lastUpdated: { text: 'Last updated' },
+        editLink: {
+          pattern: 'https://github.com/YunLeFun/design/edit/main/packages/:path',
+          text: 'Edit this page on GitHub',
+        },
+        nav: [
+          { text: 'Home', link: '/en/' },
+          { text: 'Design system', link: '/en/guide/design-system' },
+          { text: 'Get started', link: '/en/guide/' },
+          { text: 'Vue components', link: '/en/vue/' },
+        ],
+        sidebar: {
+          '/en/guide/': englishSidebar,
+          '/en/vue/': getVueComponentsSidebar(true),
+          '/en/': englishSidebar,
+        },
+      },
+    },
+  },
 
   // 圆体展示字（仅 display 角色）：拉丁 Baloo 2 + 中文 ZCOOL KuaiLe 站酷快乐体。
   // 详见 /guide/typography 与 @yunlefun/ui/styles/css-vars.scss。
@@ -58,6 +127,8 @@ export default defineConfig({
   ],
 
   themeConfig: {
+    langMenuLabel: '切换语言',
+    skipToContentLabel: '跳至内容',
     outline: { label: '本页内容', level: [2, 3] },
     sidebarMenuLabel: '目录',
     returnToTopLabel: '返回顶部',
@@ -74,6 +145,20 @@ export default defineConfig({
     search: {
       provider: 'local',
       options: {
+        locales: {
+          en: {
+            translations: {
+              button: { buttonText: 'Search docs', buttonAriaLabel: 'Search docs' },
+              modal: {
+                displayDetails: 'Display detailed list',
+                resetButtonTitle: 'Reset search',
+                backButtonTitle: 'Close search',
+                noResultsText: 'No results found',
+                footer: { selectText: 'Select', navigateText: 'Navigate', closeText: 'Close' },
+              },
+            },
+          },
+        },
         translations: {
           button: { buttonText: '搜索文档', buttonAriaLabel: '搜索文档' },
           modal: {
@@ -111,24 +196,38 @@ export default defineConfig({
   markdown: {
     config: (md) => {
       md.use(groupIconMdPlugin)
+      // Explicit IDs keep bilingual chapter links stable, but are not spoken labels.
+      md.core.ruler.after('anchor', 'ylf-heading-labels', (state) => {
+        for (let index = 0; index < state.tokens.length; index++) {
+          if (state.tokens[index].type !== 'heading_open')
+            continue
+          const inline = state.tokens[index + 1]
+          const title = inline.content.replace(/\s*\{#[^}]+\}\s*$/, '')
+          for (const child of inline.children || []) {
+            if (child.type === 'link_open' && child.attrGet('class')?.includes('header-anchor'))
+              child.attrSet('aria-label', title)
+          }
+        }
+      })
     },
   },
 })
 
-function getVueComponentsSidebar() {
+function getVueComponentsSidebar(english = false) {
+  const prefix = english ? '/en' : ''
   const links: DefaultTheme.Sidebar = [{
     text: 'Vue',
-    link: '/vue/',
+    link: `${prefix}/vue/`,
   }]
 
   const components = metadata.components.filter(i => i.name)
 
   links.push({
-    text: 'Vue 组件',
+    text: english ? 'Vue components' : 'Vue 组件',
     collapsed: false,
     items: components.map(i => ({
-      text: i.title + (i.title_zh ? ` - ${i.title_zh}` : ''),
-      link: `/vue/components/${i.name}/`,
+      text: i.title + (!english && i.title_zh ? ` - ${i.title_zh}` : ''),
+      link: `${prefix}/vue/components/${i.name}/`,
     })),
   })
 

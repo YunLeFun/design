@@ -7,13 +7,16 @@ title_zh: 对话框
 
 ## Props
 
-| 属性              | 说明                             | 类型                    | 默认值                  |
-| ----------------- | -------------------------------- | ----------------------- | ----------------------- |
-| `v-model:open`    | 显隐状态                         | `boolean`               | `false`                 |
-| `title`           | 可见标题                         | `string`                | —                       |
-| `description`     | 描述                             | `string`                | —                       |
-| `accessibleTitle` | 无可见标题时供辅助技术读取的标题 | `string`                | `'对话框'`              |
-| `portalTo`        | 已存在的主题内浮层容器           | `string \| HTMLElement` | ConfigProvider / `body` |
+| 属性              | 说明                               | 类型                    | 默认值                  |
+| ----------------- | ---------------------------------- | ----------------------- | ----------------------- |
+| `v-model:open`    | 显隐状态                           | `boolean`               | `false`                 |
+| `title`           | 可见标题                           | `string`                | —                       |
+| `description`     | 描述                               | `string`                | —                       |
+| `accessibleTitle` | 无可见标题时供辅助技术读取的标题   | `string`                | `'对话框'`              |
+| `closeLabel`      | 关闭按钮的无障碍名称，可随正文翻译 | `string`                | `'关闭'`                |
+| `portalTo`        | 已存在的主题内浮层容器             | `string \| HTMLElement` | ConfigProvider / `body` |
+
+英文界面可设置 `close-label="Close"`，让关闭按钮与正文语言一致。
 
 建议始终提供 `title`。只有视觉设计明确隐藏标题时，才改用描述场景的 `accessible-title`。
 

@@ -1,16 +1,18 @@
 <script setup lang="ts">
-import { withBase } from 'vitepress'
+import { computed } from 'vue'
 import YlfButton from '../../../vue/components/YlfButton.vue'
 import YlfCard from '../../../vue/components/YlfCard.vue'
 import YlfSeparator from '../../../vue/components/YlfSeparator.vue'
+import { useDocsLocale } from '../composables/useDocsLocale'
 import DesignPlayground from './DesignPlayground.vue'
 import DesignSpecimens from './DesignSpecimens.vue'
 
-const entries = [
-  { title: '理解设计', description: '从品牌、视觉基础到页面与交互，了解每一个选择。', href: '/guide/design-system', label: '设计体系', icon: 'i-ri-compasses-2-line', tone: 'pink' },
-  { title: '开始构建', description: '按需接入样式与 Vue 组件，让界面拥有共同的起点。', href: '/guide/', label: '接入指南', icon: 'i-ri-code-s-slash-line', tone: 'cyan' },
-  { title: '逐步统一', description: '梳理现有界面，从颜色和排版开始迁移到共享规范。', href: '/guide/migration', label: '迁移指南', icon: 'i-ri-route-line', tone: 'coral' },
-] as const
+const { text, link } = useDocsLocale()
+const entries = computed(() => [
+  { title: text('理解设计', 'Understand the design'), description: text('从品牌、视觉基础到页面与交互，了解每一个选择。', 'Explore the choices behind the brand, visual foundations and interactions.'), href: '/guide/design-system', label: text('设计体系', 'Design system'), icon: 'i-ri-compasses-2-line', tone: 'pink' },
+  { title: text('开始构建', 'Start building'), description: text('按需接入样式与 Vue 组件，让界面拥有共同的起点。', 'Bring shared styles and Vue components into your next interface.'), href: '/guide/', label: text('接入指南', 'Get started'), icon: 'i-ri-code-s-slash-line', tone: 'cyan' },
+  { title: text('逐步统一', 'Build consistency'), description: text('梳理现有界面，从颜色和排版开始迁移到共享规范。', 'Move existing interfaces toward shared colors, typography and patterns.'), href: '/guide/migration', label: text('迁移指南', 'Migration guide'), icon: 'i-ri-route-line', tone: 'coral' },
+] as const)
 </script>
 
 <template>
@@ -21,22 +23,21 @@ const entries = [
           YunLeFun Design
         </p>
         <h1 id="design-title">
-          让每个界面，<br>都有晴空的轻盈。
+          {{ text('让每个界面，', 'A little sky,') }}<br>{{ text('都有晴空的轻盈。', 'in every interface.') }}
         </h1>
         <p class="design-hero__description">
-          云乐坊的设计语言与组件。以清晰的秩序承载内容，
-          用一点云的想象，连接每一次轻松的交互。
+          {{ text('云乐坊的设计语言与组件。以清晰的秩序承载内容，用一点云的想象，连接每一次轻松的交互。', 'The design language and components of YunLeFun. Clear structure, a little imagination, and room for effortless interactions.') }}
         </p>
         <div class="design-hero__actions">
-          <YlfButton tag="a" :href="withBase('/guide/design-system.html')" size="lg">
-            了解设计体系
+          <YlfButton tag="a" :href="link('/guide/design-system.html')" size="lg">
+            {{ text('了解设计体系', 'Explore the design') }}
           </YlfButton>
-          <YlfButton tag="a" :href="withBase('/vue/')" variant="secondary" size="lg">
-            浏览组件
+          <YlfButton tag="a" :href="link('/vue/')" variant="secondary" size="lg">
+            {{ text('浏览组件', 'Browse components') }}
           </YlfButton>
         </div>
         <p class="design-hero__note">
-          轻盈的表面，清晰的反馈。每个细节都可亲手体验。
+          {{ text('轻盈的表面，清晰的反馈。每个细节都可亲手体验。', 'Light surfaces. Clear feedback. Try every detail yourself.') }}
         </p>
       </div>
       <DesignPlayground />
@@ -48,24 +49,24 @@ const entries = [
     <section class="design-start" aria-labelledby="design-start-title">
       <div class="design-section-heading">
         <h2 id="design-start-title">
-          从设计到界面
+          {{ text('从设计到界面', 'From design to interface') }}
         </h2>
-        <p>同一套语言，用在不同的产品里。</p>
+        <p>{{ text('同一套语言，用在不同的产品里。', 'One shared language, across your products.') }}</p>
       </div>
       <div class="design-start__links">
         <YlfCard v-for="entry in entries" :key="entry.href" variant="tinted" :tone="entry.tone" :hoverable="false">
           <span :class="entry.icon" class="design-start__icon" aria-hidden="true" />
           <h3>{{ entry.title }}</h3>
           <p>{{ entry.description }}</p>
-          <YlfButton tag="a" variant="accent" :tone="entry.tone" appearance="outline" size="sm" :href="withBase(`${entry.href}${entry.href.endsWith('/') ? '' : '.html'}`)">
+          <YlfButton tag="a" variant="accent" :tone="entry.tone" appearance="outline" size="sm" :href="link(`${entry.href}${entry.href.endsWith('/') ? '' : '.html'}`)">
             {{ entry.label }}
           </YlfButton>
         </YlfCard>
       </div>
     </section>
     <footer class="design-home-footer">
-      <span>云乐坊设计系统</span>
-      <a href="https://github.com/YunLeFun/design">在 GitHub 参与共建</a>
+      <span>{{ text('云乐坊设计系统', 'YunLeFun Design') }}</span>
+      <a href="https://github.com/YunLeFun/design">{{ text('在 GitHub 参与共建', 'Contribute on GitHub') }}</a>
     </footer>
   </div>
 </template>

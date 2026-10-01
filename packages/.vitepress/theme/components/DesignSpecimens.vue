@@ -1,26 +1,28 @@
 <script setup lang="ts">
-import { withBase } from 'vitepress'
+import { computed } from 'vue'
+import { useDocsLocale } from '../composables/useDocsLocale'
 
-const colors = [
-  { name: '晴空蓝', token: '--ylf-c-brand', role: '主操作' },
-  { name: '明黄', token: '--ylf-accent-sun', role: '精选' },
-  { name: '青色', token: '--ylf-accent-cyan', role: '工具' },
-  { name: '珊瑚橙', token: '--ylf-accent-coral', role: '活动' },
-  { name: '桃粉', token: '--ylf-accent-pink', role: '创作' },
-  { name: '鲜绿', token: '--ylf-accent-green', role: '完成' },
-]
+const { text, link } = useDocsLocale()
+const colors = computed(() => [
+  { name: text('晴空蓝', 'Sky blue'), token: '--ylf-c-brand', role: text('主操作', 'Primary actions') },
+  { name: text('明黄', 'Sun yellow'), token: '--ylf-accent-sun', role: text('精选', 'Featured') },
+  { name: text('青色', 'Cyan'), token: '--ylf-accent-cyan', role: text('工具', 'Tools') },
+  { name: text('珊瑚橙', 'Coral'), token: '--ylf-accent-coral', role: text('活动', 'Events') },
+  { name: text('桃粉', 'Pink'), token: '--ylf-accent-pink', role: text('创作', 'Creation') },
+  { name: text('鲜绿', 'Green'), token: '--ylf-accent-green', role: text('完成', 'Completion') },
+])
 </script>
 
 <template>
   <section class="design-specimens" aria-labelledby="specimens-title">
     <div class="design-specimens__intro">
       <h2 id="specimens-title">
-        一种语言，<br>从细节开始。
+        {{ text('一种语言，', 'A shared language,') }}<br>{{ text('从细节开始。', 'from the details.') }}
       </h2>
-      <a :href="withBase('/guide/foundations.html')">探索视觉基础</a>
+      <a :href="link('/guide/foundations.html')">{{ text('探索视觉基础', 'Visual foundations') }}</a>
     </div>
     <div class="design-specimens__colors">
-      <h3>颜色有自己的职责</h3>
+      <h3>{{ text('颜色有自己的职责', 'Every color has a purpose') }}</h3>
       <div class="design-specimens__palette">
         <div v-for="color in colors" :key="color.name">
           <span class="design-specimens__swatch" :style="{ background: `var(${color.token})` }" aria-hidden="true" />
@@ -30,11 +32,11 @@ const colors = [
       </div>
     </div>
     <div class="design-specimens__type">
-      <h3>让内容自在呼吸</h3>
+      <h3>{{ text('让内容自在呼吸', 'Give content room to breathe') }}</h3>
       <p class="design-specimens__letters">
-        Aa 云间
+        {{ text('Aa 云间', 'Aa Cloud') }}
       </p>
-      <p>清晰的文字，舒适的间距。<br>把注意力留给真正重要的内容。</p>
+      <p>{{ text('清晰的文字，舒适的间距。', 'Clear type. Comfortable spacing.') }}<br>{{ text('把注意力留给真正重要的内容。', 'Keep the focus on what matters.') }}</p>
     </div>
   </section>
 </template>

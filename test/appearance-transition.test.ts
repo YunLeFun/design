@@ -7,7 +7,8 @@ import DesignPlayground from '../packages/.vitepress/theme/components/DesignPlay
 import { provideAppearanceTransition, useAppearanceTransition } from '../packages/.vitepress/theme/composables/useAppearanceTransition'
 
 const isDark = shallowRef(false)
-vi.mock('vitepress', () => ({ useData: () => ({ isDark }) }))
+const lang = shallowRef('zh-Hans')
+vi.mock('vitepress', () => ({ useData: () => ({ isDark, lang }) }))
 
 const wrappers: VueWrapper[] = []
 
@@ -35,6 +36,7 @@ function mountControls() {
 
 beforeEach(() => {
   isDark.value = false
+  lang.value = 'zh-Hans'
   vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] })
   vi.spyOn(window, 'matchMedia').mockReturnValue({ matches: true } as MediaQueryList)
 })
@@ -46,6 +48,29 @@ afterEach(() => {
 })
 
 describe('appearance transitions', () => {
+  it('updates playground language without losing the theme or accent selection', async () => {
+    const wrapper = mount(defineComponent({
+      setup() {
+        provideAppearanceTransition()
+        return () => h(DesignPlayground)
+      },
+    }), { attachTo: document.body })
+    wrappers.push(wrapper)
+    await wrapper.get('[role="switch"]').trigger('click')
+    await wrapper.findAll('button').find(button => button.text() === '换个颜色')!.trigger('click')
+    lang.value = 'en'
+    await wrapper.vm.$nextTick()
+    expect(wrapper.get('section').attributes('aria-label')).toBe('Interactive design preview')
+    expect(wrapper.get('label').text()).toBe('Night sky')
+    expect(wrapper.get('.ylf-badge').text()).toBe('Sun yellow')
+    expect(wrapper.get('[role="switch"]').attributes('aria-checked')).toBe('true')
+    expect(isDark.value).toBe(true)
+    lang.value = 'zh-Hans'
+    await wrapper.vm.$nextTick()
+    expect(wrapper.get('.ylf-badge').text()).toBe('明黄')
+    expect(wrapper.get('label').text()).toBe('夜空模式')
+  })
+
   it('updates both entry points immediately and removes temporary styles after the animation', async () => {
     const wrapper = mountControls()
     await wrapper.get('[aria-label="header"]').trigger('click')

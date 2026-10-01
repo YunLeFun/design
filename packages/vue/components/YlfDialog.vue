@@ -20,10 +20,13 @@ const props = withDefaults(defineProps<{
   description?: string
   /** 没有可见标题时供屏幕阅读器使用 */
   accessibleTitle?: string
+  /** Accessible name of the close button; localize it with the dialog content. */
+  closeLabel?: string
   /** Existing container in the same theme boundary. */
   portalTo?: string | HTMLElement
 }>(), {
   accessibleTitle: '对话框',
+  closeLabel: '关闭',
 })
 
 const open = defineModel<boolean>('open', { default: false })
@@ -63,7 +66,7 @@ const descriptionProps = computed(() => hasDescription.value
           <slot />
         </div>
 
-        <DialogClose class="ylf-dialog__close" aria-label="关闭">
+        <DialogClose class="ylf-dialog__close" :aria-label="closeLabel">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
             <path d="M6 6l12 12M18 6L6 18" />
           </svg>

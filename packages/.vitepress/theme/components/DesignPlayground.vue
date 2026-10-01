@@ -10,21 +10,23 @@ import YlfDialog from '../../../vue/components/YlfDialog.vue'
 import YlfSelect from '../../../vue/components/YlfSelect.vue'
 import YlfSwitch from '../../../vue/components/YlfSwitch.vue'
 import { useAppearanceTransition } from '../composables/useAppearanceTransition'
+import { useDocsLocale } from '../composables/useDocsLocale'
 import DesignCloud from './DesignCloud.vue'
 
-const tones: { value: YlfAccentTone, label: string, color: string }[] = [
-  { value: 'blue', label: '晴空蓝', color: 'var(--ylf-accent-blue)' },
-  { value: 'sun', label: '明黄', color: 'var(--ylf-accent-sun)' },
-  { value: 'cyan', label: '青色', color: 'var(--ylf-accent-cyan)' },
-  { value: 'coral', label: '珊瑚橙', color: 'var(--ylf-accent-coral)' },
-  { value: 'pink', label: '桃粉', color: 'var(--ylf-accent-pink)' },
-  { value: 'green', label: '鲜绿', color: 'var(--ylf-accent-green)' },
-]
-const appearances: { value: YlfColorAppearance, label: string }[] = [
-  { value: 'solid', label: '实色' },
-  { value: 'soft', label: '柔色' },
-  { value: 'outline', label: '描边' },
-]
+const { text } = useDocsLocale()
+const tones = computed<{ value: YlfAccentTone, label: string, color: string }[]>(() => [
+  { value: 'blue', label: text('晴空蓝', 'Sky blue'), color: 'var(--ylf-accent-blue)' },
+  { value: 'sun', label: text('明黄', 'Sun yellow'), color: 'var(--ylf-accent-sun)' },
+  { value: 'cyan', label: text('青色', 'Cyan'), color: 'var(--ylf-accent-cyan)' },
+  { value: 'coral', label: text('珊瑚橙', 'Coral'), color: 'var(--ylf-accent-coral)' },
+  { value: 'pink', label: text('桃粉', 'Pink'), color: 'var(--ylf-accent-pink)' },
+  { value: 'green', label: text('鲜绿', 'Green'), color: 'var(--ylf-accent-green)' },
+])
+const appearances = computed<{ value: YlfColorAppearance, label: string }[]>(() => [
+  { value: 'solid', label: text('实色', 'Solid') },
+  { value: 'soft', label: text('柔色', 'Soft') },
+  { value: 'outline', label: text('描边', 'Outline') },
+])
 const { isDark } = useData()
 const { setAppearance, toggleAppearance } = useAppearanceTransition()
 // 云景配色跟随全局 CSS，挂载后再读取主题偏好以保持 SSR 标记一致。
@@ -42,7 +44,7 @@ onMounted(() => {
 const tone = shallowRef<YlfAccentTone>('blue')
 const appearance = shallowRef<YlfColorAppearance>('solid')
 const dialogOpen = shallowRef(false)
-const toneLabel = computed(() => tones.find(item => item.value === tone.value)!.label)
+const toneLabel = computed(() => tones.value.find(item => item.value === tone.value)!.label)
 const nightId = useId()
 const toneId = useId()
 const appearanceId = useId()
@@ -50,7 +52,7 @@ const portalTargetId = `ylf-playground-portal-${useId()}`
 const portalTargetSelector = `#${portalTargetId}`
 
 function nextTone() {
-  tone.value = tones[(tones.findIndex(item => item.value === tone.value) + 1) % tones.length].value
+  tone.value = tones.value[(tones.value.findIndex(item => item.value === tone.value) + 1) % tones.value.length].value
 }
 
 function resetAppearance() {
@@ -61,7 +63,7 @@ function resetAppearance() {
 </script>
 
 <template>
-  <section class="design-playground" aria-label="设计主题交互预览">
+  <section class="design-playground" :aria-label="text('设计主题交互预览', 'Interactive design preview')">
     <div class="design-playground__sky">
       <div class="design-playground__day ylf-theme-light" aria-hidden="true" />
       <div class="design-playground__night" aria-hidden="true" />
@@ -73,39 +75,39 @@ function resetAppearance() {
       <DesignCloud class="design-playground__cloud" />
       <div class="design-playground__caption">
         <span :class="night ? 'i-ri-moon-clear-line' : 'i-ri-sun-line'" aria-hidden="true" />
-        <span>{{ night ? '灵感在夜空继续' : '今天，晴空正好' }}</span>
+        <span>{{ night ? text('灵感在夜空继续', 'Ideas carry on after dark') : text('今天，晴空正好', 'A little sunshine today') }}</span>
       </div>
     </div>
     <div :id="portalTargetId" class="design-playground__portal vp-raw" />
     <ConfigProvider :teleport-to="portalTargetSelector">
       <YlfCard class="design-playground__card" :hoverable="false" variant="glass" :tone="tone" padding="var(--ylf-space-6)">
         <div class="design-playground__heading">
-          <h2>把晴空握在手里</h2>
+          <h2>{{ text('把晴空握在手里', 'Make the sky yours') }}</h2>
           <YlfBadge variant="accent" :tone="tone" :appearance="appearance">
             {{ toneLabel }}
           </YlfBadge>
         </div>
-        <p>从光线到触感，试试属于你的云端界面。</p>
+        <p>{{ text('从光线到触感，试试属于你的云端界面。', 'Explore the light, color and feel of your interface.') }}</p>
         <div class="design-playground__setting">
-          <label :for="nightId">夜空模式</label>
+          <label :for="nightId">{{ text('夜空模式', 'Night sky') }}</label>
           <YlfSwitch :id="nightId" :model-value="night" @update:model-value="toggleAppearance" />
         </div>
         <div class="design-playground__setting">
-          <label :for="toneId">强调色</label>
+          <label :for="toneId">{{ text('强调色', 'Accent color') }}</label>
           <YlfSelect :id="toneId" v-model="tone" :options="tones" class="design-playground__select" />
         </div>
         <div class="design-playground__setting">
-          <label :for="appearanceId">强调样式</label>
+          <label :for="appearanceId">{{ text('强调样式', 'Accent style') }}</label>
           <YlfSelect :id="appearanceId" v-model="appearance" :options="appearances" class="design-playground__select" />
         </div>
         <div class="design-playground__actions">
           <YlfButton variant="accent" :tone="tone" :appearance="appearance" @click="nextTone">
-            换个颜色
+            {{ text('换个颜色', 'Next color') }}
           </YlfButton>
-          <YlfDialog v-model:open="dialogOpen" title="灵感，轻轻落在云端" description="细腻的光线与清晰的层次，让每一次交互都更从容。">
+          <YlfDialog v-model:open="dialogOpen" :title="text('灵感，轻轻落在云端', 'Let inspiration land softly')" :description="text('细腻的光线与清晰的层次，让每一次交互都更从容。', 'Soft light and clear layers bring a little calm to every interaction.')" :close-label="text('关闭', 'Close')">
             <template #trigger>
               <YlfButton variant="secondary">
-                体验浮层
+                {{ text('体验浮层', 'Try a dialog') }}
               </YlfButton>
             </template>
             <div class="design-playground__dialog-scene" aria-hidden="true">
@@ -113,12 +115,12 @@ function resetAppearance() {
             </div>
             <div class="design-playground__dialog-actions">
               <YlfButton block @click="dialogOpen = false">
-                继续探索
+                {{ text('继续探索', 'Keep exploring') }}
               </YlfButton>
             </div>
           </YlfDialog>
           <YlfButton variant="ghost" @click="resetAppearance">
-            重置
+            {{ text('重置', 'Reset') }}
           </YlfButton>
         </div>
       </YlfCard>
@@ -154,10 +156,10 @@ function resetAppearance() {
 }
 .design-playground__night {
   opacity: 0;
-  background-color: #0b101b;
+  background-color: #0d131b;
   background-image:
     radial-gradient(circle at 80% 32%, rgba(173, 191, 209, 0.13), transparent 36%),
-    linear-gradient(165deg, #0b101b 15%, #111b2a 65%, #203144);
+    linear-gradient(165deg, #0d131b 15%, #16212c 65%, #253644);
 }
 .dark .design-playground__day {
   opacity: 0;
@@ -394,6 +396,9 @@ function resetAppearance() {
   }
   .design-playground h2 {
     font-size: 17px;
+  }
+  .design-playground__actions :deep(.ylf-button:not(.ylf-button--ghost)) {
+    padding-inline: 12px;
   }
   .design-playground__celestial {
     right: 32px;

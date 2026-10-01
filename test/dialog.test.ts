@@ -28,6 +28,16 @@ async function mountOpenDialog(props: Record<string, unknown> = {}) {
 }
 
 describe('ylfDialog accessibility', () => {
+  it('localizes the close control and retains its dismissal behavior', async () => {
+    const { wrapper } = await mountOpenDialog({ title: 'Save creation', closeLabel: 'Close dialog' })
+    const close = document.body.querySelector<HTMLButtonElement>('[aria-label="Close dialog"]')
+    expect(close).not.toBeNull()
+    close!.click()
+    await flushPromises()
+    expect(wrapper.emitted('update:open')).toContainEqual([false])
+    wrapper.unmount()
+  })
+
   it('links a visible title and description to the dialog', async () => {
     const { dialog, wrapper } = await mountOpenDialog({
       title: '发布作品',

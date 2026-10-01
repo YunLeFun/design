@@ -30,11 +30,13 @@ export function MarkdownTransform(): Plugin {
         return null
 
       const [_name, i] = id.split('/').slice(-2)
+      const english = id.startsWith(`${DIR_SRC}/en/`)
+      const localePrefix = english ? '/en' : ''
       const name = componentNames.find(n => n.toLowerCase() === _name.toLowerCase()) || _name
       let type: 'vue' | 'utils' | undefined
       // inject markdown for utils/*/index.md
       if (i === 'index.md') {
-        if (utils.findIndex(i => id.startsWith(i.parentPath)) !== -1) {
+        if (id.startsWith(`${DIR_SRC}${localePrefix}/utils/`) && utils.some(item => item.name === _name)) {
           type = 'utils'
         }
         else if (componentNames.includes(name)) {
@@ -51,7 +53,7 @@ export function MarkdownTransform(): Plugin {
           const fn = getComponent(name)!
           // fn.docs 在 metadata 里并不存在（旧 bug，会产出 ./undefined 死链）；
           // 直接指向组件文档页，并保留被吃掉的尾字符。
-          return `[\`${fn.name}\`](/vue/components/${fn.name}/)${ending}`
+          return `[\`${fn.name}\`](${localePrefix}/vue/components/${fn.name}/)${ending}`
         },
       )
       // convert links to relative
@@ -65,6 +67,7 @@ export function MarkdownTransform(): Plugin {
           pkg: '',
           subPath: '',
           name,
+          english,
         }
         switch (type) {
           case 'utils':
@@ -82,7 +85,7 @@ export function MarkdownTransform(): Plugin {
           code = code.slice(0, sliceIndex) + header + code.slice(sliceIndex)
 
         code = code
-          .replace(/(# \w+)\n/, `$1\n\n<ComponentInfo comp="${name}"/>\n`)
+          .replace(/^(# .+)\n/m, `$1\n\n<ComponentInfo comp="${name}"/>\n`)
           .replace(/## (Components?(?:\sUsage)?)/i, '## $1\n<LearnMoreComponents />\n\n')
           .replace(/## (Directives?(?:\sUsage)?)/i, '## $1\n<LearnMoreDirectives />\n\n')
       }
@@ -105,19 +108,21 @@ export async function getWrapperMarkdown(options: {
    * item name
    */
   name: string
+  english?: boolean
 }) {
-  const { pkg, name, subPath = '' } = options
+  const { pkg, name, subPath = '', english = false } = options
   const pkgPath = join(pkg, subPath)
+  const docPath = join(english ? 'en' : '', pkgPath)
   const comp = getComponent(name)
-  const URL = `${GITHUB_BLOB_URL}/${pkgPath}/${name}`
+  const URL = `${GITHUB_BLOB_URL}/${docPath}/${name}`
 
   // 组件 demo 位于 packages/<pkg>/<subPath>/<name>（如 vue/components/button），需带上 subPath
-  const dirname = join(DIR_SRC, pkgPath, name)
+  const dirname = join(DIR_SRC, docPath, name)
   const demoPath = ['demo.vue', 'demo.client.vue'].find(i => fs.existsSync(join(dirname, i)))
   const types = await getTypeDefinition(pkg, name)
 
   const codeSnippets = `
-  <<< @/${pkgPath}/${name}/demo.vue
+  <<< @/${docPath}/${name}/demo.vue
   `
 
   let typingSection = ''
@@ -207,7 +212,12 @@ ${codeSnippets}
 
   const footer = `${typingSection}\n\n${sourceSection}\n${ContributorsSection}\n${changelogSection}\n`
 
-  const header = `# ${comp?.title + (comp?.title_zh ? ` - ${comp?.title_zh}` : '')}\n${demoSection}`
+  const title = comp?.title || name
+  const chineseTitle = title + (comp?.title_zh ? ` - ${comp.title_zh}` : '')
+  // VitePress preserves the current hash when switching languages.
+  // Keep the component title anchor compatible with the original Chinese page.
+  const titleAnchor = chineseTitle.toLowerCase().replace(/\s+-?\s*/g, '-')
+  const header = `# ${english ? `${title} {#${titleAnchor}}` : chineseTitle}\n${demoSection}`
 
   return {
     footer,

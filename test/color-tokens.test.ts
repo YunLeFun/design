@@ -38,6 +38,14 @@ function contrast(foreground: string, background: string) {
 }
 
 describe.each([{ name: 'light', tokens: light }, { name: 'dark', tokens: dark }])('$name color tokens', ({ tokens }) => {
+  it('keeps reading text readable across the surface hierarchy', () => {
+    for (const background of ['--ylf-c-bg', '--ylf-c-bg-soft', '--ylf-c-surface', '--ylf-c-surface-raised', '--ylf-c-surface-inset']) {
+      for (const foreground of ['--ylf-c-text', '--ylf-c-text-2', '--ylf-c-text-3']) {
+        expect(contrast(color(tokens, foreground), color(tokens, background)), `${foreground} on ${background}`).toBeGreaterThanOrEqual(4.5)
+      }
+    }
+  })
+
   it.each(['blue', 'sun', 'cyan', 'coral', 'pink', 'green'])('%s supports small text on solid, hover and soft fills', (tone) => {
     const prefix = `--ylf-accent-${tone}`
     for (const [foreground, background] of [

@@ -112,7 +112,7 @@
 
   --ylf-c-text: #0f172a;
   --ylf-c-text-2: #475569;
-  --ylf-c-text-3: #64748b;
+  --ylf-c-text-3: #5c6b80;
   --ylf-c-text-on-accent: #ffffff;
   --ylf-c-text-on-aurora: var(--ylf-accent-sun-on);
 
@@ -240,15 +240,15 @@
   --ylf-c-feature-text: var(--ylf-c-text);
   --ylf-gradient-brand: linear-gradient(var(--ylf-c-brand), var(--ylf-c-brand));
 
-  // 深色 = 夜空（不是死黑，是深蓝夜空）
-  --ylf-c-bg: #0b1022;
-  --ylf-c-bg-soft: #0f1630;
-  --ylf-c-bg-mute: #1f2a47;
-  --ylf-c-surface: #121a30;
-  --ylf-c-surface-raised: #1a2640;
-  --ylf-c-surface-inset: #0a1123;
+  // 夜空背景降低蓝色饱和度，明度阶梯与鲜明的品牌色分别维护。
+  --ylf-c-bg: #10151d;
+  --ylf-c-bg-soft: #161e28;
+  --ylf-c-bg-mute: #283545;
+  --ylf-c-surface: #18212d;
+  --ylf-c-surface-raised: #202c3a;
+  --ylf-c-surface-inset: #0e141c;
   --ylf-c-highlight: rgba(192, 218, 255, 0.12);
-  --ylf-c-panel: rgba(18, 26, 48, 0.96);
+  --ylf-c-panel: rgba(24, 33, 45, 0.96);
   --ylf-c-edge: rgba(3, 6, 18, 0.5);
 
   --ylf-c-text: #e5e7eb;
@@ -256,14 +256,14 @@
   --ylf-c-text-3: #94a3b8;
   --ylf-c-text-on-accent: #0f172a;
 
-  --ylf-c-border: #2a3658;
-  --ylf-c-border-strong: #3c4c74;
+  --ylf-c-border: #2d3b4c;
+  --ylf-c-border-strong: #425367;
   --ylf-c-overlay: rgba(3, 6, 18, 0.7);
   --ylf-c-grid: rgba(96, 165, 250, 0.08);
-  --ylf-c-sky: #172554;
-  --ylf-c-cloud: #1f2a47;
+  --ylf-c-sky: #192b3a;
+  --ylf-c-cloud: #283545;
 
-  --ylf-glass-bg: rgba(18, 26, 48, 0.96);
+  --ylf-glass-bg: rgba(24, 33, 45, 0.96);
   --ylf-glass-border: rgba(96, 165, 250, 0.18);
 
   --ylf-shadow-sm: 0 2px 10px -2px rgba(0, 0, 0, 0.5);

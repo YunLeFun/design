@@ -1,7 +1,7 @@
 {
   "name": "@yunlefun/vue",
   "type": "module",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Vue components and Nuxt integration for YunLeFun Design",
   "author": "YunLeFun",
   "license": "MIT",
