@@ -262,7 +262,8 @@ function resetAppearance() {
   height: 245px;
   top: 59px;
   left: -18px;
-  filter: drop-shadow(0 14px 9px color-mix(in srgb, var(--ylf-c-brand) 14%, transparent));
+  /* 两端使用相同的 sRGB 色格式，避免 color-mix 与 rgba 插值时出现异色光晕。 */
+  filter: drop-shadow(0 14px 9px rgba(58, 87, 122, 0.18));
 }
 .dark .design-playground__cloud {
   filter: drop-shadow(-8px 18px 10px rgba(2, 8, 16, 0.65));
