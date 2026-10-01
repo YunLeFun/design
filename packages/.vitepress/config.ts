@@ -3,6 +3,7 @@ import { defineConfig } from 'vitepress'
 
 import { groupIconMdPlugin } from 'vitepress-plugin-group-icons'
 import { metadata } from '../metadata/metadata'
+import { markdownTables } from './plugins/markdownTables'
 
 export const defaultSideBar: DefaultTheme.Sidebar = [
   {
@@ -202,6 +203,7 @@ export default defineConfig({
   markdown: {
     config: (md) => {
       md.use(groupIconMdPlugin)
+      md.use(markdownTables)
       // Explicit IDs keep bilingual chapter links stable, but are not spoken labels.
       md.core.ruler.after('anchor', 'ylf-heading-labels', (state) => {
         for (let index = 0; index < state.tokens.length; index++) {

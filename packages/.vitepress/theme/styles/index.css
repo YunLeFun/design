@@ -31,48 +31,6 @@ html {
 .VPDoc .content-container {
   max-width: var(--ylf-layout-reading) !important;
 }
-.vp-doc {
-  font-size: var(--ylf-text-base);
-  line-height: var(--ylf-leading-body);
-}
-.vp-doc h1 {
-  text-wrap: balance;
-  font-size: clamp(1.875rem, 3vw, 2.25rem);
-  line-height: var(--ylf-leading-heading);
-  letter-spacing: -0.025em;
-}
-.vp-doc h1 + p {
-  margin-block: var(--ylf-space-6) var(--ylf-space-8);
-  color: var(--ylf-c-text-2);
-}
-.vp-doc h2 {
-  margin-top: var(--ylf-space-12);
-  padding-top: var(--ylf-space-6);
-  border-top: 1px solid var(--ylf-c-border);
-  font-size: var(--ylf-text-xl);
-}
-.vp-doc h3 {
-  margin-top: var(--ylf-space-8);
-  font-size: var(--ylf-text-lg);
-}
-.vp-doc p,
-.vp-doc li {
-  line-height: var(--ylf-leading-body);
-}
-.vp-doc table {
-  font-size: var(--ylf-text-sm);
-}
-.vp-doc th {
-  background: var(--ylf-c-bg-soft);
-  white-space: nowrap;
-}
-.vp-doc tr:nth-child(2n) {
-  background: color-mix(in srgb, var(--ylf-c-bg-soft) 40%, transparent);
-}
-.vp-doc .custom-block {
-  border-radius: var(--ylf-radius-sm);
-  border-left-width: 3px;
-}
 .VPDocFooter .pager-link {
   border-radius: var(--ylf-radius);
   background: var(--ylf-c-surface);
@@ -95,12 +53,5 @@ html {
   }
   .VPNavBarSearch .DocSearch-Button .DocSearch-Search-Icon {
     margin-right: 0;
-  }
-}
-
-@media (max-width: 640px) {
-  .vp-doc th,
-  .vp-doc td {
-    min-width: 160px;
   }
 }

@@ -81,6 +81,8 @@ Prefer 8–12px inside controls, 16–24px between related fields and 32–64px 
 
 Allocate width between page content, navigation and outline. At 390px, 24px side padding is a useful starting point. Collapse columns when content no longer fits instead of shrinking type.
 
+Documentation follows the same reading hierarchy: clear table headers and light row separators organize information; wide tables scroll within their own keyboard accessible container. Code blocks use inset surfaces, while quotes and callouts use edges and titles to express hierarchy or meaning. Body text stays neutral and content surfaces follow daylight and night sky themes.
+
 - Homepages first explain the applications visitors can try; atmosphere supports content.
 - Explore pages keep search, filters, results and empty states in stable positions.
 - Settings group tasks and clearly associate save actions with modified fields.

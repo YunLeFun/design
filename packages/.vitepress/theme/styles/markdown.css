@@ -1,0 +1,255 @@
+/* 文档沿用晴空／夜空的文字、表面和语义色；装饰服务于长篇阅读。 */
+.vp-doc {
+  --vp-code-color: var(--ylf-c-brand);
+  --vp-code-bg: var(--ylf-c-surface-inset);
+  --vp-code-block-bg: var(--ylf-c-surface-inset);
+  --vp-code-block-color: var(--ylf-c-text);
+  --vp-code-block-divider-color: var(--ylf-c-border);
+  --vp-code-line-highlight-color: var(--ylf-c-brand-soft);
+  --vp-code-line-number-color: var(--ylf-c-text-3);
+  --vp-code-copy-code-border-color: var(--ylf-c-border);
+  --vp-code-copy-code-bg: var(--ylf-c-surface);
+  --vp-code-copy-code-hover-border-color: var(--ylf-c-brand);
+  --vp-code-copy-code-hover-bg: var(--ylf-c-surface-raised);
+  --vp-code-tab-bg: var(--ylf-c-surface-raised);
+  --vp-code-tab-active-text-color: var(--ylf-c-brand);
+
+  font-size: var(--ylf-text-base);
+  line-height: var(--ylf-leading-body);
+  overflow-wrap: break-word;
+}
+.vp-doc h1 {
+  font-size: clamp(1.875rem, 3vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+.vp-doc h1 + p {
+  margin-block: var(--ylf-space-6) var(--ylf-space-8);
+  color: var(--ylf-c-text-2);
+}
+.vp-doc h2 {
+  margin-block: var(--ylf-space-12) var(--ylf-space-4);
+  padding-top: var(--ylf-space-6);
+  border-top: 1px solid var(--ylf-c-border);
+  font-size: var(--ylf-text-xl);
+  line-height: 1.4;
+}
+.vp-doc h3 {
+  margin-block: var(--ylf-space-8) var(--ylf-space-3);
+  font-size: var(--ylf-text-lg);
+  line-height: 1.5;
+}
+.vp-doc h4,
+.vp-doc h5,
+.vp-doc h6 {
+  font-family: var(--ylf-font-heading);
+  line-height: 1.5;
+}
+.vp-doc p,
+.vp-doc li {
+  line-height: var(--ylf-leading-body);
+}
+.vp-doc li::marker {
+  color: var(--ylf-c-brand);
+  font-weight: 600;
+}
+.vp-doc a:not(.header-anchor) {
+  text-decoration-color: color-mix(in srgb, var(--ylf-c-brand) 40%, transparent);
+  text-underline-offset: 0.2em;
+}
+.vp-doc a:not(.header-anchor):hover {
+  text-decoration-color: currentColor;
+}
+.vp-doc a:focus-visible,
+.vp-doc summary:focus-visible,
+.vp-doc .ylf-doc-table:focus-visible {
+  outline: 2px solid var(--ylf-c-brand);
+  outline-offset: 4px;
+  border-radius: var(--ylf-radius-sm);
+}
+.vp-doc hr {
+  margin-block: var(--ylf-space-8);
+  border-color: var(--ylf-c-border);
+}
+.vp-doc blockquote {
+  margin-block: var(--ylf-space-6);
+  padding: var(--ylf-space-4) var(--ylf-space-6);
+  border-left: 3px solid var(--ylf-c-brand);
+  border-radius: 0 var(--ylf-radius) var(--ylf-radius) 0;
+  background: var(--ylf-c-surface-raised);
+  color: var(--ylf-c-text-2);
+}
+.vp-doc blockquote > p + p {
+  margin-top: var(--ylf-space-3);
+}
+.vp-doc :is(p, li, td, th, blockquote, h1, h2, h3, h4, h5, h6, a) > code {
+  border-radius: 6px;
+  padding: 0.15em 0.4em;
+  overflow-wrap: anywhere;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* 保留真实 table/thead/tbody，只有外层负责宽表格滚动。 */
+.vp-doc .ylf-doc-table {
+  max-width: 100%;
+  margin-block: var(--ylf-space-6);
+  overflow-x: auto;
+  border: 1px solid var(--ylf-c-border);
+  border-radius: var(--ylf-radius);
+  background: var(--ylf-c-surface);
+  box-shadow: var(--ylf-shadow-control);
+  scrollbar-width: thin;
+  scrollbar-color: var(--ylf-c-border-strong) transparent;
+}
+.vp-doc .ylf-doc-table table {
+  display: table;
+  width: 100%;
+  min-width: 480px;
+  margin: 0;
+  overflow: visible;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: var(--ylf-text-sm);
+}
+.vp-doc .ylf-doc-table tr,
+.vp-doc .ylf-doc-table tr:nth-child(2n) {
+  border: 0;
+  background: transparent;
+}
+.vp-doc .ylf-doc-table th,
+.vp-doc .ylf-doc-table td {
+  padding: var(--ylf-space-3) var(--ylf-space-4);
+  border: 0;
+  line-height: 1.65;
+  vertical-align: top;
+}
+.vp-doc .ylf-doc-table th {
+  border-bottom: 1px solid var(--ylf-c-border-strong);
+  background: color-mix(in srgb, var(--ylf-c-brand-soft) 30%, var(--ylf-c-surface-raised));
+  color: var(--ylf-c-text);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.vp-doc .ylf-doc-table tbody tr + tr td {
+  border-top: 1px solid var(--ylf-c-border);
+}
+.vp-doc .ylf-doc-table tbody tr:nth-child(2n) {
+  background: color-mix(in srgb, var(--ylf-c-surface-raised) 40%, var(--ylf-c-surface));
+}
+.vp-doc .ylf-doc-table td:first-child {
+  color: var(--ylf-c-text);
+  font-weight: 500;
+}
+.vp-doc .ylf-doc-table td code {
+  font-size: 0.9em;
+}
+.vp-doc .ylf-doc-table td:first-child code {
+  white-space: nowrap;
+  overflow-wrap: normal;
+}
+
+/* 代码块保留 Shiki 高亮及原生复制、代码组选项卡。 */
+.vp-doc div[class*='language-'] {
+  margin: var(--ylf-space-6) 0;
+  border: 1px solid var(--ylf-c-border);
+  border-radius: var(--ylf-radius);
+  box-shadow: var(--ylf-shadow-inset);
+}
+.vp-doc li div[class*='language-'] {
+  border-radius: var(--ylf-radius);
+}
+.vp-doc [class*='language-'] > button.copy {
+  border-radius: var(--ylf-radius-sm);
+}
+.vp-doc .vp-code-group {
+  margin-block: var(--ylf-space-6);
+  overflow: hidden;
+  border: 1px solid var(--ylf-c-border);
+  border-radius: var(--ylf-radius);
+  background: var(--ylf-c-surface-inset);
+}
+.vp-doc .vp-code-group .tabs {
+  margin-inline: 0;
+  border-radius: 0;
+}
+.vp-doc .vp-code-group div[class*='language-'] {
+  margin: 0;
+  border: 0;
+  box-shadow: none;
+}
+.vp-doc .ylf-demo-preview__source div[class*='language-'] {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+.vp-doc .vp-code-group .tabs input:focus-visible + label {
+  outline: 2px solid var(--ylf-c-brand);
+  outline-offset: -4px;
+  border-radius: var(--ylf-radius-sm);
+}
+
+/* 语义色只强调边缘与标题，提示正文维持中性文字。 */
+.vp-doc .custom-block {
+  --ylf-doc-callout: var(--ylf-c-brand);
+  --ylf-doc-callout-soft: var(--ylf-c-brand-soft);
+
+  margin-block: var(--ylf-space-6);
+  padding: var(--ylf-space-4) var(--ylf-space-6);
+  border: 1px solid var(--ylf-c-border);
+  border-left: 3px solid var(--ylf-doc-callout);
+  border-radius: var(--ylf-radius);
+  background: color-mix(in srgb, var(--ylf-doc-callout-soft) 40%, var(--ylf-c-surface));
+  color: var(--ylf-c-text-2);
+}
+.vp-doc .custom-block.info,
+.vp-doc .custom-block.note {
+  --ylf-doc-callout: var(--ylf-status-info-text);
+  --ylf-doc-callout-soft: var(--ylf-status-info-soft);
+}
+.vp-doc .custom-block.warning {
+  --ylf-doc-callout: var(--ylf-status-warning-text);
+  --ylf-doc-callout-soft: var(--ylf-status-warning-soft);
+}
+.vp-doc .custom-block.danger,
+.vp-doc .custom-block.caution {
+  --ylf-doc-callout: var(--ylf-status-danger-text);
+  --ylf-doc-callout-soft: var(--ylf-status-danger-soft);
+}
+.vp-doc .custom-block.details {
+  --ylf-doc-callout: var(--ylf-c-border-strong);
+  --ylf-doc-callout-soft: var(--ylf-c-surface-raised);
+}
+.vp-doc .custom-block .custom-block-title {
+  color: var(--ylf-doc-callout);
+  font-weight: 600;
+}
+.vp-doc .custom-block a,
+.vp-doc .custom-block code {
+  color: var(--ylf-c-brand);
+}
+.vp-doc .custom-block a:hover,
+.vp-doc .custom-block a:hover > code {
+  color: var(--ylf-c-brand-hover);
+}
+.vp-doc .custom-block :not(pre) > code {
+  background: var(--ylf-c-surface-inset);
+}
+.vp-doc .custom-block.details summary {
+  color: var(--ylf-c-text);
+}
+
+@media (max-width: 639px) {
+  .vp-doc .ylf-doc-table th,
+  .vp-doc .ylf-doc-table td {
+    min-width: 120px;
+    padding: var(--ylf-space-3);
+  }
+  .vp-doc blockquote,
+  .vp-doc .custom-block {
+    padding-inline: var(--ylf-space-4);
+  }
+}

@@ -4,6 +4,7 @@ import Layout from './Layout.vue'
 
 import './styles/vars.css'
 import './styles/index.css'
+import './styles/markdown.css'
 import './styles/appearance.css'
 import './styles/fonts.css'
 import 'uno.css'
