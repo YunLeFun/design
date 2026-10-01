@@ -1,8 +1,8 @@
 # 开始使用
 
-使用顶部语言菜单切换简体中文与 English。设计规范、组件文档、预览工具栏和交互示例提供对应版本；切换时保留当前页面与章节，明暗主题仍沿用当前偏好。
+使用 VitePress 原生语言菜单切换简体中文与 English。设计规范、组件文档、预览工具栏和交互示例提供对应版本；切换时保留当前页面与章节，明暗主题仍沿用当前偏好。中文页面显示「云乐坊」，英文页面显示「YunLeFun」。
 
-YunLeFun Design 是云乐坊应用共享的设计系统，统一维护设计规范、品牌视觉与 UI 实现。Vue 组件通过 npm 包统一维护，复杂交互由 Reka UI 提供行为和无障碍能力，视觉由 `--ylf-*` token 驱动。
+云乐坊设计系统统一维护应用共享的设计规范、品牌视觉与 UI 实现。Vue 组件通过 npm 包统一维护，复杂交互由 Reka UI 提供行为和无障碍能力，视觉由 `--ylf-*` token 驱动。
 
 仅接入设计 token 的项目可以使用 CSS 入口，不依赖 Vue 或 Sass；Vue 组件目前以 SFC 分发，构建仍需要 Sass。公共接入范围与发布标准见[公共使用与发布](/guide/adoption)。
 
@@ -42,7 +42,7 @@ export default defineNuxtConfig({
 - 阅读[色彩与组件](/guide/colors)，复用高饱和纯色 token 与组件的 `tone` 接口。
 - 阅读[品牌与界面](/guide/patterns)，了解云景、品牌标志、页面构图与文档体验。
 - 在 [Vue 接入](/vue/)中查看显式导入与 Nuxt 模块的完整示例。
-- 阅读[设计体系架构](/guide/architecture)，了解 Reka UI、YunLeFun 组件与 Registry 的职责。
+- 阅读[设计体系架构](/guide/architecture)，了解 Reka UI、云乐坊组件与 Registry 的职责。
 - 使用 [Registry 分发](/guide/registry)，通过 URL 安装共享 token、`YlfButton` 或 `YlfDialog` 源码。
 - 在 [Vue 组件](/vue/)中查看实时 Demo；每个预览都可以独立切换明暗主题和设备宽度。
 - 阅读[字体规范](/guide/typography)，按需加载展示字体。

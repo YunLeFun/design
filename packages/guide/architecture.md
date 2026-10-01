@@ -4,12 +4,12 @@ outline: deep
 
 # 设计体系架构
 
-YunLeFun Design 采用分层实现：Reka UI 负责复杂行为，YunLeFun 提供稳定接口和品牌视觉，业务应用只需要学习 `Ylf*` 组件。
+云乐坊设计系统采用分层实现：Reka UI 负责复杂行为，云乐坊提供稳定接口和品牌视觉，业务应用只需要学习 `Ylf*` 组件。
 
 Design 与 UI 的概念边界见[设计体系](/guide/design-system)，所有包的用途和成熟度见[子包职责](/guide/packages)。本页重点说明组件实现与分发边界。
 
 ```text
-业务应用 / YunLeFun Blocks
+业务应用 / 云乐坊 Blocks
           ↓
 @yunlefun/vue：YlfButton、YlfDialog、YlfSelect…
           ↓
@@ -22,14 +22,14 @@ Vue / DOM
 
 ## 各层职责
 
-| 层                | 职责                                     | 稳定性               |
-| ----------------- | ---------------------------------------- | -------------------- |
-| `@yunlefun/ui`    | 色彩、字体、圆角、阴影、动效与主题 token | 公共接口，按版本维护 |
-| `@yunlefun/vue`   | 面向产品的 `Ylf*` 组件接口               | 公共接口，按组件验收 |
-| `reka-ui`         | 无样式 primitives 与复杂交互行为         | 内部实现依赖         |
-| YunLeFun Registry | 页面片段、业务 Blocks、可复制代码        | 基础分发链路可发布   |
+| 层              | 职责                                     | 稳定性               |
+| --------------- | ---------------------------------------- | -------------------- |
+| `@yunlefun/ui`  | 色彩、字体、圆角、阴影、动效与主题 token | 公共接口，按版本维护 |
+| `@yunlefun/vue` | 面向产品的 `Ylf*` 组件接口               | 公共接口，按组件验收 |
+| `reka-ui`       | 无样式 primitives 与复杂交互行为         | 内部实现依赖         |
+| 云乐坊 Registry | 页面片段、业务 Blocks、可复制代码        | 基础分发链路可发布   |
 
-Reka UI 不应直接决定产品视觉，shadcn-vue 的默认 Tailwind 样式也不作为 YunLeFun 的主题来源。可以参考 shadcn-vue 的组合方式和 Registry 协议，但最终代码仍使用 YunLeFun token。
+Reka UI 不应直接决定产品视觉，shadcn-vue 的默认 Tailwind 样式也不作为云乐坊的主题来源。可以参考 shadcn-vue 的组合方式和 Registry 协议，但最终代码仍使用云乐坊 token。
 
 ## 组件接口原则
 
@@ -43,7 +43,7 @@ Reka UI 不应直接决定产品视觉，shadcn-vue 的默认 Tailwind 样式也
 
 ### 行为留在 Reka UI
 
-需要焦点陷阱、键盘导航、Portal 或浮层定位时，优先组合 Reka UI primitives，不在 YunLeFun 中重新实现一套行为。
+需要焦点陷阱、键盘导航、Portal 或浮层定位时，优先组合 Reka UI primitives，不在云乐坊中重新实现一套行为。
 
 ### 视觉只读取 token
 
@@ -69,7 +69,7 @@ Reka UI 不应直接决定产品视觉，shadcn-vue 的默认 Tailwind 样式也
 - 品牌一致性要求高、调用接口稳定的模块；
 - 需要随版本集中升级 Reka UI 的实现。
 
-YunLeFun Registry 已通过共享 token、Button 和基于 Reka UI 的 Dialog 验证[分发链路](/guide/registry)。后续主要用于需要业务方取得源码并继续修改的内容：
+云乐坊 Registry 已通过共享 token、Button 和基于 Reka UI 的 Dialog 验证[分发链路](/guide/registry)。后续主要用于需要业务方取得源码并继续修改的内容：
 
 - 登录、设置、导航等页面片段；
 - Data Table、Date Picker、Command Menu 等组合模块；

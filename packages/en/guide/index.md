@@ -4,7 +4,7 @@ outline: deep
 
 # Get started {#开始使用}
 
-Use the language menu to switch between Simplified Chinese and English. Guidelines, component documentation, preview controls and interactive examples have corresponding versions. Switching retains the current page and section, along with the global appearance preference.
+Use the native VitePress language menu to switch between Simplified Chinese and English. Guidelines, component documentation, preview controls and interactive examples have corresponding versions. Switching retains the current page and section, along with the global appearance preference. The brand appears as “云乐坊” in Chinese and “YunLeFun” in English.
 
 YunLeFun Design is the shared design system for YunLeFun applications. It brings together design guidelines, brand visuals and UI implementation. Vue components are maintained through npm; Reka UI supplies complex behavior and accessibility primitives, while `--ylf-*` tokens define their appearance.
 

@@ -20,7 +20,7 @@ const entries = computed(() => [
     <section class="design-hero" aria-labelledby="design-title">
       <div class="design-hero__intro">
         <p class="design-hero__name">
-          YunLeFun Design
+          {{ text('云乐坊设计系统', 'YunLeFun Design') }}
         </p>
         <h1 id="design-title">
           {{ text('让每个界面，', 'A little sky,') }}<br>{{ text('都有晴空的轻盈。', 'in every interface.') }}

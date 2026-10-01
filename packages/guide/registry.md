@@ -4,7 +4,7 @@ outline: deep
 
 # Registry 分发
 
-YunLeFun Registry 使用 `shadcn-vue` 的 schema 与 CLI，把需要业务方取得源码并继续修改的组件分发到真实 Vue 项目。稳定基础组件仍优先通过 npm 包统一维护，Registry 不会替代 `@yunlefun/vue`。
+云乐坊 Registry 使用 `shadcn-vue` 的 schema 与 CLI，把需要业务方取得源码并继续修改的组件分发到真实 Vue 项目。稳定基础组件仍优先通过 npm 包统一维护，Registry 不会替代 `@yunlefun/vue`。
 
 当前基础链路已达到发布就绪状态：
 

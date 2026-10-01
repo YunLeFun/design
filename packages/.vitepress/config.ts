@@ -73,17 +73,23 @@ const englishSidebar: DefaultTheme.Sidebar = defaultSideBar.map(section => ({
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   lang: 'zh-Hans',
-  title: 'YunLeFun Design',
+  title: '云乐坊设计系统',
   description: '云乐坊设计系统：统一的设计规范、品牌视觉、设计变量与可复用 UI 组件。',
   lastUpdated: true,
 
   locales: {
-    root: { label: '简体中文', lang: 'zh-Hans' },
+    root: {
+      label: '简体中文',
+      lang: 'zh-Hans',
+      themeConfig: { siteTitle: '云乐坊' },
+    },
     en: {
       label: 'English',
       lang: 'en',
+      title: 'YunLeFun Design',
       description: 'YunLeFun Design: shared design principles, brand visuals, tokens and reusable UI components.',
       themeConfig: {
+        siteTitle: 'YunLeFun',
         langMenuLabel: 'Change language',
         skipToContentLabel: 'Skip to content',
         outline: { label: 'On this page', level: [2, 3] },

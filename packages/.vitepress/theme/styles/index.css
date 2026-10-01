@@ -82,6 +82,22 @@ html {
   outline-offset: 5px;
 }
 
+/* 保留 VitePress 原生搜索与语言菜单，为窄屏英文导航留出空间。 */
+@media (min-width: 768px) and (max-width: 1279px) {
+  .VPNavBarSearch .DocSearch-Button {
+    justify-content: center;
+    width: 40px;
+    padding: 0;
+  }
+  .VPNavBarSearch .DocSearch-Button .DocSearch-Button-Placeholder,
+  .VPNavBarSearch .DocSearch-Button .DocSearch-Button-Keys {
+    display: none;
+  }
+  .VPNavBarSearch .DocSearch-Button .DocSearch-Search-Icon {
+    margin-right: 0;
+  }
+}
+
 @media (max-width: 640px) {
   .vp-doc th,
   .vp-doc td {

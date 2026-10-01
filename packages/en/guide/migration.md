@@ -10,7 +10,7 @@ This page tracks migration from application specific styles to YunLeFun Design. 
 
 | Scope                             | Status                                                          |
 | --------------------------------- | --------------------------------------------------------------- |
-| Repository/documentation name     | Unified as YunLeFun Design                                      |
+| Repository/documentation name     | Repository: Design; Chinese brand: 云乐坊; English: YunLeFun    |
 | Design/UI boundaries and packages | Documented in this library                                      |
 | Shared theme                      | Sky blue with vivid solid accents                               |
 | Vue and documentation             | Shared tokens with brand display variants                       |
