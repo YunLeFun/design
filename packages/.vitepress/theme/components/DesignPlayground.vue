@@ -9,6 +9,7 @@ import YlfCard from '../../../vue/components/YlfCard.vue'
 import YlfDialog from '../../../vue/components/YlfDialog.vue'
 import YlfSelect from '../../../vue/components/YlfSelect.vue'
 import YlfSwitch from '../../../vue/components/YlfSwitch.vue'
+import DesignCloud from './DesignCloud.vue'
 
 const tones: { value: YlfAccentTone, label: string, color: string }[] = [
   { value: 'blue', label: '晴空蓝', color: 'var(--ylf-accent-blue)' },
@@ -39,7 +40,6 @@ onMounted(() => {
 const tone = shallowRef<YlfAccentTone>('blue')
 const appearance = shallowRef<YlfColorAppearance>('solid')
 const dialogOpen = shallowRef(false)
-const cloudFillId = `ylf-cloud-fill-${useId()}`
 const toneLabel = computed(() => tones.find(item => item.value === tone.value)!.label)
 const nightId = useId()
 const toneId = useId()
@@ -63,16 +63,7 @@ function resetAppearance() {
     <div class="design-playground__sky ylf-pattern-sky">
       <div class="design-playground__grid ylf-pattern-grid" aria-hidden="true" />
       <div class="design-playground__sun" aria-hidden="true" />
-      <svg class="design-playground__cloud" viewBox="0 0 400 220" fill="none" aria-hidden="true">
-        <defs>
-          <linearGradient :id="cloudFillId" x1="200" y1="60" x2="210" y2="190" gradientUnits="userSpaceOnUse">
-            <stop stop-color="var(--ylf-c-cloud)" />
-            <stop offset="1" stop-color="var(--ylf-c-sky)" />
-          </linearGradient>
-        </defs>
-        <path d="M102 181c-30 0-53-21-53-48 0-28 24-50 53-50 7 0 14 1 20 4 5-36 35-62 72-62 36 0 66 25 72 58 8-3 17-5 26-5 34 0 61 24 61 53 0 28-26 50-58 50H102Z" :fill="`url(#${cloudFillId})`" stroke="var(--ylf-c-highlight)" stroke-width="1.5" />
-        <path d="M83 102c7-5 15-7 23-7m33-12c8-25 28-42 56-42" stroke="var(--ylf-c-highlight)" stroke-width="4" stroke-linecap="round" />
-      </svg>
+      <DesignCloud class="design-playground__cloud" />
       <div class="design-playground__caption">
         <span :class="night ? 'i-ri-moon-clear-line' : 'i-ri-sun-line'" aria-hidden="true" />
         <span>{{ night ? '灵感在夜空继续' : '今天，晴空正好' }}</span>
@@ -147,14 +138,12 @@ function resetAppearance() {
   box-shadow: inset 0 1px 0 var(--ylf-c-highlight);
 }
 .dark .design-playground__sky {
-  --ylf-c-sky: #112539;
-  --ylf-c-cloud: #233b51;
-  --ylf-c-highlight: rgba(203, 229, 249, 0.17);
-
-  background-color: #080f1c;
+  background-color: #0b101b;
   background-image:
-    radial-gradient(ellipse at 80% 22%, rgba(129, 185, 211, 0.12), transparent 52%),
-    linear-gradient(165deg, #080f1c 15%, #102438 70%, #193b50);
+    radial-gradient(circle at 80% 32%, rgba(173, 191, 209, 0.13), transparent 36%),
+    linear-gradient(165deg, #0b101b 15%, #111b2a 65%, #203144);
+  border-color: rgba(148, 169, 192, 0.18);
+  box-shadow: inset 0 1px 0 rgba(210, 226, 240, 0.1);
 }
 .dark .design-playground__sky::after {
   content: '';
@@ -183,7 +172,7 @@ function resetAppearance() {
   mask-image: linear-gradient(transparent, #000 35%, transparent);
 }
 .dark .design-playground__grid {
-  opacity: 0.18;
+  opacity: 0.1;
 }
 .design-playground__sun {
   position: absolute;
@@ -204,11 +193,25 @@ function resetAppearance() {
     transform var(--ylf-duration-normal);
 }
 .dark .design-playground__sun {
-  background: linear-gradient(145deg, #f5faff, #b3cde5);
+  background:
+    radial-gradient(circle at 30% 80%, rgba(53, 69, 89, 0.28), transparent 50%),
+    radial-gradient(circle at 65% 25%, #dbe5ee, #b4c4d4 55%, #738ba3);
   border-color: transparent;
-  box-shadow: none;
+  box-shadow: inset 2px -3px 5px rgba(34, 51, 71, 0.2);
   mask-image: radial-gradient(circle 42px at 68% 32%, transparent 97%, #000 100%);
   transform: rotate(-12deg);
+}
+.dark .design-playground__sun::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle 5px at 22% 52%, rgba(58, 77, 100, 0.24), transparent),
+    radial-gradient(circle 3px at 17% 34%, rgba(58, 77, 100, 0.2), transparent),
+    radial-gradient(circle 8px at 42% 80%, rgba(58, 77, 100, 0.19), transparent),
+    radial-gradient(circle 4px at 61% 85%, rgba(58, 77, 100, 0.24), transparent);
+  pointer-events: none;
 }
 .design-playground__cloud {
   position: absolute;
@@ -217,6 +220,9 @@ function resetAppearance() {
   top: 59px;
   left: -18px;
   filter: drop-shadow(0 14px 9px color-mix(in srgb, var(--ylf-c-brand) 14%, transparent));
+}
+.dark .design-playground__cloud {
+  filter: drop-shadow(-8px 18px 10px rgba(2, 8, 16, 0.65));
 }
 .design-playground__caption {
   position: relative;
@@ -243,6 +249,17 @@ function resetAppearance() {
   margin: -91px 22px 0;
   border-radius: 22px;
   border-color: color-mix(in srgb, var(--ylf-accent) 25%, var(--ylf-c-border));
+}
+.dark .design-playground__card {
+  border-color: rgba(159, 178, 201, 0.22);
+  background:
+    radial-gradient(ellipse at 100% 0%, rgba(184, 205, 227, 0.06), transparent 55%),
+    linear-gradient(150deg, rgba(31, 41, 58, 0.97), rgba(21, 29, 44, 0.98));
+  box-shadow:
+    inset 0 1px 0 rgba(220, 232, 248, 0.12),
+    0 -8px 18px -12px rgba(2, 7, 15, 0.9),
+    0 8px 18px rgba(4, 9, 19, 0.3),
+    -8px 28px 50px -14px rgba(4, 9, 19, 0.65);
 }
 .design-playground__heading {
   display: flex;
