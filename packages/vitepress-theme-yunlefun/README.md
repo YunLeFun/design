@@ -12,7 +12,7 @@
 当前通过 GitHub Release 分发固定版本的 npm 格式安装包：
 
 ```sh
-pnpm add -D https://github.com/YunLeFun/design/releases/download/theme-v0.2.0/vitepress-theme-yunlefun-0.2.0.tgz
+pnpm add -D https://github.com/YunLeFun/design/releases/download/theme-v0.2.1/vitepress-theme-yunlefun-0.2.1.tgz
 ```
 
 `@yunlefun/ui` 会作为依赖安装。VitePress 与 Vue 由站点提供。
@@ -78,6 +78,8 @@ import { Layout } from 'vitepress-theme-yunlefun'
 ## 统一品牌图形
 
 设置 `themeConfig.brand: { icon: "brand-mark", hero: true }`，导航和原生首页即可使用共享 Logo；Design 使用 `design-mark`。启用时移除原生 `logo` 与 `hero.image` 配置；自定义插槽仍可覆盖默认内容。
+
+Hero 图片与共享 Logo 使用透明轮廓投影，不额外裁切圆角或添加方形底板。可通过 `--ylf-hero-image-shadow` 调整投影参数（不含扩散半径）。
 
 图形来自 `@yunlefun/icons`，亮暗颜色跟随 `@yunlefun/ui` 的 `--ylf-c-brand`。[图标库](https://icons.yunle.fun/) 与[设计系统](https://ui.yunle.fun/) 独立维护，通过包依赖与导航链接连接。
 

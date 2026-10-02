@@ -2,12 +2,16 @@
 :root {
   --vp-home-hero-name-color: var(--ylf-c-brand);
   --vp-home-hero-image-background-image: none;
+  --ylf-hero-image-shadow: 0 8px 10px rgba(15, 23, 42, 0.14);
   --vp-button-alt-border: var(--ylf-c-border-strong);
   --vp-button-alt-text: var(--ylf-c-text);
   --vp-button-alt-bg: var(--ylf-c-surface);
   --vp-button-alt-hover-border: var(--ylf-c-brand);
   --vp-button-alt-hover-text: var(--ylf-c-brand);
   --vp-button-alt-hover-bg: var(--ylf-c-surface-raised);
+}
+.dark {
+  --ylf-hero-image-shadow: 0 10px 12px rgba(0, 0, 0, 0.32);
 }
 .VPHomeHero .name,
 .VPHomeHero .text {
@@ -23,8 +27,19 @@
 .VPHomeHero .image-src {
   max-width: 192px;
   max-height: 192px;
-  border-radius: var(--ylf-radius-xl);
-  box-shadow: var(--ylf-shadow);
+}
+.VPHomeHero .image-src,
+.VPHomeHero .ylf-hero-logo {
+  /* Follow the artwork's alpha silhouette, including transparent corners. */
+  border-radius: 0;
+  box-shadow: none;
+  filter: drop-shadow(var(--ylf-hero-image-shadow));
+}
+.VPHomeHero .ylf-hero-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 .VPButton {
   border-radius: var(--ylf-radius-sm);

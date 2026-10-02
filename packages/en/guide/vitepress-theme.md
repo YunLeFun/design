@@ -21,7 +21,7 @@ Cyan and yellow mark titles; primary actions and links retain brand blue. Docume
 The first version is distributed as an npm-format tarball on GitHub Releases:
 
 ```sh
-pnpm add -D https://github.com/YunLeFun/design/releases/download/theme-v0.2.0/vitepress-theme-yunlefun-0.2.0.tgz
+pnpm add -D https://github.com/YunLeFun/design/releases/download/theme-v0.2.1/vitepress-theme-yunlefun-0.2.1.tgz
 ```
 
 In `.vitepress/theme/index.ts`:
