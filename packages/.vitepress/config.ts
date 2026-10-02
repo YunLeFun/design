@@ -28,6 +28,7 @@ export const defaultSideBar: DefaultTheme.Sidebar = [
     items: [
       { text: '开始使用', link: '/guide/' },
       { text: 'VitePress 主题', link: '/guide/vitepress-theme' },
+      { text: 'AG-UI 接入', link: '/guide/ag-ui' },
       { text: '子包职责', link: '/guide/packages' },
       { text: '组件架构', link: '/guide/architecture' },
       { text: '组件验收', link: '/guide/component-acceptance' },
@@ -59,6 +60,7 @@ const englishLabels: Record<string, string> = {
   '开发与接入': 'Development and adoption',
   '开始使用': 'Get started',
   'VitePress 主题': 'VitePress theme',
+  'AG-UI 接入': 'AG-UI integration',
   '子包职责': 'Package responsibilities',
   '组件架构': 'Component architecture',
   '组件验收': 'Component acceptance',

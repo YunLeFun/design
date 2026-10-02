@@ -3,6 +3,7 @@ import { defineBuildConfig } from 'unbuild'
 export default defineBuildConfig({
   entries: [
     './src/index',
+    { input: './src/ag-ui', name: 'ag-ui' },
     { input: './components/ai-prompt', name: 'ai-prompt' },
   ],
 

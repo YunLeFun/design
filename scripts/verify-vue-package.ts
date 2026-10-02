@@ -96,6 +96,35 @@ export default defineConfig({ plugins: [vue()] })
   ])
   await run(resolve(consumer, 'node_modules/.bin/vue-tsc'), ['--noEmit'], consumer)
   await run(resolve(consumer, 'node_modules/.bin/vite'), ['build'], consumer)
+  await run(process.execPath, ['--input-type=module', '-e', `
+import assert from 'node:assert/strict'
+import { createRequire } from 'node:module'
+const require = createRequire(import.meta.url)
+assert.throws(() => require.resolve('@ag-ui/client'), { code: 'MODULE_NOT_FOUND' })
+`], consumer)
+  await run('pnpm', ['add', '@ag-ui/client@1.0.1', '--ignore-scripts'], consumer)
+  await writeFile(resolve(consumer, 'App.vue'), `<script setup lang="ts">
+import { HttpAgent } from '@ag-ui/client'
+import { useAgUiAgent } from '@yunlefun/vue/ag-ui'
+const { state, status, messages, send, cancel } = useAgUiAgent<{ phase?: string }>(new HttpAgent({ url: '/api/agent' }))
+</script>
+<template>
+  <p>{{ status }} {{ state.phase }} {{ messages.length }}</p>
+  <button @click="send('Hello')">Send</button>
+  <button @click="cancel">Stop</button>
+</template>
+`)
+  await run(resolve(consumer, 'node_modules/.bin/vue-tsc'), ['--noEmit'], consumer)
+  await run(resolve(consumer, 'node_modules/.bin/vite'), ['build'], consumer)
+  await run(process.execPath, ['--input-type=module', '-e', `
+import assert from 'node:assert/strict'
+import { HttpAgent } from '@ag-ui/client'
+import { useAgUiAgent } from '@yunlefun/vue/ag-ui'
+const binding = useAgUiAgent(new HttpAgent({ url: 'http://127.0.0.1:1/must-not-connect' }))
+assert.equal(binding.status.value, 'idle')
+binding.dispose()
+`], consumer)
+  console.log('Optional AG-UI subpath typechecks, builds and imports on the server without connecting.')
   console.log(`All ${names.length} packed Vue components resolve, typecheck and build in an independent consumer.`)
 }
 finally {
