@@ -49,6 +49,7 @@ Check that your installed release includes the CSS entry and accent styles descr
 - Read [Component architecture](/en/guide/architecture) for the responsibilities of Reka UI, YunLeFun and Registry.
 - Use [Registry distribution](/en/guide/registry) to install token, Button or Dialog source by URL.
 - Explore the live [Vue component demos](/en/vue/); each preview has its own theme and viewport controls.
+- Try the [AG-UI examples](/en/guide/ag-ui) for streaming chat, tool approval, interrupt/resume and error retry, with live protocol events.
 - Read [Typography](/en/guide/typography) to load display fonts on demand.
 - Read [Admin guidelines](/en/guide/admin) for neutral surfaces and responsive control density in management tables, filters and forms.
 - Move existing applications through the [Migration guide](/en/guide/migration), tracking source changes, package releases and deployment separately.

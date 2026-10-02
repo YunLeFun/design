@@ -11,7 +11,7 @@ const labels = computed(() => props.english
 
 <template>
   <aside class="run-state ylf-workbench-panel ylf-workbench-grid" :aria-label="english ? 'Agent state' : 'Agent 状态'">
-    <YlfBadge :variant="status === 'error' ? 'danger' : status === 'running' ? 'brand' : 'neutral'" appearance="soft">
+    <YlfBadge role="status" aria-atomic="true" :variant="status === 'error' ? 'danger' : status === 'running' ? 'brand' : 'neutral'" appearance="soft">
       {{ pending ? (english ? 'Awaiting confirmation' : '等待确认') : labels[status] }}
     </YlfBadge>
     <h3>{{ english ? 'Shared state' : '共享状态' }}</h3>

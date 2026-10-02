@@ -8,7 +8,15 @@ import AgUiDemo from '../../.vitepress/theme/components/ag-ui/AgUiDemo.vue'
 
 ## Interactive demo
 
-Send a message, then allow or decline the read-only theme request. Stop an active response or simulate a connection error. Local SSE responses exercise the real `HttpAgent` parser without a model or network service.
+Choose an example and send a message. Scripted local SSE responses exercise the real `HttpAgent` parser without a model or network service.
+
+| Example              | Flow to try                                                                  |
+| -------------------- | ---------------------------------------------------------------------------- |
+| Streaming chat       | Message chunks, state snapshots and patches; stop and retry the same request |
+| Theme tool approval  | Allow or decline reading the page theme, return a tool result, then continue |
+| Interrupt and resume | Pause with an AG-UI 1.0 interrupt, then explicitly resume or decline         |
+
+Every example supports simulated service errors and retry. Expand “Protocol events” to inspect the JSON received by the client. Resetting or switching examples cancels the old run, clears messages, state and events, and starts an independent conversation.
 
 <AgUiDemo />
 
@@ -27,7 +35,7 @@ import { useAgUiAgent } from '@yunlefun/vue/ag-ui'
 
 // Supply an AG-UI HTTP/SSE endpoint and a separate agent per conversation.
 const agent = new HttpAgent({ url: '/api/agent' })
-const { messages, state, status, isRunning, error, send, cancel } = useAgUiAgent(agent)
+const { messages, state, status, isRunning, isAwaitingInput, error, send, cancel } = useAgUiAgent(agent)
 </script>
 
 <template>
@@ -37,7 +45,7 @@ const { messages, state, status, isRunning, error, send, cancel } = useAgUiAgent
   <p v-if="error" role="alert">
     {{ error.message }}
   </p>
-  <button :disabled="isRunning" @click="send('Hello')">
+  <button :disabled="isRunning || isAwaitingInput" @click="send('Hello')">
     Send
   </button>
   <button :disabled="!isRunning" @click="cancel">
@@ -71,7 +79,24 @@ Network/protocol failures set `error`/`status` and resolve the run Promise to `u
 
 Tool events are data. The host validates tool names and arguments, requests any required confirmation, performs allowed actions and returns the result with `addToolResult`. The adapter does not execute generated code or automatically loop through tools.
 
-AG-UI 1.0 interrupt/resume and ordinary tool results are separate mechanisms. `interrupts` retains official fields; the host constructs a matching `resume`. This demo covers ordinary tool confirmation; tests cover interrupt state and continuation requests.
+“Theme tool approval” demonstrates ordinary tool results. The host validates the `read_theme` name and empty-object arguments, then reads the page theme only after approval. Declining never reads page information. The result is added with `addToolResult`, followed by an explicit `run()`. The shared state displays the approved `theme` value.
+
+AG-UI 1.0 interrupt/resume and ordinary tool results are separate mechanisms. “Interrupt and resume” sends an interrupt in `RUN_FINISHED`. The host constructs a matching resume entry for either confirmation or cancellation:
+
+```ts
+const interrupt = interrupts.value[0]
+if (interrupt) {
+  await run({
+    resume: [{
+      interruptId: interrupt.id,
+      status: approved ? 'resolved' : 'cancelled',
+      payload: approved,
+    }],
+  })
+}
+```
+
+Here `approved` comes from the user's choice; applications construct their payload according to the interrupt request. Retry after a failure or stop preserves messages, tool results and resume parameters without adding another user message.
 
 Render server messages, state and arguments with Vue text interpolation or validated business components. `useAgUiAgent<MyState>` supplies TypeScript hints only; the host validates data at runtime.
 

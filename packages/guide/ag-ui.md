@@ -8,7 +8,15 @@ import AgUiDemo from '../.vitepress/theme/components/ag-ui/AgUiDemo.vue'
 
 ## 交互演示
 
-发送消息后，等待流式回复，再选择允许或拒绝读取主题。也可以在接收中停止，或模拟连接错误。演示通过本地 SSE 响应驱动真实的 `HttpAgent` 解析器，不调用模型或网络服务。
+选择一个示例并发送消息。演示通过本地 SSE 响应驱动真实的 `HttpAgent` 解析器，使用固定示例回复，不调用模型或网络服务。
+
+| 示例         | 可以体验的流程                                         |
+| ------------ | ------------------------------------------------------ |
+| 流式对话     | 分段消息、共享状态快照与增量更新；停止后重试同一请求   |
+| 主题工具确认 | 允许或拒绝读取亮暗主题，回传工具结果，再继续生成       |
+| 中断与继续   | AG-UI 1.0 interrupt 暂停，确认或取消后通过 resume 恢复 |
+
+每个示例都支持模拟服务错误与重试。展开「协议事件」查看客户端实际接收的 JSON；重置或切换示例会取消旧运行，清空消息、状态和事件，开始独立会话。
 
 <AgUiDemo />
 
@@ -27,7 +35,7 @@ import { useAgUiAgent } from '@yunlefun/vue/ag-ui'
 
 // 后端需实现 AG-UI HTTP/SSE 接口；每个会话创建独立实例。
 const agent = new HttpAgent({ url: '/api/agent' })
-const { messages, state, status, isRunning, error, send, cancel } = useAgUiAgent(agent)
+const { messages, state, status, isRunning, isAwaitingInput, error, send, cancel } = useAgUiAgent(agent)
 </script>
 
 <template>
@@ -37,7 +45,7 @@ const { messages, state, status, isRunning, error, send, cancel } = useAgUiAgent
   <p v-if="error" role="alert">
     {{ error.message }}
   </p>
-  <button :disabled="isRunning" @click="send('你好')">
+  <button :disabled="isRunning || isAwaitingInput" @click="send('你好')">
     发送
   </button>
   <button :disabled="!isRunning" @click="cancel">
@@ -71,7 +79,24 @@ const { messages, state, status, isRunning, error, send, cancel } = useAgUiAgent
 
 工具事件仅作为数据展示。宿主校验工具名称与参数，按业务要求请求确认，执行允许的操作，再使用 `addToolResult` 回传结果。适配层不会执行 Agent 返回的代码，也不会自动循环调用工具。
 
-AG-UI 1.0 的 interrupt/resume 与普通工具结果是两种协议机制：`interrupts` 原样保留官方字段；宿主根据具体 interrupt 构造 `resume`。此演示覆盖普通工具确认，测试覆盖 interrupt 状态与继续请求。
+「主题工具确认」展示普通工具结果。宿主先校验 `read_theme` 名称与空对象参数，仅在允许后读取页面主题；拒绝不会读取页面信息。结果经 `addToolResult` 加入会话，再显式调用 `run()`。共享状态中可以看到获准读取的 `theme`。
+
+AG-UI 1.0 的 interrupt/resume 与普通工具结果是两种协议机制：「中断与继续」在 `RUN_FINISHED` 中携带 interrupt，宿主根据具体请求构造 `resume`，确认与取消都显式回复对应 ID：
+
+```ts
+const interrupt = interrupts.value[0]
+if (interrupt) {
+  await run({
+    resume: [{
+      interruptId: interrupt.id,
+      status: approved ? 'resolved' : 'cancelled',
+      payload: approved,
+    }],
+  })
+}
+```
+
+示例中的 `approved` 来自用户选择；业务需按 interrupt 的要求构造自己的 payload。运行错误或停止后，重试保留原消息、工具结果与 resume 参数，不重复添加用户消息。
 
 消息、状态与工具参数都来自服务端。通过 Vue 文本插值或经过校验的业务组件渲染；泛型 `useAgUiAgent<MyState>` 仅提供类型提示，运行时结构校验由业务负责。
 

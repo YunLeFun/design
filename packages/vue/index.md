@@ -47,3 +47,7 @@ export default defineNuxtConfig({
 日常操作使用默认的晴空蓝主色。`variant="accent"` 也默认晴空蓝；精选内容可显式选择 `tone="sun"`，不要用装饰色替代成功、警告或错误语义。完整接口见[色彩与组件](/guide/colors)。
 
 组件 API、主要状态和交互示例见侧边栏。需要复制并继续修改源码时，阅读 [Registry 分发](/guide/registry)；包的完整边界见[子包职责](/guide/packages)。
+
+## Agent 交互示例
+
+[AG-UI 接入与演示](/guide/ag-ui)展示流式对话、共享状态、工具确认、中断恢复、停止和错误重试。可选入口 `@yunlefun/vue/ag-ui` 基于官方 `@ag-ui/client`，按需安装；基础组件不需要此依赖。

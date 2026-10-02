@@ -123,6 +123,7 @@ export default defineConfig(withYunlefun({
           { text: 'Design system', link: '/en/guide/design-system' },
           { text: 'Get started', link: '/en/guide/' },
           { text: 'Vue components', link: '/en/vue/' },
+          { text: 'AG-UI examples', link: '/en/guide/ag-ui' },
           { text: 'Icons', link: 'https://icons.yunle.fun/' },
         ],
         sidebar: {
@@ -204,6 +205,7 @@ export default defineConfig(withYunlefun({
       { text: '设计体系', link: '/guide/design-system' },
       { text: '开始使用', link: '/guide/' },
       { text: 'Vue 组件', link: '/vue/' },
+      { text: 'AG-UI 示例', link: '/guide/ag-ui' },
       { text: '图标库', link: 'https://icons.yunle.fun/' },
     ],
 
@@ -233,6 +235,9 @@ function getVueComponentsSidebar(english = false) {
   const links: DefaultTheme.Sidebar = [{
     text: 'Vue',
     link: `${prefix}/vue/`,
+  }, {
+    text: english ? 'AG-UI examples' : 'AG-UI 示例',
+    link: `${prefix}/guide/ag-ui`,
   }]
 
   const components = metadata.components.filter(i => i.name)

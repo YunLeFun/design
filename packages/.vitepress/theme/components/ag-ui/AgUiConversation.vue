@@ -1,10 +1,22 @@
 <script setup lang="ts">
 import type { Message } from '@ag-ui/client'
 import type { DeepReadonly } from 'vue'
-import { computed } from 'vue'
+import { computed, shallowRef, useTemplateRef, watch } from 'vue'
 
 const props = defineProps<{ messages: readonly DeepReadonly<Message>[], english: boolean }>()
 const visibleMessages = computed(() => props.messages.filter(message => message.role === 'user' || message.role === 'assistant'))
+const conversation = useTemplateRef<HTMLDivElement>('conversation')
+const followLatest = shallowRef(true)
+function onScroll() {
+  const element = conversation.value
+  if (element)
+    followLatest.value = element.scrollHeight - element.scrollTop - element.clientHeight < 48
+}
+watch(() => props.messages, () => {
+  const element = conversation.value
+  if (element && followLatest.value)
+    element.scrollTop = element.scrollHeight
+}, { flush: 'post' })
 function messageText(message: DeepReadonly<Message>) {
   if (typeof message.content === 'string')
     return message.content
@@ -15,7 +27,7 @@ function messageText(message: DeepReadonly<Message>) {
 </script>
 
 <template>
-  <div class="conversation" role="log" :aria-label="english ? 'Agent conversation' : 'Agent 对话'" aria-live="polite" aria-relevant="additions text">
+  <div ref="conversation" class="conversation" role="log" :aria-label="english ? 'Agent conversation' : 'Agent 对话'" aria-live="polite" aria-relevant="additions text" @scroll="onScroll">
     <p v-if="!visibleMessages.length" class="empty">
       {{ english ? 'Send a message to try streaming and explicit tool confirmation.' : '发送消息，体验流式回复与工具确认。' }}
     </p>
