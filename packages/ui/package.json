@@ -22,7 +22,8 @@
     "./patterns.css": "./dist/patterns.css",
     "./styles": "./styles/index.scss",
     "./styles/*": "./styles/*",
-    "./*": "./*"
+    "./*": "./*",
+    "./admin.css": "./styles/admin.css"
   },
   "files": [
     "dist",

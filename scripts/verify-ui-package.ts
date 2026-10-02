@@ -33,7 +33,7 @@ try {
   if (sassInstalled)
     throw new Error('CSS-only consumers must not require Sass.')
   await writeFile(resolve(consumer, 'index.html'), '<main class="ylf-theme-dark ylf-pattern-grid" data-ylf-tone="pink">共享设计基础</main><script type="module" src="/main.js"></script>')
-  await writeFile(resolve(consumer, 'main.js'), 'import \'@yunlefun/ui/css\'\nimport \'@yunlefun/ui/patterns.css\'\n')
+  await writeFile(resolve(consumer, 'main.js'), 'import \'@yunlefun/ui/css\'\nimport \'@yunlefun/ui/patterns.css\'\nimport \'@yunlefun/ui/admin.css\'\n')
   // 使用工作区的构建器，但依赖从独立消费项目的 node_modules 解析。
   await run(resolve(root, 'node_modules/.bin/vite'), ['build'], consumer)
   console.log('Packed CSS entries resolve and build without Sass in the consumer.')
