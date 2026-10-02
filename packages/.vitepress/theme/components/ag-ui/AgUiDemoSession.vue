@@ -3,31 +3,24 @@ import type { DemoScenario } from './demo-agent'
 import YlfButton from '../../../../vue/components/YlfButton.vue'
 import AgUiComposer from './AgUiComposer.vue'
 import AgUiConversation from './AgUiConversation.vue'
+import AgUiDraftForm from './AgUiDraftForm.vue'
 import AgUiEventLog from './AgUiEventLog.vue'
+import AgUiRecommendations from './AgUiRecommendations.vue'
 import AgUiRunState from './AgUiRunState.vue'
+import AgUiTaskPlan from './AgUiTaskPlan.vue'
+import AgUiToolApprovals from './AgUiToolApprovals.vue'
+import AgUiToolResults from './AgUiToolResults.vue'
 import { useAgUiDemo } from './useAgUiDemo'
 
 const props = defineProps<{ scenario: DemoScenario, english: boolean }>()
-const { messages, state, status, isRunning, error, interrupts, isAwaitingInput, events, actionError, disabled, canRetry, pendingTool, submit, cancel, confirmTool, resume, simulateFailure, retry } = useAgUiDemo(props.scenario, props.english)
+const { messages, state, status, isRunning, error, interrupts, isAwaitingInput, events, actionError, disabled, canRetry, pendingTools, submit, cancel, confirmTool, resume, simulateFailure, retry, selectRecommendation, updateDraft, submitDraft } = useAgUiDemo(props.scenario, props.english)
 </script>
 
 <template>
   <div class="demo-grid">
     <div class="demo-chat ylf-workbench-panel">
       <AgUiConversation :messages="messages" :english="english" />
-      <div v-if="pendingTool && !isRunning" class="confirmation" role="group" :aria-label="english ? 'Tool approval' : '工具确认'">
-        <p class="confirmation-prompt">
-          {{ english ? 'Allow reading this page’s light or dark theme?' : '允许读取当前页面的亮暗主题吗？' }}
-        </p>
-        <div class="confirmation-actions">
-          <YlfButton size="sm" @click="confirmTool(true)">
-            {{ english ? 'Allow and continue' : '允许并继续' }}
-          </YlfButton>
-          <YlfButton size="sm" variant="secondary" @click="confirmTool(false)">
-            {{ english ? 'Decline' : '拒绝' }}
-          </YlfButton>
-        </div>
-      </div>
+      <AgUiToolApprovals v-if="pendingTools.length && !isRunning" :tools="pendingTools" :english="english" @confirm="(id, approved) => confirmTool(approved, id)" />
       <div v-if="interrupts.length && !isRunning" class="confirmation" role="group" :aria-label="english ? 'Resume approval' : '继续确认'">
         <p class="confirmation-prompt">
           {{ interrupts[0]?.message }}
@@ -48,6 +41,12 @@ const { messages, state, status, isRunning, error, interrupts, isAwaitingInput, 
     </div>
     <AgUiRunState :status="status" :state="state" :pending="isAwaitingInput" :english="english" />
   </div>
+  <div v-if="state.tasks || state.recommendations || state.draft || state.toolResults" class="scenario-result">
+    <AgUiTaskPlan v-if="state.tasks" :tasks="state.tasks" :progress="state.progress ?? 0" :english="english" />
+    <AgUiRecommendations v-if="state.recommendations?.length" :recommendations="state.recommendations" :selected="state.selectedRecommendation" :disabled="isRunning" :english="english" @select="selectRecommendation" />
+    <AgUiDraftForm v-if="state.draft" :draft="state.draft" :submitted="state.draftSubmitted ?? false" :disabled="isRunning" :english="english" @update="updateDraft" @submit="submitDraft" />
+    <AgUiToolResults v-if="state.toolResults" :results="state.toolResults" :english="english" />
+  </div>
   <AgUiEventLog :events="events" :english="english" />
 </template>
 
@@ -59,6 +58,9 @@ const { messages, state, status, isRunning, error, interrupts, isAwaitingInput, 
 }
 .demo-chat {
   overflow: hidden;
+}
+.scenario-result {
+  margin-top: 20px;
 }
 .confirmation {
   padding: 16px 20px;

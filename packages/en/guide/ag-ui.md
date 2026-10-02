@@ -10,15 +10,23 @@ import AgUiDemo from '../../.vitepress/theme/components/ag-ui/AgUiDemo.vue'
 
 Choose an example and send a message. Scripted local SSE responses exercise the real `HttpAgent` parser without a model or network service.
 
-| Example              | Flow to try                                                                  |
-| -------------------- | ---------------------------------------------------------------------------- |
-| Streaming chat       | Message chunks, state snapshots and patches; stop and retry the same request |
-| Theme tool approval  | Allow or decline reading the page theme, return a tool result, then continue |
-| Interrupt and resume | Pause with an AG-UI 1.0 interrupt, then explicitly resume or decline         |
-
-Every example supports simulated service errors and retry. Expand “Protocol events” to inspect the JSON received by the client. Resetting or switching examples cancels the old run, clears messages, state and events, and starts an independent conversation.
+Seven scenarios cover streaming text, task planning, recommendation cards, forms and multiple tools. Every example supports simulated service errors and retry. Expand “Protocol events” to inspect the JSON received by the client. Resetting or switching examples cancels the old run, clears messages, state and events, and starts an independent conversation.
 
 <AgUiDemo />
+
+## Example catalog
+
+| Example                         | Flow to try                                                                               |
+| ------------------------------- | ----------------------------------------------------------------------------------------- |
+| Streaming chat                  | Message chunks, state snapshots and patches; stop and retry the same request              |
+| Theme tool approval             | Allow or decline reading the page theme, return a tool result, then continue              |
+| Interrupt and resume            | Pause with an AG-UI 1.0 interrupt, then explicitly resume or decline                      |
+| Task plan and progress          | Steps start and finish while state patches update a task list and progress bar            |
+| Structured recommendation cards | Append palette cards incrementally and write a selection back to shared state             |
+| Form fill and return            | Fill a draft, edit its title, audience and tone, then confirm and return it               |
+| Multiple tool calls             | Answer two tools independently, then continue and summarize approved and declined results |
+
+The task plan combines `STEP_STARTED` / `STEP_FINISHED` with JSON Patch state updates. Cards arrive through `STATE_DELTA`, and selection uses `setState()`. The form is part of shared state; confirmation sends the edited fields with the next request within the local demo. Multiple tools can be answered in any order, each result is returned once, and continuation waits for all answers.
 
 ## Install and connect
 
@@ -96,7 +104,7 @@ if (interrupt) {
 }
 ```
 
-Here `approved` comes from the user's choice; applications construct their payload according to the interrupt request. Retry after a failure or stop preserves messages, tool results and resume parameters without adding another user message.
+Here `approved` comes from the user's choice; applications construct their payload according to the interrupt request. Retry in the demo preserves messages, tool results, draft fields and resume parameters without adding another user message.
 
 Render server messages, state and arguments with Vue text interpolation or validated business components. `useAgUiAgent<MyState>` supplies TypeScript hints only; the host validates data at runtime.
 

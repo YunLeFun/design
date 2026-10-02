@@ -14,7 +14,7 @@
 - [色彩与组件](./packages/guide/colors.md)：多巴胺色板、成组 token 与共享组件接口。
 - [公共使用与发布](./packages/guide/adoption.md)：接入契约、当前成熟度与发布验收。
 - [应用迁移](./packages/guide/migration.md)：主站及其他应用的接入顺序与剩余差异。
-- [AG-UI 交互示例](./packages/guide/ag-ui.md)：流式对话、共享状态、工具确认、中断恢复与错误重试，提供中英文实时演示。
+- [AG-UI 交互示例](./packages/guide/ag-ui.md)：7 种场景，涵盖流式对话、任务规划、推荐卡片、表单回传、工具确认与中断恢复，提供中英文实时演示。
 
 ## 子包与目录
 

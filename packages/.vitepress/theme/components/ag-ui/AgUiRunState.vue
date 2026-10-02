@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import type { DeepReadonly } from 'vue'
 import type { AgUiStatus } from '../../../../vue/src/ag-ui'
+import type { DemoState } from './demo-types'
 import { computed } from 'vue'
 import YlfBadge from '../../../../vue/components/YlfBadge.vue'
 
-const props = defineProps<{ status: AgUiStatus, state: unknown, pending: boolean, english: boolean }>()
+const props = defineProps<{ status: AgUiStatus, state: DeepReadonly<DemoState>, pending: boolean, english: boolean }>()
 const labels = computed(() => props.english
   ? { idle: 'Ready', running: 'Streaming', success: 'Complete', cancelled: 'Stopped', interrupted: 'Paused', error: 'Failed' }
   : { idle: '就绪', running: '接收中', success: '完成', cancelled: '已停止', interrupted: '已暂停', error: '失败' })
@@ -12,7 +14,8 @@ const labels = computed(() => props.english
 <template>
   <aside class="run-state ylf-workbench-panel ylf-workbench-grid" :aria-label="english ? 'Agent state' : 'Agent 状态'">
     <YlfBadge role="status" aria-atomic="true" :variant="status === 'error' ? 'danger' : status === 'running' ? 'brand' : 'neutral'" appearance="soft">
-      {{ pending ? (english ? 'Awaiting confirmation' : '等待确认') : labels[status] }}
+      {{ status === 'success' && state.phase === 'awaiting_form' ? (english ? 'Review the draft' : '等待确认草稿')
+        : pending ? (english ? 'Awaiting confirmation' : '等待确认') : labels[status] }}
     </YlfBadge>
     <h3>{{ english ? 'Shared state' : '共享状态' }}</h3>
     <pre>{{ JSON.stringify(state, null, 2) }}</pre>

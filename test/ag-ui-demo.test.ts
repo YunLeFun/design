@@ -1,11 +1,13 @@
+import type { DemoScenario } from '../packages/.vitepress/theme/components/ag-ui/demo-scenarios'
 import { EventType } from '@ag-ui/client'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { effectScope } from 'vue'
 import { createDemoAgent } from '../packages/.vitepress/theme/components/ag-ui/demo-agent'
+import { demoScenarios } from '../packages/.vitepress/theme/components/ag-ui/demo-scenarios'
 import { useAgUiDemo } from '../packages/.vitepress/theme/components/ag-ui/useAgUiDemo'
 
 const scopes: ReturnType<typeof effectScope>[] = []
-function createSession(scenario: 'stream' | 'tool' | 'interrupt', english = false, delayMs = 0) {
+function createSession(scenario: DemoScenario, english = false, delayMs = 0) {
   const scope = effectScope()
   scopes.push(scope)
   return { scope, demo: scope.run(() => useAgUiDemo(scenario, english, delayMs))! }
@@ -164,5 +166,126 @@ describe('interactive AG-UI examples through local SSE and the official client',
     expect(demo.events.value).toHaveLength(80)
     expect(demo.events.value[0]!.id).toBeGreaterThan(1)
     expect(demo.events.value.at(-1)?.type).toBe(EventType.RUN_FINISHED)
+  })
+
+  it('updates a task plan through step events and incremental progress', async () => {
+    const { demo } = createSession('plan', true)
+    await demo.submit('Plan a workshop')
+    expect(demo.status.value).toBe('success')
+    expect(demo.state.value.progress).toBe(100)
+    expect(demo.state.value.tasks).toHaveLength(3)
+    expect(demo.state.value.tasks?.every(task => task.status === 'done')).toBe(true)
+    const starts = demo.events.value.filter(event => event.type === EventType.STEP_STARTED)
+    const finishes = demo.events.value.filter(event => event.type === EventType.STEP_FINISHED)
+    expect(starts).toHaveLength(3)
+    expect(finishes.map(event => JSON.parse(event.payload).stepName)).toEqual(starts.map(event => JSON.parse(event.payload).stepName))
+    const patches = demo.events.value.filter(event => event.type === EventType.STATE_DELTA).flatMap(event => JSON.parse(event.payload).delta)
+    expect(patches.filter(patch => patch.path === '/progress').map(patch => patch.value)).toEqual([33, 67, 100])
+  })
+
+  it('streams structured cards and writes a valid selection back to shared state', async () => {
+    const { demo } = createSession('cards')
+    await demo.submit('配色建议')
+    expect(demo.state.value.recommendations?.map(item => item.id)).toEqual(['sky', 'mint', 'sun'])
+    expect(demo.events.value.filter(event => event.payload.includes('/recommendations/-'))).toHaveLength(3)
+    demo.selectRecommendation('unknown')
+    expect(demo.state.value.selectedRecommendation).toBe('')
+    demo.selectRecommendation('mint')
+    expect(demo.state.value.selectedRecommendation).toBe('mint')
+    await demo.simulateFailure()
+    await demo.retry()
+    expect(demo.state.value.selectedRecommendation).toBe('mint')
+  })
+
+  it('returns edited form fields to the next run and prevents ordinary sends until confirmed', async () => {
+    const { demo } = createSession('form')
+    await demo.submit('帮我拟一份活动草稿')
+    expect(demo.state.value.phase).toBe('awaiting_form')
+    expect(demo.disabled.value).toBe(true)
+    await demo.submit('不能跳过表单')
+    expect(demo.messages.value.filter(message => message.role === 'user')).toHaveLength(1)
+    const draft = { title: '周六绘画课', audience: '附近的朋友', tone: 'formal' as const }
+    demo.updateDraft(draft)
+    await demo.submitDraft()
+    expect(demo.state.value.draft).toEqual(draft)
+    expect(demo.state.value.draftSubmitted).toBe(true)
+    expect(demo.state.value.phase).toBe('done')
+    expect(demo.messages.value.at(-1)?.content).toContain('周六绘画课')
+    expect(demo.messages.value.at(-1)?.content).toContain('附近的朋友')
+    expect(demo.messages.value.at(-1)?.content).toContain('正式')
+    demo.updateDraft({ ...draft, title: '不能修改已确认的草稿' })
+    expect(demo.state.value.draft?.title).toBe('周六绘画课')
+    await demo.simulateFailure()
+    await demo.retry()
+    expect(demo.state.value.draft).toEqual(draft)
+    expect(demo.state.value.draftSubmitted).toBe(true)
+  })
+
+  it('keeps an incomplete form for correction without starting another run', async () => {
+    const { demo } = createSession('form', true)
+    await demo.submit('Draft a workshop')
+    const eventCount = demo.events.value.length
+    demo.updateDraft({ title: ' ', audience: 'Creators', tone: 'friendly' })
+    await demo.submitDraft()
+    expect(demo.state.value.phase).toBe('awaiting_form')
+    expect(demo.actionError.value).toContain('Complete the title')
+    expect(demo.events.value).toHaveLength(eventCount)
+    demo.updateDraft({ title: 'Workshop', audience: 'Creators', tone: 'friendly' })
+    await demo.submitDraft()
+    expect(demo.actionError.value).toBeUndefined()
+    expect(demo.state.value.phase).toBe('done')
+  })
+
+  it('preserves edited form data and the confirmation when retrying a stopped continuation', async () => {
+    const { demo } = createSession('form', true, 5)
+    await demo.submit('Draft a workshop')
+    demo.updateDraft({ title: 'My edited workshop', audience: 'My friends', tone: 'formal' })
+    const continuing = demo.submitDraft()
+    await vi.waitFor(() => expect(demo.state.value.draftSubmitted).toBe(true))
+    demo.cancel()
+    await continuing
+    await demo.retry()
+    expect(demo.state.value.phase).toBe('done')
+    expect(demo.state.value.draft?.title).toBe('My edited workshop')
+    expect(demo.messages.value.at(-1)?.content).toContain('My edited workshop')
+    expect(demo.messages.value.filter(message => message.role === 'user')).toHaveLength(1)
+  })
+
+  it.each([true, false])('waits for both tool answers, including out-of-order approval=%s', async (approveTheme) => {
+    const readTheme = vi.fn(() => false)
+    vi.stubGlobal('document', { documentElement: { classList: { contains: readTheme } } })
+    const { demo } = createSession('multi-tool')
+    await demo.submit('检查主题和示例')
+    expect(demo.pendingTools.value.map(tool => tool.function.name)).toEqual(['read_theme', 'list_examples'])
+    const [theme, catalog] = demo.pendingTools.value
+    const eventCount = demo.events.value.length
+    await demo.confirmTool(true, catalog!.id)
+    expect(demo.pendingTools.value).toHaveLength(1)
+    expect(demo.isAwaitingInput.value).toBe(true)
+    expect(demo.events.value).toHaveLength(eventCount)
+    expect(readTheme).not.toHaveBeenCalled()
+    await demo.confirmTool(true, catalog!.id)
+    expect(demo.messages.value.filter(message => message.role === 'tool')).toHaveLength(1)
+    await demo.confirmTool(approveTheme, theme!.id)
+    expect(demo.status.value).toBe('success')
+    expect(demo.pendingToolCallIds.value).toEqual([])
+    expect(readTheme).toHaveBeenCalledTimes(approveTheme ? 1 : 0)
+    expect(demo.state.value.toolResults).toContainEqual({ name: 'list_examples', approved: true, count: demoScenarios.length, examples: demoScenarios.map(item => item.id) })
+    expect(demo.state.value.toolResults).toContainEqual(approveTheme ? { name: 'read_theme', approved: true, theme: 'light' } : { name: 'read_theme', approved: false })
+  })
+
+  it('records two refusals without reading the page or blocking a new request', async () => {
+    const readTheme = vi.fn()
+    vi.stubGlobal('document', { documentElement: { classList: { contains: readTheme } } })
+    const { demo } = createSession('multi-tool')
+    await demo.submit('可以检查吗')
+    const pending = [...demo.pendingTools.value]
+    for (const tool of pending)
+      await demo.confirmTool(false, tool.id)
+    expect(demo.state.value.phase).toBe('declined')
+    expect(demo.state.value.toolResults?.every(result => !result.approved)).toBe(true)
+    expect(readTheme).not.toHaveBeenCalled()
+    await demo.submit('重新申请')
+    expect(demo.pendingTools.value).toHaveLength(2)
   })
 })

@@ -2,16 +2,12 @@
 import type { DemoScenario } from './demo-agent'
 import { shallowRef, useId } from 'vue'
 import YlfButton from '../../../../vue/components/YlfButton.vue'
+import { getDemoScenario } from './demo-scenarios'
 
 const props = defineProps<{ scenario: DemoScenario, english: boolean, disabled: boolean, isRunning: boolean, canRetry: boolean }>()
 const emit = defineEmits<{ submit: [content: string], cancel: [], simulateFailure: [], retry: [] }>()
 const id = useId()
-const prompts = {
-  stream: props.english ? 'Show me how streaming works' : '展示流式回复的过程',
-  tool: props.english ? 'Inspect the theme and suggest a palette' : '请检查主题并给出配色建议',
-  interrupt: props.english ? 'Pause and ask me before continuing' : '请在继续之前暂停并征求确认',
-}
-const prompt = shallowRef(prompts[props.scenario])
+const prompt = shallowRef<string>(getDemoScenario(props.scenario, props.english).prompt)
 function submit() {
   if (props.disabled || !prompt.value.trim())
     return
