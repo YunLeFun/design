@@ -1,0 +1,37 @@
+/* Optional surfaces distilled from the Icons preview workbench. Import after style.css. */
+.ylf-workbench {
+  --ylf-workbench-grid-size: 24px;
+  --ylf-workbench-grid-line: color-mix(in srgb, var(--ylf-c-border-strong) 48%, transparent);
+  --ylf-workbench-checker-size: 12px;
+  --ylf-workbench-checker-base: var(--ylf-c-surface);
+  --ylf-workbench-checker-tint: var(--ylf-c-surface-inset);
+  color: var(--ylf-c-text);
+  font-family: var(--ylf-font-body);
+}
+
+.ylf-workbench-panel {
+  min-width: 0;
+  border: 1px solid var(--ylf-c-border-strong);
+  border-radius: var(--ylf-radius);
+  background-color: var(--ylf-c-surface);
+  box-shadow: var(--ylf-shadow-control);
+}
+
+.ylf-workbench-grid {
+  background-color: var(--ylf-c-bg-soft);
+  background-image:
+    linear-gradient(var(--ylf-workbench-grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--ylf-workbench-grid-line) 1px, transparent 1px);
+  background-size: var(--ylf-workbench-grid-size) var(--ylf-workbench-grid-size);
+}
+
+.ylf-workbench-checker {
+  background-color: var(--ylf-workbench-checker-base);
+  background-image: conic-gradient(
+    var(--ylf-workbench-checker-tint) 25%,
+    transparent 0 50%,
+    var(--ylf-workbench-checker-tint) 0 75%,
+    transparent 0
+  );
+  background-size: var(--ylf-workbench-checker-size) var(--ylf-workbench-checker-size);
+}

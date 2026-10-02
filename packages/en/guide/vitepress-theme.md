@@ -21,7 +21,7 @@ Cyan and yellow mark titles; primary actions and links retain brand blue. Docume
 The first version is distributed as an npm-format tarball on GitHub Releases:
 
 ```sh
-pnpm add -D https://github.com/YunLeFun/design/releases/download/theme-v0.2.1/vitepress-theme-yunlefun-0.2.1.tgz
+pnpm add -D https://github.com/YunLeFun/design/releases/download/theme-v0.3.0/vitepress-theme-yunlefun-0.3.0.tgz
 ```
 
 In `.vitepress/theme/index.ts`:
@@ -52,7 +52,7 @@ export default defineConfig(withYunlefun({
 
 Navigation, search, sidebars, outlines, languages, code groups and copying use the default VitePress theme. Use native `locales` for Chinese and English. The theme does not translate content. Optional `zhThemeConfig` supplies Chinese interface labels.
 
-Supported: VitePress 1.6.4 and 2.0.0-alpha.16/17, with Vue 3.5. Both client and server builds are verified across the three sites.
+Supported: VitePress 1.6.4 and 2.0.0-alpha.16/17/19, with Vue 3.5. Both client and server builds are verified across the three sites.
 
 ## Extend your site {#扩展站点}
 
@@ -91,3 +91,20 @@ await generateBrandAssets({ outDir: 'docs/public', icon: 'brand-mark', title: 'Y
 ```
 
 Run this Node-only helper when updating icons; commit the generated files. PNG generation requires `rsvg-convert` (librsvg). SVG-only tooling can pass `png: false`.
+
+## Optional workbench surfaces
+
+Icons keeps its asset catalog, platform masks, size controls and technical guides. The theme shares its panel, grid and transparency checker surfaces with the AG-UI demo. Import these styles only on pages that need them:
+
+```ts
+import 'vitepress-theme-yunlefun/workbench.css'
+```
+
+```html
+<section class="ylf-workbench">
+  <div class="ylf-workbench-panel ylf-workbench-grid">…</div>
+  <div class="ylf-workbench-checker">…</div>
+</section>
+```
+
+Colors follow the shared light/dark tokens. Customize `--ylf-workbench-grid-size` and `--ylf-workbench-checker-size` within the workbench; product artwork keeps its own palette.

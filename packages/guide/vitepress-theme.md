@@ -21,7 +21,7 @@ outline: deep
 首版为固定版本的 GitHub Release 安装包，安装方式与 npm 包相同：
 
 ```sh
-pnpm add -D https://github.com/YunLeFun/design/releases/download/theme-v0.2.1/vitepress-theme-yunlefun-0.2.1.tgz
+pnpm add -D https://github.com/YunLeFun/design/releases/download/theme-v0.3.0/vitepress-theme-yunlefun-0.3.0.tgz
 ```
 
 在 `.vitepress/theme/index.ts` 引入主题和 CSS：
@@ -53,7 +53,7 @@ export default defineConfig(withYunlefun({
 
 导航、搜索、侧边栏、目录、语言切换、代码组与复制继续使用 VitePress 默认主题。中英版本使用原生 `locales`，主题不会自动翻译内容。`zhThemeConfig` 仅提供中文界面文案。
 
-主题支持 VitePress 1.6.4 与 2.0.0-alpha.16/17，以及 Vue 3.5。三个站点分别通过客户端和服务端构建验收。
+主题支持 VitePress 1.6.4 与 2.0.0-alpha.16/17/19，以及 Vue 3.5。各站点分别通过客户端和服务端构建验收。
 
 ## 扩展站点
 
@@ -77,7 +77,7 @@ import { Layout } from 'vitepress-theme-yunlefun'
 
 ## 升级与维护
 
-共享视觉修改集中在 `packages/vitepress-theme-yunlefun`，基础变量仍在 `packages/ui`。三个站点升级同一版本，提交锁文件，避免复制主题 CSS。首版使用 GitHub Release 的固定版本 URL；完成 npm 首发授权后可切换为 npm 版本依赖。
+共享视觉修改集中在 `packages/vitepress-theme-yunlefun`，基础变量仍在 `packages/ui`。各站点升级同一版本，提交锁文件，避免复制主题 CSS。首版使用 GitHub Release 的固定版本 URL；完成 npm 首发授权后可切换为 npm 版本依赖。
 
 ## 统一品牌图形
 
@@ -92,3 +92,20 @@ await generateBrandAssets({ outDir: 'docs/public', icon: 'brand-mark', title: 'Y
 ```
 
 升级图标后执行这个 Node 工具并提交生成文件。PNG 生成依赖 `rsvg-convert`（librsvg）；仅生成 SVG 可传 `png: false`。
+
+## 可选工作台表面
+
+Icons 保留图标目录、平台遮罩、尺寸控制和技术辅助线。主题将面板、网格和透明棋盘格提炼为共享样式，AG-UI 演示也使用同一套表面。需要时按需引入：
+
+```ts
+import 'vitepress-theme-yunlefun/workbench.css'
+```
+
+```html
+<section class="ylf-workbench">
+  <div class="ylf-workbench-panel ylf-workbench-grid">…</div>
+  <div class="ylf-workbench-checker">…</div>
+</section>
+```
+
+颜色跟随共享亮暗变量；在工作台内可覆盖 `--ylf-workbench-grid-size` 与 `--ylf-workbench-checker-size`。产品图标继续保留各自原有配色。

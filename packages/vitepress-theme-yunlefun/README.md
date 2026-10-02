@@ -1,18 +1,18 @@
 # vitepress-theme-yunlefun
 
-云乐坊共享文档主题，供 design、docs 和 wiki 使用。基于 VitePress 默认主题，复用 `@yunlefun/ui` 的晴空／夜空设计变量。
+云乐坊共享文档主题，供 design、docs、wiki 和 icons 使用。基于 VitePress 默认主题，复用 `@yunlefun/ui` 的晴空／夜空设计变量。
 
 - 青色标题锚点与青黄短线；正文、表格、代码和提示块使用共享表面。
 - 原生导航、搜索、中英菜单、目录、代码复制与默认主题插槽。
 - 主动亮暗切换渐变，首次加载静止，尊重减少动态效果设置。
-- VitePress 1.6.4 和 2.0.0-alpha.16/17；Vue 3.5。CSS 入口不需要 Sass，不下载字体。
+- VitePress 1.6.4 和 2.0.0-alpha.16/17/19；Vue 3.5。CSS 入口不需要 Sass，不下载字体。
 
 ## 安装
 
 当前通过 GitHub Release 分发固定版本的 npm 格式安装包：
 
 ```sh
-pnpm add -D https://github.com/YunLeFun/design/releases/download/theme-v0.2.1/vitepress-theme-yunlefun-0.2.1.tgz
+pnpm add -D https://github.com/YunLeFun/design/releases/download/theme-v0.3.0/vitepress-theme-yunlefun-0.3.0.tgz
 ```
 
 `@yunlefun/ui` 会作为依赖安装。VitePress 与 Vue 由站点提供。
@@ -90,3 +90,20 @@ await generateBrandAssets({ outDir: 'docs/public', icon: 'brand-mark', title: 'Y
 ```
 
 升级图标后执行这个 Node 工具并提交生成文件。PNG 生成依赖 `rsvg-convert`（librsvg）；仅生成 SVG 可传 `png: false`。
+
+## 可选工作台表面
+
+Icons 保留图标目录、平台遮罩、尺寸控制和技术辅助线。主题将面板、网格和透明棋盘格提炼为共享样式，AG-UI 演示也使用同一套表面。需要时按需引入：
+
+```ts
+import 'vitepress-theme-yunlefun/workbench.css'
+```
+
+```html
+<section class="ylf-workbench">
+  <div class="ylf-workbench-panel ylf-workbench-grid">…</div>
+  <div class="ylf-workbench-checker">…</div>
+</section>
+```
+
+颜色跟随共享亮暗变量；在工作台内可覆盖 `--ylf-workbench-grid-size` 与 `--ylf-workbench-checker-size`。产品图标继续保留各自原有配色。

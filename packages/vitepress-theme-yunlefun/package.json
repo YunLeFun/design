@@ -1,7 +1,7 @@
 {
   "name": "vitepress-theme-yunlefun",
   "type": "module",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Shared YunLeFun VitePress theme with sky and night surfaces, accessible Markdown and native navigation",
   "author": "YunLeFun",
   "license": "MIT",
@@ -36,7 +36,8 @@
     "./brand-assets": {
       "types": "./brand-assets.d.mts",
       "import": "./brand-assets.mjs"
-    }
+    },
+    "./workbench.css": "./styles/workbench.css"
   },
   "files": [
     "LICENSE",

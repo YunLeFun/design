@@ -16,10 +16,10 @@ try {
   assert.equal(manifest.name, 'vitepress-theme-yunlefun')
   assert.equal(manifest.dependencies['@yunlefun/ui'].includes('workspace:'), false)
   const files = execFileSync('tar', ['-tf', tarball], { encoding: 'utf8' })
-  for (const file of ['index.mjs', 'index.d.ts', 'components/Layout.vue', 'components/YunlefunLogo.vue', 'brand-assets.mjs', 'styles/style.css', 'dist/config.mjs', 'dist/config.d.mts', 'dist/appearance.mjs'])
+  for (const file of ['index.mjs', 'index.d.ts', 'components/Layout.vue', 'components/YunlefunLogo.vue', 'brand-assets.mjs', 'styles/style.css', 'styles/workbench.css', 'dist/config.mjs', 'dist/config.d.mts', 'dist/appearance.mjs'])
     assert.ok(files.includes(`package/${file}`), `Missing package file: ${file}`)
 
-  for (const version of ['1.6.4', '2.0.0-alpha.17']) {
+  for (const version of ['1.6.4', '2.0.0-alpha.17', '2.0.0-alpha.19']) {
     const cwd = resolve(directory, version)
     await mkdir(resolve(cwd, 'docs/.vitepress/theme'), { recursive: true })
     await writeFile(resolve(cwd, 'package.json'), JSON.stringify({
@@ -34,9 +34,10 @@ export default withYunlefun({ themeConfig: { brand: { icon: 'design-mark' } }, m
     await writeFile(resolve(cwd, 'docs/.vitepress/theme/index.mts'), `
 import Theme from 'vitepress-theme-yunlefun'
 import 'vitepress-theme-yunlefun/style.css'
+import 'vitepress-theme-yunlefun/workbench.css'
 export default Theme
 `)
-    await writeFile(resolve(cwd, 'docs/index.md'), '# Theme\n\n| Name | State |\n| --- | --- |\n| Theme | Ready |\n\n::: tip\nNative Markdown\n:::\n')
+    await writeFile(resolve(cwd, 'docs/index.md'), '# Theme\n\n<div class="ylf-workbench"><div class="ylf-workbench-panel ylf-workbench-grid">Workbench</div></div>\n\n| Name | State |\n| --- | --- |\n| Theme | Ready |\n\n::: tip\nNative Markdown\n:::\n')
     run('npm', ['install', '--ignore-scripts', '--no-audit', '--no-fund'], cwd)
     run(process.execPath, ['node_modules/vitepress/bin/vitepress.js', 'build', 'docs'], cwd)
     const html = await readFile(resolve(cwd, 'docs/.vitepress/dist/index.html'), 'utf8')
