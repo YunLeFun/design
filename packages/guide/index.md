@@ -45,5 +45,6 @@ export default defineNuxtConfig({
 - 阅读[设计体系架构](/guide/architecture)，了解 Reka UI、云乐坊组件与 Registry 的职责。
 - 使用 [Registry 分发](/guide/registry)，通过 URL 安装共享 token、`YlfButton` 或 `YlfDialog` 源码。
 - 在 [Vue 组件](/vue/)中查看实时 Demo；每个预览都可以独立切换明暗主题和设备宽度。
+- 阅读 [Admin 后台规范](/guide/admin)，为管理表格、筛选器与表单接入中性主题和响应式密度。
 - 阅读[字体规范](/guide/typography)，按需加载展示字体。
 - 已有应用按[迁移指南](/guide/migration)逐步接入，区分源码更新、包发布与线上部署。

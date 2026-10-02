@@ -18,6 +18,12 @@ export const defaultSideBar: DefaultTheme.Sidebar = [
     ],
   },
   {
+    text: 'Admin · 后台管理',
+    items: [
+      { text: '后台设计规范', link: '/guide/admin' },
+    ],
+  },
+  {
     text: '开发与接入',
     items: [
       { text: '开始使用', link: '/guide/' },
@@ -48,6 +54,8 @@ const englishLabels: Record<string, string> = {
   '色彩与组件': 'Colors and components',
   '品牌与界面': 'Brand and interfaces',
   '字体规范': 'Typography',
+  'Admin · 后台管理': 'Admin interfaces',
+  '后台设计规范': 'Admin design guidelines',
   '开发与接入': 'Development and adoption',
   '开始使用': 'Get started',
   'VitePress 主题': 'VitePress theme',
