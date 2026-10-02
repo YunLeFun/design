@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { icons } from '@yunlefun/icons'
+
 withDefaults(defineProps<{
   size?: 'sm' | 'md' | 'lg'
   layout?: 'vertical' | 'horizontal'
@@ -9,16 +11,16 @@ withDefaults(defineProps<{
   layout: 'vertical',
   wordmark: true,
 })
+const mark = icons.icons['brand-mark']
+const viewBox = `0 0 ${mark.width || icons.width || 16} ${mark.height || icons.height || 16}`
 </script>
 
 <template>
   <div class="ylf-logo" :class="[`ylf-logo--${size}`, `ylf-logo--${layout}`]">
     <span class="ylf-logo__mark" aria-hidden="true">
-      <svg viewBox="0 0 100 70" fill="currentColor">
-        <path d="M44 35L27.5 44.5263V25.4737L44 35Z" />
-        <circle cx="65" cy="35" r="9" />
-        <path fill-rule="evenodd" clip-rule="evenodd" d="M85 0H15V15H0V55H15V70H85V55H100V15H85V0ZM85 15H15V55H85V15Z" />
-      </svg>
+      <!-- Trusted, sanitized SVG body from the canonical Iconify package. -->
+      <!-- eslint-disable-next-line vue/no-v-html -->
+      <svg :viewBox="viewBox" fill="currentColor" v-html="mark.body" />
     </span>
     <span v-if="wordmark" class="ylf-logo__name">云乐坊</span>
   </div>

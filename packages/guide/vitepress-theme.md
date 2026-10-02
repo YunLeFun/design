@@ -21,7 +21,7 @@ outline: deep
 首版为固定版本的 GitHub Release 安装包，安装方式与 npm 包相同：
 
 ```sh
-pnpm add -D https://github.com/YunLeFun/design/releases/download/theme-v0.1.1/vitepress-theme-yunlefun-0.1.1.tgz
+pnpm add -D https://github.com/YunLeFun/design/releases/download/theme-v0.2.0/vitepress-theme-yunlefun-0.2.0.tgz
 ```
 
 在 `.vitepress/theme/index.ts` 引入主题和 CSS：
@@ -78,3 +78,17 @@ import { Layout } from 'vitepress-theme-yunlefun'
 ## 升级与维护
 
 共享视觉修改集中在 `packages/vitepress-theme-yunlefun`，基础变量仍在 `packages/ui`。三个站点升级同一版本，提交锁文件，避免复制主题 CSS。首版使用 GitHub Release 的固定版本 URL；完成 npm 首发授权后可切换为 npm 版本依赖。
+
+## 统一品牌图形
+
+设置 `themeConfig.brand: { icon: "brand-mark", hero: true }`，导航和原生首页即可使用共享 Logo；Design 使用 `design-mark`。启用时移除原生 `logo` 与 `hero.image` 配置；自定义插槽仍可覆盖默认内容。
+
+图形来自 `@yunlefun/icons`，亮暗颜色跟随 `@yunlefun/ui` 的 `--ylf-c-brand`。[图标库](https://icons.yunle.fun/) 与[设计系统](https://ui.yunle.fun/) 独立维护，通过包依赖与导航链接连接。
+
+```js
+import { generateBrandAssets } from 'vitepress-theme-yunlefun/brand-assets'
+
+await generateBrandAssets({ outDir: 'docs/public', icon: 'brand-mark', title: 'YunLeFun' })
+```
+
+升级图标后执行这个 Node 工具并提交生成文件。PNG 生成依赖 `rsvg-convert`（librsvg）；仅生成 SVG 可传 `png: false`。

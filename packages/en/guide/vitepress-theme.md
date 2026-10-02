@@ -21,7 +21,7 @@ Cyan and yellow mark titles; primary actions and links retain brand blue. Docume
 The first version is distributed as an npm-format tarball on GitHub Releases:
 
 ```sh
-pnpm add -D https://github.com/YunLeFun/design/releases/download/theme-v0.1.1/vitepress-theme-yunlefun-0.1.1.tgz
+pnpm add -D https://github.com/YunLeFun/design/releases/download/theme-v0.2.0/vitepress-theme-yunlefun-0.2.0.tgz
 ```
 
 In `.vitepress/theme/index.ts`:
@@ -77,3 +77,17 @@ Custom appearance controls can call `toggleAppearance()` or `setAppearance(dark)
 ## Upgrade and maintain {#升级与维护}
 
 Edit shared document styling in `packages/vitepress-theme-yunlefun` and foundation tokens in `packages/ui`. Upgrade all sites to the same version and commit lockfiles. The first release uses a fixed GitHub Release URL; npm versions can replace it after initial npm publication is authorized.
+
+## Canonical brand assets
+
+Configure `themeConfig.brand: { icon: "brand-mark", hero: true }` to render the shared logo in navigation and the native home hero. Design uses `design-mark`. Omit the native `logo` and `hero.image` options when using this API. Custom native slots still override the defaults.
+
+Geometry comes from `@yunlefun/icons`; colors follow `--ylf-c-brand` from `@yunlefun/ui`. The [icon catalog](https://icons.yunle.fun/) and [design system](https://ui.yunle.fun/) remain independent repositories connected by dependencies and links.
+
+```js
+import { generateBrandAssets } from 'vitepress-theme-yunlefun/brand-assets'
+
+await generateBrandAssets({ outDir: 'docs/public', icon: 'brand-mark', title: 'YunLeFun' })
+```
+
+Run this Node-only helper when updating icons; commit the generated files. PNG generation requires `rsvg-convert` (librsvg). SVG-only tooling can pass `png: false`.

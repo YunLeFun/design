@@ -31,7 +31,8 @@
     "release:vue": "pnpm -C packages/vue run release",
     "test": "vitest",
     "build:theme": "pnpm -C packages/vitepress-theme-yunlefun run build",
-    "theme:verify": "node scripts/verify-theme-package.mjs"
+    "theme:verify": "node scripts/verify-theme-package.mjs",
+    "brand:icons": "node scripts/generate-brand-icons.mjs"
   },
   "dependencies": {
     "@yunlefun/metadata": "workspace:*",

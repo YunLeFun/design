@@ -1,7 +1,7 @@
 {
   "name": "@yunlefun/vue",
   "type": "module",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "Vue components and Nuxt integration for YunLeFun Design",
   "author": "YunLeFun",
   "license": "MIT",
@@ -61,6 +61,7 @@
     }
   },
   "dependencies": {
+    "@yunlefun/icons": "^0.3.1",
     "reka-ui": "^2.10.1"
   },
   "devDependencies": {

@@ -85,7 +85,7 @@ export default defineConfig(withYunlefun({
     root: {
       label: '简体中文',
       lang: 'zh-Hans',
-      themeConfig: { siteTitle: '云乐坊' },
+      themeConfig: { siteTitle: '云乐坊设计' },
     },
     en: {
       label: 'English',
@@ -93,7 +93,7 @@ export default defineConfig(withYunlefun({
       title: 'YunLeFun Design',
       description: 'YunLeFun Design: shared design principles, brand visuals, tokens and reusable UI components.',
       themeConfig: {
-        siteTitle: 'YunLeFun',
+        siteTitle: 'YunLeFun Design',
         langMenuLabel: 'Change language',
         skipToContentLabel: 'Skip to content',
         outline: { label: 'On this page', level: [2, 3] },
@@ -113,6 +113,7 @@ export default defineConfig(withYunlefun({
           { text: 'Design system', link: '/en/guide/design-system' },
           { text: 'Get started', link: '/en/guide/' },
           { text: 'Vue components', link: '/en/vue/' },
+          { text: 'Icons', link: 'https://icons.yunle.fun/' },
         ],
         sidebar: {
           '/en/guide/': englishSidebar,
@@ -126,6 +127,10 @@ export default defineConfig(withYunlefun({
   // 圆体展示字（仅 display 角色）：拉丁 Baloo 2 + 中文 ZCOOL KuaiLe 站酷快乐体。
   // 详见 /guide/typography 与 @yunlefun/ui/styles/css-vars.scss。
   head: [
+    ['link', { rel: 'icon', href: '/favicon.svg', type: 'image/svg+xml' }],
+    ['link', { rel: 'icon', href: '/favicon-32.png', sizes: '32x32' }],
+    ['link', { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' }],
+    ['link', { rel: 'manifest', href: '/site.webmanifest' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
     // 拉丁圆体 Baloo 2（仅展示常用字重）
@@ -137,6 +142,7 @@ export default defineConfig(withYunlefun({
   ],
 
   themeConfig: {
+    brand: { icon: 'design-mark' },
     langMenuLabel: '切换语言',
     skipToContentLabel: '跳至内容',
     outline: { label: '本页内容', level: [2, 3] },
@@ -188,6 +194,7 @@ export default defineConfig(withYunlefun({
       { text: '设计体系', link: '/guide/design-system' },
       { text: '开始使用', link: '/guide/' },
       { text: 'Vue 组件', link: '/vue/' },
+      { text: '图标库', link: 'https://icons.yunle.fun/' },
     ],
 
     sidebar: {

@@ -1,7 +1,7 @@
 {
   "name": "vitepress-theme-yunlefun",
   "type": "module",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Shared YunLeFun VitePress theme with sky and night surfaces, accessible Markdown and native navigation",
   "author": "YunLeFun",
   "license": "MIT",
@@ -32,11 +32,17 @@
       "types": "./dist/appearance.d.mts",
       "import": "./dist/appearance.mjs"
     },
-    "./style.css": "./styles/style.css"
+    "./style.css": "./styles/style.css",
+    "./brand-assets": {
+      "types": "./brand-assets.d.mts",
+      "import": "./brand-assets.mjs"
+    }
   },
   "files": [
     "LICENSE",
     "README.md",
+    "brand-assets.d.mts",
+    "brand-assets.mjs",
     "components",
     "dist",
     "index.d.ts",
@@ -52,7 +58,9 @@
     "vue": "^3.5.0"
   },
   "dependencies": {
-    "@yunlefun/ui": "workspace:^"
+    "@yunlefun/icons": "^0.3.1",
+    "@yunlefun/ui": "workspace:^",
+    "postcss": "^8.5.26"
   },
   "publishConfig": {
     "access": "public"

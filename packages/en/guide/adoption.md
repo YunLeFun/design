@@ -4,7 +4,7 @@ outline: deep
 
 # Public use and releases {#公共使用与发布}
 
-YunLeFun Design is available for early use as a Web design foundation: shared tokens, themes, Vue controls and source distribution are connected. The current accepted release is `@yunlefun/ui@0.0.6` with `@yunlefun/vue@0.4.2`. See [Component acceptance](/en/guide/component-acceptance). The main site reuses tokens through the package entry; documentation displays repository source. Pin verified published versions in applications and check npm for publication status.
+YunLeFun Design is available for early use as a Web design foundation: shared tokens, themes, Vue controls and source distribution are connected. The current accepted release is `@yunlefun/ui@0.0.6` with `@yunlefun/vue@0.4.3`. See [Component acceptance](/en/guide/component-acceptance). The main site reuses tokens through the package entry; documentation displays repository source. Pin verified published versions in applications and check npm for publication status.
 
 ## Public interfaces {#公共接口}
 

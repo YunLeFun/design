@@ -1,6 +1,11 @@
 import type { DefaultTheme, MarkdownRenderer, UserConfig } from 'vitepress'
 import { mergeConfig } from 'vitepress'
 
+export interface YunlefunThemeConfig extends DefaultTheme.Config {
+  /** Canonical Iconify mark, shared by navigation and optionally the home hero. */
+  brand?: { icon: 'brand-mark' | 'design-mark', hero?: boolean }
+}
+
 export interface MarkdownOptions {
   /** Override the label for a custom locale directory. */
   tableLabel?: (env: { relativePath?: string, lang?: string }) => string
@@ -63,6 +68,6 @@ export const zhThemeConfig: DefaultTheme.Config = {
 }
 
 /** Bundle the SFC theme during SSR as well as the browser build. */
-export function withYunlefun(config: UserConfig<DefaultTheme.Config>): UserConfig<DefaultTheme.Config> {
+export function withYunlefun(config: UserConfig<YunlefunThemeConfig>): UserConfig<YunlefunThemeConfig> {
   return mergeConfig({ vite: { ssr: { noExternal: ['vitepress-theme-yunlefun'] } } }, config)
 }
