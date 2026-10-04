@@ -66,6 +66,12 @@ Radii distinguish controls from containers. Shadows express elevation. Motion re
 
 Update examples, documentation and generated Registry files with shared styles. Map legacy application variables through an adapter rather than maintaining another foundation theme.
 
+## Site navigation {#站点导航}
+
+[Navigation components](/en/vue/components/navigation/) share the container, route links and site-switch trigger. Horizontal targets have an 8px gap and a minimum height of 44px, with 14px / 500 body text. Current pages use a sky-blue underline, hover uses a neutral background, and keyboard focus uses a 2px inset outline. Vertical navigation marks the current page with a soft blue background.
+
+These states can coexist; do not collapse `active`, `hover` and `focus-visible` into the same fill and outer ring. Applications compute `active`; triggers read the menu's `aria-expanded` without storing duplicate open state. Authentication slots, mobile drawers and breakpoints remain application composition.
+
 ## Current consistency {#当前统一到哪里}
 
 The shared library covers colors, fonts, spacing, reading widths, radii, shadows, motion and optional backgrounds. The logo matches the main site. Documentation uses the same tokens and real components, including an interactive theme preview. See [Colors and components](/en/guide/colors) and [Brand and interfaces](/en/guide/patterns).

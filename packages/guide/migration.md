@@ -29,6 +29,12 @@ outline: deep
 | 控件接口       | `AppButton` 等转换旧 API                        | 按页面渐进替换，最终使用 `Ylf*` 公共接口                   |
 | 云景和会员样式 | `SkyScene`、`SkyHero`、`MemberPass` 与业务绑定  | 分离展示数据后再判断能否成为品牌模块                       |
 
+## 站点导航回流（2026-10-04）
+
+主站已验证的间距与状态规则现已沉淀为 `YlfNavigation`、`YlfNavigationLink` 和 `YlfNavigationTrigger`，见[站点导航](/vue/components/navigation/)。当前为 Design 源码新增能力，尚未发布新的 npm 版本；主站继续使用现有本地实现。
+
+共享包发布后，应用升级固定版本，用 `YlfNavigationLink as-child` 包裹现有 `NuxtLink`，用 `YlfNavigationTrigger` 替换站点菜单触发器，再移除对应局部导航 CSS。保持现有路由判定、菜单内容、登录槽与抽屉行为，并复验当前页旁的键盘焦点、菜单焦点恢复、明暗主题及手机布局。
+
 ## 变量适配
 
 业务应用先加载共享样式，再在自身主题边界内声明兼容别名。下列是**迁移映射示例**，目前不是已发布的适配模块：

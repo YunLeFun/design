@@ -66,12 +66,20 @@ import { shallowRef } from 'vue'
 import YlfSelect from '@yunlefun/vue/components/YlfSelect.vue'
 import YlfSegmentedControl from '@yunlefun/vue/components/YlfSegmentedControl.vue'
 import YlfSlider from '@yunlefun/vue/components/YlfSlider.vue'
+import YlfNavigation from '@yunlefun/vue/components/YlfNavigation.vue'
+import YlfNavigationLink from '@yunlefun/vue/components/YlfNavigationLink.vue'
+import YlfNavigationTrigger from '@yunlefun/vue/components/YlfNavigationTrigger.vue'
 const color = shallowRef<'blue' | 'sun'>('blue')
 const volume = shallowRef([50])
 const options = [{ value: 'blue', label: '晴空蓝' }, { value: 'sun', label: '明黄' }] as const
 </script>
 <template>
   <form>
+    <YlfNavigation label="主导航">
+      <YlfNavigationLink href="/docs">帮助</YlfNavigationLink>
+      <YlfNavigationLink active as-child><a href="/blog">博客</a></YlfNavigationLink>
+    </YlfNavigation>
+    <YlfNavigationTrigger disabled>更多站点</YlfNavigationTrigger>
     <YlfSelect v-model="color" :options="options" name="color" required aria-label="主题颜色" />
     <YlfSegmentedControl v-model="color" :options="options" label="主题颜色" />
     <YlfSlider v-model="volume" label="音量" />

@@ -6,6 +6,12 @@ outline: deep
 
 This page tracks migration from application specific styles to YunLeFun Design. System changes, npm publication, dependency upgrades and deployment are separate steps.
 
+## Site navigation extraction (2026-10-04) {#站点导航回流-2026-10-04}
+
+The spacing and state rules validated on the main site now live in `YlfNavigation`, `YlfNavigationLink` and `YlfNavigationTrigger`; see [Navigation](/en/vue/components/navigation/). This is new Design source, not a published npm release. The main site still uses its local implementation.
+
+After release, upgrade to a pinned package version, wrap existing `NuxtLink` instances with `YlfNavigationLink as-child`, replace the site-switch trigger, then remove local navigation CSS. Preserve routing, menu contents, authentication slots and drawer behavior. Recheck adjacent current/focus states, focus restoration, themes and mobile layout.
+
 ## Current status {#当前状态}
 
 | Scope                             | Status                                                          |

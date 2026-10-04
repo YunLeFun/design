@@ -59,6 +59,12 @@ Guidelines and component documentation have corresponding Simplified Chinese and
 
 Night backgrounds use subdued blue gray with a brightness ladder for pages, content and raised surfaces. Silver blue cloud highlights, shaded faces and contact shadows retain volume. Light mode supporting text is slightly darker for readability on recessed and soft surfaces.
 
+## Site navigation (2026-10-04, unreleased source) {#站点导航-2026-10-04-源码待发布}
+
+`YlfNavigation`, `YlfNavigationLink` and `YlfNavigationTrigger` reuse shared tokens and Reka's attribute merging and menu behavior. Seven regression tests cover landmark names/current pages, single router anchors with event forwarding, Enter/Escape menu operation, native disabled buttons, shared-underline movement, resizing/wrapping, static mode and observer cleanup. Independent tarball verification imports the components and compiles a navigation template.
+
+Chinese and English demos cover horizontal/vertical navigation, current pages, local light/dark themes, site switching and disabled triggers. Browser checks cover adjacent current/focus states, menu selection and restored focus, wrapping and no horizontal overflow on narrow screens. The main site retains its local implementation until a package release and dependency upgrade.
+
 ## Reproduction and future releases {#重现与后续发布}
 
 ```bash
