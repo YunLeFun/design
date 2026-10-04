@@ -52,4 +52,5 @@ Check that your installed release includes the CSS entry and accent styles descr
 - Try seven [AG-UI examples](/en/guide/ag-ui), including task planning, recommendation cards, form return and multiple tools, with live protocol events.
 - Read [Typography](/en/guide/typography) to load display fonts on demand.
 - Read [Admin guidelines](/en/guide/admin) for neutral surfaces and responsive control density in management tables, filters and forms.
+- Read [Editor guidelines](/en/guide/editor) for independent density and neutral surfaces in complex workspaces.
 - Move existing applications through the [Migration guide](/en/guide/migration), tracking source changes, package releases and deployment separately.

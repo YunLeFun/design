@@ -23,7 +23,8 @@
     "./styles": "./styles/index.scss",
     "./styles/*": "./styles/*",
     "./*": "./*",
-    "./admin.css": "./styles/admin.css"
+    "./admin.css": "./styles/admin.css",
+    "./editor.css": "./styles/editor.css"
   },
   "files": [
     "dist",

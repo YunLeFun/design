@@ -24,6 +24,12 @@ export const defaultSideBar: DefaultTheme.Sidebar = [
     ],
   },
   {
+    text: 'Editor · 复杂操作界面',
+    items: [
+      { text: '编辑器设计规范', link: '/guide/editor' },
+    ],
+  },
+  {
     text: '开发与接入',
     items: [
       { text: '开始使用', link: '/guide/' },
@@ -57,6 +63,8 @@ const englishLabels: Record<string, string> = {
   '字体规范': 'Typography',
   'Admin · 后台管理': 'Admin interfaces',
   '后台设计规范': 'Admin design guidelines',
+  'Editor · 复杂操作界面': 'Editor interfaces',
+  '编辑器设计规范': 'Editor design guidelines',
   '开发与接入': 'Development and adoption',
   '开始使用': 'Get started',
   'VitePress 主题': 'VitePress theme',
