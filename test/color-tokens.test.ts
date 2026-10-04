@@ -61,6 +61,14 @@ describe.each([{ name: 'light', tokens: light }, { name: 'dark', tokens: dark }]
     }
   })
 
+  it('keeps hero labels readable across normal and hover gradient stops', () => {
+    for (const state of ['', 'hover-']) {
+      for (const stop of ['start', 'middle', 'end']) {
+        expect(contrast(color(tokens, '--ylf-hero-foreground'), color(tokens, `--ylf-hero-${state}${stop}`))).toBeGreaterThanOrEqual(4.5)
+      }
+    }
+  })
+
   it('keeps featured and primary labels readable', () => {
     for (const [foreground, background] of [
       ['--ylf-c-feature-text', '--ylf-c-feature-bg'],

@@ -11,6 +11,17 @@ function fakeLoad() {
 <template>
   <div class="flex flex-col gap-5">
     <div class="flex flex-wrap items-center gap-3">
+      <YlfButton variant="hero" size="xl">
+        浏览应用 →
+      </YlfButton>
+      <YlfButton variant="hero" size="xl" loading>
+        正在打开
+      </YlfButton>
+      <YlfButton variant="hero" size="xl" disabled>
+        暂不可用
+      </YlfButton>
+    </div>
+    <div class="flex flex-wrap items-center gap-3">
       <YlfButton variant="primary">
         晴空蓝 Primary
       </YlfButton>

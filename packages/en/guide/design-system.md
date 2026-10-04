@@ -71,3 +71,7 @@ Update examples, documentation and generated Registry files with shared styles. 
 The shared library covers colors, fonts, spacing, reading widths, radii, shadows, motion and optional backgrounds. The logo matches the main site. Documentation uses the same tokens and real components, including an interactive theme preview. See [Colors and components](/en/guide/colors) and [Brand and interfaces](/en/guide/patterns).
 
 The main site still has local `--ui-*`, some `--ylf-*`, and `App*` wrappers. Dependency upgrades, token mapping and page migration follow [Application migration](/en/guide/migration). A library update does not mean every deployed application has been redesigned.
+
+## Brand entrance buttons
+
+A homepage or campaign can use one `hero` action per section: a deep blue-to-cyan gradient, white text and a soft shadow. Everyday `primary` actions stay solid sky blue. Values live in `--ylf-hero-*`; see [Button](/en/vue/components/button/).

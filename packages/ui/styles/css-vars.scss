@@ -44,6 +44,30 @@
 
   @include brand-accent;
 
+  // Hero CTA: a deeper blue-to-cyan ramp keeps white labels readable on cloud scenes.
+  --ylf-hero-start: #2563eb;
+  --ylf-hero-middle: #0f74b8;
+  --ylf-hero-end: #0369a1;
+  --ylf-hero-hover-start: #1d4ed8;
+  --ylf-hero-hover-middle: #096ba9;
+  --ylf-hero-hover-end: #075985;
+  --ylf-hero-foreground: #ffffff;
+  --ylf-hero-background: linear-gradient(
+    115deg,
+    var(--ylf-hero-start),
+    var(--ylf-hero-middle) 58%,
+    var(--ylf-hero-end)
+  );
+  --ylf-hero-background-hover: linear-gradient(
+    115deg,
+    var(--ylf-hero-hover-start),
+    var(--ylf-hero-hover-middle) 58%,
+    var(--ylf-hero-hover-end)
+  );
+  --ylf-hero-border: rgb(255 255 255 / 0.16);
+  --ylf-hero-shadow: inset 0 1px 0 rgb(255 255 255 / 0.24), 0 12px 26px -14px rgb(3 105 161 / 0.58);
+  --ylf-hero-shadow-hover: inset 0 1px 0 rgb(255 255 255 / 0.3), 0 14px 30px -14px rgb(3 105 161 / 0.58);
+
   // --- palette：原始色只表达色相，不直接承担状态文字 -------------------------
   --ylf-palette-blue: #2563eb;
   --ylf-palette-sun: #facc15;

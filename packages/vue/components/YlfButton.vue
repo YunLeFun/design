@@ -4,6 +4,7 @@ import { computed } from 'vue'
 
 type ButtonVariant
   = | 'primary' // 晴空蓝实色（主操作）
+    | 'hero' // 首页与品牌场景的主入口
     | 'accent' // 高饱和纯色强调
     | 'aurora' // @deprecated 使用 accent；旧调用映射到纯色
     | 'secondary' // 描边
@@ -13,7 +14,7 @@ type ButtonVariant
     | 'warning'
     | 'danger'
 
-type ButtonSize = 'sm' | 'md' | 'lg'
+type ButtonSize = 'sm' | 'md' | 'lg' | 'xl'
 
 const props = withDefaults(defineProps<{
   variant?: ButtonVariant
@@ -135,6 +136,37 @@ function onClick(e: MouseEvent) {
   &--lg {
     padding: 14px 30px;
     font-size: 17px;
+  }
+
+  &--xl {
+    min-height: 56px;
+    padding: 16px 28px;
+    font-size: 16px;
+    line-height: 22px;
+  }
+
+  // Opt-in brand entrance; everyday primary actions keep their solid appearance.
+  &--hero {
+    color: var(--ylf-hero-foreground, #fff);
+    background: var(--ylf-hero-background, linear-gradient(115deg, #2563eb, #0f74b8 58%, #0369a1));
+    border-color: var(--ylf-hero-border, rgb(255 255 255 / 0.16));
+    box-shadow: var(--ylf-hero-shadow, inset 0 1px 0 rgb(255 255 255 / 0.24), 0 12px 26px -14px rgb(3 105 161 / 0.58));
+
+    &:hover:not(.is-disabled, .is-loading, :disabled) {
+      background: var(--ylf-hero-background-hover, linear-gradient(115deg, #1d4ed8, #096ba9 58%, #075985));
+      box-shadow: var(
+        --ylf-hero-shadow-hover,
+        inset 0 1px 0 rgb(255 255 255 / 0.3),
+        0 14px 30px -14px rgb(3 105 161 / 0.58)
+      );
+      transform: translateY(-1px);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--ylf-hero-foreground, #fff);
+      outline-offset: 3px;
+      box-shadow: 0 0 0 5px var(--ylf-hero-end, #0369a1);
+    }
   }
 
   // --- primary：晴空蓝实色（主操作，单色不花） ---
@@ -304,6 +336,10 @@ function onClick(e: MouseEvent) {
 @media (prefers-reduced-motion: reduce) {
   .ylf-button {
     transition: none;
+
+    &.ylf-button--hero:is(:hover, :active):not(.is-disabled, .is-loading, :disabled) {
+      transform: none;
+    }
   }
 
   .ylf-button__spinner {
