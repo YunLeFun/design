@@ -71,10 +71,54 @@ html {
   border-radius: var(--ylf-radius-pill);
   background: var(--ylf-c-brand);
   pointer-events: none;
-  transition: transform var(--ylf-duration-normal) var(--ylf-ease-standard);
+  transition: transform var(--ylf-duration-slow) var(--ylf-ease-spring, var(--ylf-ease-standard));
 }
 @media (prefers-reduced-motion: reduce) {
   .ylf-docs-nav-indicator {
+    transition: none;
+  }
+}
+
+/* 换页时正文轻轻浮入，回应导航操作；首屏同样只播放一次。 */
+.VPDoc .vp-doc > div,
+.VPPage > div {
+  animation: ylf-doc-enter var(--ylf-duration-enter) var(--ylf-ease-standard) both;
+}
+@keyframes ylf-doc-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+/* 侧边栏当前项与悬停共用一个柔和的底色变化。 */
+.VPSidebarItem .item {
+  transition: background-color var(--ylf-duration-fast) var(--ylf-ease-standard);
+}
+.VPSidebarItem .text {
+  transition: color var(--ylf-duration-fast) var(--ylf-ease-standard);
+}
+
+/* 页内目录：晴空蓝胶囊随阅读位置以软弹簧滑动。 */
+.VPDocAsideOutline .content .outline-marker {
+  left: -1px;
+  width: 3px;
+  height: 20px;
+  border-radius: var(--ylf-radius-pill);
+  background: var(--ylf-c-brand);
+  transition:
+    top var(--ylf-duration-slow) var(--ylf-ease-spring, var(--ylf-ease-standard)),
+    opacity var(--ylf-duration-fast) var(--ylf-ease-standard);
+}
+.VPDocAsideOutline .outline-link {
+  transition: color var(--ylf-duration-fast) var(--ylf-ease-standard);
+}
+@media (prefers-reduced-motion: reduce) {
+  .VPDoc .vp-doc > div,
+  .VPPage > div {
+    animation: none;
+  }
+  .VPDocAsideOutline .content .outline-marker {
     transition: none;
   }
 }

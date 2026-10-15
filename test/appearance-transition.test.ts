@@ -130,6 +130,40 @@ describe('appearance transitions', () => {
     expect(isDark.value).toBe(false)
   })
 
+  it('reveals the new theme from the pointer with view transitions', async () => {
+    let finish!: () => void
+    const startViewTransition = vi.fn((update: () => Promise<void>) => {
+      void update()
+      return {
+        finished: new Promise<void>((resolve) => {
+          finish = resolve
+        }),
+      }
+    })
+    Object.assign(document, { startViewTransition })
+    try {
+      const wrapper = mountControls()
+      const header = wrapper.get('[aria-label="header"]')
+      window.dispatchEvent(new PointerEvent('pointerdown', { clientX: 120, clientY: 40 }))
+      await header.trigger('click')
+      await wrapper.vm.$nextTick()
+      const root = document.documentElement
+      expect(startViewTransition).toHaveBeenCalledOnce()
+      expect(wrapper.get('p').text()).toBe('night')
+      expect(root.classList.contains('ylf-appearance-reveal')).toBe(true)
+      expect(root.classList.contains('ylf-appearance-fade')).toBe(false)
+      expect(root.style.getPropertyValue('--ylf-reveal-x')).toBe('120px')
+      expect(root.style.getPropertyValue('--ylf-reveal-y')).toBe('40px')
+      finish()
+      await Promise.resolve()
+      await Promise.resolve()
+      expect(root.classList.contains('ylf-appearance-reveal')).toBe(false)
+    }
+    finally {
+      delete (document as { startViewTransition?: unknown }).startViewTransition
+    }
+  })
+
   it('cleans up the animation scope when the layout unmounts', async () => {
     const wrapper = mountControls()
     await wrapper.get('[aria-label="header"]').trigger('click')
