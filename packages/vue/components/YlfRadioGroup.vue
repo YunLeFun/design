@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 // 行为 / 可访问性由 reka-ui 提供（role=radiogroup、方向键 roving focus）；皮肤走 token。
 import { RadioGroupIndicator, RadioGroupItem, RadioGroupRoot } from 'reka-ui'
-import { nextTick } from 'vue'
+import { nextTick, shallowRef, watch } from 'vue'
 
 interface RadioOption {
   label: string
@@ -19,6 +19,11 @@ const props = withDefaults(defineProps<{
 })
 
 const model = defineModel<string>()
+// 只在选择变化后让圆点弹出，首屏默认选项保持静止。
+const animated = shallowRef(false)
+watch(model, () => {
+  animated.value = true
+})
 
 function selectFocusedRadio(event: KeyboardEvent) {
   if (props.disabled || !event.defaultPrevented || !['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key))
@@ -43,7 +48,7 @@ function selectFocusedRadio(event: KeyboardEvent) {
     :disabled="disabled"
     :orientation="orientation"
     class="ylf-radio-group"
-    :class="`ylf-radio-group--${orientation}`"
+    :class="[`ylf-radio-group--${orientation}`, { 'is-animated': animated }]"
     @keydown="selectFocusedRadio"
   >
     <RadioGroupItem
@@ -100,7 +105,8 @@ function selectFocusedRadio(event: KeyboardEvent) {
     box-shadow: var(--ylf-shadow-control);
     transition:
       border-color var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease),
-      box-shadow var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease);
+      box-shadow var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease),
+      transform var(--ylf-duration-slow, 480ms) var(--ylf-ease-spring, var(--ylf-ease-standard, ease));
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -136,11 +142,27 @@ function selectFocusedRadio(event: KeyboardEvent) {
     background: var(--ylf-c-brand, #2563eb);
   }
 
+  &:active:not([data-disabled]) .ylf-radio__control {
+    transform: scale(0.9);
+    transition-duration: var(--ylf-duration-press, 100ms);
+  }
+
   &__label {
     font-size: 15px;
   }
 }
+.ylf-radio-group.is-animated .ylf-radio__dot {
+  animation: ylf-radio-dot var(--ylf-duration-slow, 480ms) var(--ylf-ease-spring, var(--ylf-ease-standard, ease));
+}
+@keyframes ylf-radio-dot {
+  from {
+    transform: scale(0);
+  }
+}
 @media (prefers-reduced-motion: reduce) {
+  .ylf-radio-group.is-animated .ylf-radio__dot {
+    animation: none;
+  }
   .ylf-radio__control {
     transition: none;
   }

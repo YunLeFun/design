@@ -173,6 +173,23 @@ const selectedOption = computed(() => props.options.find(option => option.value 
   &[data-state='open'] {
     animation: ylf-select-in var(--ylf-duration-enter, 240ms) var(--ylf-ease-standard, ease);
   }
+
+  &[data-state='closed'] {
+    animation: ylf-select-out var(--ylf-duration-exit, 160ms) var(--ylf-ease-standard, ease);
+  }
+
+  &[data-side='bottom'] {
+    --_enter-y: -4px;
+  }
+  &[data-side='top'] {
+    --_enter-y: 4px;
+  }
+  &[data-side='left'] {
+    --_enter-x: 4px;
+  }
+  &[data-side='right'] {
+    --_enter-x: -4px;
+  }
 }
 
 .ylf-select__viewport {
@@ -240,12 +257,19 @@ const selectedOption = computed(() => props.options.find(option => option.value 
 @keyframes ylf-select-in {
   from {
     opacity: 0;
-    transform: scale(0.96);
+    transform: translate(var(--_enter-x, 0), var(--_enter-y, 0)) scale(0.96);
+  }
+}
+
+@keyframes ylf-select-out {
+  to {
+    opacity: 0;
+    transform: scale(0.97);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ylf-select__content[data-state='open'] {
+  .ylf-select__content[data-state] {
     animation: none;
   }
 

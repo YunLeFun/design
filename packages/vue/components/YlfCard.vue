@@ -43,7 +43,7 @@ withDefaults(defineProps<{
   border: 1px solid var(--ylf-c-border, #e2e8f0);
   box-shadow: var(--ylf-shadow-control, 0 2px 8px -2px rgba(15, 23, 42, 0.12));
   transition:
-    transform var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease),
+    transform var(--ylf-duration-slow, 480ms) var(--ylf-ease-spring, var(--ylf-ease-standard, ease)),
     box-shadow var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease),
     background var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease);
 

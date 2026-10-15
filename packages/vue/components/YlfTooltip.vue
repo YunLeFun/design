@@ -49,8 +49,26 @@ withDefaults(defineProps<{
   box-shadow: var(--ylf-shadow, 0 10px 28px -8px rgba(15, 23, 42, 0.16));
   transform-origin: var(--reka-tooltip-content-transform-origin);
 
-  &[data-state='delayed-open'] {
-    animation: ylf-tooltip-in 0.16s ease;
+  &[data-state='delayed-open'],
+  &[data-state='instant-open'] {
+    animation: ylf-tooltip-in var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease);
+  }
+
+  &[data-state='closed'] {
+    animation: ylf-tooltip-out var(--ylf-duration-exit, 160ms) var(--ylf-ease-standard, ease);
+  }
+
+  &[data-side='bottom'] {
+    --_enter-y: -4px;
+  }
+  &[data-side='top'] {
+    --_enter-y: 4px;
+  }
+  &[data-side='left'] {
+    --_enter-x: 4px;
+  }
+  &[data-side='right'] {
+    --_enter-x: -4px;
   }
 
   &__arrow {
@@ -61,12 +79,19 @@ withDefaults(defineProps<{
 @keyframes ylf-tooltip-in {
   from {
     opacity: 0;
-    transform: scale(0.94);
+    transform: translate(var(--_enter-x, 0), var(--_enter-y, 0)) scale(0.94);
+  }
+}
+
+@keyframes ylf-tooltip-out {
+  to {
+    opacity: 0;
+    transform: scale(0.97);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ylf-tooltip[data-state='delayed-open'] {
+  .ylf-tooltip[data-state] {
     animation: none;
   }
 }

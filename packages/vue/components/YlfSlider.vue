@@ -83,7 +83,9 @@ const model = defineModel<number[]>({ default: () => [50] })
     border: 2px solid var(--ylf-c-brand, #2563eb);
     box-shadow: var(--ylf-shadow-sm, 0 2px 8px -2px rgba(15, 23, 42, 0.12));
     cursor: grab;
-    transition: box-shadow var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease);
+    transition:
+      box-shadow var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease),
+      scale var(--ylf-duration-slow, 480ms) var(--ylf-ease-spring, var(--ylf-ease-standard, ease));
 
     @media (hover: hover) and (pointer: fine) {
       &:hover {
@@ -98,6 +100,8 @@ const model = defineModel<number[]>({ default: () => [50] })
 
     &:active {
       cursor: grabbing;
+      scale: 1.2;
+      box-shadow: 0 0 0 6px var(--ylf-c-brand-soft, #eff6ff);
     }
   }
 }

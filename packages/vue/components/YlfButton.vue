@@ -109,7 +109,7 @@ function onClick(e: MouseEvent) {
   user-select: none;
   text-decoration: none;
   transition:
-    transform var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease),
+    transform var(--ylf-duration-slow, 480ms) var(--ylf-ease-spring, var(--ylf-ease-standard, ease)),
     box-shadow var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease),
     background var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease),
     color var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease),

@@ -105,7 +105,7 @@ const model = defineModel<string>()
   box-shadow: 0 1px 4px color-mix(in srgb, var(--ylf-c-brand, #2563eb) 25%, transparent);
   transform: translateX(var(--reka-tabs-indicator-position));
   transition:
-    transform var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease),
+    transform var(--ylf-duration-slow, 480ms) var(--ylf-ease-spring, var(--ylf-ease-standard, ease)),
     width var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease);
 }
 

@@ -1,6 +1,7 @@
 <script setup lang="ts" generic="T extends string = string">
 import type { YlfSegmentedOption } from './segmented-control'
 import { ToggleGroupItem, ToggleGroupRoot } from 'reka-ui'
+import { nextTick, onBeforeUnmount, onMounted, shallowRef, useTemplateRef, watch } from 'vue'
 import YlfTooltip from './YlfTooltip.vue'
 
 const props = withDefaults(defineProps<{
@@ -26,11 +27,42 @@ function updateValue(value: unknown): void {
   if (!props.disabled && option && !option.disabled)
     model.value = option.value
 }
+
+// 选中胶囊在选项间滑动；首次定位不带过渡，之后的切换才用弹簧。
+const root = useTemplateRef<{ $el: HTMLElement }>('root')
+const pill = shallowRef<{ x: number, y: number, width: number, height: number } | null>(null)
+const pillAnimated = shallowRef(false)
+let resizeObserver: ResizeObserver | undefined
+
+function measurePill() {
+  const item = root.value?.$el?.querySelector<HTMLElement>('.ylf-segmented__item[aria-pressed="true"]')
+  pill.value = item?.offsetWidth
+    ? { x: item.offsetLeft, y: item.offsetTop, width: item.offsetWidth, height: item.offsetHeight }
+    : null
+}
+
+watch(model, async () => {
+  await nextTick()
+  measurePill()
+})
+onMounted(() => {
+  measurePill()
+  requestAnimationFrame(() => {
+    pillAnimated.value = true
+  })
+  if (typeof ResizeObserver !== 'undefined' && root.value?.$el) {
+    resizeObserver = new ResizeObserver(measurePill)
+    resizeObserver.observe(root.value.$el)
+  }
+})
+onBeforeUnmount(() => resizeObserver?.disconnect())
 </script>
 
 <template>
   <ToggleGroupRoot
+    ref="root"
     class="ylf-segmented"
+    :class="{ 'has-pill': pill, 'is-pill-animated': pillAnimated }"
     :data-size="size"
     :data-icon-only="iconOnly || undefined"
     type="single"
@@ -40,6 +72,12 @@ function updateValue(value: unknown): void {
     :model-value="model"
     @update:model-value="updateValue"
   >
+    <span
+      v-if="pill"
+      class="ylf-segmented__pill"
+      aria-hidden="true"
+      :style="{ width: `${pill.width}px`, height: `${pill.height}px`, transform: `translate(${pill.x}px, ${pill.y}px)` }"
+    />
     <YlfTooltip v-for="option in options" :key="option.value" :content="option.label" :disabled="!iconOnly || disabled || option.disabled">
       <ToggleGroupItem
         class="ylf-segmented__item"
@@ -60,6 +98,8 @@ function updateValue(value: unknown): void {
 <style>
 .ylf-segmented {
   --ylf-segmented-item-size: 36px;
+  position: relative;
+  isolation: isolate;
   display: inline-flex;
   align-items: center;
   flex: none;
@@ -129,6 +169,32 @@ function updateValue(value: unknown): void {
   box-shadow: var(--ylf-shadow-control, var(--ylf-shadow-sm));
 }
 
+.ylf-segmented__pill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  box-sizing: border-box;
+  border: 1px solid var(--ylf-c-border, #e2e8f0);
+  border-radius: calc(var(--ylf-radius-sm, 10px) - 4px);
+  background: var(--ylf-c-surface, #fff);
+  box-shadow: var(--ylf-shadow-control, var(--ylf-shadow-sm));
+  pointer-events: none;
+}
+
+.ylf-segmented.is-pill-animated .ylf-segmented__pill {
+  transition:
+    transform var(--ylf-duration-slow, 480ms) var(--ylf-ease-spring, var(--ylf-ease-standard, ease)),
+    width var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease),
+    height var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease);
+}
+
+.ylf-segmented.has-pill .ylf-segmented__item[aria-pressed='true'] {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+
 .ylf-segmented__item:focus-visible {
   position: relative;
   z-index: 1;
@@ -177,7 +243,8 @@ function updateValue(value: unknown): void {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ylf-segmented__item {
+  .ylf-segmented__item,
+  .ylf-segmented.is-pill-animated .ylf-segmented__pill {
     transition: none;
   }
 }

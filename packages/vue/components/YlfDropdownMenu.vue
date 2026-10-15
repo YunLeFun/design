@@ -66,6 +66,23 @@ const open = defineModel<boolean>('open', { default: false })
     animation: ylf-menu-in var(--ylf-duration-enter, 240ms) var(--ylf-ease-standard, ease);
   }
 
+  &[data-state='closed'] {
+    animation: ylf-menu-out var(--ylf-duration-exit, 160ms) var(--ylf-ease-standard, ease);
+  }
+
+  &[data-side='bottom'] {
+    --_enter-y: -4px;
+  }
+  &[data-side='top'] {
+    --_enter-y: 4px;
+  }
+  &[data-side='left'] {
+    --_enter-x: 4px;
+  }
+  &[data-side='right'] {
+    --_enter-x: -4px;
+  }
+
   &__item {
     display: flex;
     align-items: center;
@@ -106,12 +123,19 @@ const open = defineModel<boolean>('open', { default: false })
 @keyframes ylf-menu-in {
   from {
     opacity: 0;
-    transform: scale(0.96);
+    transform: translate(var(--_enter-x, 0), var(--_enter-y, 0)) scale(0.96);
+  }
+}
+
+@keyframes ylf-menu-out {
+  to {
+    opacity: 0;
+    transform: scale(0.97);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ylf-menu[data-state='open'] {
+  .ylf-menu[data-state] {
     animation: none;
   }
 

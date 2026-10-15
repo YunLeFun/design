@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 // 行为 / 可访问性由 reka-ui 提供（role=checkbox、键盘、三态 indeterminate）；皮肤走 token。
 import { CheckboxIndicator, CheckboxRoot } from 'reka-ui'
+import { shallowRef, watch } from 'vue'
 
 withDefaults(defineProps<{
   disabled?: boolean
@@ -11,6 +12,11 @@ withDefaults(defineProps<{
 })
 
 const checked = defineModel<boolean | 'indeterminate'>({ default: false })
+// 只在状态真正变化后播放勾选动效，首屏已选中的项保持静止。
+const animated = shallowRef(false)
+watch(checked, () => {
+  animated.value = true
+})
 </script>
 
 <template>
@@ -19,13 +25,14 @@ const checked = defineModel<boolean | 'indeterminate'>({ default: false })
     :disabled="disabled"
     :value="value"
     class="ylf-checkbox"
+    :class="{ 'is-animated': animated }"
   >
     <CheckboxIndicator class="ylf-checkbox__indicator">
       <svg v-if="checked === 'indeterminate'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round">
-        <path d="M5 12h14" />
+        <path d="M5 12h14" pathLength="1" />
       </svg>
       <svg v-else viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M5 12.5l4.5 4.5L19 7" />
+        <path d="M5 12.5l4.5 4.5L19 7" pathLength="1" />
       </svg>
     </CheckboxIndicator>
   </CheckboxRoot>
@@ -51,7 +58,8 @@ const checked = defineModel<boolean | 'indeterminate'>({ default: false })
   transition:
     background var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease),
     border-color var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease),
-    box-shadow var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease);
+    box-shadow var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease),
+    transform var(--ylf-duration-slow, 480ms) var(--ylf-ease-spring, var(--ylf-ease-standard, ease));
 
   @media (hover: hover) and (pointer: fine) {
     &:hover:not([data-disabled]) {
@@ -63,6 +71,16 @@ const checked = defineModel<boolean | 'indeterminate'>({ default: false })
     outline: 2px solid var(--ylf-c-brand, #2563eb);
     outline-offset: 3px;
     box-shadow: 0 0 0 3px var(--ylf-c-brand-soft, #eff6ff);
+  }
+
+  &:active:not([data-disabled]) {
+    transform: scale(0.9);
+    transition-duration: var(--ylf-duration-press, 100ms);
+  }
+
+  &.is-animated[data-state='checked'],
+  &.is-animated[data-state='indeterminate'] {
+    animation: ylf-checkbox-pop var(--ylf-duration-slow, 480ms) var(--ylf-ease-spring, var(--ylf-ease-standard, ease));
   }
 
   &[data-state='checked'],
@@ -85,6 +103,12 @@ const checked = defineModel<boolean | 'indeterminate'>({ default: false })
     width: 14px;
     height: 14px;
   }
+
+  // 对勾按笔画顺序画出。
+  &.is-animated &__indicator path {
+    stroke-dasharray: 1;
+    animation: ylf-checkbox-draw var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease) 60ms backwards;
+  }
 }
 @media (pointer: coarse) {
   .ylf-checkbox {
@@ -105,9 +129,22 @@ const checked = defineModel<boolean | 'indeterminate'>({ default: false })
     }
   }
 }
+@keyframes ylf-checkbox-pop {
+  from {
+    transform: scale(0.82);
+  }
+}
+@keyframes ylf-checkbox-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
-  .ylf-checkbox {
+  .ylf-checkbox,
+  .ylf-checkbox.is-animated[data-state],
+  .ylf-checkbox.is-animated .ylf-checkbox__indicator path {
     transition: none;
+    animation: none;
   }
 }
 </style>
