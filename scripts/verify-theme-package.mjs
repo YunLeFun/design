@@ -28,7 +28,7 @@ try {
     await writeFile(resolve(cwd, 'package.json'), JSON.stringify({
       private: true,
       type: 'module',
-      dependencies: { 'vitepress-theme-yunlefun': `file:${tarball}`, 'vitepress': version, 'vue': '3.5.41' },
+      dependencies: { 'vitepress-theme-yunlefun': `file:${tarball}`, 'vitepress': version, 'vue': '3.5.44' },
       overrides: { '@yunlefun/ui': `file:${uiTarball}` },
     }))
     await writeFile(resolve(cwd, 'docs/.vitepress/config.mts'), `

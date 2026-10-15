@@ -18,7 +18,10 @@
     "css"
   ],
   "exports": {
-    "./css": "./dist/index.css",
+    "./css": {
+      "types": "./styles/css.d.ts",
+      "default": "./dist/index.css"
+    },
     "./patterns.css": "./dist/patterns.css",
     "./styles": "./styles/index.scss",
     "./styles/*": "./styles/*",
@@ -47,6 +50,6 @@
     }
   },
   "devDependencies": {
-    "sass": "^1.101.0"
+    "sass": "^1.105.1"
   }
 }

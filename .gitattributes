@@ -1,0 +1,2 @@
+# pnpm hashes patch bytes; preserve their line endings and required diff context spaces.
+patches/*.patch -text -whitespace

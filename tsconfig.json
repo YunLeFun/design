@@ -3,7 +3,6 @@
     "target": "es2017",
     "jsx": "preserve",
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
-    "baseUrl": ".",
     "rootDir": ".",
     "module": "esnext",
     "moduleResolution": "bundler",
@@ -12,6 +11,7 @@
       "@yunlefun/ui/*": ["./packages/ui/*"]
     },
     "resolveJsonModule": true,
+    "types": ["node", "vite/client"],
     "strict": true,
     "strictFunctionTypes": true,
     "strictNullChecks": true,
