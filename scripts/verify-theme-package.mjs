@@ -8,6 +8,7 @@ import process from 'node:process'
 const root = resolve(import.meta.dirname, '..')
 const directory = await mkdtemp(resolve(tmpdir(), 'yunlefun-vitepress-theme-'))
 const tarball = resolve(directory, 'theme.tgz')
+const uiTarball = resolve(directory, 'ui.tgz')
 const run = (command, args, cwd = root) => execFileSync(command, args, { cwd, stdio: 'inherit' })
 
 try {
@@ -15,6 +16,8 @@ try {
   const manifest = JSON.parse(execFileSync('tar', ['-xOf', tarball, 'package/package.json'], { encoding: 'utf8' }))
   assert.equal(manifest.name, 'vitepress-theme-yunlefun')
   assert.equal(manifest.dependencies['@yunlefun/ui'].includes('workspace:'), false)
+  // Verify against the tokens this checkout ships; a bumped @yunlefun/ui may not be on npm yet.
+  run('pnpm', ['-C', 'packages/ui', 'pack', '--out', uiTarball])
   const files = execFileSync('tar', ['-tf', tarball], { encoding: 'utf8' })
   for (const file of ['index.mjs', 'index.d.ts', 'components/Layout.vue', 'components/YunlefunLogo.vue', 'components/NavigationIndicator.vue', 'brand-assets.mjs', 'styles/style.css', 'styles/workbench.css', 'dist/config.mjs', 'dist/config.d.mts', 'dist/appearance.mjs', 'dist/navigation.mjs'])
     assert.ok(files.includes(`package/${file}`), `Missing package file: ${file}`)
@@ -26,6 +29,7 @@ try {
       private: true,
       type: 'module',
       dependencies: { 'vitepress-theme-yunlefun': `file:${tarball}`, 'vitepress': version, 'vue': '3.5.41' },
+      overrides: { '@yunlefun/ui': `file:${uiTarball}` },
     }))
     await writeFile(resolve(cwd, 'docs/.vitepress/config.mts'), `
 import { withYunlefun, yunlefunMarkdown } from 'vitepress-theme-yunlefun/config'
