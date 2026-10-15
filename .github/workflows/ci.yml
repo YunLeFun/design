@@ -61,9 +61,10 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm run audit
       - run: pnpm run build:theme
-      - run: pnpm run test
+      - run: pnpm run test --run
       - run: pnpm run nuxt:verify
       - run: pnpm run registry:verify
+      - run: pnpm run docs:build
 
   theme:
     runs-on: ubuntu-latest

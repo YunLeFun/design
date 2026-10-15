@@ -56,6 +56,8 @@ Vue 组件从明确的子路径导入；Nuxt 可通过模块注册组件。完�
 
 旧文档域名由 Cloudflare Redirect Rules 执行 301 永久跳转，保留原路径和查询参数。
 
+依赖安全验收运行 `pnpm run audit`。尚无上游修复版的三个漏洞使用精确版本补丁、漏洞回归测试和锁文件哈希核验；原始 npm 报告与本地修复的区别见[依赖安全补丁说明](patches/README.md)。
+
 ```bash
 pnpm install
 pnpm docs:dev

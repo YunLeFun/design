@@ -153,18 +153,18 @@ try {
           private: true,
           version: '0.0.0',
           type: 'module',
-          packageManager: 'pnpm@11.14.0',
+          packageManager: 'pnpm@12.11.2',
           scripts: {
             build: 'vue-tsc --noEmit && vite build',
           },
           dependencies: {
-            vue: '^3.5.40',
+            vue: '^3.5.44',
           },
           devDependencies: {
-            '@vitejs/plugin-vue': '^6.0.8',
-            'typescript': '5.9.3',
-            'vite': '^8.1.5',
-            'vue-tsc': '^3.3.7',
+            '@vitejs/plugin-vue': '^6.0.10',
+            'typescript': '6.0.3',
+            'vite': '^8.3.4',
+            'vue-tsc': '^3.3.13',
           },
         }, null, 2)}\n`),
         writeFile(resolve(consumer, 'index.html'), '<div id="app"></div><script type="module" src="/src/main.ts"></script>\n'),
@@ -192,6 +192,8 @@ import { defineConfig } from 'vite'
 export default defineConfig({ plugins: [vue()] })
 `),
         writeFile(resolve(consumer, 'src/main.ts'), definition.mainSource),
+        // Published agent dependencies predate the CSS alias declaration added for TypeScript 6.
+        writeFile(resolve(consumer, 'src/env.d.ts'), 'declare module \'@yunlefun/ui/css\'\n'),
       ])
 
       await run(shadcnVue, ['add', `${registryBaseUrl}/${registryFiles[definition.item]}`, '--yes'], consumer, localRegistryBaseUrl ? { REGISTRY_URL: localRegistryBaseUrl } : {})
