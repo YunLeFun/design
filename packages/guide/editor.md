@@ -18,6 +18,19 @@ Editor 是云乐坊设计体系面向绘画、图像、时间线与其他复杂�
 
 <EditorSpecimen />
 
+## 工作台 Playground
+
+[打开完整的编辑器 Playground](/guide/editor-playground)，体验「制作工作台」与「叙事编辑器」两种示例。两者共享 Editor 的中性表面、晴空蓝、控件尺寸和圆角，通过项目内容与工作区文案表达不同任务。
+
+- 切换浅色 / 深色，观察工具栏、文稿与属性面板的层级；作品预览保持自己的配色。
+- 从项目目录或分镜顺序选择片段，正文与检查器同步更新。
+- 编辑正文、标题、时长和画面说明，再切换预览查看结果；切换片段或隐藏属性不会丢失本页输入。
+- 搜索片段、折叠属性、恢复示例，并在窄屏或触屏下检查重排与命中面积。
+
+这是候选工作区的设计演示，使用内存中的虚构内容，刷新后恢复，不连接真实项目或发布流程，也不代表 ADV.JS / Studio 已完成迁移。普通管理列表、审批与配置继续使用 [Admin 规范](/guide/admin)。
+
+实现位于 `packages/.vitepress/theme/components/editor/`：`EditorPlayground` 管理演示状态，`EditorOutline`、`EditorCanvas`、`EditorInspector` 分别展示目录、内容和属性，通过 props / emits 联动。按钮与分段选择复用现有共享组件，尺寸适配仅作用于样板；它们尚不是新的公共 Editor 组件 API。
+
 ## 视觉基础
 
 | 角色   | 浅色      | 深色      |

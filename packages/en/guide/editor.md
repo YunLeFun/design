@@ -18,6 +18,19 @@ Switch themes, select layers and adjust opacity. This specimen demonstrates the 
 
 <EditorSpecimen english />
 
+## Workspace playground {#工作台-playground}
+
+[Open the full Editor Playground](/en/guide/editor-playground) to try production and narrative examples. Both share Editor surfaces, sky-blue accents, control sizes and corners; project content and workspace labels express their different tasks.
+
+- Switch between light and dark themes to compare toolbar, document and inspector hierarchy. The work preview keeps its own colors.
+- Select a section in the project outline or storyboard to update the script and inspector together.
+- Edit the script, title, duration and direction, then preview the result. Switching sections or hiding properties preserves input on the page.
+- Search sections, hide the inspector, reset the sample and check reflow and target sizes on narrow or touch screens.
+
+This is a proposed workspace design with fictional, in-memory content that resets on reload. It does not connect to real projects or publishing, or imply that ADV.JS / Studio has migrated. Management lists, reviews and settings continue to use the [Admin profile](/en/guide/admin).
+
+Source lives in `packages/.vitepress/theme/components/editor/`: `EditorPlayground` owns demo state; `EditorOutline`, `EditorCanvas` and `EditorInspector` render navigation, content and properties using props / emits. Buttons and segmented controls reuse existing shared components with specimen-scoped sizing. These are not new public Editor component APIs.
+
 ## Visual foundations {#视觉基础}
 
 | Role      | Light     | Dark      |

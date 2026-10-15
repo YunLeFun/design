@@ -28,6 +28,7 @@ export const defaultSideBar: DefaultTheme.Sidebar = [
     text: 'Editor · 复杂操作界面',
     items: [
       { text: '编辑器设计规范', link: '/guide/editor' },
+      { text: '编辑器 Playground', link: '/guide/editor-playground' },
     ],
   },
   {
@@ -67,6 +68,7 @@ const englishLabels: Record<string, string> = {
   '后台设计规范': 'Admin design guidelines',
   'Editor · 复杂操作界面': 'Editor interfaces',
   '编辑器设计规范': 'Editor design guidelines',
+  '编辑器 Playground': 'Editor Playground',
   '开发与接入': 'Development and adoption',
   '开始使用': 'Get started',
   'VitePress 主题': 'VitePress theme',
@@ -129,12 +131,18 @@ export default defineConfig(withYunlefun({
           text: 'Edit this page on GitHub',
         },
         nav: [
-          { text: 'Home', link: '/en/' },
           { text: 'Design system', link: '/en/guide/design-system' },
           { text: 'Get started', link: '/en/guide/' },
-          { text: 'Vue components', link: '/en/vue/' },
-          { text: 'AG-UI examples', link: '/en/guide/ag-ui' },
-          { text: 'Icons', link: 'https://icons.yunle.fun/' },
+          { text: 'Vue components', link: '/en/vue/', activeMatch: '^/en/vue/' },
+          {
+            text: 'Ecosystem',
+            activeMatch: '^/en/guide/(ag-ui|vitepress-theme)(\\.html)?$',
+            items: [
+              { text: 'AG-UI examples', link: '/en/guide/ag-ui' },
+              { text: 'VitePress theme', link: '/en/guide/vitepress-theme' },
+              { text: 'Icons', link: 'https://icons.yunle.fun/' },
+            ],
+          },
         ],
         sidebar: {
           '/en/guide/': englishSidebar,
@@ -211,12 +219,18 @@ export default defineConfig(withYunlefun({
 
     // https://vitepress.dev/reference/default-theme-config
     nav: [
-      { text: '首页', link: '/' },
       { text: '设计体系', link: '/guide/design-system' },
       { text: '开始使用', link: '/guide/' },
-      { text: 'Vue 组件', link: '/vue/' },
-      { text: 'AG-UI 示例', link: '/guide/ag-ui' },
-      { text: '图标库', link: 'https://icons.yunle.fun/' },
+      { text: 'Vue 组件', link: '/vue/', activeMatch: '^/vue/' },
+      {
+        text: '生态',
+        activeMatch: '^/guide/(ag-ui|vitepress-theme)(\\.html)?$',
+        items: [
+          { text: 'AG-UI 示例', link: '/guide/ag-ui' },
+          { text: 'VitePress 主题', link: '/guide/vitepress-theme' },
+          { text: '图标库', link: 'https://icons.yunle.fun/' },
+        ],
+      },
     ],
 
     sidebar: {
