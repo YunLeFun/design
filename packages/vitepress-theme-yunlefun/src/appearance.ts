@@ -76,6 +76,14 @@ export function provideAppearanceTransition() {
       isDark.value = dark
       await nextTick()
     })
+    // fill: forwards 的动画会一直挂在 html 的 ::view-transition-* 上；不取消的话会叠到下一次切换，
+    // 例如晴空展开留下的 maskSize 会盖住夜幕的遮罩尺寸，让夜色一下子铺满。
+    const animations: Animation[] = []
+    const animate = (keyframes: Keyframe[] | PropertyIndexedKeyframes, options: KeyframeAnimationOptions) => {
+      const animation = root.animate?.(keyframes, options)
+      if (animation)
+        animations.push(animation)
+    }
     // 用具体像素值驱动 WAAPI，并在快照就绪后立即开始；forwards 保持终态直到过渡结束。
     transition.ready.then(() => {
       const fill = 'forwards' as const
@@ -83,7 +91,7 @@ export function provideAppearanceTransition() {
       const oldView = '::view-transition-old(root)'
       if (!softMask) {
         const radius = Math.hypot(Math.max(x, width - x), Math.max(y, height - y))
-        root.animate?.(
+        animate(
           { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
           { duration: 480, easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill, pseudoElement: newView },
         )
@@ -93,27 +101,29 @@ export function provideAppearanceTransition() {
         // 夜幕落下：带柔和下缘的夜色从屏幕顶端垂落，白天的页面随之暗下来。
         const curtain = height * 1.5
         const timing = { duration: 820, easing: 'cubic-bezier(0.55, 0, 0.2, 1)', fill }
-        root.animate?.({ maskPosition: [`0px ${-curtain}px`, '0px 0px'] }, { ...timing, pseudoElement: newView })
-        root.animate?.({ filter: ['none', 'brightness(0.72) saturate(0.85)'] }, { ...timing, pseudoElement: oldView })
+        animate({ maskPosition: [`0px ${-curtain}px`, '0px 0px'] }, { ...timing, pseudoElement: newView })
+        animate({ filter: ['none', 'brightness(0.72) saturate(0.85)'] }, { ...timing, pseudoElement: oldView })
         return
       }
       // 晴空展开：光从点击处向外柔和铺开，新画面带一点刚放晴的明亮，再回到正常。
       const reach = Math.hypot(Math.max(x, width - x), Math.max(y, height - y))
       const size = (reach * 2) / 0.7
       const timing = { duration: 720, easing: 'cubic-bezier(0.2, 0, 0, 1)', fill }
-      root.animate?.(
+      animate(
         {
           maskSize: ['0px 0px', `${size}px ${size}px`],
           maskPosition: [`${x}px ${y}px`, `${x - size / 2}px ${y - size / 2}px`],
         },
         { ...timing, pseudoElement: newView },
       )
-      root.animate?.(
+      animate(
         { filter: ['brightness(1.15) saturate(1.1)', 'none'] },
         { ...timing, duration: 900, pseudoElement: newView },
       )
     }, () => {})
     transition.finished.finally(() => {
+      for (const animation of animations)
+        animation.cancel()
       root.classList.remove(revealClass)
       if (sceneClass)
         root.classList.remove(sceneClass)

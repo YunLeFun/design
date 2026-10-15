@@ -141,12 +141,18 @@ describe('appearance transitions', () => {
         }),
       }
     })
-    const animate = vi.fn()
+    const animations: { cancel: ReturnType<typeof vi.fn> }[] = []
+    const animate = vi.fn(() => {
+      const animation = { cancel: vi.fn() }
+      animations.push(animation)
+      return animation
+    })
     Object.assign(document, { startViewTransition })
     Object.assign(document.documentElement, { animate })
     vi.stubGlobal('CSS', { supports: () => softMask })
     return {
       animate,
+      animations,
       startViewTransition,
       async finish() {
         finishers.splice(0).forEach(resolve => resolve())
@@ -179,11 +185,16 @@ describe('appearance transitions', () => {
       expect(curtain.maskPosition[1]).toBe('0px 0px')
       expect(curtainOptions.pseudoElement).toBe('::view-transition-new(root)')
       expect(transition.animate.mock.calls[1][1].pseudoElement).toBe('::view-transition-old(root)')
+      expect(transition.animations.every(animation => animation.cancel.mock.calls.length === 0)).toBe(true)
       await transition.finish()
+      // forwards 填充的动画必须取消，否则会叠到下一次过渡的伪元素上。
+      expect(transition.animations).toHaveLength(2)
+      expect(transition.animations.every(animation => animation.cancel.mock.calls.length === 1)).toBe(true)
       expect(root.classList.contains('ylf-appearance-reveal')).toBe(false)
       expect(root.classList.contains('ylf-appearance-night')).toBe(false)
 
       transition.animate.mockClear()
+      transition.animations.splice(0)
       window.dispatchEvent(new PointerEvent('pointerdown', { clientX: 120, clientY: 40 }))
       await header.trigger('click')
       await wrapper.vm.$nextTick()
@@ -194,6 +205,8 @@ describe('appearance transitions', () => {
       expect(glow.maskPosition[0]).toBe('120px 40px')
       expect(glow.maskSize[0]).toBe('0px 0px')
       await transition.finish()
+      expect(transition.animations).toHaveLength(2)
+      expect(transition.animations.every(animation => animation.cancel.mock.calls.length === 1)).toBe(true)
       expect(root.classList.contains('ylf-appearance-day')).toBe(false)
     }
     finally {
@@ -213,6 +226,7 @@ describe('appearance transitions', () => {
       expect(transition.animate.mock.calls[0][0].clipPath[0]).toBe('circle(0px at 120px 40px)')
       expect(document.documentElement.classList.contains('ylf-appearance-night')).toBe(false)
       await transition.finish()
+      expect(transition.animations[0].cancel).toHaveBeenCalledOnce()
       expect(document.documentElement.classList.contains('ylf-appearance-reveal')).toBe(false)
     }
     finally {
