@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import YlfButton from '../../../vue/components/YlfButton.vue'
-import YlfCard from '../../../vue/components/YlfCard.vue'
 import YlfSeparator from '../../../vue/components/YlfSeparator.vue'
 import { useDocsLocale } from '../composables/useDocsLocale'
 import DesignPlayground from './DesignPlayground.vue'
@@ -53,16 +52,23 @@ const entries = computed(() => [
         </h2>
         <p>{{ text('同一套语言，用在不同的产品里。', 'One shared language, across your products.') }}</p>
       </div>
-      <div class="design-start__links">
-        <YlfCard v-for="entry in entries" :key="entry.href" variant="tinted" :tone="entry.tone" :hoverable="false">
-          <span :class="entry.icon" class="design-start__icon" aria-hidden="true" />
-          <h3>{{ entry.title }}</h3>
-          <p>{{ entry.description }}</p>
-          <YlfButton tag="a" variant="accent" :tone="entry.tone" appearance="outline" size="sm" :href="link(`${entry.href}${entry.href.endsWith('/') ? '' : '.html'}`)">
-            {{ entry.label }}
-          </YlfButton>
-        </YlfCard>
-      </div>
+      <!-- 三个入口是一条从理解到落地的航线：彩色航点 + 虚线航迹，卡面保持中性。 -->
+      <ol class="design-start__route">
+        <li v-for="entry in entries" :key="entry.href" class="design-start__leg" :data-ylf-tone="entry.tone">
+          <a class="design-start__stop" :href="link(`${entry.href}${entry.href.endsWith('/') ? '' : '.html'}`)">
+            <span class="design-start__marker" aria-hidden="true">
+              <span :class="entry.icon" />
+            </span>
+            <div class="design-start__text">
+              <h3>{{ entry.title }}</h3>
+              <p class="design-start__description">
+                {{ entry.description }}
+              </p>
+              <span class="design-start__destination">{{ entry.label }}</span>
+            </div>
+          </a>
+        </li>
+      </ol>
     </section>
     <footer class="design-home-footer">
       <span>{{ text('云乐坊设计系统', 'YunLeFun Design') }}</span>
@@ -133,31 +139,108 @@ const entries = computed(() => [
   color: var(--ylf-c-text-2);
   font-size: var(--ylf-text-sm);
 }
-.design-start__links {
+.design-start__route {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  margin-top: var(--ylf-space-8);
   gap: var(--ylf-space-4);
+  /* 抵消航点卡片的内边距，让图标与区块标题对齐。 */
+  margin: var(--ylf-space-6) -20px 0;
+  padding: 0;
+  list-style: none;
 }
-.design-start__icon {
+.design-start__leg {
+  position: relative;
+}
+/* 航迹：从本站航点中心连到下一站，颜色取本站强调色。 */
+.design-start__leg:not(:last-child)::after {
+  position: absolute;
+  top: 43px;
+  left: 44px;
+  right: calc(-1 * var(--ylf-space-4) - 44px);
+  height: 2px;
+  background: color-mix(in srgb, var(--ylf-accent) 55%, transparent);
+  mask: repeating-linear-gradient(90deg, #000 0 6px, transparent 6px 12px);
+  content: '';
+}
+.design-start__stop {
+  --_ring: var(--ylf-c-bg);
+
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ylf-space-4);
+  height: 100%;
+  box-sizing: border-box;
+  padding: var(--ylf-space-5, 20px);
+  border-radius: var(--ylf-radius-lg);
+  color: inherit;
+  text-decoration: none;
+  transition: background-color var(--ylf-duration-fast) var(--ylf-ease-standard);
+}
+.design-start__stop:focus-visible {
+  outline: 2px solid var(--ylf-c-brand);
+  outline-offset: 2px;
+}
+.design-start__marker {
   display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
-  padding: 10px;
-  border-radius: var(--ylf-radius-sm);
-  font-size: 24px;
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--ylf-accent) 14%, var(--ylf-c-surface));
   color: var(--ylf-accent-text);
+  font-size: 24px;
+  box-shadow:
+    0 0 0 6px var(--_ring),
+    inset 0 0 0 1px color-mix(in srgb, var(--ylf-accent) 28%, transparent);
+  transition:
+    transform var(--ylf-duration-slow) var(--ylf-ease-spring, var(--ylf-ease-standard)),
+    box-shadow var(--ylf-duration-fast) var(--ylf-ease-standard);
+}
+.design-start__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ylf-space-2);
 }
 .design-start h3 {
-  margin: var(--ylf-space-4) 0 var(--ylf-space-2);
+  margin: 0;
   font-size: var(--ylf-text-lg);
   font-weight: 600;
 }
-.design-start__links p {
-  margin: 0 0 var(--ylf-space-4);
+.design-start__description {
+  margin: 0;
   color: var(--ylf-c-text-2);
   line-height: var(--ylf-leading-body);
+}
+.design-start__destination {
+  width: fit-content;
+  margin-top: var(--ylf-space-1);
+  color: var(--ylf-accent-text);
+  font-size: var(--ylf-text-sm);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+  text-underline-offset: 4px;
+  transition: text-decoration-color var(--ylf-duration-fast) var(--ylf-ease-standard);
+}
+@media (hover: hover) and (pointer: fine) {
+  .design-start__stop:hover {
+    --_ring: var(--ylf-c-bg-soft);
+
+    background: var(--ylf-c-bg-soft);
+  }
+  .design-start__stop:hover .design-start__marker {
+    transform: translateY(-3px) rotate(-4deg);
+  }
+  .design-start__stop:hover .design-start__destination {
+    text-decoration-color: currentColor;
+  }
+}
+.design-start__stop:active .design-start__marker {
+  transform: scale(var(--ylf-press-scale));
+  transition-duration: var(--ylf-duration-press);
 }
 .design-home-footer a {
   color: var(--ylf-c-brand);
@@ -208,9 +291,24 @@ const entries = computed(() => [
   .design-section-heading p {
     margin-top: var(--ylf-space-2);
   }
-  .design-start__links {
+  .design-start__route {
     grid-template-columns: 1fr;
-    gap: var(--ylf-space-8);
+    gap: var(--ylf-space-2);
+    margin-inline: calc(-1 * var(--ylf-space-4));
+  }
+  /* 手机上航线改为竖排：航点在左，文字在右。 */
+  .design-start__stop {
+    flex-direction: row;
+    padding: var(--ylf-space-4);
+  }
+  .design-start__leg:not(:last-child)::after {
+    top: 40px;
+    right: auto;
+    bottom: calc(-1 * var(--ylf-space-2) - 40px);
+    left: 39px;
+    width: 2px;
+    height: auto;
+    mask: repeating-linear-gradient(180deg, #000 0 6px, transparent 6px 12px);
   }
   .design-home-footer {
     flex-wrap: wrap;
