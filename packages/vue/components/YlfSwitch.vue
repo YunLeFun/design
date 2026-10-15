@@ -37,6 +37,8 @@ const checked = defineModel<boolean>({ default: false })
   --_w: 52px;
   --_h: 30px;
   --_pad: 3px;
+  // 按下时拇指横向拉长，像被捏住的软糖；松开后弹回。
+  --_stretch: 0px;
 
   position: relative;
   flex: none;
@@ -83,9 +85,13 @@ const checked = defineModel<boolean>({ default: false })
     background: var(--ylf-accent, var(--ylf-c-brand, #2563eb));
   }
 
+  &:active:not([data-disabled]) {
+    --_stretch: 6px;
+  }
+
   &__thumb {
     display: block;
-    width: calc(var(--_h) - var(--_pad) * 2);
+    width: calc(var(--_h) - var(--_pad) * 2 + var(--_stretch));
     height: calc(var(--_h) - var(--_pad) * 2);
     border-radius: 50%;
     background: #fff;
@@ -94,12 +100,14 @@ const checked = defineModel<boolean>({ default: false })
       0 1px 2px rgba(0, 0, 0, 0.12),
       0 3px 5px rgba(0, 0, 0, 0.18);
     transform: translateX(var(--_pad));
-    transition: transform var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease);
+    transition:
+      transform var(--ylf-duration-slow, 480ms) var(--ylf-ease-spring, var(--ylf-ease-standard, ease)),
+      width var(--ylf-duration-normal, 240ms) var(--ylf-ease-spring, var(--ylf-ease-standard, ease));
   }
 
   &[data-state='checked'] &__thumb {
     background: var(--ylf-c-text-on-accent, #fff);
-    transform: translateX(calc(var(--_w) - var(--_h) + var(--_pad)));
+    transform: translateX(calc(var(--_w) - var(--_h) + var(--_pad) - var(--_stretch)));
   }
   &--accent[data-state='checked'] &__thumb,
   &--aurora[data-state='checked'] &__thumb {

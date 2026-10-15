@@ -31,8 +31,9 @@ Hover feedback only runs with a fine pointer that supports hover. Touch uses pre
 | Switch / indicator     | `--ylf-duration-normal`                      | 240ms                        |
 | Pointer hover lift     | `--ylf-hover-lift`                           | -1px                         |
 | Standard easing        | `--ylf-ease-standard`                        | `cubic-bezier(0.2, 0, 0, 1)` |
+| Soft spring            | `--ylf-ease-spring` / `--ylf-duration-slow`  | `linear()` spring / 480ms    |
 
-Existing tokens, including the bounce easing, remain available. Static cards should use `:hoverable="false"`. Motion explains state changes without delaying input. Following the optional-motion principle in [Apple's motion guidance](https://developer.apple.com/design/human-interface-guidelines/motion), reduced motion disables transitions, overlay/disclosure animations, button/card movement and spinner rotation. Final state, readable loading labels and `aria-busy` remain available.
+Use the soft spring only for small movements that answer an action, such as the switch thumb stretching on press and settling on release; colors, opacity and overlays keep the standard easing. Existing tokens, including the bounce easing, remain available. Static cards should use `:hoverable="false"`. Motion explains state changes without delaying input. Following the optional-motion principle in [Apple's motion guidance](https://developer.apple.com/design/human-interface-guidelines/motion), reduced motion disables transitions, overlay/disclosure animations, button/card movement and spinner rotation. Final state, readable loading labels and `aria-busy` remain available.
 
 ## Overlays and integration
 

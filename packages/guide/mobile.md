@@ -35,8 +35,9 @@ import MobileInteractionDemo from '../.vitepress/theme/components/MobileInteract
 | 选择位置变化   | `--ylf-duration-normal`                      | 240ms                        | 开关与选中指示器              |
 | 鼠标轻抬       | `--ylf-hover-lift`                           | -1px                         | 按钮悬停；不用于触屏          |
 | 常规缓动       | `--ylf-ease-standard`                        | `cubic-bezier(0.2, 0, 0, 1)` | 常规组件避免多余回弹          |
+| 软弹簧         | `--ylf-ease-spring` / `--ylf-duration-slow`  | `linear()` 弹簧 / 480ms      | 开关拇指、云朵等「软」的位移  |
 
-旧的时长和 `--ylf-ease-bounce` 变量继续保留。Card 的悬停抬升仅适用于可交互内容；静态信息卡使用 `:hoverable="false"`。
+软弹簧只用于回应操作的小幅位移，例如开关按下时拇指拉长、松开后回弹；颜色、透明度和弹层进出仍用常规缓动。旧的时长和 `--ylf-ease-bounce` 变量继续保留。Card 的悬停抬升仅适用于可交互内容；静态信息卡使用 `:hoverable="false"`。
 
 动效只解释状态与空间关系，不延迟点击处理。遵循 [Apple Motion 指南](https://developer.apple.com/design/human-interface-guidelines/motion)的可选动效原则：在 `prefers-reduced-motion: reduce` 下取消过渡、弹层 / 折叠动画、按钮 / 卡片位移和加载旋转。开关、箭头与标签仍直接反映最终状态；加载态保留 `aria-busy` 和可读文案。
 
