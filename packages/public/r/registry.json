@@ -88,6 +88,48 @@
         "status": "stable",
         "sourcePackage": "@yunlefun/vue"
       }
+    },
+    {
+      "name": "ylf-agent",
+      "type": "registry:item",
+      "title": "YunLeFun AI Agent",
+      "description": "AI 机器人概览、连接状态与任务卡片；业务操作和审批由应用控制。",
+      "dependencies": [
+        "vue@^3.5.0",
+        "@yunlefun/ui@0.0.6"
+      ],
+      "files": [
+        {
+          "path": "packages/vue/components/agent.ts",
+          "type": "registry:file",
+          "target": "~/src/components/ui/agent.ts"
+        },
+        {
+          "path": "packages/vue/components/YlfAgentStatus.vue",
+          "type": "registry:item",
+          "target": "~/src/components/ui/YlfAgentStatus.vue"
+        },
+        {
+          "path": "packages/vue/components/YlfAgentCard.vue",
+          "type": "registry:item",
+          "target": "~/src/components/ui/YlfAgentCard.vue"
+        },
+        {
+          "path": "packages/vue/components/YlfAgentTask.vue",
+          "type": "registry:item",
+          "target": "~/src/components/ui/YlfAgentTask.vue"
+        }
+      ],
+      "docs": "在应用入口加载 @yunlefun/ui/css。组件只展示调用方提供的状态和本地化文字，不建立连接、不执行任务、不默认批准任何操作。",
+      "categories": [
+        "yunlefun",
+        "ai",
+        "agent"
+      ],
+      "meta": {
+        "status": "experimental",
+        "sourcePackage": "@yunlefun/vue"
+      }
     }
   ]
 }

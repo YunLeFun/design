@@ -11,6 +11,16 @@ function fakeLoad() {
 <template>
   <div class="flex flex-col gap-5">
     <div class="flex flex-wrap items-center gap-3">
+      <YlfTooltip content="查看源码">
+        <YlfButton icon-only :round="false" variant="ghost" aria-label="查看源码">
+          <span class="i-ri-code-s-slash-line" aria-hidden="true" />
+        </YlfButton>
+      </YlfTooltip>
+      <YlfButton icon-only variant="secondary" aria-label="添加项目">
+        <span class="i-ri-add-line" aria-hidden="true" />
+      </YlfButton>
+    </div>
+    <div class="flex flex-wrap items-center gap-3">
       <YlfButton variant="hero" size="xl">
         浏览应用 →
       </YlfButton>

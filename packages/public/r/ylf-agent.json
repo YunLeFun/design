@@ -1,0 +1,47 @@
+{
+  "$schema": "https://shadcn-vue.com/schema/registry-item.json",
+  "name": "ylf-agent",
+  "title": "YunLeFun AI Agent",
+  "description": "AI 机器人概览、连接状态与任务卡片；业务操作和审批由应用控制。",
+  "dependencies": [
+    "vue@^3.5.0",
+    "@yunlefun/ui@0.0.6"
+  ],
+  "files": [
+    {
+      "path": "packages/vue/components/agent.ts",
+      "content": "/** Presentation states only; applications own connection and approval policies. */\nexport type YlfAgentState = 'offline' | 'connecting' | 'ready' | 'working' | 'waiting' | 'error' | 'unknown'\n",
+      "type": "registry:file",
+      "target": "~/src/components/ui/agent.ts"
+    },
+    {
+      "path": "packages/vue/components/YlfAgentStatus.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { YlfAgentState } from './agent'\n\nwithDefaults(defineProps<{\n  state: YlfAgentState\n  /** Localized, truthful status text supplied by the application. */\n  label: string\n  /** Opt in for a single live summary, rather than every polled indicator. */\n  live?: boolean\n}>(), { live: false })\n</script>\n\n<template>\n  <span class=\"ylf-agent-status\" :data-state=\"state\" :role=\"live ? 'status' : undefined\" :aria-atomic=\"live || undefined\">\n    <span class=\"ylf-agent-status__mark\" aria-hidden=\"true\" />\n    <span>{{ label }}</span>\n  </span>\n</template>\n\n<style scoped>\n.ylf-agent-status {\n  --agent-color: var(--ylf-c-text-2, #475569);\n  --agent-surface: var(--ylf-c-bg-soft, #f1f5f9);\n\n  display: inline-flex;\n  align-items: center;\n  gap: var(--ylf-space-2, 8px);\n  max-width: 100%;\n  padding: 5px 10px;\n  border-radius: var(--ylf-radius-pill, 999px);\n  background: var(--agent-surface);\n  color: var(--agent-color);\n  font-family: var(--ylf-font-body, inherit);\n  font-size: var(--ylf-text-xs, 12px);\n  line-height: 1.5;\n  overflow-wrap: anywhere;\n}\n.ylf-agent-status[data-state='ready'] {\n  --agent-color: var(--ylf-status-success-text, #166534);\n  --agent-surface: var(--ylf-status-success-soft, #dcfce7);\n}\n.ylf-agent-status[data-state='connecting'],\n.ylf-agent-status[data-state='working'] {\n  --agent-color: var(--ylf-c-brand, #2563eb);\n  --agent-surface: var(--ylf-c-brand-soft, #eff6ff);\n}\n.ylf-agent-status[data-state='waiting'] {\n  --agent-color: var(--ylf-status-warning-text, #854d0e);\n  --agent-surface: var(--ylf-status-warning-soft, #fef9c3);\n}\n.ylf-agent-status[data-state='error'] {\n  --agent-color: var(--ylf-status-danger-text, #9a3412);\n  --agent-surface: var(--ylf-status-danger-soft, #ffede6);\n}\n.ylf-agent-status__mark {\n  flex: none;\n  width: 7px;\n  height: 7px;\n  border: 1.5px solid currentColor;\n  border-radius: 50%;\n}\n.ylf-agent-status[data-state='ready'] .ylf-agent-status__mark,\n.ylf-agent-status[data-state='working'] .ylf-agent-status__mark {\n  background: currentColor;\n}\n.ylf-agent-status[data-state='waiting'] .ylf-agent-status__mark {\n  border-radius: 2px;\n}\n</style>\n",
+      "type": "registry:item",
+      "target": "~/src/components/ui/YlfAgentStatus.vue"
+    },
+    {
+      "path": "packages/vue/components/YlfAgentCard.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { YlfAgentState } from './agent'\nimport { useId } from 'vue'\nimport YlfAgentStatus from './YlfAgentStatus.vue'\n\ndefineProps<{\n  name: string\n  description?: string\n  state: YlfAgentState\n  statusLabel: string\n}>()\nconst titleId = useId()\n</script>\n\n<template>\n  <article class=\"ylf-agent-card\" :aria-labelledby=\"titleId\">\n    <div class=\"ylf-agent-card__header\">\n      <div class=\"ylf-agent-card__avatar\">\n        <slot name=\"avatar\">\n          <svg viewBox=\"0 0 32 32\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" aria-hidden=\"true\">\n            <path d=\"M16 4v4M12 4h8M6 18H3m26 0h-3\" />\n            <rect x=\"6\" y=\"8\" width=\"20\" height=\"19\" rx=\"7\" />\n            <path d=\"M12 15v3m8-3v3m-7 5h6\" />\n          </svg>\n        </slot>\n      </div>\n      <div class=\"ylf-agent-card__identity\">\n        <h2 :id=\"titleId\" class=\"ylf-agent-card__name\">\n          {{ name }}\n        </h2>\n        <p v-if=\"description\" class=\"ylf-agent-card__description\">\n          {{ description }}\n        </p>\n      </div>\n      <YlfAgentStatus :state=\"state\" :label=\"statusLabel\" />\n    </div>\n    <div v-if=\"$slots.default\" class=\"ylf-agent-card__body\">\n      <slot />\n    </div>\n    <div v-if=\"$slots.actions\" class=\"ylf-agent-card__actions\">\n      <slot name=\"actions\" />\n    </div>\n  </article>\n</template>\n\n<style scoped>\n.ylf-agent-card {\n  min-width: 0;\n  padding: var(--ylf-space-6, 24px);\n  border: 1px solid var(--ylf-c-border, #e2e8f0);\n  border-radius: var(--ylf-radius-lg, 20px);\n  background: var(--ylf-c-surface, #fff);\n  color: var(--ylf-c-text, #0f172a);\n  box-shadow: var(--ylf-shadow-control, none);\n  font-family: var(--ylf-font-body, inherit);\n}\n.ylf-agent-card__header {\n  display: flex;\n  align-items: center;\n  flex-wrap: wrap;\n  gap: var(--ylf-space-4, 16px);\n}\n.ylf-agent-card__avatar {\n  display: grid;\n  place-items: center;\n  flex: none;\n  width: 52px;\n  height: 52px;\n  border-radius: var(--ylf-radius, 14px);\n  background: var(--ylf-c-brand-soft, #eff6ff);\n  color: var(--ylf-c-brand, #2563eb);\n}\n.ylf-agent-card__avatar svg {\n  width: 32px;\n  height: 32px;\n}\n.ylf-agent-card__identity {\n  flex: 1 1 160px;\n  min-width: 0;\n}\n.ylf-agent-card__name {\n  margin: 0;\n  font-family: var(--ylf-font-heading, inherit);\n  font-size: var(--ylf-text-lg, 20px);\n  line-height: var(--ylf-leading-heading, 1.25);\n  overflow-wrap: anywhere;\n}\n.ylf-agent-card__description {\n  margin: var(--ylf-space-2, 8px) 0 0;\n  color: var(--ylf-c-text-2, #475569);\n  font-size: var(--ylf-text-sm, 14px);\n  line-height: 1.6;\n  overflow-wrap: anywhere;\n}\n.ylf-agent-card__body {\n  margin-top: var(--ylf-space-6, 24px);\n  min-width: 0;\n}\n.ylf-agent-card__actions {\n  display: flex;\n  align-items: center;\n  flex-wrap: wrap;\n  gap: var(--ylf-space-3, 12px);\n  margin-top: var(--ylf-space-6, 24px);\n  padding-top: var(--ylf-space-4, 16px);\n  border-top: 1px solid var(--ylf-c-border, #e2e8f0);\n}\n</style>\n",
+      "type": "registry:item",
+      "target": "~/src/components/ui/YlfAgentCard.vue"
+    },
+    {
+      "path": "packages/vue/components/YlfAgentTask.vue",
+      "content": "<script setup lang=\"ts\">\nimport type { YlfAgentState } from './agent'\nimport { useId } from 'vue'\nimport YlfAgentStatus from './YlfAgentStatus.vue'\n\ndefineProps<{\n  title: string\n  state: YlfAgentState\n  statusLabel: string\n  taskId?: string\n  description?: string\n}>()\nconst titleId = useId()\n</script>\n\n<template>\n  <section class=\"ylf-agent-task\" :aria-labelledby=\"titleId\">\n    <div class=\"ylf-agent-task__header\">\n      <h3 :id=\"titleId\" class=\"ylf-agent-task__title\">\n        {{ title }}\n      </h3>\n      <YlfAgentStatus :state=\"state\" :label=\"statusLabel\" />\n    </div>\n    <code v-if=\"taskId\" class=\"ylf-agent-task__id\">{{ taskId }}</code>\n    <p v-if=\"description\" class=\"ylf-agent-task__description\">\n      {{ description }}\n    </p>\n    <div v-if=\"$slots.default\" class=\"ylf-agent-task__body\">\n      <slot />\n    </div>\n    <div v-if=\"$slots.actions\" class=\"ylf-agent-task__actions\">\n      <slot name=\"actions\" />\n    </div>\n  </section>\n</template>\n\n<style scoped>\n.ylf-agent-task {\n  min-width: 0;\n  padding: var(--ylf-space-4, 16px);\n  border: 1px solid var(--ylf-c-border, #e2e8f0);\n  border-radius: var(--ylf-radius, 14px);\n  color: var(--ylf-c-text, #0f172a);\n  background: var(--ylf-c-surface-raised, #f6f9ff);\n  font-family: var(--ylf-font-body, inherit);\n}\n.ylf-agent-task__header {\n  display: flex;\n  align-items: center;\n  flex-wrap: wrap;\n  gap: var(--ylf-space-3, 12px);\n  justify-content: space-between;\n}\n.ylf-agent-task__title {\n  margin: 0;\n  font-size: var(--ylf-text-sm, 14px);\n  font-weight: 600;\n  line-height: 1.5;\n  overflow-wrap: anywhere;\n}\n.ylf-agent-task__id {\n  display: block;\n  margin-top: var(--ylf-space-3, 12px);\n  font-family: var(--ylf-font-mono, monospace);\n  font-size: var(--ylf-text-xs, 12px);\n  color: var(--ylf-c-text-2, #475569);\n  overflow-wrap: anywhere;\n}\n.ylf-agent-task__description {\n  margin: var(--ylf-space-3, 12px) 0 0;\n  color: var(--ylf-c-text-2, #475569);\n  font-size: var(--ylf-text-sm, 14px);\n  line-height: var(--ylf-leading-body, 1.75);\n  overflow-wrap: anywhere;\n}\n.ylf-agent-task__body,\n.ylf-agent-task__actions {\n  margin-top: var(--ylf-space-4, 16px);\n}\n.ylf-agent-task__actions {\n  display: flex;\n  flex-wrap: wrap;\n  gap: var(--ylf-space-3, 12px);\n}\n</style>\n",
+      "type": "registry:item",
+      "target": "~/src/components/ui/YlfAgentTask.vue"
+    }
+  ],
+  "meta": {
+    "status": "experimental",
+    "sourcePackage": "@yunlefun/vue"
+  },
+  "docs": "在应用入口加载 @yunlefun/ui/css。组件只展示调用方提供的状态和本地化文字，不建立连接、不执行任务、不默认批准任何操作。",
+  "categories": [
+    "yunlefun",
+    "ai",
+    "agent"
+  ],
+  "type": "registry:item"
+}

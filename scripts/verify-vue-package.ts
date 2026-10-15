@@ -64,17 +64,20 @@ app.mount('#app')
     writeFile(resolve(consumer, 'App.vue'), `<script setup lang="ts">
 import { shallowRef } from 'vue'
 import YlfSelect from '@yunlefun/vue/components/YlfSelect.vue'
+import YlfInput from '@yunlefun/vue/components/YlfInput.vue'
 import YlfSegmentedControl from '@yunlefun/vue/components/YlfSegmentedControl.vue'
 import YlfSlider from '@yunlefun/vue/components/YlfSlider.vue'
 import YlfNavigation from '@yunlefun/vue/components/YlfNavigation.vue'
 import YlfNavigationLink from '@yunlefun/vue/components/YlfNavigationLink.vue'
 import YlfNavigationTrigger from '@yunlefun/vue/components/YlfNavigationTrigger.vue'
 const color = shallowRef<'blue' | 'sun'>('blue')
+const title = shallowRef('Example')
 const volume = shallowRef([50])
 const options = [{ value: 'blue', label: '晴空蓝' }, { value: 'sun', label: '明黄' }] as const
 </script>
 <template>
   <form>
+    <YlfInput v-model="title" name="title" aria-label="Title" required />
     <YlfNavigation label="主导航">
       <YlfNavigationLink href="/docs">帮助</YlfNavigationLink>
       <YlfNavigationLink active as-child><a href="/blog">博客</a></YlfNavigationLink>

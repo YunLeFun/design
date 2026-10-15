@@ -23,17 +23,18 @@ Button 可以通过 URL 将组件源码和共享品牌 token 复制进业务项�
 
 ## Props
 
-| 属性         | 说明                          | 类型                                                                                      | 默认值     |
-| ------------ | ----------------------------- | ----------------------------------------------------------------------------------------- | ---------- |
-| `variant`    | 风格                          | `primary \| hero \| accent \| secondary \| soft \| ghost \| success \| warning \| danger` | `primary`  |
-| `tone`       | 强调色，仅作用于 `accent`     | `blue \| sun \| cyan \| coral \| pink \| green`                                           | `blue`     |
-| `appearance` | `accent` 与状态变体的强调程度 | `solid \| soft \| outline`                                                                | `solid`    |
-| `size`       | 尺寸                          | `sm \| md \| lg \| xl`                                                                    | `md`       |
-| `round`      | 胶囊圆角（云是软的）          | `boolean`                                                                                 | `true`     |
-| `block`      | 占满整行宽度                  | `boolean`                                                                                 | `false`    |
-| `loading`    | 加载态                        | `boolean`                                                                                 | `false`    |
-| `disabled`   | 禁用                          | `boolean`                                                                                 | `false`    |
-| `tag`        | 渲染标签，如 `'a'`            | `string`                                                                                  | `'button'` |
+| 属性         | 说明                             | 类型                                                                                      | 默认值     |
+| ------------ | -------------------------------- | ----------------------------------------------------------------------------------------- | ---------- |
+| `variant`    | 风格                             | `primary \| hero \| accent \| secondary \| soft \| ghost \| success \| warning \| danger` | `primary`  |
+| `tone`       | 强调色，仅作用于 `accent`        | `blue \| sun \| cyan \| coral \| pink \| green`                                           | `blue`     |
+| `appearance` | `accent` 与状态变体的强调程度    | `solid \| soft \| outline`                                                                | `solid`    |
+| `size`       | 尺寸                             | `sm \| md \| lg \| xl`                                                                    | `md`       |
+| `iconOnly`   | 方形图标按钮，必须提供可访问名称 | `boolean`                                                                                 | `false`    |
+| `round`      | 胶囊圆角（云是软的）             | `boolean`                                                                                 | `true`     |
+| `block`      | 占满整行宽度                     | `boolean`                                                                                 | `false`    |
+| `loading`    | 加载态                           | `boolean`                                                                                 | `false`    |
+| `disabled`   | 禁用                             | `boolean`                                                                                 | `false`    |
+| `tag`        | 渲染标签，如 `'a'`               | `string`                                                                                  | `'button'` |
 
 `accent` 的 `tone` 可选 `blue | sun | cyan | coral | pink | green`，默认为 `blue`（晴空蓝）。其他变体保持自己的品牌或状态语义，不受 `tone` 影响。旧 `aurora` 值仍可接收，效果映射到 `accent`。
 
@@ -49,3 +50,5 @@ Button 可以通过 URL 将组件源码和共享品牌 token 复制进业务项�
 | 名称    | 说明                                          |
 | ------- | --------------------------------------------- |
 | `click` | 点击时触发（`disabled` / `loading` 下不触发） |
+
+纯图标按钮尺寸为 32px（`sm`）、36px（`md`）、44px（`lg` / `xl`），粗指针下点击区域至少 44px。提供 `aria-label`，并组合 `YlfTooltip` 展示提示。默认 `type="button"`，提交表单时显式传入 `type="submit"`。

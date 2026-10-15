@@ -14,7 +14,9 @@ The basic pipeline is ready for release:
 | `ylf-button` | `YlfButton.vue`, depends on shared tokens  | stable |
 | `ylf-dialog` | `YlfDialog.vue`, Reka UI and shared tokens | stable |
 
-All three are universal items. They require neither Tailwind nor an initialized `components.json`; explicit targets install into Vue + Vite projects with a `src` directory.
+These three are universal items. They require neither Tailwind nor an initialized `components.json`; explicit targets install into Vue + Vite projects with a `src` directory.
+
+The new `ylf-agent` item includes `YlfAgentStatus`, `YlfAgentCard`, `YlfAgentTask` and `agent.ts`, using the same explicit installation targets and published `@yunlefun/ui@0.0.6` tokens. It is experimental source and has not been deployed to the hosted Registry. See [agent components](/en/guide/agent-ui) for local generation and application boundaries.
 
 ## Install from the online Registry {#从线上-registry-安装}
 
@@ -72,7 +74,7 @@ Run complete local acceptance:
 pnpm registry:verify
 ```
 
-The verifier creates two temporary Vue + Vite projects, separately installs Button and Dialog by URL with recursive tokens, then runs type checks and production builds. Installed source and tokens are compared byte for byte with authoritative files.
+The verifier creates three temporary Vue + Vite projects and separately installs Agent, Button and Dialog by URL before running type checks and production builds. Agent uses published npm tokens; Button and Dialog recursively install token source. Installed components, types and tokens are compared byte for byte with authoritative files.
 
 Repeat against the deployed Registry:
 

@@ -14,7 +14,9 @@ outline: deep
 | `ylf-button` | `YlfButton.vue`，依赖共享 token       | stable |
 | `ylf-dialog` | `YlfDialog.vue`、Reka UI 与共享 token | stable |
 
-三项均为 universal item：不要求消费项目预装 Tailwind 或初始化 `components.json`，并通过明确 target 安装到采用 `src` 目录的 Vue + Vite 项目。
+以上三项均为 universal item：不要求消费项目预装 Tailwind 或初始化 `components.json`，并通过明确 target 安装到采用 `src` 目录的 Vue + Vite 项目。
+
+新增 `ylf-agent` 提供 `YlfAgentStatus`、`YlfAgentCard`、`YlfAgentTask` 与 `agent.ts`，使用同样的明确安装目标，基础 token 依赖已发布的 `@yunlefun/ui@0.0.6`。该条目仍为实验性源码，尚未部署到线上；本机生成物及使用边界见[机器人组件](/guide/agent-ui)。
 
 ## 从线上 Registry 安装
 
@@ -73,7 +75,7 @@ pnpm registry:build
 pnpm registry:verify
 ```
 
-验证脚本会分别创建两个临时 Vue + Vite 项目，通过 URL 独立安装 Button 与 Dialog，递归安装共享 token，然后执行类型检查和生产构建。安装后的组件与 token 还会逐字节对比仓库中的权威源码。
+验证脚本会分别创建三个临时 Vue + Vite 项目，通过 URL 独立安装 Agent、Button 与 Dialog，然后执行类型检查和生产构建。Agent 加载 npm 共享 token；Button 与 Dialog 递归安装 token 源码。安装后的组件、类型与 token 逐字节对比仓库中的权威源码。
 
 部署后可对线上 Registry 重复同一套验收：
 

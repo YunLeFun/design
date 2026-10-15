@@ -20,6 +20,7 @@ const remoteRegistryBaseUrl = process.env.YLF_REGISTRY_BASE_URL
     : undefined)
 
 const registryFiles = {
+  'ylf-agent': 'ylf-agent.json',
   'ylf-button': 'ylf-button.json',
   'ylf-dialog': 'ylf-dialog.json',
   'ylf-tokens': 'ylf-tokens.json',
@@ -29,9 +30,11 @@ type RegistryItemName = keyof typeof registryFiles
 
 interface ConsumerDefinition {
   item: Exclude<RegistryItemName, 'ylf-tokens'>
-  componentFile: 'YlfButton.vue' | 'YlfDialog.vue'
+  componentFile: 'YlfButton.vue' | 'YlfDialog.vue' | 'YlfAgentCard.vue'
   canonicalComponent: string
   mainSource: string
+  additionalFiles?: readonly string[]
+  tokens?: false
 }
 
 async function run(command: string, args: string[], cwd: string, extraEnv: Record<string, string> = {}) {
@@ -81,6 +84,27 @@ const server = remoteRegistryBaseUrl
 
 const canonicalTokens = await readFile(resolve(root, 'packages/ui/styles/css-vars.scss'), 'utf8')
 const consumers: ConsumerDefinition[] = [
+  {
+    item: 'ylf-agent',
+    componentFile: 'YlfAgentCard.vue',
+    canonicalComponent: await readFile(resolve(root, 'packages/vue/components/YlfAgentCard.vue'), 'utf8'),
+    additionalFiles: ['agent.ts', 'YlfAgentStatus.vue', 'YlfAgentTask.vue'],
+    tokens: false,
+    mainSource: `import { createApp, h } from 'vue'
+import type { YlfAgentState } from './components/ui/agent'
+import YlfAgentCard from './components/ui/YlfAgentCard.vue'
+import YlfAgentStatus from './components/ui/YlfAgentStatus.vue'
+import YlfAgentTask from './components/ui/YlfAgentTask.vue'
+import '@yunlefun/ui/css'
+
+const state: YlfAgentState = 'waiting'
+const App = { render: () => h(YlfAgentCard, { name: 'Assistant', state, statusLabel: 'Awaiting approval' }, () => [
+  h(YlfAgentStatus, { state: 'unknown', label: 'Unverified' }),
+  h(YlfAgentTask, { title: 'Current task', state, statusLabel: 'Awaiting approval', taskId: 'task-1' }),
+]) }
+createApp(App).mount('#app')
+`,
+  },
   {
     item: 'ylf-button',
     componentFile: 'YlfButton.vue',
@@ -173,13 +197,19 @@ export default defineConfig({ plugins: [vue()] })
       await run(shadcnVue, ['add', `${registryBaseUrl}/${registryFiles[definition.item]}`, '--yes'], consumer, localRegistryBaseUrl ? { REGISTRY_URL: localRegistryBaseUrl } : {})
       await run(pnpm, ['build'], consumer)
 
-      const [installedComponent, installedTokens] = await Promise.all([
-        readFile(resolve(consumer, 'src/components/ui', definition.componentFile), 'utf8'),
-        readFile(resolve(consumer, 'src/styles/ylf-tokens.scss'), 'utf8'),
-      ])
-
-      if (installedComponent !== definition.canonicalComponent || installedTokens !== canonicalTokens)
+      const installedComponent = await readFile(resolve(consumer, 'src/components/ui', definition.componentFile), 'utf8')
+      if (installedComponent !== definition.canonicalComponent)
         throw new Error(`${definition.item} install output differs from the canonical YunLeFun sources.`)
+      if (definition.tokens !== false && await readFile(resolve(consumer, 'src/styles/ylf-tokens.scss'), 'utf8') !== canonicalTokens)
+        throw new Error(`${definition.item} tokens differ from the canonical source.`)
+      for (const file of definition.additionalFiles ?? []) {
+        const [installed, canonical] = await Promise.all([
+          readFile(resolve(consumer, 'src/components/ui', file), 'utf8'),
+          readFile(resolve(root, 'packages/vue/components', file), 'utf8'),
+        ])
+        if (installed !== canonical)
+          throw new Error(`${definition.item}: ${file} differs from the canonical source.`)
+      }
 
       console.log(`${definition.item} URL install and consumer production build passed.`)
     }

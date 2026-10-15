@@ -22,17 +22,18 @@ Accent/status variants accept `appearance="solid"`, `soft` or `outline`, includi
 
 ## Props
 
-| Prop         | Description                             | Type                                                                                      | Default    |
-| ------------ | --------------------------------------- | ----------------------------------------------------------------------------------------- | ---------- |
-| `variant`    | Variant                                 | `primary \| hero \| accent \| secondary \| soft \| ghost \| success \| warning \| danger` | `primary`  |
-| `tone`       | Accent hue, only for `accent`           | `blue \| sun \| cyan \| coral \| pink \| green`                                           | `blue`     |
-| `appearance` | Emphasis for accent and status variants | `solid \| soft \| outline`                                                                | `solid`    |
-| `size`       | Size                                    | `sm \| md \| lg \| xl`                                                                    | `md`       |
-| `round`      | Pill radius                             | `boolean`                                                                                 | `true`     |
-| `block`      | Full width                              | `boolean`                                                                                 | `false`    |
-| `loading`    | Loading state                           | `boolean`                                                                                 | `false`    |
-| `disabled`   | Disabled                                | `boolean`                                                                                 | `false`    |
-| `tag`        | Rendered tag, such as `'a'`             | `string`                                                                                  | `'button'` |
+| Prop         | Description                                      | Type                                                                                      | Default    |
+| ------------ | ------------------------------------------------ | ----------------------------------------------------------------------------------------- | ---------- |
+| `variant`    | Variant                                          | `primary \| hero \| accent \| secondary \| soft \| ghost \| success \| warning \| danger` | `primary`  |
+| `tone`       | Accent hue, only for `accent`                    | `blue \| sun \| cyan \| coral \| pink \| green`                                           | `blue`     |
+| `appearance` | Emphasis for accent and status variants          | `solid \| soft \| outline`                                                                | `solid`    |
+| `size`       | Size                                             | `sm \| md \| lg \| xl`                                                                    | `md`       |
+| `iconOnly`   | Square icon control; requires an accessible name | `boolean`                                                                                 | `false`    |
+| `round`      | Pill radius                                      | `boolean`                                                                                 | `true`     |
+| `block`      | Full width                                       | `boolean`                                                                                 | `false`    |
+| `loading`    | Loading state                                    | `boolean`                                                                                 | `false`    |
+| `disabled`   | Disabled                                         | `boolean`                                                                                 | `false`    |
+| `tag`        | Rendered tag, such as `'a'`                      | `string`                                                                                  | `'button'` |
 
 Accent tone defaults to blue. Other variants keep brand/status meanings. Legacy aurora aliases accent.
 
@@ -48,3 +49,5 @@ Accent tone defaults to blue. Other variants keep brand/status meanings. Legacy 
 | Name    | Description                                      |
 | ------- | ------------------------------------------------ |
 | `click` | Click event, suppressed when disabled or loading |
+
+Icon-only buttons are 32px (`sm`), 36px (`md`) or 44px (`lg` / `xl`); coarse pointers always receive a target of at least 44px. Set `aria-label` and use `YlfTooltip` for a visible hint. Buttons default to `type="button"`; use `type="submit"` for form submission.

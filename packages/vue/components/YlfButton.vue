@@ -23,6 +23,8 @@ const props = withDefaults(defineProps<{
   /** accent 与状态变体的强调程度 */
   appearance?: YlfColorAppearance
   size?: ButtonSize
+  /** Square control; provide an aria-label for the icon. */
+  iconOnly?: boolean
   /** 胶囊圆角，默认开启（云是软的） */
   round?: boolean
   /** 占满整行宽度 */
@@ -36,6 +38,7 @@ const props = withDefaults(defineProps<{
   tone: 'blue',
   appearance: 'solid',
   size: 'md',
+  iconOnly: false,
   round: true,
   block: false,
   disabled: false,
@@ -51,6 +54,7 @@ const classes = computed(() => [
   `is-${props.appearance}`,
   {
     'is-round': props.round,
+    'is-icon-only': props.iconOnly,
     'is-block': props.block,
     'is-loading': props.loading,
     'is-disabled': props.disabled,
@@ -70,6 +74,7 @@ function onClick(e: MouseEvent) {
     class="ylf-button"
     :class="classes"
     :data-ylf-tone="tone"
+    :type="tag === 'button' ? 'button' : undefined"
     :disabled="tag === 'button' ? (disabled || loading) : undefined"
     :aria-busy="loading || undefined"
     @click="onClick"
@@ -149,6 +154,35 @@ function onClick(e: MouseEvent) {
     padding: 16px 28px;
     font-size: 16px;
     line-height: 22px;
+  }
+
+  &.is-icon-only {
+    width: 36px;
+    height: 36px;
+    min-height: 36px;
+    flex: none;
+    padding: 0;
+    font-size: 18px;
+
+    &.ylf-button--sm {
+      width: 32px;
+      height: 32px;
+      min-height: 32px;
+      font-size: 16px;
+    }
+
+    &.ylf-button--lg,
+    &.ylf-button--xl {
+      width: 44px;
+      height: 44px;
+      min-height: 44px;
+      font-size: 20px;
+    }
+
+    &:focus-visible {
+      outline-offset: -2px;
+      box-shadow: none;
+    }
   }
 
   // Opt-in brand entrance; everyday primary actions keep their solid appearance.
@@ -262,6 +296,11 @@ function onClick(e: MouseEvent) {
         background: var(--ylf-c-brand-soft, #eff6ff);
       }
     }
+
+    &[aria-pressed='true'] {
+      color: var(--ylf-c-brand, #2563eb);
+      background: var(--ylf-c-brand-soft, #eff6ff);
+    }
   }
 
   // --- 语义色 ---
@@ -357,6 +396,13 @@ function onClick(e: MouseEvent) {
 @keyframes ylf-button-spin {
   to {
     transform: rotate(360deg);
+  }
+}
+
+@media (pointer: coarse) {
+  .ylf-button.is-icon-only {
+    min-width: 44px;
+    min-height: 44px;
   }
 }
 

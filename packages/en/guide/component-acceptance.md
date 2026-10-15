@@ -65,6 +65,10 @@ Night backgrounds use subdued blue gray with a brightness ladder for pages, cont
 
 Chinese and English demos cover horizontal/vertical navigation, current pages, local light/dark themes, site switching and disabled triggers. Browser checks cover adjacent current/focus states, menu selection and restored focus, wrapping and no horizontal overflow on narrow screens. The main site retains its local implementation until a package release and dependency upgrade.
 
+## AI agent components (pending publication)
+
+`YlfAgentStatus`, `YlfAgentCard` and `YlfAgentTask` use shared tokens and display application-supplied state and action slots. Applications own permissions, approvals and runtime controls. Regression coverage includes unknown states, listening callbacks, localized labels, accessible names, escaped text, disabled actions and canonical Registry source. The el-bot console validates their composition. See [agent components](/en/guide/agent-ui) for adoption and publication boundaries.
+
 ## Reproduction and future releases {#重现与后续发布}
 
 ```bash
