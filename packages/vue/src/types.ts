@@ -1,4 +1,5 @@
 export type { YlfAgentState } from '../components/agent'
 export * from '../components/bottom-menu'
+export * from '../components/cloud'
 export type { YlfSegmentedOption } from '../components/segmented-control'
 export type { YlfAccentTone, YlfColorAppearance } from '../components/theme'
