@@ -70,8 +70,10 @@ const model = defineModel<string>()
     color var(--ylf-duration-fast, 160ms) ease,
     background var(--ylf-duration-fast, 160ms) ease;
 
-  &:hover:not([data-disabled]) {
-    color: var(--ylf-c-text, #0f172a);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover:not([data-disabled]) {
+      color: var(--ylf-c-text, #0f172a);
+    }
   }
 
   &[data-state='active'] {
@@ -103,8 +105,8 @@ const model = defineModel<string>()
   box-shadow: 0 1px 4px color-mix(in srgb, var(--ylf-c-brand, #2563eb) 25%, transparent);
   transform: translateX(var(--reka-tabs-indicator-position));
   transition:
-    transform 0.25s var(--ylf-ease-bounce, cubic-bezier(0.34, 1.56, 0.64, 1)),
-    width 0.25s ease;
+    transform var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease),
+    width var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease);
 }
 
 .ylf-tabs__content {
@@ -116,8 +118,14 @@ const model = defineModel<string>()
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .ylf-tabs__trigger,
   .ylf-tabs__indicator {
     transition: none;
+  }
+}
+@media (pointer: coarse) {
+  .ylf-tabs__trigger {
+    min-height: var(--ylf-touch-target, 44px);
   }
 }
 </style>

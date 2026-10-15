@@ -27,7 +27,7 @@ const open = defineModel<boolean>('open', { default: false })
       <slot name="trigger" />
     </DropdownMenuTrigger>
     <DropdownMenuPortal :to="portalTo">
-      <DropdownMenuContent v-bind="$attrs" class="ylf-menu" :side-offset="6" align="start">
+      <DropdownMenuContent v-bind="$attrs" class="ylf-menu" :side-offset="6" :collision-padding="16" align="start">
         <template v-for="(it, i) in items" :key="i">
           <DropdownMenuSeparator v-if="it.separator" class="ylf-menu__sep" />
           <DropdownMenuItem
@@ -47,7 +47,13 @@ const open = defineModel<boolean>('open', { default: false })
 <style lang="scss">
 .ylf-menu {
   z-index: 105;
-  min-width: 180px;
+  box-sizing: border-box;
+  min-width: min(180px, var(--reka-dropdown-menu-content-available-width, 100vw));
+  max-width: var(--reka-dropdown-menu-content-available-width, calc(100vw - 32px));
+  max-height: var(--reka-dropdown-menu-content-available-height, calc(100dvh - 32px));
+  overflow: auto;
+  overflow-wrap: anywhere;
+  overscroll-behavior: contain;
   padding: 6px;
   background: var(--ylf-c-panel, var(--ylf-c-surface, #fff));
   border: 1px solid var(--ylf-c-border, #e2e8f0);
@@ -57,7 +63,7 @@ const open = defineModel<boolean>('open', { default: false })
   transform-origin: var(--reka-dropdown-menu-content-transform-origin);
 
   &[data-state='open'] {
-    animation: ylf-menu-in 0.16s ease;
+    animation: ylf-menu-in var(--ylf-duration-enter, 240ms) var(--ylf-ease-standard, ease);
   }
 
   &__item {
@@ -111,6 +117,12 @@ const open = defineModel<boolean>('open', { default: false })
 
   .ylf-menu__item {
     transition: none;
+  }
+}
+@media (pointer: coarse) {
+  .ylf-menu__item {
+    box-sizing: border-box;
+    min-height: var(--ylf-touch-target, 44px);
   }
 }
 </style>

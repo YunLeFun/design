@@ -43,7 +43,7 @@ const selectedOption = computed(() => props.options.find(option => option.value 
       </SelectIcon>
     </SelectTrigger>
     <SelectPortal :to="portalTo">
-      <SelectContent class="ylf-select__content" :data-size="size" position="popper" :side-offset="6">
+      <SelectContent class="ylf-select__content" :data-size="size" position="popper" :side-offset="6" :collision-padding="16">
         <SelectViewport class="ylf-select__viewport">
           <SelectItem
             v-for="o in options"
@@ -76,7 +76,9 @@ const selectedOption = computed(() => props.options.find(option => option.value 
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  min-width: 180px;
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: min(180px, 100%);
   min-height: 44px;
   padding: 10px 14px;
   font-family: inherit;
@@ -89,15 +91,17 @@ const selectedOption = computed(() => props.options.find(option => option.value 
   box-shadow: var(--ylf-shadow-control);
   cursor: pointer;
   transition:
-    border-color 0.18s ease,
-    box-shadow 0.2s ease;
+    border-color var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease),
+    box-shadow var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease);
 
   &[data-placeholder] {
     color: var(--ylf-c-text-3, #64748b);
   }
 
-  &:hover:not([data-disabled]) {
-    border-color: var(--ylf-c-brand, #2563eb);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover:not([data-disabled]) {
+      border-color: var(--ylf-c-brand, #2563eb);
+    }
   }
 
   &[data-state='open'] {
@@ -124,6 +128,7 @@ const selectedOption = computed(() => props.options.find(option => option.value 
   align-items: center;
   gap: 8px;
   min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .ylf-select__swatch {
@@ -166,7 +171,7 @@ const selectedOption = computed(() => props.options.find(option => option.value 
   transform-origin: var(--reka-select-content-transform-origin);
 
   &[data-state='open'] {
-    animation: ylf-select-in 0.16s ease;
+    animation: ylf-select-in var(--ylf-duration-enter, 240ms) var(--ylf-ease-standard, ease);
   }
 }
 
@@ -225,9 +230,10 @@ const selectedOption = computed(() => props.options.find(option => option.value 
 }
 
 @media (pointer: coarse) {
-  .ylf-select__trigger[data-size='sm'],
-  .ylf-select__content[data-size='sm'] .ylf-select__item {
-    min-height: 44px;
+  .ylf-select__trigger[data-size],
+  .ylf-select__content[data-size] .ylf-select__item {
+    box-sizing: border-box;
+    min-height: var(--ylf-touch-target, 44px);
   }
 }
 
@@ -243,6 +249,7 @@ const selectedOption = computed(() => props.options.find(option => option.value 
     animation: none;
   }
 
+  .ylf-select__trigger,
   .ylf-select__icon,
   .ylf-select__item {
     transition: none;

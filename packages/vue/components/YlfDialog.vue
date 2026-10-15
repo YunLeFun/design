@@ -85,19 +85,32 @@ const descriptionProps = computed(() => hasDescription.value
   -webkit-backdrop-filter: var(--ylf-overlay-blur, blur(10px));
   backdrop-filter: var(--ylf-overlay-blur, blur(10px));
 
+  &[data-state='closed'] {
+    animation: ylf-dialog-overlay-out var(--ylf-duration-exit, 160ms) var(--ylf-ease-standard, ease);
+  }
+
   &[data-state='open'] {
-    animation: ylf-dialog-overlay-in var(--ylf-duration-normal, 240ms) ease;
+    animation: ylf-dialog-overlay-in var(--ylf-duration-enter, 240ms) ease;
   }
 }
 
 .ylf-dialog__content {
+  --_inset-top: max(var(--ylf-viewport-gutter, 16px), env(safe-area-inset-top, 0px));
+  --_inset-right: max(var(--ylf-viewport-gutter, 16px), env(safe-area-inset-right, 0px));
+  --_inset-bottom: max(var(--ylf-viewport-gutter, 16px), env(safe-area-inset-bottom, 0px));
+  --_inset-left: max(var(--ylf-viewport-gutter, 16px), env(safe-area-inset-left, 0px));
+
   position: fixed;
   z-index: 101;
   top: 50%;
-  left: 50%;
-  width: calc(100vw - 32px);
+  top: calc((100dvh + var(--_inset-top) - var(--_inset-bottom)) / 2);
+  left: calc((100% + var(--_inset-left) - var(--_inset-right)) / 2);
+  box-sizing: border-box;
+  width: calc(100% - var(--_inset-left) - var(--_inset-right));
   max-width: 480px;
   max-height: calc(100vh - 32px);
+  max-height: calc(100dvh - var(--_inset-top) - var(--_inset-bottom));
+  overscroll-behavior: contain;
   overflow: auto;
   padding: 28px;
   transform: translate(-50%, -50%);
@@ -108,8 +121,12 @@ const descriptionProps = computed(() => hasDescription.value
   -webkit-backdrop-filter: var(--ylf-glass-blur, blur(16px));
   backdrop-filter: var(--ylf-glass-blur, blur(16px));
 
+  &[data-state='closed'] {
+    animation: ylf-dialog-out var(--ylf-duration-exit, 160ms) var(--ylf-ease-standard, ease);
+  }
+
   &[data-state='open'] {
-    animation: ylf-dialog-in var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease);
+    animation: ylf-dialog-in var(--ylf-duration-enter, 240ms) var(--ylf-ease-standard, ease);
   }
 
   &:focus-visible {
@@ -119,7 +136,7 @@ const descriptionProps = computed(() => hasDescription.value
 
 .ylf-dialog__title {
   margin: 0 0 10px;
-  padding-right: 32px;
+  padding-right: var(--ylf-touch-target, 44px);
   overflow-wrap: anywhere;
   font-family: var(--ylf-font-heading, inherit);
   font-size: 24px;
@@ -153,12 +170,14 @@ const descriptionProps = computed(() => hasDescription.value
   color: var(--ylf-c-text-3, #64748b);
   cursor: pointer;
   transition:
-    background 0.18s ease,
-    color 0.18s ease;
+    background var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease),
+    color var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease);
 
-  &:hover {
-    background: var(--ylf-c-bg-mute, #e2e8f0);
-    color: var(--ylf-c-text, #0f172a);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background: var(--ylf-c-bg-mute, #e2e8f0);
+      color: var(--ylf-c-text, #0f172a);
+    }
   }
 
   &:focus-visible {
@@ -169,11 +188,6 @@ const descriptionProps = computed(() => hasDescription.value
   svg {
     width: 16px;
     height: 16px;
-    transition: transform var(--ylf-duration-fast, 160ms) ease;
-  }
-
-  &:hover svg {
-    transform: rotate(90deg);
   }
 }
 
@@ -181,8 +195,8 @@ const descriptionProps = computed(() => hasDescription.value
   .ylf-dialog__close {
     top: 10px;
     right: 10px;
-    width: 44px;
-    height: 44px;
+    width: var(--ylf-touch-target, 44px);
+    height: var(--ylf-touch-target, 44px);
   }
 }
 
@@ -200,13 +214,31 @@ const descriptionProps = computed(() => hasDescription.value
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ylf-dialog__overlay[data-state='open'],
-  .ylf-dialog__content[data-state='open'] {
+  .ylf-dialog__overlay[data-state],
+  .ylf-dialog__content[data-state] {
     animation: none;
   }
 
-  .ylf-dialog__close svg {
+  .ylf-dialog__close {
     transition: none;
+  }
+}
+@keyframes ylf-dialog-overlay-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes ylf-dialog-out {
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.98);
+  }
+}
+
+@media (max-width: 480px) {
+  .ylf-dialog__content {
+    padding: var(--ylf-space-6, 24px);
   }
 }
 </style>

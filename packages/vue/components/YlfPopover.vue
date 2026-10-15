@@ -21,8 +21,10 @@ const open = defineModel<boolean>('open', { default: false })
       <slot name="trigger" />
     </PopoverTrigger>
     <PopoverPortal :to="portalTo">
-      <PopoverContent v-bind="$attrs" :side="side" :align="align" :side-offset="8" class="ylf-popover">
-        <slot />
+      <PopoverContent v-bind="$attrs" :side="side" :align="align" :side-offset="8" :collision-padding="16" class="ylf-popover">
+        <div class="ylf-popover__body">
+          <slot />
+        </div>
         <PopoverArrow class="ylf-popover__arrow" :width="12" :height="6" />
       </PopoverContent>
     </PopoverPortal>
@@ -32,8 +34,12 @@ const open = defineModel<boolean>('open', { default: false })
 <style lang="scss">
 .ylf-popover {
   z-index: 105;
-  min-width: 180px;
-  max-width: 320px;
+  box-sizing: border-box;
+  min-width: min(180px, var(--reka-popover-content-available-width, 100vw));
+  max-width: min(320px, var(--reka-popover-content-available-width, calc(100vw - 32px)));
+  max-height: var(--reka-popover-content-available-height, calc(100dvh - 32px));
+  overflow-wrap: anywhere;
+  overscroll-behavior: contain;
   padding: 16px;
   color: var(--ylf-c-text, #0f172a);
   background: var(--ylf-c-panel, var(--ylf-c-surface, #fff));
@@ -44,7 +50,13 @@ const open = defineModel<boolean>('open', { default: false })
   transform-origin: var(--reka-popover-content-transform-origin);
 
   &[data-state='open'] {
-    animation: ylf-popover-in 0.18s var(--ylf-ease-bounce, cubic-bezier(0.34, 1.56, 0.64, 1));
+    animation: ylf-popover-in var(--ylf-duration-enter, 240ms) var(--ylf-ease-standard, ease);
+  }
+
+  &__body {
+    max-height: calc(var(--reka-popover-content-available-height, calc(100dvh - 32px)) - 34px);
+    overflow: auto;
+    overscroll-behavior: contain;
   }
 
   &__arrow {

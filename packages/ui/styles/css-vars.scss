@@ -222,6 +222,15 @@
   --ylf-c-sky: #dbeafe;
   --ylf-c-cloud: #ffffff;
 
+  // --- mobile interaction ----------------------------------------------------
+  --ylf-touch-target: 44px;
+  --ylf-viewport-gutter: 16px;
+  --ylf-duration-press: 100ms;
+  --ylf-duration-enter: 240ms;
+  --ylf-duration-exit: 160ms;
+  --ylf-press-scale: 0.98;
+  --ylf-hover-lift: -1px;
+
   // --- transition -------------------------------------------------------------
   --ylf-duration-fast: 160ms;
   --ylf-duration-normal: 240ms;
@@ -309,6 +318,11 @@
   :root,
   .ylf-theme-light,
   .ylf-theme-dark {
+    --ylf-duration-press: 0ms;
+    --ylf-duration-enter: 0ms;
+    --ylf-duration-exit: 0ms;
+    --ylf-press-scale: 1;
+    --ylf-hover-lift: 0px;
     --ylf-duration-fast: 0ms;
     --ylf-duration-normal: 0ms;
   }

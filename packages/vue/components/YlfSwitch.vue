@@ -94,8 +94,7 @@ const checked = defineModel<boolean>({ default: false })
       0 1px 2px rgba(0, 0, 0, 0.12),
       0 3px 5px rgba(0, 0, 0, 0.18);
     transform: translateX(var(--_pad));
-    transition: transform var(--ylf-duration-normal, 240ms) var(--ylf-ease-bounce, cubic-bezier(0.34, 1.56, 0.64, 1));
-    will-change: transform;
+    transition: transform var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease);
   }
 
   &[data-state='checked'] &__thumb {
@@ -112,6 +111,25 @@ const checked = defineModel<boolean>({ default: false })
   .ylf-switch,
   .ylf-switch__thumb {
     transition: none;
+  }
+}
+@media (pointer: coarse) {
+  .ylf-switch {
+    position: relative;
+    box-sizing: border-box;
+    margin-block: max(0px, calc((var(--ylf-touch-target, 44px) - var(--_h)) / 2));
+    margin-inline: max(0px, calc((var(--ylf-touch-target, 44px) - var(--_w)) / 2));
+    touch-action: manipulation;
+
+    &::before {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: max(100%, var(--ylf-touch-target, 44px));
+      height: max(100%, var(--ylf-touch-target, 44px));
+      transform: translate(-50%, -50%);
+      content: '';
+    }
   }
 }
 </style>

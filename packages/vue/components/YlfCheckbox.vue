@@ -49,12 +49,14 @@ const checked = defineModel<boolean | 'indeterminate'>({ default: false })
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   transition:
-    background 0.18s ease,
-    border-color 0.18s ease,
-    box-shadow 0.2s ease;
+    background var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease),
+    border-color var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease),
+    box-shadow var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease);
 
-  &:hover:not([data-disabled]) {
-    border-color: var(--ylf-c-brand, #2563eb);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover:not([data-disabled]) {
+      border-color: var(--ylf-c-brand, #2563eb);
+    }
   }
 
   &:focus-visible {
@@ -82,6 +84,30 @@ const checked = defineModel<boolean | 'indeterminate'>({ default: false })
   &__indicator svg {
     width: 14px;
     height: 14px;
+  }
+}
+@media (pointer: coarse) {
+  .ylf-checkbox {
+    position: relative;
+    box-sizing: border-box;
+    margin-block: max(0px, calc((var(--ylf-touch-target, 44px) - var(--_size)) / 2));
+    margin-inline: max(0px, calc((var(--ylf-touch-target, 44px) - var(--_size)) / 2));
+    touch-action: manipulation;
+
+    &::before {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: max(100%, var(--ylf-touch-target, 44px));
+      height: max(100%, var(--ylf-touch-target, 44px));
+      transform: translate(-50%, -50%);
+      content: '';
+    }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ylf-checkbox {
+    transition: none;
   }
 }
 </style>

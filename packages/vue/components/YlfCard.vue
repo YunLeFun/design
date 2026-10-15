@@ -47,9 +47,11 @@ withDefaults(defineProps<{
     box-shadow var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease),
     background var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease);
 
-  &.is-hoverable:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--ylf-shadow, 0 10px 28px -8px rgba(15, 23, 42, 0.16));
+  @media (hover: hover) and (pointer: fine) {
+    &.is-hoverable:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--ylf-shadow, 0 10px 28px -8px rgba(15, 23, 42, 0.16));
+    }
   }
 
   // 云玻璃
@@ -76,6 +78,10 @@ withDefaults(defineProps<{
 @media (prefers-reduced-motion: reduce) {
   .ylf-card {
     transition: none;
+
+    &.is-hoverable:hover {
+      transform: none;
+    }
   }
 }
 </style>

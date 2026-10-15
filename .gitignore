@@ -20,3 +20,6 @@ esbuild-kit
 tsx-*
 
 **/.fue/**
+
+# local QA screenshots
+artifacts

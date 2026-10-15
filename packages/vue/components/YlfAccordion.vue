@@ -85,10 +85,14 @@ const model = defineModel<string | string[]>()
   background: transparent;
   border: none;
   cursor: pointer;
-  transition: background 0.18s ease;
+  min-height: var(--ylf-touch-target, 44px);
+  overflow-wrap: anywhere;
+  transition: background var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease);
 
-  &:hover {
-    background: var(--ylf-c-bg-soft, #f1f5f9);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      background: var(--ylf-c-bg-soft, #f1f5f9);
+    }
   }
 
   &[data-state='open'] {
@@ -112,7 +116,7 @@ const model = defineModel<string | string[]>()
   width: 18px;
   height: 18px;
   color: var(--ylf-c-text-3, #64748b);
-  transition: transform 0.25s ease;
+  transition: transform var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease);
 }
 
 .ylf-accordion__trigger[data-state='open'] .ylf-accordion__chevron {
@@ -126,11 +130,11 @@ const model = defineModel<string | string[]>()
   color: var(--ylf-c-text-2, #475569);
 
   &[data-state='open'] {
-    animation: ylf-acc-down 0.25s ease;
+    animation: ylf-acc-down var(--ylf-duration-enter, 240ms) var(--ylf-ease-standard, ease);
   }
 
   &[data-state='closed'] {
-    animation: ylf-acc-up 0.2s ease;
+    animation: ylf-acc-up var(--ylf-duration-exit, 160ms) var(--ylf-ease-standard, ease);
   }
 }
 
@@ -164,6 +168,7 @@ const model = defineModel<string | string[]>()
     animation: none;
   }
 
+  .ylf-accordion__trigger,
   .ylf-accordion__chevron {
     transition: none;
   }

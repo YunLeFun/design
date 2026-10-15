@@ -12,6 +12,7 @@ export const defaultSideBar: DefaultTheme.Sidebar = [
     items: [
       { text: 'Design 与 UI', link: '/guide/design-system' },
       { text: '视觉基础', link: '/guide/foundations' },
+      { text: '移动端与动效', link: '/guide/mobile' },
       { text: '色彩与组件', link: '/guide/colors' },
       { text: '品牌与界面', link: '/guide/patterns' },
       { text: '字体规范', link: '/guide/typography' },
@@ -58,6 +59,7 @@ const englishLabels: Record<string, string> = {
   '设计语言': 'Design language',
   'Design 与 UI': 'Design and UI',
   '视觉基础': 'Visual foundations',
+  '移动端与动效': 'Mobile and motion',
   '色彩与组件': 'Colors and components',
   '品牌与界面': 'Brand and interfaces',
   '字体规范': 'Typography',

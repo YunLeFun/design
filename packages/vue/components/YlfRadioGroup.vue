@@ -99,12 +99,14 @@ function selectFocusedRadio(event: KeyboardEvent) {
     background: var(--ylf-c-surface, #fff);
     box-shadow: var(--ylf-shadow-control);
     transition:
-      border-color 0.18s ease,
-      box-shadow 0.2s ease;
+      border-color var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease),
+      box-shadow var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease);
   }
 
-  &:hover:not([data-disabled]) .ylf-radio__control {
-    border-color: var(--ylf-c-brand, #2563eb);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover:not([data-disabled]) .ylf-radio__control {
+      border-color: var(--ylf-c-brand, #2563eb);
+    }
   }
 
   &:focus-visible {
@@ -136,6 +138,17 @@ function selectFocusedRadio(event: KeyboardEvent) {
 
   &__label {
     font-size: 15px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ylf-radio__control {
+    transition: none;
+  }
+}
+@media (pointer: coarse) {
+  .ylf-radio {
+    min-width: var(--ylf-touch-target, 44px);
+    min-height: var(--ylf-touch-target, 44px);
   }
 }
 </style>

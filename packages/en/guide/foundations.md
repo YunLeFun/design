@@ -124,3 +124,7 @@ Target at least 4.5:1 for normal text and 3:1 for large text, applying exception
 `.dark` switches the application theme. `.ylf-theme-light` and `.ylf-theme-dark` provide isolated documentation previews. Switch colors, foregrounds and shadows together; overlays inherit their enclosing theme.
 
 Accept light, dark, 390px mobile, 768px tablet and desktop layouts, including long copy, loading, empty states and keyboard behavior. Local styles read tokens rather than another dark override set.
+
+## Mobile and motion
+
+[Mobile and motion](/en/guide/mobile)

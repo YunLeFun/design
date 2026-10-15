@@ -85,6 +85,8 @@ function onClick(e: MouseEvent) {
   --_radius: var(--ylf-radius, 14px);
   --_fill: var(--ylf-c-brand, #2563eb);
 
+  box-sizing: border-box;
+  max-width: 100%;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -94,12 +96,15 @@ function onClick(e: MouseEvent) {
   font-family: var(--ylf-font-body, inherit);
   font-weight: 600;
   line-height: 1;
-  white-space: nowrap;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
   cursor: pointer;
   user-select: none;
   text-decoration: none;
   transition:
-    transform var(--ylf-duration-fast, 160ms) var(--ylf-ease-bounce, cubic-bezier(0.34, 1.56, 0.64, 1)),
+    transform var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease),
     box-shadow var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease),
     background var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease),
     color var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease),
@@ -139,7 +144,8 @@ function onClick(e: MouseEvent) {
   }
 
   &--xl {
-    min-height: 56px;
+    --_min-height: 56px;
+    min-height: var(--_min-height);
     padding: 16px 28px;
     font-size: 16px;
     line-height: 22px;
@@ -152,14 +158,16 @@ function onClick(e: MouseEvent) {
     border-color: var(--ylf-hero-border, rgb(255 255 255 / 0.16));
     box-shadow: var(--ylf-hero-shadow, inset 0 1px 0 rgb(255 255 255 / 0.24), 0 12px 26px -14px rgb(3 105 161 / 0.58));
 
-    &:hover:not(.is-disabled, .is-loading, :disabled) {
-      background: var(--ylf-hero-background-hover, linear-gradient(115deg, #1d4ed8, #096ba9 58%, #075985));
-      box-shadow: var(
-        --ylf-hero-shadow-hover,
-        inset 0 1px 0 rgb(255 255 255 / 0.3),
-        0 14px 30px -14px rgb(3 105 161 / 0.58)
-      );
-      transform: translateY(-1px);
+    @media (hover: hover) and (pointer: fine) {
+      &:hover:not(.is-disabled, .is-loading, :disabled) {
+        background: var(--ylf-hero-background-hover, linear-gradient(115deg, #1d4ed8, #096ba9 58%, #075985));
+        box-shadow: var(
+          --ylf-hero-shadow-hover,
+          inset 0 1px 0 rgb(255 255 255 / 0.3),
+          0 14px 30px -14px rgb(3 105 161 / 0.58)
+        );
+        transform: translateY(var(--ylf-hover-lift, -1px));
+      }
     }
 
     &:focus-visible {
@@ -179,13 +187,15 @@ function onClick(e: MouseEvent) {
       0 2px 0 color-mix(in srgb, var(--_fill) 80%, #000),
       0 6px 14px -6px color-mix(in srgb, var(--_fill) 40%, transparent);
 
-    &:hover {
-      background: var(--ylf-c-brand-hover, #1d4ed8);
-      transform: translateY(-1px);
-      box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.22),
-        0 3px 0 color-mix(in srgb, var(--_fill) 80%, #000),
-        0 8px 18px -6px color-mix(in srgb, var(--_fill) 35%, transparent);
+    @media (hover: hover) and (pointer: fine) {
+      &:hover:not(.is-disabled, .is-loading, :disabled) {
+        background: var(--ylf-c-brand-hover, #1d4ed8);
+        transform: translateY(var(--ylf-hover-lift, -1px));
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.22),
+          0 3px 0 color-mix(in srgb, var(--_fill) 80%, #000),
+          0 8px 18px -6px color-mix(in srgb, var(--_fill) 35%, transparent);
+      }
     }
   }
 
@@ -204,8 +214,10 @@ function onClick(e: MouseEvent) {
       inset 0 1px 0 rgba(255, 255, 255, 0.2),
       0 2px 0 color-mix(in srgb, var(--_fill) 78%, #000);
 
-    &:hover {
-      background: var(--ylf-accent-hover, var(--ylf-c-brand-hover, #1d4ed8));
+    @media (hover: hover) and (pointer: fine) {
+      &:hover:not(.is-disabled, .is-loading, :disabled) {
+        background: var(--ylf-accent-hover, var(--ylf-c-brand-hover, #1d4ed8));
+      }
     }
   }
 
@@ -216,10 +228,12 @@ function onClick(e: MouseEvent) {
     border-color: var(--ylf-c-border-strong, #cbd5e1);
     box-shadow: var(--ylf-shadow-control);
 
-    &:hover {
-      color: var(--ylf-c-brand, #2563eb);
-      border-color: var(--ylf-c-brand, #2563eb);
-      transform: translateY(-1px);
+    @media (hover: hover) and (pointer: fine) {
+      &:hover:not(.is-disabled, .is-loading, :disabled) {
+        color: var(--ylf-c-brand, #2563eb);
+        border-color: var(--ylf-c-brand, #2563eb);
+        transform: translateY(var(--ylf-hover-lift, -1px));
+      }
     }
   }
 
@@ -229,9 +243,11 @@ function onClick(e: MouseEvent) {
     background: var(--ylf-c-brand-soft, #eff6ff);
     border-color: color-mix(in srgb, var(--ylf-c-brand, #2563eb) 12%, transparent);
 
-    &:hover {
-      transform: translateY(-1px);
-      box-shadow: var(--ylf-shadow-sm, 0 2px 8px -2px rgba(15, 23, 42, 0.12));
+    @media (hover: hover) and (pointer: fine) {
+      &:hover:not(.is-disabled, .is-loading, :disabled) {
+        transform: translateY(var(--ylf-hover-lift, -1px));
+        box-shadow: var(--ylf-shadow-sm, 0 2px 8px -2px rgba(15, 23, 42, 0.12));
+      }
     }
   }
 
@@ -240,9 +256,11 @@ function onClick(e: MouseEvent) {
     color: var(--ylf-c-text-2, #475569);
     background: transparent;
 
-    &:hover {
-      color: var(--ylf-c-brand, #2563eb);
-      background: var(--ylf-c-brand-soft, #eff6ff);
+    @media (hover: hover) and (pointer: fine) {
+      &:hover:not(.is-disabled, .is-loading, :disabled) {
+        color: var(--ylf-c-brand, #2563eb);
+        background: var(--ylf-c-brand-soft, #eff6ff);
+      }
     }
   }
 
@@ -258,8 +276,10 @@ function onClick(e: MouseEvent) {
       color: var(--ylf-status-#{$status}-on, $on);
       background: var(--ylf-status-#{$status}, $fill);
 
-      &:hover {
-        background: var(--ylf-status-#{$status}-hover, $hover);
+      @media (hover: hover) and (pointer: fine) {
+        &:hover:not(.is-disabled, .is-loading, :disabled) {
+          background: var(--ylf-status-#{$status}-hover, $hover);
+        }
       }
     }
   }
@@ -274,9 +294,11 @@ function onClick(e: MouseEvent) {
       color: var(--_text);
       box-shadow: none;
 
-      &:hover {
-        background: var(--_soft);
-        border-color: var(--_text);
+      @media (hover: hover) and (pointer: fine) {
+        &:hover:not(.is-disabled, .is-loading, :disabled) {
+          background: var(--_soft);
+          border-color: var(--_text);
+        }
       }
 
       &:focus-visible {
@@ -296,8 +318,9 @@ function onClick(e: MouseEvent) {
   }
 
   // --- 状态 ---
-  &:active:not(.is-disabled, .is-loading) {
-    transform: translateY(1px) scale(0.985);
+  &:active:not(.is-disabled, .is-loading, :disabled) {
+    transition-duration: var(--ylf-duration-press, 100ms);
+    transform: scale(var(--ylf-press-scale, 0.98));
   }
 
   &.is-disabled,
@@ -313,6 +336,10 @@ function onClick(e: MouseEvent) {
   }
 
   &__label {
+    min-width: 0;
+    line-height: inherit;
+    box-sizing: border-box;
+    max-width: 100%;
     display: inline-flex;
     align-items: center;
   }
@@ -337,13 +364,21 @@ function onClick(e: MouseEvent) {
   .ylf-button {
     transition: none;
 
-    &.ylf-button--hero:is(:hover, :active):not(.is-disabled, .is-loading, :disabled) {
+    &:is(:hover, :active):not(.is-disabled, .is-loading, :disabled) {
       transform: none;
+      transition: none;
     }
   }
 
   .ylf-button__spinner {
-    animation-duration: 1.4s;
+    animation: none;
+  }
+}
+@media (pointer: coarse) {
+  .ylf-button {
+    min-width: var(--ylf-touch-target, 44px);
+    min-height: max(var(--_min-height, 0px), var(--ylf-touch-target, 44px));
+    line-height: 1.4;
   }
 }
 </style>

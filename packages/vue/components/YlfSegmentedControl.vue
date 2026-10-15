@@ -82,10 +82,10 @@ function updateValue(value: unknown): void {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  flex: 0 0 auto;
+  flex: 1 1 auto;
   box-sizing: border-box;
   min-width: var(--ylf-segmented-item-size);
-  height: var(--ylf-segmented-item-size);
+  min-height: var(--ylf-segmented-item-size);
   gap: 6px;
   padding: 0 10px;
   border: 1px solid transparent;
@@ -95,8 +95,9 @@ function updateValue(value: unknown): void {
   font: inherit;
   font-size: var(--ylf-text-sm, 14px);
   font-weight: 500;
-  line-height: 1;
-  white-space: nowrap;
+  line-height: 1.4;
+  white-space: normal;
+  overflow-wrap: anywhere;
   cursor: pointer;
   transition:
     background var(--ylf-duration-fast, 160ms),
@@ -114,9 +115,11 @@ function updateValue(value: unknown): void {
   padding: 0;
 }
 
-.ylf-segmented__item:hover:not([data-disabled], [aria-pressed='true']) {
-  color: var(--ylf-c-text, #0f172a);
-  background: color-mix(in srgb, var(--ylf-c-surface, #fff) 60%, transparent);
+@media (hover: hover) and (pointer: fine) {
+  .ylf-segmented__item:hover:not([data-disabled], [aria-pressed='true']) {
+    color: var(--ylf-c-text, #0f172a);
+    background: color-mix(in srgb, var(--ylf-c-surface, #fff) 60%, transparent);
+  }
 }
 
 .ylf-segmented__item[aria-pressed='true'] {
@@ -168,8 +171,8 @@ function updateValue(value: unknown): void {
 
 @media (pointer: coarse) {
   .ylf-segmented .ylf-segmented__item {
-    min-width: 44px;
-    min-height: 44px;
+    min-width: var(--ylf-touch-target, 44px);
+    min-height: var(--ylf-touch-target, 44px);
   }
 }
 

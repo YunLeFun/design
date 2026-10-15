@@ -74,6 +74,7 @@ const model = defineModel<number[]>({ default: () => [50] })
   }
 
   &__thumb {
+    position: relative;
     display: block;
     width: 18px;
     height: 18px;
@@ -82,10 +83,12 @@ const model = defineModel<number[]>({ default: () => [50] })
     border: 2px solid var(--ylf-c-brand, #2563eb);
     box-shadow: var(--ylf-shadow-sm, 0 2px 8px -2px rgba(15, 23, 42, 0.12));
     cursor: grab;
-    transition: box-shadow 0.2s ease;
+    transition: box-shadow var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease);
 
-    &:hover {
-      box-shadow: 0 0 0 6px var(--ylf-c-brand-soft, #eff6ff);
+    @media (hover: hover) and (pointer: fine) {
+      &:hover {
+        box-shadow: 0 0 0 6px var(--ylf-c-brand-soft, #eff6ff);
+      }
     }
 
     &:focus-visible {
@@ -101,12 +104,16 @@ const model = defineModel<number[]>({ default: () => [50] })
 
 @media (pointer: coarse) {
   .ylf-slider {
-    height: 44px;
+    height: var(--ylf-touch-target, 44px);
   }
 
   .ylf-slider__thumb::before {
     position: absolute;
-    inset: -13px;
+    top: 50%;
+    left: 50%;
+    width: max(100%, var(--ylf-touch-target, 44px));
+    height: max(100%, var(--ylf-touch-target, 44px));
+    transform: translate(-50%, -50%);
     content: '';
   }
 }
