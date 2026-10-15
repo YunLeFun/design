@@ -6,9 +6,9 @@ export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      'vitepress-theme-yunlefun/appearance': resolve(__dirname, 'packages/vitepress-theme-yunlefun/src/appearance.ts'),
-      'vitepress-theme-yunlefun/navigation': resolve(__dirname, 'packages/vitepress-theme-yunlefun/src/navigation.ts'),
-      '@yunlefun/ui/*': resolve(__dirname, 'packages/ui/*'),
+      'vitepress-theme-yunlefun/appearance': resolve(import.meta.dirname, 'packages/vitepress-theme-yunlefun/src/appearance.ts'),
+      'vitepress-theme-yunlefun/navigation': resolve(import.meta.dirname, 'packages/vitepress-theme-yunlefun/src/navigation.ts'),
+      '@yunlefun/ui/*': resolve(import.meta.dirname, 'packages/ui/*'),
     },
     dedupe: [
       'vitepress',

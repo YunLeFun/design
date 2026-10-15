@@ -18,7 +18,7 @@ async function run(command: string, args: string[], cwd: string) {
 }
 
 try {
-  const dependencies: Record<string, string> = { vue: '3.5.41', sass: '1.101.0' }
+  const dependencies: Record<string, string> = { vue: '3.5.44', sass: '1.105.1' }
   for (const directory of ['packages/ui', 'packages/vue']) {
     const cwd = resolve(root, directory)
     const pkg = JSON.parse(await readFile(resolve(cwd, 'package.json'), 'utf8'))
@@ -33,10 +33,10 @@ try {
     type: 'module',
     dependencies,
     devDependencies: {
-      '@vitejs/plugin-vue': '6.0.8',
-      'typescript': '5.9.3',
-      'vite': '8.1.5',
-      'vue-tsc': '3.3.7',
+      '@vitejs/plugin-vue': '6.0.10',
+      'typescript': '6.0.3',
+      'vite': '8.3.4',
+      'vue-tsc': '3.3.13',
     },
   }))
   await run('pnpm', ['install', '--ignore-scripts'], consumer)
@@ -113,7 +113,7 @@ import { createRequire } from 'node:module'
 const require = createRequire(import.meta.url)
 assert.throws(() => require.resolve('@ag-ui/client'), { code: 'MODULE_NOT_FOUND' })
 `], consumer)
-  await run('pnpm', ['add', '@ag-ui/client@1.0.1', '--ignore-scripts'], consumer)
+  await run('pnpm', ['add', '@ag-ui/client@1.0.2', '--ignore-scripts'], consumer)
   await writeFile(resolve(consumer, 'App.vue'), `<script setup lang="ts">
 import { HttpAgent } from '@ag-ui/client'
 import { useAgUiAgent } from '@yunlefun/vue/ag-ui'
