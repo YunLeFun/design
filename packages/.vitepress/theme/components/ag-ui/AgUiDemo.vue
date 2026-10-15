@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import type { DemoScenario } from './demo-agent'
-import { computed, shallowRef } from 'vue'
+import { computed, shallowRef, useId } from 'vue'
 import YlfButton from '../../../../vue/components/YlfButton.vue'
+import YlfSelect from '../../../../vue/components/YlfSelect.vue'
 import { useDocsLocale } from '../../composables/useDocsLocale'
 import AgUiDemoSession from './AgUiDemoSession.vue'
 import { demoScenarios, getDemoScenario } from './demo-scenarios'
 import 'vitepress-theme-yunlefun/workbench.css'
 
+const scenarioId = useId()
 const { english, text } = useDocsLocale()
 const scenario = shallowRef<DemoScenario>('tool')
 const generation = shallowRef(0)
@@ -17,14 +19,10 @@ const description = computed(() => scenarios.value.find(item => item.value === s
 <template>
   <section class="ag-ui-demo ylf-workbench" :aria-label="text('AG-UI 交互演示', 'AG-UI interactive demo')">
     <div class="demo-toolbar">
-      <label class="scenario-label">
-        {{ text('选择示例', 'Choose an example') }} · {{ scenarios.length }}
-        <select v-model="scenario" class="scenario-select">
-          <option v-for="item in scenarios" :key="item.value" :value="item.value">
-            {{ item.label }}
-          </option>
-        </select>
-      </label>
+      <div class="scenario-label">
+        <label :for="scenarioId">{{ text('选择示例', 'Choose an example') }} · {{ scenarios.length }}</label>
+        <YlfSelect :id="scenarioId" v-model="scenario" :options="scenarios" class="scenario-select" />
+      </div>
       <YlfButton size="sm" variant="secondary" @click="generation++">
         {{ text('重置示例', 'Reset example') }}
       </YlfButton>
@@ -51,20 +49,14 @@ const description = computed(() => scenarios.value.find(item => item.value === s
 }
 .scenario-label {
   display: grid;
+  min-width: 0;
+  max-width: 100%;
   gap: 6px;
   font-size: 13px;
 }
 .scenario-select {
-  padding: 8px 32px 8px 12px;
-  border: 1px solid var(--ylf-c-border-strong);
-  border-radius: var(--ylf-radius-sm);
-  background: var(--ylf-c-bg);
-  color: var(--ylf-c-text);
-  font: inherit;
-}
-.scenario-select:focus-visible {
-  outline: 2px solid var(--ylf-c-brand);
-  outline-offset: 2px;
+  min-width: 0;
+  max-width: 100%;
 }
 .scenario-description {
   margin-bottom: 8px;

@@ -30,7 +30,7 @@ UI 是 Design 在界面上的实现。仓库名表达整个体系，包名表达
 业务应用 → 使用设计基础、组件和页面组合 → 负责业务数据和流程
 ```
 
-目录与分发状态见[子包职责](/guide/packages)，组件实现边界见[设计体系架构](/guide/architecture)。页面组合是扩展方向，当前 Registry 只有 tokens、Button 和 Dialog 三个条目。
+目录与分发状态见[子包职责](/guide/packages)，组件实现边界见[设计体系架构](/guide/architecture)。当前 Registry 包含 tokens、Button、Dialog，以及源码待发布的 [AI 机器人组件](/guide/agent-ui)。
 
 ## 品牌方向：晴空蓝为主，高饱和纯色点缀
 
@@ -75,6 +75,10 @@ UI 是 Design 在界面上的实现。仓库名表达整个体系，包名表达
 这些状态可以同时出现，不能把 `active`、`hover` 和 `focus-visible` 合并成相同的填充与外扩光环。组件接收 `active`，路由判断留在应用；共享触发器读取菜单的 `aria-expanded`，不另存开关状态。认证槽、移动抽屉和响应式断点属于应用组合。
 
 ## 当前统一到哪里
+
+文档站本身也是共享组件的使用场景：Demo 的设备宽度与主题切换使用 `YlfSegmentedControl`，源码与外链入口使用 `YlfButton` 和 `YlfTooltip`，AG-UI 表单使用 `YlfInput` 与 `YlfSelect`。示例只维护业务状态和布局，控件样式与交互在组件库维护。
+
+顶部导航由共享 VitePress 主题适配相同的文字、悬停、焦点与 240ms 下划线动效。下划线仅标记直接页面链接；“生态”等下拉分组用文字颜色表示当前栏目，箭头表示可展开。定位逻辑与 `YlfNavigation` 共用源码，主题构建时内联这段 Vue 逻辑，无需引入 Sass 或 Reka。搜索、语言菜单、移动导航、Markdown、表格与代码块继续由 VitePress 负责，并使用共享设计变量。Editor 样板维持独立密度；专用编辑器控件尚未抽象为公共组件。
 
 共享库统一颜色、字体、间距、阅读宽度、圆角、阴影、动效与可选背景。品牌标志与主站对齐，文档站使用同一份 token 与真实组件，并提供主题交互预览。色彩接口见[色彩与组件](/guide/colors)，页面布局和使用边界见[品牌与界面](/guide/patterns)。
 

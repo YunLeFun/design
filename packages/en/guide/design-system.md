@@ -30,7 +30,7 @@ YunLeFun Design
 Applications → consume foundations, components and compositions → own data and workflows
 ```
 
-See [Package responsibilities](/en/guide/packages) for directories and distribution, and [Component architecture](/en/guide/architecture) for implementation boundaries. Page compositions are a future extension; Registry currently contains tokens, Button and Dialog.
+See [Package responsibilities](/en/guide/packages) for directories and distribution, and [Component architecture](/en/guide/architecture) for implementation boundaries. Registry contains tokens, Button, Dialog and the pending [AI agent components](/en/guide/agent-ui).
 
 ## Brand direction: sky blue with vivid accents {#品牌方向-晴空蓝为主-高饱和纯色点缀}
 
@@ -73,6 +73,10 @@ Update examples, documentation and generated Registry files with shared styles. 
 These states can coexist; do not collapse `active`, `hover` and `focus-visible` into the same fill and outer ring. Applications compute `active`; triggers read the menu's `aria-expanded` without storing duplicate open state. Authentication slots, mobile drawers and breakpoints remain application composition.
 
 ## Current consistency {#当前统一到哪里}
+
+The documentation site consumes the shared controls itself: demo viewport and theme choices use `YlfSegmentedControl`; source and external-link actions use `YlfButton` and `YlfTooltip`; AG-UI forms use `YlfInput` and `YlfSelect`. Examples own application state and layout; the component library owns control appearance and interaction.
+
+The shared VitePress theme adapts navigation typography, hover, focus and the 240ms moving underline. Only direct page links receive an underline; dropdown groups such as Ecosystem use text color for the current section and a chevron for expansion. It bundles the same Vue geometry used by `YlfNavigation`, without adding Sass or Reka dependencies. VitePress still owns search, language menus, mobile navigation, Markdown, tables and code blocks, styled with shared design tokens. The Editor specimen retains its own density; dedicated editor controls are not yet public components.
 
 The shared library covers colors, fonts, spacing, reading widths, radii, shadows, motion and optional backgrounds. The logo matches the main site. Documentation uses the same tokens and real components, including an interactive theme preview. See [Colors and components](/en/guide/colors) and [Brand and interfaces](/en/guide/patterns).
 
