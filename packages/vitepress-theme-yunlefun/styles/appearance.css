@@ -16,16 +16,12 @@ html.ylf-appearance-reveal::view-transition-new(root) {
   animation: none;
   mix-blend-mode: normal;
 }
-html.ylf-appearance-reveal::view-transition-new(root) {
-  animation: ylf-appearance-reveal 620ms cubic-bezier(0.2, 0, 0, 1);
-}
-@keyframes ylf-appearance-reveal {
-  from {
-    clip-path: circle(0 at var(--ylf-reveal-x, 100%) var(--ylf-reveal-y, 0));
-  }
-  to {
-    clip-path: circle(var(--ylf-reveal-radius, 150vmax) at var(--ylf-reveal-x, 100%) var(--ylf-reveal-y, 0));
-  }
+/* 新旧快照都去掉毛玻璃，圆形裁剪只需合成，不再逐帧重绘模糊。 */
+html.ylf-appearance-reveal *,
+html.ylf-appearance-reveal *::before,
+html.ylf-appearance-reveal *::after {
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
 }
 @media (prefers-reduced-motion: reduce) {
   html.ylf-appearance-fade,

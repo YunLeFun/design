@@ -12,7 +12,7 @@ const fadeClass = 'ylf-appearance-fade'
 const revealClass = 'ylf-appearance-reveal'
 
 interface ViewTransitionDocument {
-  startViewTransition?: (update: () => Promise<void>) => { finished: Promise<void> }
+  startViewTransition?: (update: () => Promise<void>) => { ready: Promise<void>, finished: Promise<void> }
 }
 
 export function provideAppearanceTransition() {
@@ -63,14 +63,20 @@ export function provideAppearanceTransition() {
     const x = recent ? lastPointer!.x : window.innerWidth - 64
     const y = recent ? lastPointer!.y : 32
     const radius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y))
-    root.style.setProperty('--ylf-reveal-x', `${x}px`)
-    root.style.setProperty('--ylf-reveal-y', `${y}px`)
-    root.style.setProperty('--ylf-reveal-radius', `${radius}px`)
+    // 过渡期间暂停毛玻璃：新视图是实时画面，模糊层会让每一帧裁剪都重新绘制。
     root.classList.add(revealClass)
-    startViewTransition(async () => {
+    const transition = startViewTransition(async () => {
       isDark.value = dark
       await nextTick()
-    }).finished.finally(() => root.classList.remove(revealClass))
+    })
+    // 用具体像素值驱动 WAAPI，避免关键帧里解析变量，并在快照就绪后立即开始。
+    transition.ready.then(() => {
+      root.animate?.(
+        { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
+        { duration: 480, easing: 'cubic-bezier(0.4, 0, 0.2, 1)', pseudoElement: '::view-transition-new(root)' },
+      )
+    }, () => {})
+    transition.finished.finally(() => root.classList.remove(revealClass))
   }
 
   function toggleAppearance() {

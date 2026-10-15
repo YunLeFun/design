@@ -135,12 +135,15 @@ describe('appearance transitions', () => {
     const startViewTransition = vi.fn((update: () => Promise<void>) => {
       void update()
       return {
+        ready: Promise.resolve(),
         finished: new Promise<void>((resolve) => {
           finish = resolve
         }),
       }
     })
     Object.assign(document, { startViewTransition })
+    const animate = vi.fn()
+    Object.assign(document.documentElement, { animate })
     try {
       const wrapper = mountControls()
       const header = wrapper.get('[aria-label="header"]')
@@ -152,8 +155,11 @@ describe('appearance transitions', () => {
       expect(wrapper.get('p').text()).toBe('night')
       expect(root.classList.contains('ylf-appearance-reveal')).toBe(true)
       expect(root.classList.contains('ylf-appearance-fade')).toBe(false)
-      expect(root.style.getPropertyValue('--ylf-reveal-x')).toBe('120px')
-      expect(root.style.getPropertyValue('--ylf-reveal-y')).toBe('40px')
+      await Promise.resolve()
+      expect(animate).toHaveBeenCalledOnce()
+      const [keyframes, options] = animate.mock.calls[0]
+      expect(keyframes.clipPath[0]).toBe('circle(0px at 120px 40px)')
+      expect(options.pseudoElement).toBe('::view-transition-new(root)')
       finish()
       await Promise.resolve()
       await Promise.resolve()
@@ -161,6 +167,7 @@ describe('appearance transitions', () => {
     }
     finally {
       delete (document as { startViewTransition?: unknown }).startViewTransition
+      delete (document.documentElement as { animate?: unknown }).animate
     }
   })
 
