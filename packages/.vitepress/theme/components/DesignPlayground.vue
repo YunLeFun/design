@@ -55,7 +55,43 @@ function nextTone() {
   tone.value = tones.value[(tones.value.findIndex(item => item.value === tone.value) + 1) % tones.value.length].value
 }
 
+// 云朵是可以戳的：每次回弹一下，标语换一句；鼠标经过时天空有轻微视差。
+const pokes = shallowRef(0)
+const poking = shallowRef(false)
+const pokeLines = computed(() => [
+  text('软的，真的是软的。', 'Yep, it really is soft.'),
+  text('云朵：别闹，我在上班。', 'Cloud: hey, I\'m working here.'),
+  text('再戳就要飘走啦。', 'One more and I\'ll drift away.'),
+])
+const caption = computed(() => {
+  if (pokes.value === 0)
+    return night.value ? text('灵感在夜空继续', 'Ideas carry on after dark') : text('今天，晴空正好', 'A little sunshine today')
+  if (pokes.value <= pokeLines.value.length)
+    return pokeLines.value[pokes.value - 1]
+  return text(`这朵云已经被你戳了 ${pokes.value} 下`, `You've poked this cloud ${pokes.value} times`)
+})
+
+function pokeCloud() {
+  pokes.value++
+  poking.value = false
+  requestAnimationFrame(() => {
+    poking.value = true
+  })
+}
+
+const parallax = shallowRef({ x: 0, y: 0 })
+function onSkyMove(event: PointerEvent) {
+  if (event.pointerType !== 'mouse')
+    return
+  const box = (event.currentTarget as HTMLElement).getBoundingClientRect()
+  parallax.value = {
+    x: ((event.clientX - box.left) / box.width) * 2 - 1,
+    y: ((event.clientY - box.top) / box.height) * 2 - 1,
+  }
+}
+
 function resetAppearance() {
+  pokes.value = 0
   night.value = false
   tone.value = 'blue'
   appearance.value = 'solid'
@@ -63,19 +99,37 @@ function resetAppearance() {
 </script>
 
 <template>
-  <section class="design-playground" :aria-label="text('设计主题交互预览', 'Interactive design preview')">
-    <div class="design-playground__sky">
+  <section class="design-playground" :data-ylf-tone="tone" :aria-label="text('设计主题交互预览', 'Interactive design preview')">
+    <div
+      class="design-playground__sky"
+      :style="{ '--px': parallax.x.toFixed(3), '--py': parallax.y.toFixed(3) }"
+      @pointermove="onSkyMove"
+      @pointerleave="parallax = { x: 0, y: 0 }"
+    >
       <div class="design-playground__day ylf-theme-light" aria-hidden="true" />
       <div class="design-playground__night" aria-hidden="true" />
+      <div class="design-playground__tint" aria-hidden="true" />
       <div class="design-playground__grid ylf-pattern-grid" aria-hidden="true" />
       <div class="design-playground__celestial" aria-hidden="true">
         <div class="design-playground__sun ylf-theme-light" />
         <div class="design-playground__moon" />
       </div>
-      <DesignCloud class="design-playground__cloud" />
-      <div class="design-playground__caption">
-        <span :class="night ? 'i-ri-moon-clear-line' : 'i-ri-sun-line'" aria-hidden="true" />
-        <span>{{ night ? text('灵感在夜空继续', 'Ideas carry on after dark') : text('今天，晴空正好', 'A little sunshine today') }}</span>
+      <button
+        type="button"
+        class="design-playground__poke"
+        :aria-label="text('戳一下云朵', 'Poke the cloud')"
+        @click="pokeCloud"
+      >
+        <span class="design-playground__poke-target" aria-hidden="true" />
+        <DesignCloud
+          class="design-playground__cloud"
+          :class="{ 'is-poked': poking }"
+          @animationend="poking = false"
+        />
+      </button>
+      <div class="design-playground__caption" aria-live="polite">
+        <span :class="pokes ? 'i-ri-cloud-line' : night ? 'i-ri-moon-clear-line' : 'i-ri-sun-line'" aria-hidden="true" />
+        <span :key="caption" class="design-playground__caption-text">{{ caption }}</span>
       </div>
     </div>
     <div :id="portalTargetId" class="design-playground__portal vp-raw" />
@@ -204,6 +258,24 @@ function resetAppearance() {
 .dark .design-playground__grid {
   opacity: 0.1;
 }
+/* 当前强调色轻轻染在天空上：选桃粉，天边就泛一点粉。 */
+@property --sky-tint {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: transparent;
+}
+.design-playground__tint {
+  --sky-tint: color-mix(in srgb, var(--ylf-accent) 30%, transparent);
+
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse 75% 65% at 30% 42%, var(--sky-tint), transparent 72%);
+  transition: --sky-tint var(--ylf-duration-slow) var(--ylf-ease-standard);
+}
+.dark .design-playground__tint {
+  --sky-tint: color-mix(in srgb, var(--ylf-accent) 14%, transparent);
+}
 .design-playground__celestial {
   position: absolute;
   width: 100px;
@@ -211,6 +283,9 @@ function resetAppearance() {
   top: 58px;
   right: 58px;
   pointer-events: none;
+  translate: calc(var(--px, 0) * -5px) calc(var(--py, 0) * -4px);
+  transition: translate 900ms var(--ylf-ease-standard);
+  animation: design-sky-rise 1100ms var(--ylf-ease-spring) 200ms backwards;
 }
 .design-playground__sun,
 .design-playground__moon {
@@ -256,17 +331,77 @@ function resetAppearance() {
     radial-gradient(circle 4px at 61% 85%, rgba(58, 77, 100, 0.24), transparent);
   pointer-events: none;
 }
-.design-playground__cloud {
+.design-playground__poke {
   position: absolute;
+  inset: 59px auto auto -18px;
   width: 100%;
   height: 245px;
-  top: 59px;
-  left: -18px;
+  padding: 0;
+  border: 0;
+  background: none;
+  pointer-events: none;
+  translate: calc(var(--px, 0) * 12px) calc(var(--py, 0) * 6px);
+  transition: translate 700ms var(--ylf-ease-standard);
+  animation: design-cloud-drift 1300ms var(--ylf-ease-spring) backwards;
+  -webkit-tap-highlight-color: transparent;
+}
+.design-playground__poke:focus-visible {
+  outline: none;
+}
+/* 只让云朵本体可点，避免整块天空都变成按钮。 */
+.design-playground__poke-target {
+  position: absolute;
+  inset: 14% 16% 22% 14%;
+  border-radius: 50%;
+  pointer-events: auto;
+  cursor: pointer;
+}
+.design-playground__poke:focus-visible .design-playground__poke-target {
+  outline: 2px solid var(--ylf-c-brand);
+  outline-offset: 4px;
+}
+.design-playground__cloud {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: 50% 80%;
   /* 两端使用相同的 sRGB 色格式，避免 color-mix 与 rgba 插值时出现异色光晕。 */
   filter: drop-shadow(0 14px 9px rgba(58, 87, 122, 0.18));
 }
 .dark .design-playground__cloud {
   filter: drop-shadow(-8px 18px 10px rgba(2, 8, 16, 0.65));
+}
+.design-playground__cloud.is-poked {
+  animation: design-cloud-squish 620ms var(--ylf-ease-standard);
+}
+@keyframes design-cloud-drift {
+  from {
+    opacity: 0;
+    transform: translateX(-48px) scale(0.94);
+  }
+}
+@keyframes design-sky-rise {
+  from {
+    opacity: 0;
+    transform: translateY(36px) scale(0.85);
+  }
+}
+@keyframes design-cloud-squish {
+  18% {
+    transform: scale(1.06, 0.9);
+  }
+  42% {
+    transform: scale(0.96, 1.05) translateY(-6px);
+  }
+  66% {
+    transform: scale(1.02, 0.98);
+  }
+}
+@keyframes design-caption-pop {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
 }
 .design-playground__caption {
   position: relative;
@@ -284,9 +419,12 @@ function resetAppearance() {
   font-size: 12px;
   backdrop-filter: var(--ylf-glass-blur);
 }
+.design-playground__caption-text {
+  animation: design-caption-pop var(--ylf-duration-normal) var(--ylf-ease-standard);
+}
 .design-playground__caption > span:first-child {
   font-size: 16px;
-  color: var(--ylf-c-brand);
+  color: var(--ylf-accent-text);
 }
 .design-playground__card {
   position: relative;
@@ -389,6 +527,18 @@ function resetAppearance() {
 }
 .design-playground__dialog-actions {
   margin-top: 24px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .design-playground__poke,
+  .design-playground__celestial,
+  .design-playground__cloud.is-poked,
+  .design-playground__caption-text {
+    animation: none;
+  }
+  .design-playground__poke,
+  .design-playground__celestial {
+    translate: none;
+  }
 }
 @media (min-width: 768px) and (max-width: 959px), (max-width: 400px) {
   .design-playground__card {

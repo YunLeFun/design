@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, shallowRef } from 'vue'
 import { useDocsLocale } from '../composables/useDocsLocale'
 
 const { text, link } = useDocsLocale()
@@ -11,6 +11,32 @@ const colors = computed(() => [
   { name: text('桃粉', 'Pink'), token: '--ylf-accent-pink', role: text('创作', 'Creation') },
   { name: text('鲜绿', 'Green'), token: '--ylf-accent-green', role: text('完成', 'Completion') },
 ])
+
+// 点色块复制 CSS 变量，直接粘进代码。
+const copied = shallowRef<string>()
+let copiedTimer: ReturnType<typeof setTimeout> | undefined
+async function copyToken(token: string) {
+  const value = `var(${token})`
+  try {
+    await navigator.clipboard.writeText(value)
+  }
+  catch {
+    // 嵌入页或旧浏览器可能拒绝 Clipboard API，退回到选区复制。
+    const field = Object.assign(document.createElement('textarea'), { value, readOnly: true })
+    field.style.cssText = 'position:fixed;opacity:0'
+    document.body.append(field)
+    field.select()
+    const ok = document.execCommand('copy')
+    field.remove()
+    if (!ok)
+      return
+  }
+  copied.value = token
+  clearTimeout(copiedTimer)
+  copiedTimer = setTimeout(() => {
+    copied.value = undefined
+  }, 1600)
+}
 </script>
 
 <template>
@@ -24,11 +50,21 @@ const colors = computed(() => [
     <div class="design-specimens__colors">
       <h3>{{ text('颜色有自己的职责', 'Every color has a purpose') }}</h3>
       <div class="design-specimens__palette">
-        <div v-for="color in colors" :key="color.name">
-          <span class="design-specimens__swatch" :style="{ background: `var(${color.token})` }" aria-hidden="true" />
+        <button
+          v-for="color in colors"
+          :key="color.name"
+          type="button"
+          class="design-specimens__color"
+          :class="{ 'is-copied': copied === color.token }"
+          :aria-label="text(`复制 ${color.name} 的变量 ${color.token}`, `Copy ${color.name} variable ${color.token}`)"
+          @click="copyToken(color.token)"
+        >
+          <span class="design-specimens__swatch" :style="{ background: `var(${color.token})` }" aria-hidden="true">
+            <span class="design-specimens__check i-ri-check-line" />
+          </span>
           <strong>{{ color.name }}</strong>
-          <span>{{ color.role }}</span>
-        </div>
+          <span>{{ copied === color.token ? text('已复制变量', 'Variable copied') : color.role }}</span>
+        </button>
       </div>
     </div>
     <div class="design-specimens__type">
@@ -74,12 +110,28 @@ const colors = computed(() => [
   grid-template-columns: repeat(3, 1fr);
   gap: var(--ylf-space-3);
 }
-.design-specimens__palette > div {
+.design-specimens__color {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: var(--ylf-space-1);
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
   font-size: var(--ylf-text-xs);
+  text-align: left;
   color: var(--ylf-c-text-3);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.design-specimens__color:focus-visible {
+  outline: 2px solid var(--ylf-c-brand);
+  outline-offset: 4px;
+  border-radius: var(--ylf-radius-sm);
+}
+.design-specimens__color.is-copied > span:last-child {
+  color: var(--ylf-c-brand);
 }
 .design-specimens__palette strong {
   color: var(--ylf-c-text);
@@ -87,11 +139,43 @@ const colors = computed(() => [
   font-weight: 500;
 }
 .design-specimens__swatch {
-  display: block;
+  position: relative;
+  display: grid;
+  place-items: center;
+  align-self: stretch;
   height: 48px;
   margin-bottom: var(--ylf-space-2);
-  border: 1px solid var(--ylf-c-border);
-  border-radius: var(--ylf-radius-sm);
+  border-radius: var(--ylf-radius) var(--ylf-radius) var(--ylf-radius) 6px;
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 0.35),
+    inset 0 -6px 12px -6px rgb(0 0 0 / 0.12);
+  transition:
+    transform var(--ylf-duration-slow) var(--ylf-ease-spring),
+    border-radius var(--ylf-duration-slow) var(--ylf-ease-spring);
+}
+@media (hover: hover) and (pointer: fine) {
+  .design-specimens__color:hover .design-specimens__swatch {
+    transform: translateY(-2px);
+    border-radius: var(--ylf-radius-lg);
+  }
+}
+.design-specimens__color:active .design-specimens__swatch {
+  transform: scale(var(--ylf-press-scale));
+  transition-duration: var(--ylf-duration-press);
+}
+.design-specimens__check {
+  font-size: 22px;
+  color: #fff;
+  opacity: 0;
+  transform: scale(0.4);
+  filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.3));
+  transition:
+    opacity var(--ylf-duration-fast) var(--ylf-ease-standard),
+    transform var(--ylf-duration-slow) var(--ylf-ease-spring);
+}
+.is-copied .design-specimens__check {
+  opacity: 1;
+  transform: none;
 }
 .design-specimens__type {
   padding-left: var(--ylf-space-6);
