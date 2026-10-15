@@ -13,8 +13,70 @@ html {
 .VPNavBarTitle .title {
   gap: var(--ylf-space-3);
 }
-.VPNavBarMenuLink.active {
-  box-shadow: inset 0 -2px var(--ylf-c-brand);
+.VPNavBarMenu {
+  position: relative;
+  align-items: center;
+  gap: var(--ylf-space-2);
+}
+.VPNavBarMenu .VPNavBarMenuLink,
+.VPNavBarMenu .VPNavBarMenuGroup > button {
+  position: relative;
+  justify-content: center;
+  height: 44px;
+  padding-inline: var(--ylf-space-3);
+  border-radius: var(--ylf-radius-sm);
+  color: var(--ylf-c-text-2);
+  font-family: var(--ylf-font-body);
+  font-size: var(--ylf-text-sm);
+  font-weight: 500;
+  line-height: 20px;
+  transition:
+    color var(--ylf-duration-fast) var(--ylf-ease-standard),
+    background-color var(--ylf-duration-fast) var(--ylf-ease-standard);
+}
+.VPNavBarMenu .VPNavBarMenuLink:hover,
+.VPNavBarMenu .VPNavBarMenuGroup > button:hover {
+  background: var(--ylf-c-bg-soft);
+  color: var(--ylf-c-text);
+}
+.VPNavBarMenu .VPNavBarMenuLink.active,
+.VPNavBarMenu .VPNavBarMenuGroup.active > button {
+  color: var(--ylf-c-brand);
+}
+.VPNavBarMenu .VPNavBarMenuLink:focus-visible,
+.VPNavBarMenu .VPNavBarMenuGroup > button:focus-visible {
+  outline: 2px solid var(--ylf-c-brand);
+  outline-offset: -2px;
+  box-shadow: none;
+}
+.VPNavBarMenuLink.active::after {
+  position: absolute;
+  bottom: 4px;
+  left: calc(50% - 8px);
+  width: 16px;
+  height: 2px;
+  border-radius: var(--ylf-radius-pill);
+  background: var(--ylf-c-brand);
+  content: '';
+}
+.VPNavBarMenu:has(.ylf-docs-nav-indicator) .VPNavBarMenuLink.active::after {
+  display: none;
+}
+.ylf-docs-nav-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 16px;
+  height: 2px;
+  border-radius: var(--ylf-radius-pill);
+  background: var(--ylf-c-brand);
+  pointer-events: none;
+  transition: transform var(--ylf-duration-normal) var(--ylf-ease-standard);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ylf-docs-nav-indicator {
+    transition: none;
+  }
 }
 .VPSidebarItem.level-1.is-active > .item {
   margin-inline: -10px;
@@ -35,6 +97,13 @@ html {
 
 /* 保留 VitePress 原生搜索与语言菜单，为窄屏英文导航留出空间。 */
 @media (min-width: 768px) and (max-width: 1279px) {
+  .VPNavBarMenu {
+    gap: var(--ylf-space-1);
+  }
+  .VPNavBarMenu .VPNavBarMenuLink,
+  .VPNavBarMenu .VPNavBarMenuGroup > button {
+    padding-inline: var(--ylf-space-2);
+  }
   .VPNavBarSearch .DocSearch-Button {
     justify-content: center;
     width: 40px;
@@ -46,6 +115,17 @@ html {
   }
   .VPNavBarSearch .DocSearch-Button .DocSearch-Search-Icon {
     margin-right: 0;
+  }
+}
+
+/* Before the sidebar appears, branding and full English labels share one row. */
+@media (min-width: 768px) and (max-width: 959px) {
+  .VPNavBar .VPNavBarSearch {
+    padding-left: var(--ylf-space-3);
+  }
+  .VPNavBarMenu .VPNavBarMenuLink,
+  .VPNavBarMenu .VPNavBarMenuGroup > button {
+    padding-inline: 6px;
   }
 }
 

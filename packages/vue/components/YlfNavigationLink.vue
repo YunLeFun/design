@@ -41,7 +41,7 @@ withDefaults(defineProps<{
     &::after {
       position: absolute;
       display: var(--_ylf-nav-indicator, block);
-      bottom: 3px;
+      bottom: 4px;
       inset-inline-start: calc(50% - 8px);
       width: 16px;
       height: 2px;

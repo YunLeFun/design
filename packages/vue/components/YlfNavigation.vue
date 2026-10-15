@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted, shallowRef, useTemplateRef, watch } from 'vue'
+import { useTemplateRef } from 'vue'
+import { useNavigationIndicator } from './navigation-indicator'
 
 const props = withDefaults(defineProps<{
   /** Accessible name; distinguish multiple navigation landmarks on one page. */
@@ -13,97 +14,12 @@ const props = withDefaults(defineProps<{
 })
 
 const root = useTemplateRef<HTMLElement>('root')
-const indicator = shallowRef<{ x: number, y: number } | null>(null)
-let frame: number | undefined
-let resizeObserver: ResizeObserver | undefined
-let mutationObserver: MutationObserver | undefined
-const observedLinks = new Set<HTMLElement>()
-
-function links() {
-  const element = root.value
-  return Array.from(element?.querySelectorAll<HTMLElement>('.ylf-navigation-link') ?? [])
-    .filter(link => link.closest('.ylf-navigation') === element)
-}
-
-function updateIndicator() {
-  const element = root.value
-  const active = links().find(link => link.hasAttribute('data-active'))
-  if (!element || !active || !props.animated || props.orientation !== 'horizontal') {
-    indicator.value = null
-    return
-  }
-
-  const bounds = element.getBoundingClientRect()
-  const target = active.getBoundingClientRect()
-  if (!bounds.width || !target.width || !target.height) {
-    indicator.value = null
-    return
-  }
-
-  // Convert viewport coordinates to the nav's padding box, including scaled previews.
-  const scaleX = element.offsetWidth ? bounds.width / element.offsetWidth : 1
-  const scaleY = element.offsetHeight ? bounds.height / element.offsetHeight : 1
-  const x = (target.left - bounds.left + target.width / 2) / scaleX - element.clientLeft + element.scrollLeft - 8
-  const y = (target.bottom - bounds.top) / scaleY - element.clientTop + element.scrollTop - 6
-  if (indicator.value?.x !== x || indicator.value?.y !== y)
-    indicator.value = { x, y }
-}
-
-function scheduleUpdate() {
-  if (!root.value || frame !== undefined)
-    return
-  frame = requestAnimationFrame(() => {
-    frame = undefined
-    updateIndicator()
-  })
-}
-
-function observeLinks() {
-  const current = new Set(links())
-  for (const link of observedLinks) {
-    if (!current.has(link)) {
-      resizeObserver?.unobserve(link)
-      observedLinks.delete(link)
-    }
-  }
-  for (const link of current) {
-    if (!observedLinks.has(link)) {
-      resizeObserver?.observe(link)
-      observedLinks.add(link)
-    }
-  }
-}
-
-onMounted(() => {
-  const element = root.value!
-  if (typeof ResizeObserver !== 'undefined') {
-    resizeObserver = new ResizeObserver(scheduleUpdate)
-    resizeObserver.observe(element)
-  }
-  observeLinks()
-  mutationObserver = new MutationObserver((mutations) => {
-    if (mutations.some(mutation => mutation.type === 'childList'))
-      observeLinks()
-    scheduleUpdate()
-  })
-  mutationObserver.observe(element, {
-    subtree: true,
-    childList: true,
-    attributes: true,
-    attributeFilter: ['data-active'],
-  })
-  window.addEventListener('resize', scheduleUpdate)
-  scheduleUpdate()
-})
-
-watch(() => [props.orientation, props.animated], scheduleUpdate, { flush: 'post' })
-
-onBeforeUnmount(() => {
-  if (frame !== undefined)
-    cancelAnimationFrame(frame)
-  resizeObserver?.disconnect()
-  mutationObserver?.disconnect()
-  window.removeEventListener('resize', scheduleUpdate)
+const indicator = useNavigationIndicator(root, {
+  links: element => Array.from(element.querySelectorAll<HTMLElement>('.ylf-navigation-link'))
+    .filter(link => link.closest('.ylf-navigation') === element),
+  active: link => link.hasAttribute('data-active'),
+  attributes: ['data-active'],
+  enabled: () => props.animated && props.orientation === 'horizontal',
 })
 </script>
 

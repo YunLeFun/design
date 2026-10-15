@@ -11,6 +11,7 @@ vi.mock('vitepress/theme-without-fonts', () => ({
       setup(_, { slots }) {
         return () => h('main', [
           slots['nav-bar-title-before']?.({ area: 'title' }),
+          slots['nav-bar-content-before']?.({ area: 'menu' }),
           slots['doc-before']?.(),
           slots['home-hero-image']?.(),
         ])
@@ -38,10 +39,12 @@ describe('shared layout slots', () => {
     const wrapper = mount(Layout, {
       slots: {
         'nav-bar-title-before': ({ area }: { area: string }) => h('span', area),
+        'nav-bar-content-before': ({ area }: { area: string }) => h('span', { id: 'native-menu-slot' }, area),
         'doc-before': () => h(Control),
       },
     })
     expect(wrapper.get('span').text()).toBe('title')
+    expect(wrapper.get('#native-menu-slot').text()).toBe('menu')
     expect(wrapper.get('button').text()).toBe('Theme')
     await wrapper.get('button').trigger('click')
     wrapper.unmount()

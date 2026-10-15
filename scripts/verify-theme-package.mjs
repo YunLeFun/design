@@ -16,7 +16,7 @@ try {
   assert.equal(manifest.name, 'vitepress-theme-yunlefun')
   assert.equal(manifest.dependencies['@yunlefun/ui'].includes('workspace:'), false)
   const files = execFileSync('tar', ['-tf', tarball], { encoding: 'utf8' })
-  for (const file of ['index.mjs', 'index.d.ts', 'components/Layout.vue', 'components/YunlefunLogo.vue', 'brand-assets.mjs', 'styles/style.css', 'styles/workbench.css', 'dist/config.mjs', 'dist/config.d.mts', 'dist/appearance.mjs'])
+  for (const file of ['index.mjs', 'index.d.ts', 'components/Layout.vue', 'components/YunlefunLogo.vue', 'components/NavigationIndicator.vue', 'brand-assets.mjs', 'styles/style.css', 'styles/workbench.css', 'dist/config.mjs', 'dist/config.d.mts', 'dist/appearance.mjs', 'dist/navigation.mjs'])
     assert.ok(files.includes(`package/${file}`), `Missing package file: ${file}`)
 
   for (const version of ['1.6.4', '2.0.0-alpha.17', '2.0.0-alpha.19']) {

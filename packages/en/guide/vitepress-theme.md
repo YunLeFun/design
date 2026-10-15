@@ -52,6 +52,8 @@ export default defineConfig(withYunlefun({
 
 Navigation, search, sidebars, outlines, languages, code groups and copying use the default VitePress theme. Use native `locales` for Chinese and English. The theme does not translate content. Optional `zhThemeConfig` supplies Chinese interface labels.
 
+The native 768px breakpoint keeps primary navigation visible on tablets and desktops, with an expandable menu on phones. At intermediate widths, compact search, spacing and secondary controls preserve full navigation labels. Navigation links use 44px targets, neutral hover and inset focus outlines. A 16×2px sky-blue underline moves between current page links using the shared motion duration. Dropdown groups use text color for the current section and a chevron for expansion, without an underline. The theme observes VitePress selection state and bundles the same positioning source as `YlfNavigation`; initial rendering retains a static marker and reduced motion disables the transition. This is a source update: other documentation sites receive it after upgrading to a theme release that includes it.
+
 Supported: VitePress 1.6.4 and 2.0.0-alpha.16/17/19, with Vue 3.5. Both client and server builds are verified across the three sites.
 
 ## Extend your site {#扩展站点}

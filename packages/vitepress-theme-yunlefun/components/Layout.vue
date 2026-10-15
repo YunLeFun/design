@@ -3,6 +3,7 @@ import type { YunlefunThemeConfig } from 'vitepress-theme-yunlefun/config'
 import { useData } from 'vitepress'
 import { provideAppearanceTransition } from 'vitepress-theme-yunlefun/appearance'
 import DefaultTheme from 'vitepress/theme-without-fonts'
+import NavigationIndicator from './NavigationIndicator.vue'
 import YunlefunLogo from './YunlefunLogo.vue'
 
 const { theme, frontmatter } = useData<YunlefunThemeConfig>()
@@ -11,6 +12,10 @@ provideAppearanceTransition()
 
 <template>
   <DefaultTheme.Layout>
+    <template #nav-bar-content-before="slotProps">
+      <NavigationIndicator />
+      <slot name="nav-bar-content-before" v-bind="slotProps || {}" />
+    </template>
     <template #nav-bar-title-before="slotProps">
       <slot name="nav-bar-title-before" v-bind="slotProps || {}">
         <YunlefunLogo v-if="theme.brand" :name="theme.brand.icon" class="ylf-nav-logo" />
@@ -21,7 +26,7 @@ provideAppearanceTransition()
         <YunlefunLogo :name="theme.brand?.icon" :label="frontmatter.hero?.name" class="ylf-hero-logo" />
       </slot>
     </template>
-    <template v-for="name in Object.keys($slots).filter(name => name !== 'nav-bar-title-before' && name !== 'home-hero-image')" #[name]="slotProps">
+    <template v-for="name in Object.keys($slots).filter(name => !['nav-bar-title-before', 'home-hero-image', 'nav-bar-content-before'].includes(name))" #[name]="slotProps">
       <slot :name="name" v-bind="slotProps || {}" />
     </template>
   </DefaultTheme.Layout>

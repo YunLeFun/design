@@ -32,6 +32,10 @@
       "types": "./dist/appearance.d.mts",
       "import": "./dist/appearance.mjs"
     },
+    "./navigation": {
+      "types": "./dist/navigation.d.mts",
+      "import": "./dist/navigation.mjs"
+    },
     "./style.css": "./styles/style.css",
     "./brand-assets": {
       "types": "./brand-assets.d.mts",
