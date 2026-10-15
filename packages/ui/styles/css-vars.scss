@@ -222,6 +222,15 @@
   --ylf-c-sky: #dbeafe;
   --ylf-c-cloud: #ffffff;
 
+  // --- cloud：YlfCloud 插画的光照，haze-color 是远处云融入的天空色 ------------
+  --ylf-cloud-highlight: #fffefa;
+  --ylf-cloud-body: #f2f8ff;
+  --ylf-cloud-shade: #c6dff5;
+  --ylf-cloud-shadow: #83addb;
+  --ylf-cloud-rim: #ffffff;
+  --ylf-cloud-face: #5a7fae;
+  --ylf-cloud-haze-color: #9cc6ef;
+
   // --- mobile interaction ----------------------------------------------------
   --ylf-touch-target: 44px;
   --ylf-viewport-gutter: 16px;
@@ -314,6 +323,15 @@
   --ylf-c-grid: rgba(96, 165, 250, 0.08);
   --ylf-c-sky: #13233a;
   --ylf-c-cloud: #22304a;
+
+  // 月光下的云：带一点夜空蓝而不是灰，远处融进地平线的深蓝。
+  --ylf-cloud-highlight: #a6bcd8;
+  --ylf-cloud-body: #3e5679;
+  --ylf-cloud-shade: #1c2b44;
+  --ylf-cloud-shadow: #0a1424;
+  --ylf-cloud-rim: #cfdff2;
+  --ylf-cloud-face: #0e1a2d;
+  --ylf-cloud-haze-color: #1f3354;
 
   --ylf-glass-bg: rgba(20, 29, 43, 0.9);
   --ylf-glass-border: rgba(96, 165, 250, 0.18);

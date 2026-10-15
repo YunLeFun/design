@@ -6,12 +6,12 @@ import { computed, onMounted, shallowRef, useId } from 'vue'
 import YlfBadge from '../../../vue/components/YlfBadge.vue'
 import YlfButton from '../../../vue/components/YlfButton.vue'
 import YlfCard from '../../../vue/components/YlfCard.vue'
+import YlfCloud from '../../../vue/components/YlfCloud.vue'
 import YlfDialog from '../../../vue/components/YlfDialog.vue'
 import YlfSelect from '../../../vue/components/YlfSelect.vue'
 import YlfSwitch from '../../../vue/components/YlfSwitch.vue'
 import { useAppearanceTransition } from '../composables/useAppearanceTransition'
 import { useDocsLocale } from '../composables/useDocsLocale'
-import DesignCloud from './DesignCloud.vue'
 
 const { text } = useDocsLocale()
 const tones = computed<{ value: YlfAccentTone, label: string, color: string }[]>(() => [
@@ -121,9 +121,11 @@ function resetAppearance() {
         @click="pokeCloud"
       >
         <span class="design-playground__poke-target" aria-hidden="true" />
-        <DesignCloud
+        <YlfCloud
           class="design-playground__cloud"
-          :class="{ 'is-poked': poking }"
+          :class="{ 'is-poked': poking, 'is-awake': pokes > 0 }"
+          volumetric
+          face
           @animationend="poking = false"
         />
       </button>
@@ -370,6 +372,10 @@ function resetAppearance() {
 }
 .dark .design-playground__cloud {
   filter: drop-shadow(-8px 18px 10px rgba(2, 8, 16, 0.65));
+}
+/* 被戳过之后，云朵露出小脸。 */
+.design-playground__cloud.is-awake {
+  --ylf-cloud-face-opacity: 0.85;
 }
 .design-playground__cloud.is-poked {
   animation: design-cloud-squish 620ms var(--ylf-ease-standard);
