@@ -12,4 +12,4 @@
 
 原始 `pnpm audit` 只按已发布版本判断，因此仍会报告这三项。仓库没有配置全局 GHSA 忽略列表，也没有降低审计级别。上游发布修复版后，应更新版本、移除对应补丁及 `scripts/audit-dependencies.mjs` 中的映射，并运行完整验收。
 
-工具链使用 pnpm 12；TypeScript 升级到 6.0.3。TypeScript 7 尚无 Vue 类型检查和声明生成所需的兼容编译器 API，因此暂不采用。Nuxt 的 `cssnano` 暂定为仍具分阶段发布审批的 8.0.10，保持仓库的 `trustPolicy: no-downgrade`。
+工具链使用 pnpm 12，CI 使用 Node 24 LTS 和 Corepack 0.36；TypeScript 升级到 6.0.3。TypeScript 7 尚无 Vue 类型检查和声明生成所需的兼容编译器 API，因此暂不采用。Nuxt 的 `cssnano` 暂定为仍具分阶段发布审批的 8.0.10，保持仓库的 `trustPolicy: no-downgrade`。
