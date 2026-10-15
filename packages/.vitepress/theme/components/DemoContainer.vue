@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import type { DemoPreviewScheme } from '../composables/useDemoPreview'
 import { ConfigProvider } from 'reka-ui'
-import { onErrorCaptured, ref, useId } from 'vue'
+import { useData } from 'vitepress'
+import { onErrorCaptured, onMounted, ref, useId, watch } from 'vue'
 import { useDemoPreview } from '../composables/useDemoPreview'
 import { useDocsLocale } from '../composables/useDocsLocale'
 import DemoToolbar from './DemoToolbar.vue'
@@ -23,6 +25,22 @@ const {
   viewport,
 } = useDemoPreview()
 
+// 预览默认跟随站点明暗，夜里不再亮出一块白板；手动切换后保留读者的选择。
+const { isDark } = useData()
+let schemePicked = false
+function pickScheme(value: DemoPreviewScheme) {
+  schemePicked = true
+  scheme.value = value
+}
+onMounted(() => {
+  if (!isDark)
+    return
+  watch(isDark, (dark) => {
+    if (!schemePicked)
+      scheme.value = dark ? 'dark' : 'light'
+  }, { immediate: true })
+})
+
 onErrorCaptured((err) => {
   error.value = err
 })
@@ -32,11 +50,12 @@ onErrorCaptured((err) => {
   <section class="ylf-demo-preview" :data-viewport="viewport">
     <DemoToolbar
       v-model:viewport="viewport"
-      v-model:scheme="scheme"
       v-model:source-visible="sourceVisible"
+      :scheme="scheme"
       :name="name"
       :source="source"
       :source-id="sourceId"
+      @update:scheme="pickScheme"
     />
 
     <div class="ylf-demo-preview__stage">

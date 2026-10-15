@@ -11,10 +11,10 @@ The default direction is **sky blue with vivid solid accents**. Components read 
 | Role                      | Token             | Light     | Dark      |
 | ------------------------- | ----------------- | --------- | --------- |
 | Brand and primary actions | `--ylf-c-brand`   | `#2563eb` | `#60a5fa` |
-| Page background           | `--ylf-c-bg`      | `#f8fafc` | `#10151d` |
-| Content surface           | `--ylf-c-surface` | `#ffffff` | `#18212d` |
-| Primary text              | `--ylf-c-text`    | `#0f172a` | `#e5e7eb` |
-| Secondary text            | `--ylf-c-text-2`  | `#475569` | `#cbd5e1` |
+| Page background           | `--ylf-c-bg`      | `#f8fafc` | `#0b111c` |
+| Content surface           | `--ylf-c-surface` | `#ffffff` | `#141d2b` |
+| Primary text              | `--ylf-c-text`    | `#0f172a` | `#e7eef8` |
+| Secondary text            | `--ylf-c-text-2`  | `#475569` | `#b9c6d9` |
 
 Hover, active and soft brand states also read tokens. Success, warning, danger and information map to green, sun yellow, coral and cyan. Use `--ylf-status-{state}` with its `-on` foreground for solid fills; use `-soft` with `-text` for subtle surfaces. Legacy `--ylf-c-success / warning / danger / info` remain text color aliases. See [Colors and components](/en/guide/colors).
 

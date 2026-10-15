@@ -11,10 +11,10 @@ outline: deep
 | 角色             | Token             | 浅色      | 深色      |
 | ---------------- | ----------------- | --------- | --------- |
 | 日常品牌与主操作 | `--ylf-c-brand`   | `#2563eb` | `#60a5fa` |
-| 页面背景         | `--ylf-c-bg`      | `#f8fafc` | `#10151d` |
-| 内容表面         | `--ylf-c-surface` | `#ffffff` | `#18212d` |
-| 主要文字         | `--ylf-c-text`    | `#0f172a` | `#e5e7eb` |
-| 次要文字         | `--ylf-c-text-2`  | `#475569` | `#cbd5e1` |
+| 页面背景         | `--ylf-c-bg`      | `#f8fafc` | `#0b111c` |
+| 内容表面         | `--ylf-c-surface` | `#ffffff` | `#141d2b` |
+| 主要文字         | `--ylf-c-text`    | `#0f172a` | `#e7eef8` |
+| 次要文字         | `--ylf-c-text-2`  | `#475569` | `#b9c6d9` |
 
 主色的 hover、active 和 soft 状态也从 token 读取。成功、提醒、危险与信息分别映射到鲜绿、明黄、珊瑚橙和青色。实色背景使用 `--ylf-status-{状态}`，前景使用配套的 `-on`；浅底使用 `-soft` 与 `-text`。旧 `--ylf-c-success / warning / danger / info` 仅作为文字色别名，详见[色彩与组件](/guide/colors)。
 

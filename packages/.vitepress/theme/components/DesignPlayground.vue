@@ -210,10 +210,10 @@ function resetAppearance() {
 }
 .design-playground__night {
   opacity: 0;
-  background-color: #0d131b;
+  background-color: #0a1120;
   background-image:
-    radial-gradient(circle at 80% 32%, rgba(173, 191, 209, 0.13), transparent 36%),
-    linear-gradient(165deg, #0d131b 15%, #16212c 65%, #253644);
+    radial-gradient(circle at 80% 32%, rgba(178, 202, 232, 0.14), transparent 36%),
+    linear-gradient(165deg, #0a1120 15%, #12203a 65%, #1f3354);
 }
 .dark .design-playground__day {
   opacity: 0;
@@ -443,7 +443,7 @@ function resetAppearance() {
   pointer-events: none;
   background:
     radial-gradient(ellipse at 100% 0%, rgba(184, 205, 227, 0.06), transparent 55%),
-    linear-gradient(150deg, rgba(31, 41, 58, 0.97), rgba(21, 29, 44, 0.98));
+    linear-gradient(150deg, rgba(27, 38, 56, 0.97), rgba(18, 27, 42, 0.98));
 }
 .dark .design-playground__card::before {
   opacity: 1;

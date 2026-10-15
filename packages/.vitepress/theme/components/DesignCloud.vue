@@ -51,11 +51,12 @@ const outline = 'M102 181c-30 0-53-21-53-48 0-28 24-50 53-50 7 0 14 1 20 4 5-36 
   pointer-events: none;
 }
 .dark .design-cloud {
-  --cloud-lit: #96a9bb;
-  --cloud-mid: #4a6075;
-  --cloud-base: #2c3e50;
-  --cloud-shade: #202e3f;
-  --cloud-under: #0c1724;
-  --cloud-edge: #ccdce9;
+  /* 月光下的云：带一点夜空蓝，而不是灰。 */
+  --cloud-lit: #a6bcd8;
+  --cloud-mid: #4b6386;
+  --cloud-base: #2a3d5c;
+  --cloud-shade: #1c2b44;
+  --cloud-under: #0a1424;
+  --cloud-edge: #cfdff2;
 }
 </style>
