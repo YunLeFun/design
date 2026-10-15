@@ -52,7 +52,9 @@ Vue 组件从明确的子路径导入；Nuxt 可通过模块注册组件。完�
 
 ## 开发与文档
 
-文档和 Registry 目前部署在 [ui.yunle.fun](https://ui.yunle.fun)。仓库改名与域名迁移分别管理。
+文档和 Registry 统一部署在 [design.yunle.fun](https://design.yunle.fun)。Cloudflare Pages 沿用 `ui` 项目，通过 Git 集成部署 `main` 分支。
+
+旧文档域名由 Cloudflare Redirect Rules 执行 301 永久跳转，保留原路径和查询参数。
 
 ```bash
 pnpm install

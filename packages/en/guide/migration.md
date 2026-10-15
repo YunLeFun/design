@@ -14,16 +14,16 @@ After release, upgrade to a pinned package version, wrap existing `NuxtLink` ins
 
 ## Current status {#当前状态}
 
-| Scope                             | Status                                                          |
-| --------------------------------- | --------------------------------------------------------------- |
-| Repository/documentation name     | Repository: Design; Chinese brand: 云乐坊; English: YunLeFun    |
-| Design/UI boundaries and packages | Documented in this library                                      |
-| Shared theme                      | Sky blue with vivid solid accents                               |
-| Vue and documentation             | Shared tokens with brand display variants                       |
-| npm and online Registry           | Tokens/components published; Registry accepted per release      |
-| Main site                         | Loads `@yunlefun/ui/css`; retains business `App*` wrappers      |
-| Other applications                | Dependency and visual acceptance not yet completed individually |
-| Documentation domain              | `ui.yunle.fun`; renaming a repository does not migrate a domain |
+| Scope                             | Status                                                                                              |
+| --------------------------------- | --------------------------------------------------------------------------------------------------- |
+| Repository/documentation name     | Repository: Design; Chinese brand: 云乐坊; English: YunLeFun                                        |
+| Design/UI boundaries and packages | Documented in this library                                                                          |
+| Shared theme                      | Sky blue with vivid solid accents                                                                   |
+| Vue and documentation             | Shared tokens with brand display variants                                                           |
+| npm and online Registry           | Tokens/components published; Registry accepted per release                                          |
+| Main site                         | Loads `@yunlefun/ui/css`; retains business `App*` wrappers                                          |
+| Other applications                | Dependency and visual acceptance not yet completed individually                                     |
+| Documentation domain              | `design.yunle.fun`; the legacy domain redirects with HTTP 301, preserving the path and query string |
 
 ## Main site differences to converge {#主站需要收敛的差异}
 

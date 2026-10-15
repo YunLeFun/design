@@ -84,7 +84,7 @@ Edit shared document styling in `packages/vitepress-theme-yunlefun` and foundati
 
 Configure `themeConfig.brand: { icon: "brand-mark", hero: true }` to render the shared logo in navigation and the native home hero. Design uses `design-mark`. Omit the native `logo` and `hero.image` options when using this API. Custom native slots still override the defaults.
 
-Geometry comes from `@yunlefun/icons`; colors follow `--ylf-c-brand` from `@yunlefun/ui`. The [icon catalog](https://icons.yunle.fun/) and [design system](https://ui.yunle.fun/) remain independent repositories connected by dependencies and links.
+Geometry comes from `@yunlefun/icons`; colors follow `--ylf-c-brand` from `@yunlefun/ui`. The [icon catalog](https://icons.yunle.fun/) and [design system](https://design.yunle.fun/) remain independent repositories connected by dependencies and links.
 
 ```js
 import { generateBrandAssets } from 'vitepress-theme-yunlefun/brand-assets'

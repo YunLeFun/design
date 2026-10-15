@@ -3,7 +3,7 @@ import { resolve } from 'node:path'
 import { describe, expect, it } from 'vitest'
 
 const root = resolve(import.meta.dirname, '..')
-const tokenDependency = 'https://ui.yunle.fun/r/ylf-tokens.json'
+const tokenDependency = 'https://design.yunle.fun/r/ylf-tokens.json'
 
 async function readJson(path: string) {
   return JSON.parse(await readFile(resolve(root, path), 'utf8'))

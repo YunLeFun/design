@@ -52,4 +52,4 @@ export default defineNuxtConfig({
 
 从 0.5.0 起，`@yunlefun/vue/ag-ui` 提供 `useAgUiAgent(agent)`，将官方 `@ag-ui/client` 的流式消息、共享状态、取消、工具结果与 interrupt/resume 映射为 Vue 状态。仅使用此入口时才需要安装 `@ag-ui/client`；普通组件与 Nuxt 集成不依赖它。
 
-工具操作由宿主校验并显式执行。设置 composable 不连接服务，Vue scope 销毁时自动取消与退订。双语演示、固定发行包和后端连接示例见 [AG-UI 接入](https://ui.yunle.fun/guide/ag-ui.html)。
+工具操作由宿主校验并显式执行。设置 composable 不连接服务，Vue scope 销毁时自动取消与退订。双语演示、固定发行包和后端连接示例见 [AG-UI 接入](https://design.yunle.fun/guide/ag-ui.html)。

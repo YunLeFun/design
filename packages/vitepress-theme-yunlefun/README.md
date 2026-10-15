@@ -81,7 +81,7 @@ import { Layout } from 'vitepress-theme-yunlefun'
 
 Hero 图片与共享 Logo 使用透明轮廓投影，不额外裁切圆角或添加方形底板。可通过 `--ylf-hero-image-shadow` 调整投影参数（不含扩散半径）。
 
-图形来自 `@yunlefun/icons`，亮暗颜色跟随 `@yunlefun/ui` 的 `--ylf-c-brand`。[图标库](https://icons.yunle.fun/) 与[设计系统](https://ui.yunle.fun/) 独立维护，通过包依赖与导航链接连接。
+图形来自 `@yunlefun/icons`，亮暗颜色跟随 `@yunlefun/ui` 的 `--ylf-c-brand`。[图标库](https://icons.yunle.fun/) 与[设计系统](https://design.yunle.fun/) 独立维护，通过包依赖与导航链接连接。
 
 ```js
 import { generateBrandAssets } from 'vitepress-theme-yunlefun/brand-assets'

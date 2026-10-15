@@ -23,13 +23,13 @@ outline: deep
 安装 Button：
 
 ```bash
-pnpm dlx shadcn-vue@2.8.2 add https://ui.yunle.fun/r/ylf-button.json
+pnpm dlx shadcn-vue@2.8.2 add https://design.yunle.fun/r/ylf-button.json
 ```
 
 安装 Dialog：
 
 ```bash
-pnpm dlx shadcn-vue@2.8.2 add https://ui.yunle.fun/r/ylf-dialog.json
+pnpm dlx shadcn-vue@2.8.2 add https://design.yunle.fun/r/ylf-dialog.json
 ```
 
 两个组件都会通过 `registryDependencies` 自动安装 `ylf-tokens`。在应用入口加载一次：
@@ -80,7 +80,7 @@ pnpm registry:verify
 部署后可对线上 Registry 重复同一套验收：
 
 ```bash
-YLF_REGISTRY_BASE_URL=https://ui.yunle.fun/r pnpm registry:verify
+YLF_REGISTRY_BASE_URL=https://design.yunle.fun/r pnpm registry:verify
 ```
 
 ## 源码与生成物

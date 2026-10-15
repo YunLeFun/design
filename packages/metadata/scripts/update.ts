@@ -6,7 +6,7 @@ import matter from 'gray-matter'
 
 import Git from 'simple-git'
 
-export const DOCS_URL = 'https://ui.yunle.fun'
+export const DOCS_URL = 'https://design.yunle.fun'
 export const COMPONENTS_DIR = resolve(__dirname, '..')
 export const DIR_ROOT = resolve(__dirname, '../../..')
 export const DIR_SRC = resolve(DIR_ROOT, 'packages')

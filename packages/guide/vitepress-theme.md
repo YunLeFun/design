@@ -85,7 +85,7 @@ import { Layout } from 'vitepress-theme-yunlefun'
 
 设置 `themeConfig.brand: { icon: "brand-mark", hero: true }`，导航和原生首页即可使用共享 Logo；Design 使用 `design-mark`。启用时移除原生 `logo` 与 `hero.image` 配置；自定义插槽仍可覆盖默认内容。
 
-图形来自 `@yunlefun/icons`，亮暗颜色跟随 `@yunlefun/ui` 的 `--ylf-c-brand`。[图标库](https://icons.yunle.fun/) 与[设计系统](https://ui.yunle.fun/) 独立维护，通过包依赖与导航链接连接。
+图形来自 `@yunlefun/icons`，亮暗颜色跟随 `@yunlefun/ui` 的 `--ylf-c-brand`。[图标库](https://icons.yunle.fun/) 与[设计系统](https://design.yunle.fun/) 独立维护，通过包依赖与导航链接连接。
 
 ```js
 import { generateBrandAssets } from 'vitepress-theme-yunlefun/brand-assets'

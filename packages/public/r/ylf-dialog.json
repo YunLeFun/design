@@ -8,7 +8,7 @@
     "sass@^1.101.0"
   ],
   "registryDependencies": [
-    "https://ui.yunle.fun/r/ylf-tokens.json"
+    "https://design.yunle.fun/r/ylf-tokens.json"
   ],
   "files": [
     {

@@ -12,7 +12,7 @@ const exec = promisify(execFile)
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const pnpm = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm'
 const shadcnVue = resolve(root, `node_modules/.bin/shadcn-vue${process.platform === 'win32' ? '.cmd' : ''}`)
-const publicRegistryBaseUrl = 'https://ui.yunle.fun/r'
+const publicRegistryBaseUrl = 'https://design.yunle.fun/r'
 const legacyRemoteRegistryUrl = process.env.YLF_REGISTRY_URL
 const remoteRegistryBaseUrl = process.env.YLF_REGISTRY_BASE_URL
   ?? (legacyRemoteRegistryUrl

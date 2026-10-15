@@ -23,13 +23,13 @@ The new `ylf-agent` item includes `YlfAgentStatus`, `YlfAgentCard`, `YlfAgentTas
 Install Button:
 
 ```bash
-pnpm dlx shadcn-vue@2.8.2 add https://ui.yunle.fun/r/ylf-button.json
+pnpm dlx shadcn-vue@2.8.2 add https://design.yunle.fun/r/ylf-button.json
 ```
 
 Install Dialog:
 
 ```bash
-pnpm dlx shadcn-vue@2.8.2 add https://ui.yunle.fun/r/ylf-dialog.json
+pnpm dlx shadcn-vue@2.8.2 add https://design.yunle.fun/r/ylf-dialog.json
 ```
 
 Both install `ylf-tokens` through `registryDependencies`. Load it once:
@@ -79,7 +79,7 @@ The verifier creates three temporary Vue + Vite projects and separately installs
 Repeat against the deployed Registry:
 
 ```bash
-YLF_REGISTRY_BASE_URL=https://ui.yunle.fun/r pnpm registry:verify
+YLF_REGISTRY_BASE_URL=https://design.yunle.fun/r pnpm registry:verify
 ```
 
 ## Source and generated artifacts {#源码与生成物}
