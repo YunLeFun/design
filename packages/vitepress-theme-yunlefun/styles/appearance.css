@@ -16,6 +16,26 @@ html.ylf-appearance-reveal::view-transition-new(root) {
   animation: none;
   mix-blend-mode: normal;
 }
+/* 夜幕落下：新画面是一块下缘柔和的夜色幕布，起始位置在屏幕上方。 */
+html.ylf-appearance-night::view-transition-new(root) {
+  -webkit-mask-image: linear-gradient(to bottom, #000 67%, transparent);
+  mask-image: linear-gradient(to bottom, #000 67%, transparent);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 150vh;
+  mask-size: 100% 150vh;
+  -webkit-mask-position: 0 -150vh;
+  mask-position: 0 -150vh;
+}
+/* 晴空展开：新画面是一团边缘柔和的光，起始大小为零。 */
+html.ylf-appearance-day::view-transition-new(root) {
+  -webkit-mask-image: radial-gradient(closest-side, #000 70%, transparent);
+  mask-image: radial-gradient(closest-side, #000 70%, transparent);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 0 0;
+  mask-size: 0 0;
+}
 /* 新旧快照都去掉毛玻璃，圆形裁剪只需合成，不再逐帧重绘模糊。 */
 html.ylf-appearance-reveal *,
 html.ylf-appearance-reveal *::before,

@@ -130,44 +130,93 @@ describe('appearance transitions', () => {
     expect(isDark.value).toBe(false)
   })
 
-  it('reveals the new theme from the pointer with view transitions', async () => {
-    let finish!: () => void
+  function mockViewTransition(softMask: boolean) {
+    const finishers: (() => void)[] = []
     const startViewTransition = vi.fn((update: () => Promise<void>) => {
       void update()
       return {
         ready: Promise.resolve(),
         finished: new Promise<void>((resolve) => {
-          finish = resolve
+          finishers.push(resolve)
         }),
       }
     })
-    Object.assign(document, { startViewTransition })
     const animate = vi.fn()
+    Object.assign(document, { startViewTransition })
     Object.assign(document.documentElement, { animate })
+    vi.stubGlobal('CSS', { supports: () => softMask })
+    return {
+      animate,
+      startViewTransition,
+      async finish() {
+        finishers.splice(0).forEach(resolve => resolve())
+        await Promise.resolve()
+        await Promise.resolve()
+      },
+      restore() {
+        delete (document as { startViewTransition?: unknown }).startViewTransition
+        delete (document.documentElement as { animate?: unknown }).animate
+        vi.unstubAllGlobals()
+      },
+    }
+  }
+
+  it('lets night fall from the top and the sky open from the pointer', async () => {
+    const transition = mockViewTransition(true)
     try {
       const wrapper = mountControls()
       const header = wrapper.get('[aria-label="header"]')
+      const root = document.documentElement
       window.dispatchEvent(new PointerEvent('pointerdown', { clientX: 120, clientY: 40 }))
       await header.trigger('click')
       await wrapper.vm.$nextTick()
-      const root = document.documentElement
-      expect(startViewTransition).toHaveBeenCalledOnce()
+      expect(transition.startViewTransition).toHaveBeenCalledOnce()
       expect(wrapper.get('p').text()).toBe('night')
-      expect(root.classList.contains('ylf-appearance-reveal')).toBe(true)
+      expect(root.classList.contains('ylf-appearance-night')).toBe(true)
       expect(root.classList.contains('ylf-appearance-fade')).toBe(false)
       await Promise.resolve()
-      expect(animate).toHaveBeenCalledOnce()
-      const [keyframes, options] = animate.mock.calls[0]
-      expect(keyframes.clipPath[0]).toBe('circle(0px at 120px 40px)')
-      expect(options.pseudoElement).toBe('::view-transition-new(root)')
-      finish()
-      await Promise.resolve()
-      await Promise.resolve()
+      const [curtain, curtainOptions] = transition.animate.mock.calls[0]
+      expect(curtain.maskPosition[1]).toBe('0px 0px')
+      expect(curtainOptions.pseudoElement).toBe('::view-transition-new(root)')
+      expect(transition.animate.mock.calls[1][1].pseudoElement).toBe('::view-transition-old(root)')
+      await transition.finish()
       expect(root.classList.contains('ylf-appearance-reveal')).toBe(false)
+      expect(root.classList.contains('ylf-appearance-night')).toBe(false)
+
+      transition.animate.mockClear()
+      window.dispatchEvent(new PointerEvent('pointerdown', { clientX: 120, clientY: 40 }))
+      await header.trigger('click')
+      await wrapper.vm.$nextTick()
+      expect(wrapper.get('p').text()).toBe('day')
+      expect(root.classList.contains('ylf-appearance-day')).toBe(true)
+      await Promise.resolve()
+      const [glow] = transition.animate.mock.calls[0]
+      expect(glow.maskPosition[0]).toBe('120px 40px')
+      expect(glow.maskSize[0]).toBe('0px 0px')
+      await transition.finish()
+      expect(root.classList.contains('ylf-appearance-day')).toBe(false)
     }
     finally {
-      delete (document as { startViewTransition?: unknown }).startViewTransition
-      delete (document.documentElement as { animate?: unknown }).animate
+      transition.restore()
+    }
+  })
+
+  it('falls back to a circular clip without CSS masks', async () => {
+    const transition = mockViewTransition(false)
+    try {
+      const wrapper = mountControls()
+      window.dispatchEvent(new PointerEvent('pointerdown', { clientX: 120, clientY: 40 }))
+      await wrapper.get('[aria-label="header"]').trigger('click')
+      await wrapper.vm.$nextTick()
+      await Promise.resolve()
+      expect(transition.animate).toHaveBeenCalledOnce()
+      expect(transition.animate.mock.calls[0][0].clipPath[0]).toBe('circle(0px at 120px 40px)')
+      expect(document.documentElement.classList.contains('ylf-appearance-night')).toBe(false)
+      await transition.finish()
+      expect(document.documentElement.classList.contains('ylf-appearance-reveal')).toBe(false)
+    }
+    finally {
+      transition.restore()
     }
   })
 
