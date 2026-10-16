@@ -79,5 +79,12 @@ describe('shared VitePress theme config', () => {
     expect(css).toContain('var(--ylf-c-sky)')
     expect(css).toMatch(/\.ylf-home-sky \{[^}]*position: absolute;[^}]*pointer-events: none;/)
     expect(css).toMatch(/prefers-reduced-motion: reduce\)\s*\{\s*\.ylf-home-sky__cloud\s*\{\s*animation: none/)
+    // The moonlit night (moon, stars, lit cloud rims) is dark-only and adds no motion.
+    for (const part of ['::before', '::after']) {
+      const rule = css.match(new RegExp(`([^{}]*)\\.ylf-home-sky${part} \\{([^}]*)\\}`))
+      expect(rule?.[1].trim()).toMatch(/\.dark$/)
+      expect(rule?.[2]).not.toMatch(/animation|transition/)
+    }
+    expect(css).toMatch(/\.dark \.ylf-home-sky__cloud \{[^}]*filter: drop-shadow/)
   })
 })

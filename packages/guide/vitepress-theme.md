@@ -85,7 +85,7 @@ import { Layout } from 'vitepress-theme-yunlefun'
 
 设置 `themeConfig.brand: { icon: "brand-mark", hero: true }`，导航和原生首页即可使用共享 Logo；Design 使用 `design-mark`。启用时移除原生 `logo` 与 `hero.image` 配置；自定义插槽仍可覆盖默认内容。
 
-再加 `sky: true`（默认关闭），原生首页（`layout: home` 且有 `hero`）的 hero 背后会铺一层晴空渐变（暗色为夜空），并有三朵与 `YlfCloud` 同轮廓的云用 CSS 慢慢漂移，配色来自 `--ylf-cloud-*` token。这层背景纯装饰、不占布局，减少动态效果时静止，不影响 Hero 图片的透明轮廓投影；自定义首页组件不受影响。
+再加 `sky: true`（默认关闭），原生首页（`layout: home` 且有 `hero`）的 hero 背后会铺一层晴空渐变，并有三朵与 `YlfCloud` 同轮廓的云用 CSS 慢慢漂移，配色来自 `--ylf-cloud-*` token。暗色是月夜：月亮藏在云后作光源，云顶描出月光边，高处有几颗静止的星。这层背景纯装饰、不占布局，减少动态效果时静止，不影响 Hero 图片的透明轮廓投影；自定义首页组件不受影响。
 
 图形来自 `@yunlefun/icons`，亮暗颜色跟随 `@yunlefun/ui` 的 `--ylf-c-brand`。[图标库](https://icons.yunle.fun/) 与[设计系统](https://design.yunle.fun/) 独立维护，通过包依赖与导航链接连接。
 

@@ -119,7 +119,7 @@
 }
 
 /*
- * brand.sky：原生首页 hero 背后的一层晴空（夜间为夜空）和三朵慢慢飘的云。
+ * brand.sky：原生首页 hero 背后的一层晴空和三朵慢慢飘的云；暗色是月夜，月亮作光源、云顶受光、云身沉进夜空。
  * 纯装饰、不占布局；云的轮廓与 YlfCloud 相同，配色取自 @yunlefun/ui 的 --ylf-cloud-* token。
  */
 :root {
@@ -128,9 +128,12 @@
   --ylf-home-sky-glow: color-mix(in srgb, var(--ylf-cloud-highlight) 80%, transparent);
 }
 .dark {
-  --ylf-home-sky-top: color-mix(in srgb, var(--ylf-c-sky), var(--ylf-c-bg) 60%);
-  --ylf-home-sky-horizon: color-mix(in srgb, var(--ylf-c-sky), var(--ylf-cloud-haze-color) 45%);
-  --ylf-home-sky-glow: color-mix(in srgb, var(--ylf-cloud-highlight) 22%, transparent);
+  --ylf-home-sky-top: color-mix(in srgb, var(--ylf-c-bg), var(--ylf-cloud-shadow) 50%);
+  --ylf-home-sky-horizon: var(--ylf-cloud-haze-color);
+  --ylf-home-sky-glow: color-mix(in srgb, var(--ylf-cloud-rim) 10%, transparent);
+  /* 月面带一点暖白，和偏冷的云、星区分开。 */
+  --ylf-home-sky-moon: #f4efdc;
+  --ylf-home-sky-star: var(--ylf-cloud-rim);
 }
 .VPHome:has(> .ylf-home-sky) {
   position: relative;
@@ -164,14 +167,69 @@
   --_body: color-mix(in srgb, var(--ylf-cloud-body, #f2f8ff), var(--_haze-color) calc(var(--_haze) * 85%));
   --_shade: color-mix(in srgb, var(--ylf-cloud-shade, #c6dff5), var(--_haze-color) calc(var(--_haze) * 100%));
   --_shadow: color-mix(in srgb, var(--ylf-cloud-shadow, #83addb), var(--_haze-color) calc(var(--_haze) * 100%));
+  --_lit: 14%;
+  --_mid: 52%;
   position: absolute;
   aspect-ratio: 490 / 250;
+  animation: ylf-home-sky-drift var(--_duration) ease-in-out infinite alternate;
+}
+/* 云体画在伪元素上，外层才能用 drop-shadow 沿整条轮廓描出受光边。 */
+.ylf-home-sky__cloud::before {
+  position: absolute;
+  inset: 0;
   background:
     radial-gradient(60% 34% at 50% 88%, color-mix(in srgb, var(--_shadow) 34%, transparent), transparent),
-    linear-gradient(180deg, var(--_highlight) 14%, var(--_body) 52%, var(--_shade) 90%);
+    linear-gradient(180deg, var(--_highlight) var(--_lit), var(--_body) var(--_mid), var(--_shade) 90%);
   -webkit-mask: var(--_shape) center / 100% 100% no-repeat;
   mask: var(--_shape) center / 100% 100% no-repeat;
-  animation: ylf-home-sky-drift var(--_duration) ease-in-out infinite alternate;
+  content: '';
+}
+/* 月光从上方来：亮面收成一道细边，云身压暗融进夜空，远处的云边更弱。 */
+.dark .ylf-home-sky__cloud {
+  --_highlight: color-mix(in srgb, var(--ylf-cloud-rim), var(--_haze-color) calc(var(--_haze) * 60%));
+  --_body: color-mix(
+    in srgb,
+    color-mix(in srgb, var(--ylf-cloud-body), var(--ylf-cloud-shade) 30%),
+    var(--_haze-color) calc(var(--_haze) * 70%)
+  );
+  --_lit: 6%;
+  --_mid: 30%;
+  filter: drop-shadow(0 -1.5px 0 color-mix(in srgb, var(--ylf-cloud-rim) calc(60% - var(--_haze) * 50%), transparent));
+}
+/* 稀疏的星点只在高处，向地平线淡出；静止不闪烁。 */
+.dark .ylf-home-sky::before {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1.2px 1.2px at 24px 38px, var(--ylf-home-sky-star) 60%, transparent),
+    radial-gradient(1px 1px at 118px 92px, var(--ylf-home-sky-star) 60%, transparent),
+    radial-gradient(1.6px 1.6px at 186px 24px, var(--ylf-home-sky-star) 60%, transparent),
+    radial-gradient(1px 1px at 232px 150px, var(--ylf-home-sky-star) 60%, transparent),
+    radial-gradient(1.2px 1.2px at 70px 168px, var(--ylf-home-sky-star) 60%, transparent);
+  background-size: 260px 200px;
+  -webkit-mask: linear-gradient(#000 20%, transparent 75%);
+  mask: linear-gradient(#000 20%, transparent 75%);
+  opacity: 0.7;
+  content: '';
+}
+/* 月亮在云后面，带一圈柔和的光晕。 */
+.dark .ylf-home-sky::after {
+  position: absolute;
+  top: calc(var(--vp-nav-height) + 18px);
+  right: 22px;
+  z-index: -1;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 38% 38%,
+    var(--ylf-home-sky-moon),
+    color-mix(in srgb, var(--ylf-home-sky-moon), var(--ylf-cloud-highlight) 45%)
+  );
+  box-shadow:
+    0 0 40px 12px color-mix(in srgb, var(--ylf-cloud-rim) 22%, transparent),
+    0 0 140px 60px color-mix(in srgb, var(--ylf-cloud-rim) 10%, transparent);
+  content: '';
 }
 .ylf-home-sky__cloud[data-cloud='billow'] {
   --_shape: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 490 250'%3E%3Cpath d='M 58 199 C 26 199 8 185 8 164 C 8 144 22 130 43 128 C 39 102 55 81 79 80 C 94 79 106 85 115 94 C 106 57 129 24 164 23 C 191 22 211 38 220 61 C 232 43 251 36 269 40 C 295 45 310 66 309 90 C 325 80 345 83 357 95 C 367 104 371 117 369 129 C 392 119 417 130 424 151 C 449 147 477 163 477 183 C 477 207 453 218 422 218 C 391 218 367 213 341 216 C 303 222 272 218 246 215 C 211 222 176 217 151 212 C 118 218 84 214 58 199 Z'/%3E%3C/svg%3E");
@@ -215,6 +273,12 @@
   }
 }
 @media (min-width: 960px) {
+  .dark .ylf-home-sky::after {
+    top: calc(var(--vp-nav-height) + 56px);
+    right: max(8%, calc(50% - 560px));
+    width: 44px;
+    height: 44px;
+  }
   .ylf-home-sky {
     height: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 520px);
   }

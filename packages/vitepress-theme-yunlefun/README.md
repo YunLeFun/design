@@ -91,10 +91,10 @@ export default defineConfig(withYunlefun({
 }))
 ```
 
-- 亮色是晴空渐变，暗色是夜空渐变，底部融进页面背景；三朵云的轮廓与 `YlfCloud` 相同，配色取自 `@yunlefun/ui` 的 `--ylf-cloud-*`，不引入 `@yunlefun/vue`。
+- 亮色是晴空渐变；暗色是月夜：月亮作光源藏在云后，云顶描出一道月光边、云身沉进夜空，高处有几颗静止的星。两者底部都融进页面背景。三朵云的轮廓与 `YlfCloud` 相同，配色取自 `@yunlefun/ui` 的 `--ylf-cloud-*`，不引入 `@yunlefun/vue`。
 - 纯装饰：`aria-hidden`、不响应指针、绝对定位，不改变 hero 布局；页面停在顶部时导航透出天空。
 - 云只用 CSS 慢慢漂移（52–88 秒一个来回）；减少动态效果时静止。Hero 图片的透明轮廓投影保持不变。
-- 天空顶部与地平线颜色可用 `--ylf-home-sky-top`、`--ylf-home-sky-horizon` 微调；自定义首页组件（无 `hero`）不受影响。
+- 天空顶部与地平线颜色可用 `--ylf-home-sky-top`、`--ylf-home-sky-horizon` 微调，暗色月面与星点用 `--ylf-home-sky-moon`、`--ylf-home-sky-star`；个人站想要靛紫夜之类的风格，覆盖这几个变量即可。自定义首页组件（无 `hero`）不受影响。
 
 图形来自 `@yunlefun/icons`，亮暗颜色跟随 `@yunlefun/ui` 的 `--ylf-c-brand`。[图标库](https://icons.yunle.fun/) 与[设计系统](https://design.yunle.fun/) 独立维护，通过包依赖与导航链接连接。
 

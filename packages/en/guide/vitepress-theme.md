@@ -84,7 +84,7 @@ Edit shared document styling in `packages/vitepress-theme-yunlefun` and foundati
 
 Configure `themeConfig.brand: { icon: "brand-mark", hero: true }` to render the shared logo in navigation and the native home hero. Design uses `design-mark`. Omit the native `logo` and `hero.image` options when using this API. Custom native slots still override the defaults.
 
-Add `sky: true` (off by default) to place a sky gradient (a night sky in dark mode) behind the native home hero (`layout: home` with `hero`). Three clouds share the `YlfCloud` silhouettes, take their colors from the `--ylf-cloud-*` tokens and drift slowly with CSS. The backdrop is decorative and takes no layout space. It stays still with reduced motion and leaves the hero image's transparent silhouette shadow unchanged. Custom home components are not affected.
+Add `sky: true` (off by default) to place a sky gradient behind the native home hero (`layout: home` with `hero`). Three clouds share the `YlfCloud` silhouettes, take their colors from the `--ylf-cloud-*` tokens and drift slowly with CSS. Dark mode shows a moonlit night: a moon behind the clouds lights their tops with a thin rim, and a few still stars sit high in the sky. The backdrop is decorative and takes no layout space. It stays still with reduced motion and leaves the hero image's transparent silhouette shadow unchanged. Custom home components are not affected.
 
 Geometry comes from `@yunlefun/icons`; colors follow `--ylf-c-brand` from `@yunlefun/ui`. The [icon catalog](https://icons.yunle.fun/) and [design system](https://design.yunle.fun/) remain independent repositories connected by dependencies and links.
 
