@@ -9,10 +9,8 @@
 
 ## 安装
 
-当前通过 GitHub Release 分发固定版本的 npm 格式安装包：
-
 ```sh
-pnpm add -D https://github.com/YunLeFun/design/releases/download/theme-v0.4.0/vitepress-theme-yunlefun-0.4.0.tgz
+pnpm add -D vitepress-theme-yunlefun
 ```
 
 `@yunlefun/ui` 会作为依赖安装。VitePress 与 Vue 由站点提供。
@@ -73,7 +71,7 @@ import { Layout } from 'vitepress-theme-yunlefun'
 
 ## 开发
 
-在 design 工作区执行 `pnpm build:theme`，通过 `pnpm -C packages/vitepress-theme-yunlefun pack` 生成安装包。发布时先验证实际安装包在 VitePress 1.x/2.x 的客户端与服务端构建，再上传版本固定的 GitHub Release 资产。以后完成 npm 首发授权后，可用同一包名发布到 npm。
+在 design 工作区执行 `pnpm build:theme`，通过 `pnpm -C packages/vitepress-theme-yunlefun pack` 生成安装包。`pnpm theme:verify` 会用实际安装包验证 VitePress 1.x/2.x 的客户端与服务端构建。发布流程与 `@yunlefun/ui`、`@yunlefun/vue` 相同，见仓库根目录 `RELEASING.md`。
 
 ## 统一品牌图形
 

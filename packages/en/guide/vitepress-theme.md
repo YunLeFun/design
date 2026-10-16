@@ -18,10 +18,10 @@ Cyan and yellow mark titles; primary actions and links retain brand blue. Docume
 
 ## Install and integrate {#安装与接入}
 
-The first version is distributed as an npm-format tarball on GitHub Releases:
+Install from npm:
 
 ```sh
-pnpm add -D https://github.com/YunLeFun/design/releases/download/theme-v0.4.0/vitepress-theme-yunlefun-0.4.0.tgz
+pnpm add -D vitepress-theme-yunlefun
 ```
 
 In `.vitepress/theme/index.ts`:
@@ -78,7 +78,7 @@ Custom appearance controls can call `toggleAppearance()` or `setAppearance(dark)
 
 ## Upgrade and maintain {#升级与维护}
 
-Edit shared document styling in `packages/vitepress-theme-yunlefun` and foundation tokens in `packages/ui`. Upgrade all sites to the same version and commit lockfiles. The first release uses a fixed GitHub Release URL; npm versions can replace it after initial npm publication is authorized.
+Edit shared document styling in `packages/vitepress-theme-yunlefun` and foundation tokens in `packages/ui`. Upgrade all sites to the same version and commit lockfiles. Versions up to 0.3.0 exist only as GitHub Release tarballs; 0.4.0 and later are published to npm.
 
 ## Canonical brand assets
 

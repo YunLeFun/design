@@ -18,10 +18,10 @@ outline: deep
 
 ## 安装与接入
 
-首版为固定版本的 GitHub Release 安装包，安装方式与 npm 包相同：
+从 npm 安装：
 
 ```sh
-pnpm add -D https://github.com/YunLeFun/design/releases/download/theme-v0.4.0/vitepress-theme-yunlefun-0.4.0.tgz
+pnpm add -D vitepress-theme-yunlefun
 ```
 
 在 `.vitepress/theme/index.ts` 引入主题和 CSS：
@@ -79,7 +79,7 @@ import { Layout } from 'vitepress-theme-yunlefun'
 
 ## 升级与维护
 
-共享视觉修改集中在 `packages/vitepress-theme-yunlefun`，基础变量仍在 `packages/ui`。各站点升级同一版本，提交锁文件，避免复制主题 CSS。首版使用 GitHub Release 的固定版本 URL；完成 npm 首发授权后可切换为 npm 版本依赖。
+共享视觉修改集中在 `packages/vitepress-theme-yunlefun`，基础变量仍在 `packages/ui`。各站点升级同一版本，提交锁文件，避免复制主题 CSS。0.3.0 及更早版本只有 GitHub Release 安装包，0.4.0 起从 npm 发布。
 
 ## 统一品牌图形
 

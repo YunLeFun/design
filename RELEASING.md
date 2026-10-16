@@ -1,10 +1,10 @@
 # 发布指南
 
-`@yunlefun/ui` 与 `@yunlefun/vue` 由同一仓库的 `.github/workflows/release.yml` 发布。工作流只在 `release-*` 标签推送后运行：先执行完整校验，再使用 GitHub Actions OIDC 向 npm 发布尚未存在的版本。已发布版本会跳过，重跑同一标签不会重复发包。GitHub 发布任务不读取 `NPM_TOKEN`。
+`@yunlefun/ui`、`@yunlefun/vue` 与 `vitepress-theme-yunlefun` 由同一仓库的 `.github/workflows/release.yml` 发布。工作流只在 `release-*` 标签推送后运行：先执行完整校验，再使用 GitHub Actions OIDC 向 npm 发布尚未存在的版本。已发布版本会跳过，重跑同一标签不会重复发包。GitHub 发布任务不读取 `NPM_TOKEN`。
 
 ## 一次性配置
 
-两个 npm 包都要各自添加 Trusted Publisher。维护者登录 npm 后，可在包的 Settings → Trusted publishing 选择 GitHub Actions，并填写：
+三个 npm 包都要各自添加 Trusted Publisher。维护者登录 npm 后，可在包的 Settings → Trusted publishing 选择 GitHub Actions，并填写：
 
 | 字段                 | 值                 |
 | -------------------- | ------------------ |
@@ -19,15 +19,28 @@
 ```bash
 npm trust github @yunlefun/ui --repo YunLeFun/design --file release.yml --allow-publish --yes
 npm trust github @yunlefun/vue --repo YunLeFun/design --file release.yml --allow-publish --yes
+npm trust github vitepress-theme-yunlefun --repo YunLeFun/design --file release.yml --allow-publish --yes
 npm trust list @yunlefun/ui
 npm trust list @yunlefun/vue
+npm trust list vitepress-theme-yunlefun
 ```
 
 信任关系绑定的是仓库和工作流文件名，大小写必须一致。GitHub 发布任务仅授予 `contents: read` 与 `id-token: write`，使用 GitHub 托管 runner、Node 24 和 npm 11.16.0。首次成功验证 OIDC 发布后，再从 GitHub 移除不再需要的 `NPM_TOKEN` secret；确认其他工作流无需它后，可在 npm 侧收紧传统令牌发布权限。
 
+### 主题首次发布
+
+npm 只能为已存在的包配置 Trusted Publisher。`vitepress-theme-yunlefun` 在 0.4.0 之前只发过 GitHub Release 安装包，若 `npm trust github vitepress-theme-yunlefun …` 提示包不存在，由维护者在本地手动发布一次（登录 npm 并完成两步验证）：
+
+```bash
+pnpm -C packages/vitepress-theme-yunlefun pack --out /tmp/vitepress-theme-yunlefun.tgz
+npm publish /tmp/vitepress-theme-yunlefun.tgz --access public
+```
+
+必须用 `pnpm pack` 打包，它会把 `workspace:^` 改写为实际版本范围；直接 `npm publish` 会把 `workspace:` 写进发布的清单。首发后再执行上面的 `npm trust` 命令，之后版本都走标签发布。
+
 ## 发布新版本
 
-1. 根据公开 API 改动修改 `packages/ui/package.json` 或 `packages/vue/package.json` 的版本。若两个包都变更，同时修改两个版本。
+1. 根据公开 API 改动修改 `packages/ui/package.json`、`packages/vue/package.json` 或 `packages/vitepress-theme-yunlefun/package.json` 的版本，变更了几个包就改几个版本。主题依赖的 `@yunlefun/ui` 新版本会在同一次工作流中先于主题发布。
 2. 更新用户可见的迁移说明，运行 `pnpm install --frozen-lockfile` 和贡献指南中的校验命令，并提交到 `main`。
 3. 为该提交创建唯一的 `release-` 标签，例如 `release-20260925-1`，推送标签。发布工作流将仅发布 registry 中尚不存在的版本。
 4. 核对 GitHub Actions 结果、npm 上的确切版本与 provenance，并在真实消费项目升级验证。
