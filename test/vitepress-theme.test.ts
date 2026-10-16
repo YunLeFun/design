@@ -1,3 +1,5 @@
+import { readFile } from 'node:fs/promises'
+import { resolve } from 'node:path'
 import { createMarkdownRenderer } from 'vitepress'
 import { describe, expect, it } from 'vitest'
 import { withYunlefun, yunlefunMarkdown } from '../packages/vitepress-theme-yunlefun/src/config'
@@ -59,5 +61,23 @@ describe('shared VitePress theme config', () => {
     expect(withYunlefun({}).vite?.optimizeDeps?.exclude).toEqual(['vitepress-theme-yunlefun'])
     const config = withYunlefun({ vite: { optimizeDeps: { exclude: ['@site/local-plugin'] } } })
     expect(config.vite?.optimizeDeps?.exclude).toEqual(['vitepress-theme-yunlefun', '@site/local-plugin'])
+  })
+
+  it('animates doc content only under the client route-change class, never on first paint', async () => {
+    const source = await readFile(resolve(import.meta.dirname, '../packages/vitepress-theme-yunlefun/styles/index.css'), 'utf8')
+    const css = source.replace(/\/\*[\s\S]*?\*\//g, '')
+    const rules = [...css.matchAll(/([^{}]+)\{[^{}]*animation:\s*ylf-doc-enter/g)].map(match => match[1].trim())
+    expect(rules).toHaveLength(1)
+    for (const selector of rules[0].split(','))
+      expect(selector.trim()).toMatch(/^\.ylf-route-enter /)
+    expect(css).toMatch(/prefers-reduced-motion: reduce\)\s*\{\s*\.ylf-route-enter \.VPDoc \.vp-doc > div,\s*\.ylf-route-enter \.VPPage > div\s*\{\s*animation: none/)
+  })
+
+  it('keeps the home sky decorative, token-driven and still under reduced motion', async () => {
+    const css = await readFile(resolve(import.meta.dirname, '../packages/vitepress-theme-yunlefun/styles/home.css'), 'utf8')
+    expect(css).toContain('var(--ylf-cloud-body')
+    expect(css).toContain('var(--ylf-c-sky)')
+    expect(css).toMatch(/\.ylf-home-sky \{[^}]*position: absolute;[^}]*pointer-events: none;/)
+    expect(css).toMatch(/prefers-reduced-motion: reduce\)\s*\{\s*\.ylf-home-sky__cloud\s*\{\s*animation: none/)
   })
 })

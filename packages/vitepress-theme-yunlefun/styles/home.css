@@ -117,3 +117,120 @@
     max-height: 300px;
   }
 }
+
+/*
+ * brand.sky：原生首页 hero 背后的一层晴空（夜间为夜空）和三朵慢慢飘的云。
+ * 纯装饰、不占布局；云的轮廓与 YlfCloud 相同，配色取自 @yunlefun/ui 的 --ylf-cloud-* token。
+ */
+:root {
+  --ylf-home-sky-top: color-mix(in srgb, var(--ylf-c-sky), var(--ylf-cloud-haze-color) 55%);
+  --ylf-home-sky-horizon: var(--ylf-c-sky);
+  --ylf-home-sky-glow: color-mix(in srgb, var(--ylf-cloud-highlight) 80%, transparent);
+}
+.dark {
+  --ylf-home-sky-top: color-mix(in srgb, var(--ylf-c-sky), var(--ylf-c-bg) 60%);
+  --ylf-home-sky-horizon: color-mix(in srgb, var(--ylf-c-sky), var(--ylf-cloud-haze-color) 45%);
+  --ylf-home-sky-glow: color-mix(in srgb, var(--ylf-cloud-highlight) 22%, transparent);
+}
+.VPHome:has(> .ylf-home-sky) {
+  position: relative;
+}
+/* 天空画在 hero 自己的背景上，高度与 hero 完全一致，底部融进页面背景。 */
+.ylf-home-sky ~ .VPHomeHero {
+  background:
+    radial-gradient(48% 42% at 82% 0%, var(--ylf-home-sky-glow), transparent),
+    linear-gradient(180deg, var(--ylf-home-sky-top), var(--ylf-home-sky-horizon) 58%, var(--vp-c-bg));
+}
+/* 页面停在顶部时导航透出天空，滚动后恢复共享的半透明底。 */
+:root:has(.ylf-home-sky) .VPNavBar.home.top .content-body {
+  background: transparent;
+  backdrop-filter: none;
+}
+.ylf-home-sky {
+  /* hero 的负 margin 会穿过 .VPHome 折叠，因此 top: 0 就是 hero 的顶边（导航之下）。 */
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 0;
+  height: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 440px);
+  overflow: hidden;
+  pointer-events: none;
+  contain: strict;
+}
+.ylf-home-sky__cloud {
+  --_haze-color: var(--ylf-cloud-haze-color, #9cc6ef);
+  --_highlight: color-mix(in srgb, var(--ylf-cloud-highlight, #fffefa), var(--_haze-color) calc(var(--_haze) * 70%));
+  --_body: color-mix(in srgb, var(--ylf-cloud-body, #f2f8ff), var(--_haze-color) calc(var(--_haze) * 85%));
+  --_shade: color-mix(in srgb, var(--ylf-cloud-shade, #c6dff5), var(--_haze-color) calc(var(--_haze) * 100%));
+  --_shadow: color-mix(in srgb, var(--ylf-cloud-shadow, #83addb), var(--_haze-color) calc(var(--_haze) * 100%));
+  position: absolute;
+  aspect-ratio: 490 / 250;
+  background:
+    radial-gradient(60% 34% at 50% 88%, color-mix(in srgb, var(--_shadow) 34%, transparent), transparent),
+    linear-gradient(180deg, var(--_highlight) 14%, var(--_body) 52%, var(--_shade) 90%);
+  -webkit-mask: var(--_shape) center / 100% 100% no-repeat;
+  mask: var(--_shape) center / 100% 100% no-repeat;
+  animation: ylf-home-sky-drift var(--_duration) ease-in-out infinite alternate;
+}
+.ylf-home-sky__cloud[data-cloud='billow'] {
+  --_shape: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 490 250'%3E%3Cpath d='M 58 199 C 26 199 8 185 8 164 C 8 144 22 130 43 128 C 39 102 55 81 79 80 C 94 79 106 85 115 94 C 106 57 129 24 164 23 C 191 22 211 38 220 61 C 232 43 251 36 269 40 C 295 45 310 66 309 90 C 325 80 345 83 357 95 C 367 104 371 117 369 129 C 392 119 417 130 424 151 C 449 147 477 163 477 183 C 477 207 453 218 422 218 C 391 218 367 213 341 216 C 303 222 272 218 246 215 C 211 222 176 217 151 212 C 118 218 84 214 58 199 Z'/%3E%3C/svg%3E");
+  --_haze: 0.15;
+  --_drift: 28px;
+  --_duration: 64s;
+  top: calc(var(--vp-nav-height) + 4px);
+  left: -72px;
+  width: 220px;
+}
+.ylf-home-sky__cloud[data-cloud='puff'] {
+  --_shape: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 490 250'%3E%3Cpath d='M 120 210 C 88 210 70 192 76 170 C 82 150 102 142 122 148 C 120 112 150 86 186 90 C 204 60 250 52 278 76 C 300 64 336 74 344 104 C 376 102 404 126 400 156 C 412 182 396 210 366 212 C 300 214 220 214 120 210 Z'/%3E%3C/svg%3E");
+  --_haze: 0;
+  --_drift: -22px;
+  --_duration: 52s;
+  top: calc(var(--vp-nav-height) + 196px);
+  right: -56px;
+  width: 168px;
+}
+.ylf-home-sky__cloud[data-cloud='wisp'] {
+  --_shape: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 490 250'%3E%3Cpath d='M 20 200 C 6 200 2 190 10 184 C 18 178 30 178 40 180 C 52 166 80 162 98 170 C 120 156 160 154 182 166 C 206 152 248 150 270 164 C 296 152 336 154 352 168 C 376 160 410 162 426 174 C 452 170 482 178 484 190 C 486 202 470 206 446 206 C 380 208 300 206 230 208 C 160 210 80 206 20 200 Z'/%3E%3C/svg%3E");
+  --_haze: 0.55;
+  --_drift: 40px;
+  --_duration: 88s;
+  top: calc(var(--vp-nav-height) - 36px);
+  right: 12%;
+  width: 240px;
+  opacity: 0.8;
+}
+@keyframes ylf-home-sky-drift {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(var(--_drift));
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ylf-home-sky__cloud {
+    animation: none;
+  }
+}
+@media (min-width: 960px) {
+  .ylf-home-sky {
+    height: calc(var(--vp-nav-height) + var(--vp-layout-top-height, 0px) + 520px);
+  }
+  .ylf-home-sky__cloud[data-cloud='billow'] {
+    top: calc(var(--vp-nav-height) + 12px);
+    left: max(-48px, calc(50% - 760px));
+    width: 340px;
+  }
+  .ylf-home-sky__cloud[data-cloud='puff'] {
+    top: calc(var(--vp-nav-height) + 240px);
+    right: max(-32px, calc(50% - 720px));
+    width: 260px;
+  }
+  .ylf-home-sky__cloud[data-cloud='wisp'] {
+    top: calc(var(--vp-nav-height) - 24px);
+    right: max(18%, calc(50% - 360px));
+    width: 380px;
+  }
+}

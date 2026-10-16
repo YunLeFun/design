@@ -4,7 +4,7 @@
 
 - 青色标题锚点与青黄短线；正文、表格、代码和提示块使用共享表面。
 - 原生导航、搜索、中英菜单、目录、代码复制与默认主题插槽。
-- 主动亮暗切换渐变，首次加载静止，尊重减少动态效果设置。
+- 主动亮暗切换渐变；正文只在站内换页后浮入，首次加载与刷新保持静止；尊重减少动态效果设置。
 - VitePress 1.6.4 和 2.0.0-alpha.16/17/19；Vue 3.5。CSS 入口不需要 Sass，不下载字体。
 
 ## 安装
@@ -78,6 +78,23 @@ import { Layout } from 'vitepress-theme-yunlefun'
 设置 `themeConfig.brand: { icon: "brand-mark", hero: true }`，导航和原生首页即可使用共享 Logo；Design 使用 `design-mark`。启用时移除原生 `logo` 与 `hero.image` 配置；自定义插槽仍可覆盖默认内容。
 
 Hero 图片与共享 Logo 使用透明轮廓投影，不额外裁切圆角或添加方形底板。可通过 `--ylf-hero-image-shadow` 调整投影参数（不含扩散半径）。
+
+### 首页晴空
+
+原生首页（`layout: home` 且有 `hero`）可以选择在 hero 背后铺一层天空，默认关闭：
+
+```ts
+export default defineConfig(withYunlefun({
+  themeConfig: {
+    brand: { icon: 'brand-mark', hero: true, sky: true },
+  },
+}))
+```
+
+- 亮色是晴空渐变，暗色是夜空渐变，底部融进页面背景；三朵云的轮廓与 `YlfCloud` 相同，配色取自 `@yunlefun/ui` 的 `--ylf-cloud-*`，不引入 `@yunlefun/vue`。
+- 纯装饰：`aria-hidden`、不响应指针、绝对定位，不改变 hero 布局；页面停在顶部时导航透出天空。
+- 云只用 CSS 慢慢漂移（52–88 秒一个来回）；减少动态效果时静止。Hero 图片的透明轮廓投影保持不变。
+- 天空顶部与地平线颜色可用 `--ylf-home-sky-top`、`--ylf-home-sky-horizon` 微调；自定义首页组件（无 `hero`）不受影响。
 
 图形来自 `@yunlefun/icons`，亮暗颜色跟随 `@yunlefun/ui` 的 `--ylf-c-brand`。[图标库](https://icons.yunle.fun/) 与[设计系统](https://design.yunle.fun/) 独立维护，通过包依赖与导航链接连接。
 

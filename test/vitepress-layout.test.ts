@@ -1,14 +1,21 @@
 // @vitest-environment happy-dom
 import { mount } from '@vue/test-utils'
 import { describe, expect, it, vi } from 'vitest'
-import { defineComponent, h, inject, ref } from 'vue'
+import { defineComponent, h, inject, nextTick } from 'vue'
 import Layout from '../packages/vitepress-theme-yunlefun/components/Layout.vue'
 
-const site = vi.hoisted(() => ({ brand: { icon: 'design-mark', hero: true } as { icon: unknown, hero?: boolean } }))
-vi.mock('vitepress', () => ({
-  useData: () => ({ isDark: ref(false), theme: ref(site), frontmatter: ref({ hero: { name: 'Design' } }) }),
-  withBase: (path: string) => `/base${path}`,
-}))
+const site = vi.hoisted(() => ({ brand: { icon: 'design-mark', hero: true } as { icon: unknown, hero?: boolean, sky?: boolean } }))
+const page = vi.hoisted(() => ({ frontmatter: { hero: { name: 'Design' } } as Record<string, unknown> }))
+const route = vi.hoisted(() => ({ path: '/' }))
+vi.mock('vitepress', async () => {
+  const { reactive, ref } = await import('vue')
+  const current = reactive(route)
+  return {
+    useData: () => ({ isDark: ref(false), theme: ref(site), frontmatter: ref(page.frontmatter) }),
+    useRoute: () => current,
+    withBase: (path: string) => `/base${path}`,
+  }
+})
 vi.mock('vitepress/theme-without-fonts', () => ({
   default: {
     Layout: defineComponent({
@@ -17,6 +24,7 @@ vi.mock('vitepress/theme-without-fonts', () => ({
           slots['nav-bar-title-before']?.({ area: 'title' }),
           slots['nav-bar-content-before']?.({ area: 'menu' }),
           slots['doc-before']?.(),
+          slots['home-hero-before']?.(),
           slots['home-hero-image']?.(),
         ])
       },
@@ -68,5 +76,54 @@ describe('shared layout slots', () => {
     expect(wrapper.get('button').text()).toBe('Theme')
     await wrapper.get('button').trigger('click')
     wrapper.unmount()
+  })
+
+  it('keeps the first paint still and plays the doc enter only after a client route change', async () => {
+    const { useRoute } = await import('vitepress')
+    const current = useRoute() as unknown as { path: string }
+    const root = document.documentElement
+    const wrapper = mount(Layout)
+    await nextTick()
+    expect(root.classList.contains('ylf-route-enter')).toBe(false)
+
+    current.path = '/guide/'
+    await nextTick()
+    expect(root.classList.contains('ylf-route-enter')).toBe(true)
+    // Unrelated animations, such as the appearance transition, leave the class alone.
+    document.dispatchEvent(new AnimationEvent('animationend', { animationName: 'ylf-appearance' }))
+    expect(root.classList.contains('ylf-route-enter')).toBe(true)
+    document.dispatchEvent(new AnimationEvent('animationend', { animationName: 'ylf-doc-enter' }))
+    expect(root.classList.contains('ylf-route-enter')).toBe(false)
+
+    current.path = '/'
+    await nextTick()
+    expect(root.classList.contains('ylf-route-enter')).toBe(true)
+    wrapper.unmount()
+    expect(root.classList.contains('ylf-route-enter')).toBe(false)
+  })
+
+  it('draws an opt-in decorative sky only behind a native home hero', () => {
+    const sky = (frontmatter: Record<string, unknown>, brand: typeof site.brand) => {
+      page.frontmatter = frontmatter
+      site.brand = brand
+      const wrapper = mount(Layout)
+      const html = wrapper.find('.ylf-home-sky')
+      const result = html.exists() ? { hidden: html.attributes('aria-hidden'), clouds: html.findAll('.ylf-home-sky__cloud').length } : null
+      wrapper.unmount()
+      return result
+    }
+    const home = { layout: 'home', hero: { name: 'AI' } }
+    expect(sky(home, { icon: 'design-mark' })).toBeNull()
+    expect(sky(home, { icon: 'design-mark', sky: true })).toEqual({ hidden: 'true', clouds: 3 })
+    expect(sky({ layout: 'home' }, { icon: 'design-mark', sky: true })).toBeNull()
+    expect(sky({ hero: { name: 'AI' } }, { icon: 'design-mark', sky: true })).toBeNull()
+
+    page.frontmatter = home
+    site.brand = { icon: 'design-mark', sky: true }
+    const wrapper = mount(Layout, { slots: { 'home-hero-before': () => h('p', { id: 'site-banner' }, 'Banner') } })
+    expect(wrapper.find('.ylf-home-sky + #site-banner').exists()).toBe(true)
+    wrapper.unmount()
+    page.frontmatter = { hero: { name: 'Design' } }
+    site.brand = { icon: 'design-mark', hero: true }
   })
 })

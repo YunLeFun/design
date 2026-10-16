@@ -79,9 +79,9 @@ html {
   }
 }
 
-/* 换页时正文轻轻浮入，回应导航操作；首屏同样只播放一次。 */
-.VPDoc .vp-doc > div,
-.VPPage > div {
+/* 站内换页后正文轻轻浮入，回应导航操作；首屏不带 .ylf-route-enter，保持静止。 */
+.ylf-route-enter .VPDoc .vp-doc > div,
+.ylf-route-enter .VPPage > div {
   animation: ylf-doc-enter var(--ylf-duration-enter) var(--ylf-ease-standard) both;
 }
 @keyframes ylf-doc-enter {
@@ -114,8 +114,8 @@ html {
   transition: color var(--ylf-duration-fast) var(--ylf-ease-standard);
 }
 @media (prefers-reduced-motion: reduce) {
-  .VPDoc .vp-doc > div,
-  .VPPage > div {
+  .ylf-route-enter .VPDoc .vp-doc > div,
+  .ylf-route-enter .VPPage > div {
     animation: none;
   }
   .VPDocAsideOutline .content .outline-marker {

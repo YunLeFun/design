@@ -18,7 +18,12 @@ export interface YunlefunBrandImage {
 
 export interface YunlefunThemeConfig extends DefaultTheme.Config {
   /** Mark shared by navigation and optionally the home hero. */
-  brand?: { icon: YunlefunBrandMark | YunlefunBrandIcon | YunlefunBrandImage, hero?: boolean }
+  brand?: {
+    icon: YunlefunBrandMark | YunlefunBrandIcon | YunlefunBrandImage
+    hero?: boolean
+    /** Decorative sky (light) or night (dark) with drifting clouds behind a `layout: home` hero. Default `false`. */
+    sky?: boolean
+  }
 }
 
 export interface MarkdownOptions {
