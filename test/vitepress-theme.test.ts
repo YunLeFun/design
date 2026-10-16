@@ -41,4 +41,17 @@ describe('shared VitePress theme config', () => {
     expect(config.themeConfig?.nav).toEqual([{ text: 'Guide', link: '/guide/' }])
     expect(config.vite?.ssr?.noExternal).toEqual(['vitepress-theme-yunlefun', 'other-theme-plugin'])
   })
+
+  it('keeps markdown and Vite hooks added by wrappers such as withMermaid', () => {
+    const plugin = { name: 'vite-plugin-mermaid' }
+    const markdownConfig = () => {}
+    const config = withYunlefun({
+      markdown: { config: markdownConfig },
+      vite: { plugins: [plugin], optimizeDeps: { include: ['dayjs'] } },
+    })
+    expect(config.markdown?.config).toBe(markdownConfig)
+    expect(config.vite?.plugins).toEqual([plugin])
+    expect(config.vite?.optimizeDeps?.include).toEqual(['dayjs'])
+    expect(config.vite?.ssr?.noExternal).toEqual(['vitepress-theme-yunlefun'])
+  })
 })

@@ -18,12 +18,12 @@ provideAppearanceTransition()
     </template>
     <template #nav-bar-title-before="slotProps">
       <slot name="nav-bar-title-before" v-bind="slotProps || {}">
-        <YunlefunLogo v-if="theme.brand" :name="theme.brand.icon" class="ylf-nav-logo" />
+        <YunlefunLogo v-if="theme.brand" :icon="theme.brand.icon" class="ylf-nav-logo" />
       </slot>
     </template>
     <template v-if="$slots['home-hero-image'] || theme.brand?.hero" #home-hero-image="slotProps">
       <slot name="home-hero-image" v-bind="slotProps || {}">
-        <YunlefunLogo :name="theme.brand?.icon" :label="frontmatter.hero?.name" class="ylf-hero-logo" />
+        <YunlefunLogo :icon="theme.brand?.icon" :label="frontmatter.hero?.name" class="ylf-hero-logo" />
       </slot>
     </template>
     <template v-for="name in Object.keys($slots).filter(name => !['nav-bar-title-before', 'home-hero-image', 'nav-bar-content-before'].includes(name))" #[name]="slotProps">

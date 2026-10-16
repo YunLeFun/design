@@ -21,7 +21,7 @@ outline: deep
 首版为固定版本的 GitHub Release 安装包，安装方式与 npm 包相同：
 
 ```sh
-pnpm add -D https://github.com/YunLeFun/design/releases/download/theme-v0.3.0/vitepress-theme-yunlefun-0.3.0.tgz
+pnpm add -D https://github.com/YunLeFun/design/releases/download/theme-v0.4.0/vitepress-theme-yunlefun-0.4.0.tgz
 ```
 
 在 `.vitepress/theme/index.ts` 引入主题和 CSS：
@@ -94,6 +94,26 @@ await generateBrandAssets({ outDir: 'docs/public', icon: 'brand-mark', title: 'Y
 ```
 
 升级图标后执行这个 Node 工具并提交生成文件。PNG 生成依赖 `rsvg-convert`（librsvg）；仅生成 SVG 可传 `png: false`。
+
+## 站点标识与强调色
+
+个人站等非云乐坊站点沿用同一主题，只在站点侧加一层薄覆盖，不 fork、不另建色板。
+
+`brand.icon` 除 `brand-mark` / `design-mark` 外，还接受站点自己的 Iconify 数据 `{ body, width?, height? }`（以 `currentColor` 绘制的部分跟随 `--ylf-c-brand`）或图片 `{ src }`（经 `withBase` 处理）。`generateBrandAssets` 的 `icon` 同样接受 Iconify 数据，并可传 `palette: { light, dark }` 让 favicon 与强调色一致。
+
+强调色在主题样式之后引入的 CSS 中覆盖，`:root` 与 `:root.dark` 都要写：
+
+- 可以覆盖：`--ylf-c-brand`、`--ylf-c-brand-hover`、`--ylf-c-brand-active`、`--ylf-c-brand-soft`，必要时 `--ylf-c-text-on-accent`、`--ylf-glow-brand(-hover)`；展示字 `--ylf-font-display` / `--ylf-font-wordmark`。
+- 不要覆盖：`--ylf-palette-*`、`--ylf-accent-*`、背景／表面／文字／边框、状态色、间距圆角动效布局 token，也不要直接改 `--vp-c-brand-*`。
+- 亮暗两套都保证 `--ylf-c-brand` 在背景上、按钮文字在 `--ylf-c-brand` 上对比度不低于 4.5:1。
+
+完整示例见[主题 README](https://github.com/YunLeFun/design/tree/main/packages/vitepress-theme-yunlefun#站点强调色)。
+
+## 字体与 Mermaid
+
+主题不下载任何 webfont，展示字在未加载 Baloo 2 / ZCOOL KuaiLe 时回退到系统圆体与苹方／雅黑。面向中国大陆访客时不要依赖 Google Fonts，改用 `@fontsource/baloo-2`、`@fontsource/zcool-kuaile` 自托管（后者按 unicode-range 分片）。本站的 Google Fonts `<link>` 只是 Design 站点自己的选择。
+
+与 `vitepress-plugin-mermaid` 组合时写作 `withMermaid(withYunlefun({ … }))`；反过来嵌套也可以，无需额外 `ssr.noExternal`。图表沿用 Mermaid 自带的亮暗主题，随外观开关重新渲染。
 
 ## 可选工作台表面
 

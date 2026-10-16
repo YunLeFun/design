@@ -14,8 +14,16 @@ describe('shared brand assets', () => {
     }
   })
 
+  it('renders a site-provided Iconify mark with an accent palette', () => {
+    const assets = renderBrandAssets({ body: '<path fill="currentColor" d="M0 0h24v24H0z"/>', width: 24, height: 24 }, { light: '#0f766e', dark: '#5eead4', background: '#10151d' })
+    expect(assets.mark).toContain('viewBox="0 0 24 24"')
+    expect(assets.dark).toContain('#5eead4')
+    expect(assets.app).toContain('#10151d')
+  })
+
   it('fails clearly when tokens or canonical names are missing', () => {
     expect(() => readBrandPalette(':root{}')).toThrow('Expected a hex color')
     expect(() => renderBrandAssets('missing' as never, {} as never)).toThrow('Unsupported site mark')
+    expect(() => renderBrandAssets({} as never, {} as never)).toThrow('Iconify data with a body')
   })
 })

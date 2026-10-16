@@ -1,9 +1,24 @@
 import type { DefaultTheme, MarkdownRenderer, UserConfig } from 'vitepress'
 import { mergeConfig } from 'vitepress'
 
+/** Canonical marks packaged in `@yunlefun/icons`. */
+export type YunlefunBrandMark = 'brand-mark' | 'design-mark'
+
+/** A site's own mark as Iconify data; `currentColor` follows `--ylf-c-brand`. */
+export interface YunlefunBrandIcon {
+  body: string
+  width?: number
+  height?: number
+}
+
+/** A site's own mark as an image URL, e.g. `/logo.svg`. */
+export interface YunlefunBrandImage {
+  src: string
+}
+
 export interface YunlefunThemeConfig extends DefaultTheme.Config {
-  /** Canonical Iconify mark, shared by navigation and optionally the home hero. */
-  brand?: { icon: 'brand-mark' | 'design-mark', hero?: boolean }
+  /** Mark shared by navigation and optionally the home hero. */
+  brand?: { icon: YunlefunBrandMark | YunlefunBrandIcon | YunlefunBrandImage, hero?: boolean }
 }
 
 export interface MarkdownOptions {

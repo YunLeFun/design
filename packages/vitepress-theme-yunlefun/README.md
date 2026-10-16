@@ -12,7 +12,7 @@
 当前通过 GitHub Release 分发固定版本的 npm 格式安装包：
 
 ```sh
-pnpm add -D https://github.com/YunLeFun/design/releases/download/theme-v0.3.0/vitepress-theme-yunlefun-0.3.0.tgz
+pnpm add -D https://github.com/YunLeFun/design/releases/download/theme-v0.4.0/vitepress-theme-yunlefun-0.4.0.tgz
 ```
 
 `@yunlefun/ui` 会作为依赖安装。VitePress 与 Vue 由站点提供。
@@ -83,13 +83,114 @@ Hero 图片与共享 Logo 使用透明轮廓投影，不额外裁切圆角或添
 
 图形来自 `@yunlefun/icons`，亮暗颜色跟随 `@yunlefun/ui` 的 `--ylf-c-brand`。[图标库](https://icons.yunle.fun/) 与[设计系统](https://design.yunle.fun/) 独立维护，通过包依赖与导航链接连接。
 
+### 站点自有标识
+
+非云乐坊站点（如个人站）沿用同一主题，只替换标识，不 fork：
+
+```ts
+// .vitepress/config.ts
+import { icons } from '@iconify-json/ri'
+
+export default defineConfig(withYunlefun({
+  themeConfig: {
+    // Iconify 数据：以 currentColor 绘制的路径跟随 --ylf-c-brand 亮暗变化
+    brand: { icon: icons.icons['cloud-fill'], hero: true },
+    // 或图片：brand: { icon: { src: '/logo.svg' } }，路径自动加 base
+  },
+}))
+```
+
+| `brand.icon`                     | 渲染                              | 颜色                             |
+| -------------------------------- | --------------------------------- | -------------------------------- |
+| `'brand-mark'` / `'design-mark'` | `@yunlefun/icons` 内置 SVG        | `currentColor` = `--ylf-c-brand` |
+| `{ body, width?, height? }`      | 站点提供的 Iconify 数据，内联 SVG | 同上；写死的 `fill` 保持原色     |
+| `{ src }`                        | `<img>`，路径经 `withBase` 处理   | 图片自身颜色                     |
+
+`body` 来自站点构建期配置，按原样内联；不要传入访客可控的内容。组件内也可直接使用 `<YunlefunLogo :icon="…" label="…" />`；0.3 的 `name` 属性继续可用。更深的定制仍走 `nav-bar-title-before` / `home-hero-image` 插槽。
+
+### 图标与 favicon
+
 ```js
 import { generateBrandAssets } from 'vitepress-theme-yunlefun/brand-assets'
 
 await generateBrandAssets({ outDir: 'docs/public', icon: 'brand-mark', title: 'YunLeFun' })
 ```
 
-升级图标后执行这个 Node 工具并提交生成文件。PNG 生成依赖 `rsvg-convert`（librsvg）；仅生成 SVG 可传 `png: false`。
+升级图标后执行这个 Node 工具并提交生成文件。PNG 生成依赖 `rsvg-convert`（librsvg）；仅生成 SVG 可传 `png: false`。`icon` 同样接受 Iconify 数据；站点改了强调色时传 `palette: { light, dark }`（十六进制），让 favicon 与页面一致。
+
+## 站点强调色
+
+个人站可以给主题「换一支笔」，但不另建色板。在主题样式之后引入一份覆盖文件，亮暗两套都写：
+
+```ts
+// .vitepress/theme/index.ts
+import Theme from 'vitepress-theme-yunlefun'
+import 'vitepress-theme-yunlefun/style.css'
+import './accent.css'
+
+export default Theme
+```
+
+```css
+/* .vitepress/theme/accent.css */
+:root {
+  --ylf-c-brand: #0f766e;
+  --ylf-c-brand-hover: #115e59;
+  --ylf-c-brand-active: #134e4a;
+  --ylf-c-brand-soft: #f0fdfa;
+}
+:root.dark {
+  --ylf-c-brand: #5eead4;
+  --ylf-c-brand-hover: #99f6e4;
+  --ylf-c-brand-active: #2dd4bf;
+  --ylf-c-brand-soft: #123a37;
+}
+```
+
+| 可以覆盖                                      | 作用                                                   |
+| --------------------------------------------- | ------------------------------------------------------ |
+| `--ylf-c-brand`、`-hover`、`-active`、`-soft` | 链接、按钮、导航指示、目录、提示块、焦点环与 Logo 颜色 |
+| `--ylf-c-text-on-accent`                      | 实色按钮上的文字；仅在新强调色与默认值对比不足时调整   |
+| `--ylf-glow-brand`、`--ylf-glow-brand-hover`  | 首页按钮光晕；默认是蓝色 rgba，换色时一并改            |
+| `--ylf-font-display`、`--ylf-font-wordmark`   | 导航站名与品牌展示字；正文和标题字体保持不变           |
+
+不要覆盖：`--ylf-palette-*` 与 `--ylf-accent-*`（多彩色板与标题青黄短线是主题签名）、`--ylf-c-bg*` / `--ylf-c-surface` / `--ylf-c-panel` / `--ylf-c-text*` / `--ylf-c-border*`（晴空／夜空表面）、`--ylf-status-*`、间距／圆角／动效／布局 token，以及直接改 `--vp-c-brand-*`（它们已映射到 `--ylf-*`，绕过会让组件与文档不一致）。
+
+两套强调色都需满足：`--ylf-c-brand` 在 `--ylf-c-bg` 上、`--ylf-c-text-on-accent` 在 `--ylf-c-brand` 上对比度不低于 4.5:1。
+
+## 字体
+
+主题本身**不下载任何 webfont**：正文与标题走系统字体，`--ylf-font-display`（导航站名）在未加载 Baloo 2 / ZCOOL KuaiLe 时依次回退到 `ui-rounded`、Hiragino 丸ゴシック、苹方、微软雅黑。不加载也能正常显示。
+
+想要圆体展示字时，面向中国大陆访客的站点不要依赖 `fonts.googleapis.com`（常被阻断，阻塞或拖慢首屏）。改为自托管：
+
+```sh
+pnpm add @fontsource/baloo-2 @fontsource/zcool-kuaile
+```
+
+```ts
+// .vitepress/theme/index.ts
+import '@fontsource/baloo-2/700.css'
+import '@fontsource/zcool-kuaile/400.css' // 按 unicode-range 分片，只下载页面用到的字
+```
+
+字体文件随站点构建产出、与页面同源。也可把 woff2 放在 `public/` 下自写 `@font-face`。Design 文档站的 Google Fonts `<link>` 只是该站点自己的选择，不属于主题。
+
+## Mermaid
+
+与 [vitepress-plugin-mermaid](https://github.com/emersonbottero/vitepress-plugin-mermaid) 组合时，用 `withMermaid` 包在外层：
+
+```ts
+import { withMermaid } from 'vitepress-plugin-mermaid'
+import { withYunlefun, yunlefunMarkdown } from 'vitepress-theme-yunlefun/config'
+
+export default withMermaid(withYunlefun({
+  markdown: { config: md => md.use(yunlefunMarkdown) },
+  // ...
+}))
+```
+
+两种嵌套顺序都已用 VitePress 1.6.4、mermaid 11.16 与插件 2.0.17 验证：`withYunlefun` 保留插件追加的 `markdown.config`、Vite 插件与 `optimizeDeps`，插件无需额外 `ssr.noExternal`。图表沿用 Mermaid 自带的 `default` / `dark` 主题，随导航外观开关重新渲染，晴空与夜空下都清晰可读；主题不改写图表配色。
 
 ## 可选工作台表面
 

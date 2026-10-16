@@ -39,10 +39,13 @@ function svg(viewBox, content) {
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox}">${content}</svg>\n`
 }
 
-export function renderBrandAssets(name, palette) {
-  if (!['brand-mark', 'design-mark'].includes(name))
-    throw new Error(`Unsupported site mark: ${name}`)
-  const icon = icons.icons[name]
+/** `mark` is a canonical name or a site's own Iconify data (`{ body, width?, height? }`). */
+export function renderBrandAssets(mark, palette) {
+  if (typeof mark !== 'object' && !['brand-mark', 'design-mark'].includes(mark))
+    throw new Error(`Unsupported site mark: ${mark}`)
+  if (typeof mark === 'object' && typeof mark?.body !== 'string')
+    throw new Error('Site mark needs Iconify data with a body')
+  const icon = typeof mark === 'string' ? icons.icons[mark] : mark
   const width = icon.width || icons.width || 16
   const height = icon.height || icons.height || 16
   const viewBox = `0 0 ${width} ${height}`
@@ -50,7 +53,7 @@ export function renderBrandAssets(name, palette) {
     const scale = (size - padding * 2) / Math.max(width, height)
     return `<g color="${color}" transform="translate(${(size - width * scale) / 2} ${(size - height * scale) / 2}) scale(${scale})">${icon.body}</g>`
   }
-  const app = icons.icons[name.replace('-mark', '-app-icon')]
+  const app = typeof mark === 'string' ? icons.icons[mark.replace('-mark', '-app-icon')] : undefined
   return {
     mark: svg(viewBox, icon.body),
     light: svg(viewBox, `<g color="${palette.light}">${icon.body}</g>`),
@@ -64,9 +67,9 @@ export function renderBrandAssets(name, palette) {
 }
 
 /** Generated assets are committed; librsvg is needed only when regenerating PNGs. */
-export async function generateBrandAssets({ outDir, icon = 'brand-mark', title = 'YunLeFun', png = true }) {
+export async function generateBrandAssets({ outDir, icon = 'brand-mark', title = 'YunLeFun', png = true, palette = {} }) {
   const css = await readFile(fileURLToPath(import.meta.resolve('@yunlefun/ui/css')), 'utf8')
-  const assets = renderBrandAssets(icon, readBrandPalette(css))
+  const assets = renderBrandAssets(icon, { ...readBrandPalette(css), ...palette })
   await mkdir(resolve(outDir, 'brand'), { recursive: true })
   for (const [path, content] of Object.entries({
     'brand/brand-mark.svg': assets.mark,

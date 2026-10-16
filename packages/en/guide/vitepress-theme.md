@@ -21,7 +21,7 @@ Cyan and yellow mark titles; primary actions and links retain brand blue. Docume
 The first version is distributed as an npm-format tarball on GitHub Releases:
 
 ```sh
-pnpm add -D https://github.com/YunLeFun/design/releases/download/theme-v0.3.0/vitepress-theme-yunlefun-0.3.0.tgz
+pnpm add -D https://github.com/YunLeFun/design/releases/download/theme-v0.4.0/vitepress-theme-yunlefun-0.4.0.tgz
 ```
 
 In `.vitepress/theme/index.ts`:
@@ -93,6 +93,26 @@ await generateBrandAssets({ outDir: 'docs/public', icon: 'brand-mark', title: 'Y
 ```
 
 Run this Node-only helper when updating icons; commit the generated files. PNG generation requires `rsvg-convert` (librsvg). SVG-only tooling can pass `png: false`.
+
+## Site identity and accent {#站点标识与强调色}
+
+Sites outside YunLeFun, such as a personal site, keep the same theme and add a thin override layer on their side. They do not fork the theme or create a new palette.
+
+Besides `brand-mark` and `design-mark`, `brand.icon` accepts the site's own Iconify data `{ body, width?, height? }` (parts drawn with `currentColor` follow `--ylf-c-brand`) or an image `{ src }` (resolved with `withBase`). `generateBrandAssets` accepts Iconify data for `icon` too, plus `palette: { light, dark }` so favicons match the accent.
+
+Override the accent in a stylesheet imported after the theme styles, for both `:root` and `:root.dark`:
+
+- May override: `--ylf-c-brand`, `--ylf-c-brand-hover`, `--ylf-c-brand-active`, `--ylf-c-brand-soft`, and when needed `--ylf-c-text-on-accent` and `--ylf-glow-brand(-hover)`; the display font `--ylf-font-display` / `--ylf-font-wordmark`.
+- Must not override: `--ylf-palette-*`, `--ylf-accent-*`, background, surface, text and border tokens, status colors, spacing, radius, motion or layout tokens. Do not set `--vp-c-brand-*` directly.
+- In both appearances, keep `--ylf-c-brand` on the background and button text on `--ylf-c-brand` at 4.5:1 contrast or higher.
+
+See the [theme README](https://github.com/YunLeFun/design/tree/main/packages/vitepress-theme-yunlefun#站点强调色) for a full example.
+
+## Fonts and Mermaid {#字体与-mermaid}
+
+The theme downloads no webfonts. Without Baloo 2 or ZCOOL KuaiLe, the display font falls back to system rounded fonts, then PingFang or Microsoft YaHei. Sites serving mainland China should not rely on Google Fonts; self-host with `@fontsource/baloo-2` and `@fontsource/zcool-kuaile` (split by unicode-range) instead. The Google Fonts `<link>` on this site is Design's own choice.
+
+With `vitepress-plugin-mermaid`, write `withMermaid(withYunlefun({ … }))`. The reverse order also works, and no extra `ssr.noExternal` is needed. Diagrams keep Mermaid's built-in light and dark themes and re-render when the appearance switch changes.
 
 ## Optional workbench surfaces
 

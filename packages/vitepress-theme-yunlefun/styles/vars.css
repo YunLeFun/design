@@ -5,7 +5,7 @@
 
 :root,
 :root.dark {
-  /* 字体：正文走系统字体（零下载），标题/Hero 用圆体 display（见 config head 加载） */
+  /* 字体：正文走系统字体（零下载），品牌名用圆体 display（webfont 由站点按需加载） */
   --vp-font-family-base: var(--ylf-font-body);
   --vp-font-family-mono: var(--ylf-font-mono);
   --vp-layout-max-width: var(--ylf-layout-page);

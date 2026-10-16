@@ -2,7 +2,7 @@
  * Typography — 仅把圆体展示字应用到品牌展示；产品标题和正文使用系统字体。
  * 正文使用系统/Inter 字体，使中文圆体 webfont 不为正文加载。
  * 字族 token 与回退链：@yunlefun/ui/styles/css-vars.scss（--ylf-font-display）。
- * 字体本身经 .vitepress/config.ts 的 <link> 加载（preconnect + Google Fonts）。
+ * 主题不请求任何 webfont；站点可自行加载 Baloo 2 / ZCOOL KuaiLe，未加载时回退到系统圆体与苹方/雅黑。
  */
 
 /* 顶部导航品牌名 */
