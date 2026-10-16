@@ -64,6 +64,18 @@ export default Theme
       assert.ok(html.includes('<div class="mermaid">'), `Missing Mermaid component on VitePress ${version}`)
     assert.ok(html.includes('ylf-doc-table'), `Missing table region on VitePress ${version}`)
     assert.ok(html.includes('aria-label="Theme"'), `Missing heading label on VitePress ${version}`)
+    // The dev optimizer must not pre-bundle the theme: a bundled copy carries its own VitePress and `useData()` throws.
+    await writeFile(resolve(cwd, 'dev-check.mjs'), `
+import process from 'node:process'
+import { createServer } from 'vitepress'
+const server = await createServer('docs')
+await server.listen()
+const { code } = await server.transformRequest('/@fs' + process.cwd() + '/docs/.vitepress/theme/index.mts')
+console.log(code.match(/^import Theme from "([^"]+)"/m)?.[1] ?? '')
+process.exit(0)
+`)
+    const themeImport = execFileSync(process.execPath, ['dev-check.mjs'], { cwd, encoding: 'utf8' }).trim().split('\n').at(-1)
+    assert.match(themeImport, /\/node_modules\/vitepress-theme-yunlefun\/index\.mjs/, `Dev server pre-bundles the theme on VitePress ${version}: ${themeImport}`)
     console.log(`Theme tarball verified on VitePress ${version}`)
   }
 }

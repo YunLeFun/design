@@ -47,7 +47,7 @@ export default defineConfig(withYunlefun({
 }))
 ```
 
-`withYunlefun` 保留站点现有的 Vite 插件，确保安装包中的 Vue 主题参与服务端构建。CSS 直接使用编译好的设计变量，不要求 Sass，也不会下载字体。
+`withYunlefun` 保留站点现有的 Vite 插件，确保安装包中的 Vue 主题参与服务端构建，并避免开发服务器把主题连同另一份 VitePress 预构建。CSS 直接使用编译好的设计变量，不要求 Sass，也不会下载字体。
 
 ## 保留原生功能
 

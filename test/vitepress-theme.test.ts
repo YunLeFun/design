@@ -54,4 +54,10 @@ describe('shared VitePress theme config', () => {
     expect(config.vite?.optimizeDeps?.include).toEqual(['dayjs'])
     expect(config.vite?.ssr?.noExternal).toEqual(['vitepress-theme-yunlefun'])
   })
+
+  it('keeps the dev optimizer from pre-bundling the theme with a second VitePress', () => {
+    expect(withYunlefun({}).vite?.optimizeDeps?.exclude).toEqual(['vitepress-theme-yunlefun'])
+    const config = withYunlefun({ vite: { optimizeDeps: { exclude: ['@site/local-plugin'] } } })
+    expect(config.vite?.optimizeDeps?.exclude).toEqual(['vitepress-theme-yunlefun', '@site/local-plugin'])
+  })
 })

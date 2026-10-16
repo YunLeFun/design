@@ -45,7 +45,7 @@ export default defineConfig(withYunlefun({
 }))
 ```
 
-`withYunlefun` 处理 npm 安装包的服务端构建，保留已有 Vite 插件和 SSR 配置。`yunlefunMarkdown` 保留原生表格属性，将宽表格滚动和键盘焦点放到带无障碍标签的外层；默认识别 `en/` 路径，也可传 `tableLabel(env)` 自定义标签。
+`withYunlefun` 处理 npm 安装包的服务端构建，并将主题排除在开发依赖预构建之外（否则会打包出第二份 VitePress，`useData()` 报错），保留已有 Vite 插件、SSR 与 `optimizeDeps` 配置。`yunlefunMarkdown` 保留原生表格属性，将宽表格滚动和键盘焦点放到带无障碍标签的外层；默认识别 `en/` 路径，也可传 `tableLabel(env)` 自定义标签。
 
 中英站点继续使用 VitePress `locales` 和默认语言菜单；`zhThemeConfig` 是可选的原生中文界面文案预设，不会翻译站点内容。
 

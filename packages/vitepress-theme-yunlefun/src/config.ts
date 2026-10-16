@@ -82,7 +82,15 @@ export const zhThemeConfig: DefaultTheme.Config = {
   },
 }
 
-/** Bundle the SFC theme during SSR as well as the browser build. */
+/**
+ * Bundle the SFC theme during SSR as well as the browser build, and keep the dev
+ * optimizer from pre-bundling it with a second copy of VitePress.
+ */
 export function withYunlefun(config: UserConfig<YunlefunThemeConfig>): UserConfig<YunlefunThemeConfig> {
-  return mergeConfig({ vite: { ssr: { noExternal: ['vitepress-theme-yunlefun'] } } }, config)
+  return mergeConfig({
+    vite: {
+      ssr: { noExternal: ['vitepress-theme-yunlefun'] },
+      optimizeDeps: { exclude: ['vitepress-theme-yunlefun'] },
+    },
+  }, config)
 }

@@ -46,7 +46,7 @@ export default defineConfig(withYunlefun({
 }))
 ```
 
-`withYunlefun` preserves existing Vite plugins and bundles the installed Vue theme for server rendering. CSS uses compiled design tokens, requires no Sass and downloads no fonts.
+`withYunlefun` preserves existing Vite plugins, bundles the installed Vue theme for server rendering and keeps the dev server from pre-bundling it with a second copy of VitePress. CSS uses compiled design tokens, requires no Sass and downloads no fonts.
 
 ## Native features {#保留原生功能}
 
