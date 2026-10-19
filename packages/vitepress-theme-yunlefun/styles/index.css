@@ -5,10 +5,16 @@ html {
 ::selection {
   background: color-mix(in srgb, var(--ylf-c-brand) 20%, transparent);
 }
-.VPNavBar .content-body,
-.VPNavBar:not(.has-sidebar):not(.home.top) {
+.VPNavBar .content-body {
   background: color-mix(in srgb, var(--ylf-c-bg) 92%, transparent);
   backdrop-filter: blur(12px);
+}
+/* 窄于 960px 时 VitePress 导航不固定、随页面滚走，按滚动位置切换底色只会在回到顶部时闪一下。 */
+@media (min-width: 960px) {
+  .VPNavBar:not(.has-sidebar):not(.home.top) {
+    background: color-mix(in srgb, var(--ylf-c-bg) 92%, transparent);
+    backdrop-filter: blur(12px);
+  }
 }
 .VPNavBarTitle .title {
   gap: var(--ylf-space-3);

@@ -87,4 +87,14 @@ describe('shared VitePress theme config', () => {
     }
     expect(css).toMatch(/\.dark \.ylf-home-sky__cloud \{[^}]*filter: drop-shadow/)
   })
+
+  it('only switches the nav surface on scroll where VitePress fixes the nav', async () => {
+    const styles = resolve(import.meta.dirname, '../packages/vitepress-theme-yunlefun/styles')
+    const strip = (source: string) => source.replace(/\/\*[\s\S]*?\*\//g, '')
+    const index = strip(await readFile(resolve(styles, 'index.css'), 'utf8'))
+    const home = strip(await readFile(resolve(styles, 'home.css'), 'utf8'))
+    // Below 960px the nav scrolls away with the page, so a `.top`-driven surface only flashes on the way back up.
+    expect(index.replace(/@media \(min-width: 960px\) \{[\s\S]*?\}\s*\}/g, '')).not.toContain('.home.top')
+    expect(home).toMatch(/@media \(max-width: 959px\) \{\s*:root:has\(\.ylf-home-sky\) \.VPNavBar\.home \.content-body \{[^}]*background: transparent;[^}]*backdrop-filter: none;/)
+  })
 })

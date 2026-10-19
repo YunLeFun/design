@@ -149,6 +149,13 @@
   background: transparent;
   backdrop-filter: none;
 }
+/* 窄于 960px 时导航随页面滚走，始终透出天空，避免回到顶部时先盖一层底色再淡出。 */
+@media (max-width: 959px) {
+  :root:has(.ylf-home-sky) .VPNavBar.home .content-body {
+    background: transparent;
+    backdrop-filter: none;
+  }
+}
 .ylf-home-sky {
   /* hero 的负 margin 会穿过 .VPHome 折叠，因此 top: 0 就是 hero 的顶边（导航之下）。 */
   position: absolute;
