@@ -1,6 +1,7 @@
 <script lang="ts" setup generic="T extends string = string">
 import { SelectContent, SelectIcon, SelectItem, SelectItemIndicator, SelectItemText, SelectPortal, SelectRoot, SelectTrigger, SelectValue, SelectViewport } from 'reka-ui'
-import { computed } from 'vue'
+import { computed, useTemplateRef } from 'vue'
+import YlfScrollFade from './YlfScrollFade.vue'
 
 defineOptions({ inheritAttrs: false })
 
@@ -25,6 +26,7 @@ const props = withDefaults(defineProps<{
 
 const model = defineModel<T>()
 const selectedOption = computed(() => props.options.find(option => option.value === model.value))
+const viewport = useTemplateRef<HTMLElement>('viewport')
 </script>
 
 <template>
@@ -44,27 +46,31 @@ const selectedOption = computed(() => props.options.find(option => option.value 
     </SelectTrigger>
     <SelectPortal :to="portalTo">
       <SelectContent class="ylf-select__content" :data-size="size" position="popper" :side-offset="6" :collision-padding="16">
-        <SelectViewport class="ylf-select__viewport">
-          <SelectItem
-            v-for="o in options"
-            :key="o.value"
-            :value="o.value"
-            :disabled="o.disabled"
-            class="ylf-select__item"
-          >
-            <SelectItemText class="ylf-select__label">
-              <span v-if="o.color" class="ylf-select__swatch" :style="{ backgroundColor: o.color }" aria-hidden="true" />
-              <span>{{ o.label }}</span>
-            </SelectItemText>
-            <SelectItemIndicator class="ylf-select__check">
-              <slot name="indicator">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M5 12.5l4.5 4.5L19 7" />
-                </svg>
-              </slot>
-            </SelectItemIndicator>
-          </SelectItem>
-        </SelectViewport>
+        <YlfScrollFade :viewport="viewport" surface="var(--ylf-c-panel, var(--ylf-c-surface, #fff))">
+          <SelectViewport as-child>
+            <div ref="viewport" class="ylf-select__viewport">
+              <SelectItem
+                v-for="o in options"
+                :key="o.value"
+                :value="o.value"
+                :disabled="o.disabled"
+                class="ylf-select__item"
+              >
+                <SelectItemText class="ylf-select__label">
+                  <span v-if="o.color" class="ylf-select__swatch" :style="{ backgroundColor: o.color }" aria-hidden="true" />
+                  <span>{{ o.label }}</span>
+                </SelectItemText>
+                <SelectItemIndicator class="ylf-select__check">
+                  <slot name="indicator">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M5 12.5l4.5 4.5L19 7" />
+                    </svg>
+                  </slot>
+                </SelectItemIndicator>
+              </SelectItem>
+            </div>
+          </SelectViewport>
+        </YlfScrollFade>
       </SelectContent>
     </SelectPortal>
   </SelectRoot>
@@ -194,6 +200,7 @@ const selectedOption = computed(() => props.options.find(option => option.value 
 
 .ylf-select__viewport {
   max-height: calc(var(--reka-select-content-available-height) - 14px);
+  scroll-padding-block: 24px;
 }
 
 .ylf-select__item {
