@@ -10,7 +10,6 @@ const root = resolve(import.meta.dirname, '..')
 const pnpm = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm'
 const localFixes = {
   'GHSA-vfj7-8cjw-p6xm': 'braces@3.0.3',
-  'GHSA-86w9-cpqp-85rv': 'node-forge@1.4.0',
   'GHSA-hp3w-g68c-fv3c': 'sprintf-js@1.0.3',
 }
 

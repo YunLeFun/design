@@ -15,7 +15,7 @@ const forge = dependency(
   new URL('../packages/vue/package.json', import.meta.url),
 )
 
-describe('local dependency security patches', () => {
+describe('dependency security regressions', () => {
   it('rejects excessive brace and parenthesis nesting before recursive processing', () => {
     for (const [open, close] of [['{', '}'], ['(', ')']]) {
       const pattern = `${open.repeat(3500)}a,b${close.repeat(3500)}`
