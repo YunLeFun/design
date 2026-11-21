@@ -35,7 +35,7 @@ const indicator = useNavigationIndicator(root, {
   </nav>
 </template>
 
-<style lang="scss" scoped>
+<style scoped>
 .ylf-navigation {
   --_ylf-nav-justify: center;
   --_ylf-nav-active-bg: transparent;
@@ -47,33 +47,33 @@ const indicator = useNavigationIndicator(root, {
   align-items: center;
   gap: var(--ylf-space-2, 8px);
   min-width: 0;
+}
 
-  &[data-indicator] {
-    --_ylf-nav-indicator: none;
-  }
+.ylf-navigation[data-indicator] {
+  --_ylf-nav-indicator: none;
+}
 
-  &__indicator {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 16px;
-    height: 2px;
-    border-radius: var(--ylf-radius-pill, 999px);
-    background: var(--ylf-c-brand, #2563eb);
-    pointer-events: none;
-    transition: transform var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease);
-  }
+.ylf-navigation__indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 16px;
+  height: 2px;
+  border-radius: var(--ylf-radius-pill, 999px);
+  background: var(--ylf-c-brand, #2563eb);
+  pointer-events: none;
+  transition: transform var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+}
 
-  &[data-orientation='vertical'] {
-    --_ylf-nav-justify: flex-start;
-    --_ylf-nav-active-bg: var(--ylf-c-brand-soft, #eff6ff);
-    --_ylf-nav-indicator: none;
+.ylf-navigation[data-orientation='vertical'] {
+  --_ylf-nav-justify: flex-start;
+  --_ylf-nav-active-bg: var(--ylf-c-brand-soft, #eff6ff);
+  --_ylf-nav-indicator: none;
 
-    flex-direction: column;
-    flex-wrap: nowrap;
-    align-items: stretch;
-    gap: var(--ylf-space-1, 4px);
-  }
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: var(--ylf-space-1, 4px);
 }
 
 @media (prefers-reduced-motion: reduce) {

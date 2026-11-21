@@ -31,7 +31,7 @@ withDefaults(defineProps<{
   background: var(--agent-surface);
   color: var(--agent-color);
   font-family: var(--ylf-font-body, inherit);
-  font-size: var(--ylf-text-xs, 12px);
+  font-size: var(--ylf-text-xs, 0.75rem);
   line-height: 1.5;
   overflow-wrap: anywhere;
 }

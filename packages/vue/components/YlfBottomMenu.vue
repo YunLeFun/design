@@ -13,20 +13,20 @@ withDefaults(defineProps<{
   </nav>
 </template>
 
-<style lang="scss">
+<style>
 .ylf-bottom-menu {
   display: flex;
   align-items: stretch;
   justify-content: space-around;
   gap: 4px;
   padding: 8px 6px;
-  background: var(--ylf-bottom-menu-c-bg, var(--ylf-glass-bg, rgba(255, 255, 255, 0.62)));
+  background: var(--ylf-bottom-menu-c-bg, var(--ylf-glass-bg, rgba(255, 255, 255, 0.82)));
   -webkit-backdrop-filter: var(--ylf-glass-blur, saturate(160%) blur(16px));
   backdrop-filter: var(--ylf-glass-blur, saturate(160%) blur(16px));
   border-top: 1px solid var(--ylf-c-border, #e2e8f0);
+}
 
-  &.is-shadow {
-    box-shadow: var(--ylf-shadow, 0 10px 28px -8px rgba(15, 23, 42, 0.16));
-  }
+.ylf-bottom-menu.is-shadow {
+  box-shadow: var(--ylf-shadow, 0 10px 28px -8px rgba(15, 23, 42, 0.16));
 }
 </style>

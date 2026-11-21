@@ -26,63 +26,79 @@ const viewBox = `0 0 ${mark.width || icons.width || 16} ${mark.height || icons.h
   </div>
 </template>
 
-<style lang="scss">
+<style>
 .ylf-logo {
   display: inline-flex;
   align-items: center;
   gap: 10px;
   cursor: default;
   line-height: 1;
+}
 
-  &--vertical {
-    flex-direction: column;
-    gap: 8px;
-  }
+.ylf-logo--vertical {
+  flex-direction: column;
+  gap: 8px;
+}
 
-  &__mark {
-    flex: none;
-    display: grid;
-    place-items: center;
-    color: var(--ylf-c-brand, #2563eb);
+.ylf-logo__mark {
+  flex: none;
+  display: grid;
+  place-items: center;
+  color: var(--ylf-c-brand, #2563eb);
+}
 
-    svg {
-      width: 100%;
-      height: 100%;
-    }
-  }
+.ylf-logo__mark svg {
+  width: 100%;
+  height: 100%;
+}
 
-  &__name {
-    font-family: var(--ylf-font-wordmark, var(--ylf-font-display, sans-serif));
-    font-weight: 700;
-    color: var(--ylf-c-text, #0f172a);
-  }
+.ylf-logo__name {
+  font-family: var(
+    --ylf-font-wordmark,
+    var(
+      --ylf-font-display,
+      'Baloo 2',
+      'ZCOOL KuaiLe',
+      ui-rounded,
+      'Hiragino Maru Gothic ProN',
+      'Hiragino Maru Gothic Pro',
+      'PingFang SC',
+      'Hiragino Sans GB',
+      'Microsoft YaHei',
+      '微软雅黑',
+      'Source Han Sans SC',
+      sans-serif
+    )
+  );
+  font-weight: 700;
+  color: var(--ylf-c-text, #0f172a);
+}
 
-  // sizes
-  &--sm &__mark {
-    width: 36px;
-    height: 25.2px;
-  }
+/* sizes */
+.ylf-logo--sm .ylf-logo__mark {
+  width: 36px;
+  height: 25.2px;
+}
 
-  &--sm &__name {
-    font-size: 18px;
-  }
+.ylf-logo--sm .ylf-logo__name {
+  font-size: 18px;
+}
 
-  &--md &__mark {
-    width: 48px;
-    height: 33.6px;
-  }
+.ylf-logo--md .ylf-logo__mark {
+  width: 48px;
+  height: 33.6px;
+}
 
-  &--md &__name {
-    font-size: 24px;
-  }
+.ylf-logo--md .ylf-logo__name {
+  font-size: 24px;
+}
 
-  &--lg &__mark {
-    width: 72px;
-    height: 50.4px;
-  }
+.ylf-logo--lg .ylf-logo__mark {
+  width: 72px;
+  height: 50.4px;
+}
 
-  &--lg &__name {
-    font-size: 34px;
-  }
+.ylf-logo--lg .ylf-logo__name {
+  font-size: 34px;
 }
 </style>

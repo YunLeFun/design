@@ -38,7 +38,7 @@ const fadeStyle = useScrollFade(toRef(() => props.viewport))
 .ylf-scroll-fade::before,
 .ylf-scroll-fade::after {
   position: absolute;
-  z-index: 1;
+  z-index: var(--ylf-z-base, 1);
   inset-inline: 0;
   height: min(var(--ylf-scroll-fade-size), 50%);
   pointer-events: none;

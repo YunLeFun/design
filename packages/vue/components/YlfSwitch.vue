@@ -12,7 +12,6 @@ withDefaults(defineProps<{
   disabled?: boolean
 }>(), {
   variant: 'brand',
-  tone: 'blue',
   size: 'md',
   disabled: false,
 })
@@ -32,12 +31,12 @@ const checked = defineModel<boolean>({ default: false })
   </SwitchRoot>
 </template>
 
-<style lang="scss">
+<style>
 .ylf-switch {
   --_w: 52px;
   --_h: 30px;
   --_pad: 3px;
-  // 按下时拇指横向拉长，像被捏住的软糖；松开后弹回。
+  /* 按下时拇指横向拉长，像被捏住的软糖；松开后弹回。 */
   --_stretch: 0px;
 
   position: relative;
@@ -50,69 +49,72 @@ const checked = defineModel<boolean>({ default: false })
   background: var(--ylf-c-bg-mute, #e2e8f0);
   box-shadow:
     var(--ylf-shadow-inset),
-    inset 0 0 0 1px var(--ylf-c-edge, transparent);
+    inset 0 0 0 1px var(--ylf-c-edge, rgba(30, 64, 115, 0.12));
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   transition:
-    background var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease),
-    box-shadow var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease);
+    background var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+    box-shadow var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+}
 
-  &--sm {
-    --_w: 40px;
-    --_h: 24px;
-  }
+.ylf-switch--sm {
+  --_w: 40px;
+  --_h: 24px;
+}
 
-  &:focus-visible {
-    outline: none;
-    box-shadow:
-      0 0 0 3px var(--ylf-c-brand-soft, #eff6ff),
-      0 0 0 5px var(--ylf-c-brand, #2563eb);
-  }
+.ylf-switch:focus-visible {
+  outline: var(--ylf-ring-width, 2px) solid var(--ylf-ring-color, var(--ylf-c-brand, #2563eb));
+  outline-offset: 2px;
+  box-shadow:
+    0 0 0 3px var(--ylf-c-brand-soft, #eff6ff),
+    0 0 0 5px var(--ylf-ring-color, var(--ylf-c-brand, #2563eb));
+}
 
-  &[data-disabled] {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
+.ylf-switch[data-disabled] {
+  opacity: var(--ylf-disabled-opacity, 0.48);
+  cursor: not-allowed;
+}
 
-  // on 态：晴空蓝主色
-  &[data-state='checked'] {
-    background: var(--ylf-c-brand, #2563eb);
-  }
+/* on 态：晴空蓝主色 */
+.ylf-switch[data-state='checked'] {
+  background: var(--ylf-c-brand, #2563eb);
+}
 
-  // 选中的强调轨道，前景与填充色成组。
-  &--accent[data-state='checked'],
-  &--aurora[data-state='checked'] {
-    background: var(--ylf-accent, var(--ylf-c-brand, #2563eb));
-  }
+/* 选中的强调轨道，前景与填充色成组。 */
+.ylf-switch--accent[data-state='checked'],
+.ylf-switch--aurora[data-state='checked'] {
+  background: var(--ylf-accent, var(--ylf-c-brand, #2563eb));
+}
 
-  &:active:not([data-disabled]) {
-    --_stretch: 6px;
-  }
+.ylf-switch:active:not([data-disabled]) {
+  --_stretch: 6px;
+}
 
-  &__thumb {
-    display: block;
-    width: calc(var(--_h) - var(--_pad) * 2 + var(--_stretch));
-    height: calc(var(--_h) - var(--_pad) * 2);
-    border-radius: 50%;
-    background: #fff;
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.4),
-      0 1px 2px rgba(0, 0, 0, 0.12),
-      0 3px 5px rgba(0, 0, 0, 0.18);
-    transform: translateX(var(--_pad));
-    transition:
-      transform var(--ylf-duration-slow, 480ms) var(--ylf-ease-spring, var(--ylf-ease-standard, ease)),
-      width var(--ylf-duration-normal, 240ms) var(--ylf-ease-spring, var(--ylf-ease-standard, ease));
-  }
+.ylf-switch__thumb {
+  display: block;
+  width: calc(var(--_h) - var(--_pad) * 2 + var(--_stretch));
+  height: calc(var(--_h) - var(--_pad) * 2);
+  border-radius: 50%;
+  background: #fff;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    0 1px 2px rgba(0, 0, 0, 0.12),
+    0 3px 5px rgba(0, 0, 0, 0.18);
+  transform: translateX(var(--_pad));
+  transition:
+    transform var(--ylf-duration-slow, 480ms)
+      var(--ylf-ease-spring, var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1))),
+    width var(--ylf-duration-normal, 240ms) var(--ylf-ease-spring, var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1)));
+}
 
-  &[data-state='checked'] &__thumb {
-    background: var(--ylf-c-text-on-accent, #fff);
-    transform: translateX(calc(var(--_w) - var(--_h) + var(--_pad) - var(--_stretch)));
-  }
-  &--accent[data-state='checked'] &__thumb,
-  &--aurora[data-state='checked'] &__thumb {
-    background: var(--ylf-accent-on, var(--ylf-c-text-on-accent, #fff));
-  }
+.ylf-switch[data-state='checked'] .ylf-switch__thumb {
+  background: var(--ylf-c-text-on-accent, #fff);
+  transform: translateX(calc(var(--_w) - var(--_h) + var(--_pad) - var(--_stretch)));
+}
+
+.ylf-switch--accent[data-state='checked'] .ylf-switch__thumb,
+.ylf-switch--aurora[data-state='checked'] .ylf-switch__thumb {
+  background: var(--ylf-accent-on, var(--ylf-c-text-on-accent, #fff));
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -121,6 +123,7 @@ const checked = defineModel<boolean>({ default: false })
     transition: none;
   }
 }
+
 @media (pointer: coarse) {
   .ylf-switch {
     position: relative;
@@ -128,16 +131,16 @@ const checked = defineModel<boolean>({ default: false })
     margin-block: max(0px, calc((var(--ylf-touch-target, 44px) - var(--_h)) / 2));
     margin-inline: max(0px, calc((var(--ylf-touch-target, 44px) - var(--_w)) / 2));
     touch-action: manipulation;
+  }
 
-    &::before {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: max(100%, var(--ylf-touch-target, 44px));
-      height: max(100%, var(--ylf-touch-target, 44px));
-      transform: translate(-50%, -50%);
-      content: '';
-    }
+  .ylf-switch::before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max(100%, var(--ylf-touch-target, 44px));
+    height: max(100%, var(--ylf-touch-target, 44px));
+    transform: translate(-50%, -50%);
+    content: '';
   }
 }
 </style>

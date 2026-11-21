@@ -18,7 +18,7 @@ async function run(command: string, args: string[], cwd: string) {
 }
 
 try {
-  const dependencies: Record<string, string> = { vue: '3.5.44', sass: '1.105.1' }
+  const dependencies: Record<string, string> = { vue: '3.5.44' }
   for (const directory of ['packages/ui', 'packages/vue']) {
     const cwd = resolve(root, directory)
     const pkg = JSON.parse(await readFile(resolve(cwd, 'package.json'), 'utf8'))
@@ -109,9 +109,21 @@ export default defineConfig({ plugins: [vue()] })
   await run(resolve(consumer, 'node_modules/.bin/vite'), ['build'], consumer)
   await run(process.execPath, ['--input-type=module', '-e', `
 import assert from 'node:assert/strict'
+import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs'
 import { createRequire } from 'node:module'
+import { resolve } from 'node:path'
 const require = createRequire(import.meta.url)
 assert.throws(() => require.resolve('@ag-ui/client'), { code: 'MODULE_NOT_FOUND' })
+assert.equal(existsSync(resolve(process.cwd(), 'node_modules/sass')), false)
+const pnpmDir = resolve(process.cwd(), 'node_modules/.pnpm')
+if (existsSync(pnpmDir))
+  assert.equal(readdirSync(pnpmDir).some(entry => entry.startsWith('sass@')), false)
+const vueRootSource = readFileSync(resolve(process.cwd(), 'node_modules/@yunlefun/vue/dist/index.mjs'), 'utf8')
+assert.equal(vueRootSource.includes('node:path') || vueRootSource.includes('node:url'), false)
+const vueRoot = await import('@yunlefun/vue')
+assert.equal('componentsDir' in vueRoot, false)
+const { componentsDir } = await import('@yunlefun/vue/node')
+assert.equal(statSync(componentsDir).isDirectory(), true)
 `], consumer)
   await run('pnpm', ['add', '@ag-ui/client@1.0.2', '--ignore-scripts'], consumer)
   await writeFile(resolve(consumer, 'App.vue'), `<script setup lang="ts">

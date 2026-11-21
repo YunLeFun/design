@@ -38,7 +38,7 @@ watch(checked, () => {
   </CheckboxRoot>
 </template>
 
-<style lang="scss">
+<style>
 .ylf-checkbox {
   --_size: 20px;
 
@@ -56,60 +56,64 @@ watch(checked, () => {
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   transition:
-    background var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease),
-    border-color var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease),
-    box-shadow var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease),
-    transform var(--ylf-duration-slow, 480ms) var(--ylf-ease-spring, var(--ylf-ease-standard, ease));
+    background var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+    border-color var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+    box-shadow var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+    transform var(--ylf-duration-slow, 480ms)
+      var(--ylf-ease-spring, var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1)));
+}
 
-  @media (hover: hover) and (pointer: fine) {
-    &:hover:not([data-disabled]) {
-      border-color: var(--ylf-c-brand, #2563eb);
-    }
-  }
-
-  &:focus-visible {
-    outline: 2px solid var(--ylf-c-brand, #2563eb);
-    outline-offset: 3px;
-    box-shadow: 0 0 0 3px var(--ylf-c-brand-soft, #eff6ff);
-  }
-
-  &:active:not([data-disabled]) {
-    transform: scale(0.9);
-    transition-duration: var(--ylf-duration-press, 100ms);
-  }
-
-  &.is-animated[data-state='checked'],
-  &.is-animated[data-state='indeterminate'] {
-    animation: ylf-checkbox-pop var(--ylf-duration-slow, 480ms) var(--ylf-ease-spring, var(--ylf-ease-standard, ease));
-  }
-
-  &[data-state='checked'],
-  &[data-state='indeterminate'] {
-    background: var(--ylf-c-brand, #2563eb);
+@media (hover: hover) and (pointer: fine) {
+  .ylf-checkbox:hover:not([data-disabled]) {
     border-color: var(--ylf-c-brand, #2563eb);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22);
-  }
-
-  &[data-disabled] {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  &__indicator {
-    display: inline-flex;
-  }
-
-  &__indicator svg {
-    width: 14px;
-    height: 14px;
-  }
-
-  // 对勾按笔画顺序画出。
-  &.is-animated &__indicator path {
-    stroke-dasharray: 1;
-    animation: ylf-checkbox-draw var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease) 60ms backwards;
   }
 }
+
+.ylf-checkbox:focus-visible {
+  outline: var(--ylf-ring-width, 2px) solid var(--ylf-ring-color, var(--ylf-c-brand, #2563eb));
+  outline-offset: 3px;
+  box-shadow: 0 0 0 3px var(--ylf-c-brand-soft, #eff6ff);
+}
+
+.ylf-checkbox:active:not([data-disabled]) {
+  transform: scale(0.9);
+  transition-duration: var(--ylf-duration-press, 100ms);
+}
+
+.ylf-checkbox.is-animated[data-state='checked'],
+.ylf-checkbox.is-animated[data-state='indeterminate'] {
+  animation: ylf-checkbox-pop var(--ylf-duration-slow, 480ms)
+    var(--ylf-ease-spring, var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1)));
+}
+
+.ylf-checkbox[data-state='checked'],
+.ylf-checkbox[data-state='indeterminate'] {
+  background: var(--ylf-c-brand, #2563eb);
+  border-color: var(--ylf-c-brand, #2563eb);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.ylf-checkbox[data-disabled] {
+  opacity: var(--ylf-disabled-opacity, 0.48);
+  cursor: not-allowed;
+}
+
+.ylf-checkbox__indicator {
+  display: inline-flex;
+}
+
+.ylf-checkbox__indicator svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* 对勾按笔画顺序画出。 */
+.ylf-checkbox.is-animated .ylf-checkbox__indicator path {
+  stroke-dasharray: 1;
+  animation: ylf-checkbox-draw var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1))
+    60ms backwards;
+}
+
 @media (pointer: coarse) {
   .ylf-checkbox {
     position: relative;
@@ -117,28 +121,31 @@ watch(checked, () => {
     margin-block: max(0px, calc((var(--ylf-touch-target, 44px) - var(--_size)) / 2));
     margin-inline: max(0px, calc((var(--ylf-touch-target, 44px) - var(--_size)) / 2));
     touch-action: manipulation;
+  }
 
-    &::before {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: max(100%, var(--ylf-touch-target, 44px));
-      height: max(100%, var(--ylf-touch-target, 44px));
-      transform: translate(-50%, -50%);
-      content: '';
-    }
+  .ylf-checkbox::before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: max(100%, var(--ylf-touch-target, 44px));
+    height: max(100%, var(--ylf-touch-target, 44px));
+    transform: translate(-50%, -50%);
+    content: '';
   }
 }
+
 @keyframes ylf-checkbox-pop {
   from {
     transform: scale(0.82);
   }
 }
+
 @keyframes ylf-checkbox-draw {
   from {
     stroke-dashoffset: 1;
   }
 }
+
 @media (prefers-reduced-motion: reduce) {
   .ylf-checkbox,
   .ylf-checkbox.is-animated[data-state],

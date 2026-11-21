@@ -23,7 +23,6 @@ const props = withDefaults(defineProps<{
   round?: boolean
 }>(), {
   variant: 'brand',
-  tone: 'blue',
   appearance: 'solid',
   round: true,
 })
@@ -47,7 +46,7 @@ const statusPath = computed(() => statusPaths[props.variant])
   </span>
 </template>
 
-<style lang="scss">
+<style>
 .ylf-badge {
   --_badge-tone: var(--ylf-c-brand, #2563eb);
 
@@ -63,80 +62,100 @@ const statusPath = computed(() => statusPaths[props.variant])
   background: color-mix(in srgb, var(--_badge-tone) 6%, var(--ylf-c-surface, #fff));
   color: var(--_badge-tone);
   font-family: var(--ylf-font-body, inherit);
-  font-size: 12px;
+  font-size: var(--ylf-text-xs, 0.75rem);
   font-weight: 500;
   line-height: 1.5;
   white-space: nowrap;
+}
 
-  &.is-round {
-    border-radius: var(--ylf-radius-pill, 999px);
-  }
+.ylf-badge.is-round {
+  border-radius: var(--ylf-radius-pill, 999px);
+}
 
-  &--accent {
-    --_color: var(--ylf-accent, var(--ylf-c-brand, #2563eb));
-    --_soft: var(--ylf-accent-soft, var(--ylf-c-brand-soft, #eff6ff));
-    --_text: var(--ylf-accent-text, var(--ylf-c-brand, #2563eb));
+.ylf-badge--accent {
+  --_color: var(--ylf-accent, var(--ylf-c-brand, #2563eb));
+  --_soft: var(--ylf-accent-soft, var(--ylf-c-brand-soft, #eff6ff));
+  --_text: var(--ylf-accent-text, var(--ylf-c-brand, #2563eb));
 
-    color: var(--ylf-accent-on, var(--ylf-c-text-on-accent, #fff));
-    background: var(--ylf-accent, var(--ylf-c-brand, #2563eb));
-    border-color: transparent;
-  }
+  color: var(--ylf-accent-on, var(--ylf-c-text-on-accent, #fff));
+  background: var(--ylf-accent, var(--ylf-c-brand, #2563eb));
+  border-color: transparent;
+}
 
-  &--featured,
-  &--aurora {
-    color: var(--ylf-c-feature-text, #0f172a);
-    background: var(--ylf-c-feature-bg, #fef9c3);
-    border-color: color-mix(in srgb, var(--ylf-c-feature, #facc15) 45%, var(--ylf-c-surface, #fff));
-  }
+.ylf-badge--featured,
+.ylf-badge--aurora {
+  color: var(--ylf-c-feature-text, var(--ylf-c-text, #0f172a));
+  background: var(--ylf-c-feature-bg, var(--ylf-accent-sun-soft, #fef9c3));
+  border-color: color-mix(in srgb, var(--ylf-c-feature, #facc15) 45%, var(--ylf-c-surface, #fff));
+}
 
-  // 装饰星芒不承担状态语义，标签文字保持清晰。
-  &__spark {
-    flex: none;
-    width: 12px;
-    height: 12px;
-    background: var(--ylf-c-feature, #facc15);
-    clip-path: polygon(50% 0, 64% 36%, 100% 50%, 64% 64%, 50% 100%, 36% 64%, 0 50%, 36% 36%);
-  }
+/* 装饰星芒不承担状态语义，标签文字保持清晰。 */
+.ylf-badge__spark {
+  flex: none;
+  width: 12px;
+  height: 12px;
+  background: var(--ylf-c-feature, #facc15);
+  clip-path: polygon(50% 0, 64% 36%, 100% 50%, 64% 64%, 50% 100%, 36% 64%, 0 50%, 36% 36%);
+}
 
-  &--neutral {
-    --_badge-tone: var(--ylf-c-text-2, #475569);
-  }
+.ylf-badge--neutral {
+  --_badge-tone: var(--ylf-c-text-2, #475569);
+}
 
-  &__status-icon {
-    flex: none;
-    width: 12px;
-    height: 12px;
-  }
+.ylf-badge__status-icon {
+  flex: none;
+  width: 12px;
+  height: 12px;
+}
 
-  @each $status, $fill, $on in (success, #22c55e, #124324), (warning, #facc15, #64380e), (danger, #ff6b4a, #551b0a),
-    (info, #06b6d4, #083e4f)
-  {
-    &--#{$status} {
-      --_color: var(--ylf-status-#{$status}, #{$fill});
-      --_soft: var(--ylf-status-#{$status}-soft, var(--ylf-c-bg-soft, #f1f5f9));
-      --_text: var(--ylf-status-#{$status}-text, #{$on});
+.ylf-badge--success {
+  --_color: var(--ylf-status-success, #22c55e);
+  --_soft: var(--ylf-status-success-soft, var(--ylf-c-bg-soft, #f1f5f9));
+  --_text: var(--ylf-status-success-text, #166534);
 
-      color: var(--ylf-status-#{$status}-on, $on);
-      background: var(--ylf-status-#{$status}, $fill);
-      border-color: transparent;
-    }
-  }
+  color: var(--ylf-status-success-on, #124324);
+  background: var(--ylf-status-success, #22c55e);
+  border-color: transparent;
+}
 
-  &--accent,
-  &--success,
-  &--warning,
-  &--danger,
-  &--info {
-    &.is-soft {
-      color: var(--_text);
-      background: var(--_soft);
-    }
+.ylf-badge--warning {
+  --_color: var(--ylf-status-warning, #facc15);
+  --_soft: var(--ylf-status-warning-soft, var(--ylf-c-bg-soft, #f1f5f9));
+  --_text: var(--ylf-status-warning-text, #854d0e);
 
-    &.is-outline {
-      color: var(--_text);
-      background: transparent;
-      border-color: var(--_color);
-    }
-  }
+  color: var(--ylf-status-warning-on, #64380e);
+  background: var(--ylf-status-warning, #facc15);
+  border-color: transparent;
+}
+
+.ylf-badge--danger {
+  --_color: var(--ylf-status-danger, #ff6b4a);
+  --_soft: var(--ylf-status-danger-soft, var(--ylf-c-bg-soft, #f1f5f9));
+  --_text: var(--ylf-status-danger-text, #9a3412);
+
+  color: var(--ylf-status-danger-on, #551b0a);
+  background: var(--ylf-status-danger, #ff6b4a);
+  border-color: transparent;
+}
+
+.ylf-badge--info {
+  --_color: var(--ylf-status-info, #06b6d4);
+  --_soft: var(--ylf-status-info-soft, var(--ylf-c-bg-soft, #f1f5f9));
+  --_text: var(--ylf-status-info-text, #155e75);
+
+  color: var(--ylf-status-info-on, #083e4f);
+  background: var(--ylf-status-info, #06b6d4);
+  border-color: transparent;
+}
+
+:is(.ylf-badge--accent, .ylf-badge--success, .ylf-badge--warning, .ylf-badge--danger, .ylf-badge--info).is-soft {
+  color: var(--_text);
+  background: var(--_soft);
+}
+
+:is(.ylf-badge--accent, .ylf-badge--success, .ylf-badge--warning, .ylf-badge--danger, .ylf-badge--info).is-outline {
+  color: var(--_text);
+  background: transparent;
+  border-color: var(--_color);
 }
 </style>

@@ -35,45 +35,48 @@ withDefaults(defineProps<{
   </TooltipProvider>
 </template>
 
-<style lang="scss">
+<style>
 .ylf-tooltip {
-  z-index: 110;
+  z-index: var(--ylf-z-tooltip, 110);
   max-width: 240px;
   padding: 8px 12px;
-  font-size: 13px;
+  font-size: var(--ylf-control-font-size-sm, 0.8125rem);
   line-height: 1.5;
-  color: var(--ylf-c-bg, #fbfcff);
+  color: var(--ylf-c-bg, #f8fafc);
   background: var(--ylf-c-text, #0f172a);
   border-radius: var(--ylf-radius-sm, 10px);
-  border: 1px solid color-mix(in srgb, var(--ylf-c-bg, #fbfcff) 15%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ylf-c-bg, #f8fafc) 15%, transparent);
   box-shadow: var(--ylf-shadow, 0 10px 28px -8px rgba(15, 23, 42, 0.16));
   transform-origin: var(--reka-tooltip-content-transform-origin);
+}
 
-  &[data-state='delayed-open'],
-  &[data-state='instant-open'] {
-    animation: ylf-tooltip-in var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease);
-  }
+.ylf-tooltip[data-state='delayed-open'],
+.ylf-tooltip[data-state='instant-open'] {
+  animation: ylf-tooltip-in var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+}
 
-  &[data-state='closed'] {
-    animation: ylf-tooltip-out var(--ylf-duration-exit, 160ms) var(--ylf-ease-standard, ease);
-  }
+.ylf-tooltip[data-state='closed'] {
+  animation: ylf-tooltip-out var(--ylf-duration-exit, 160ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+}
 
-  &[data-side='bottom'] {
-    --_enter-y: -4px;
-  }
-  &[data-side='top'] {
-    --_enter-y: 4px;
-  }
-  &[data-side='left'] {
-    --_enter-x: 4px;
-  }
-  &[data-side='right'] {
-    --_enter-x: -4px;
-  }
+.ylf-tooltip[data-side='bottom'] {
+  --_enter-y: -4px;
+}
 
-  &__arrow {
-    fill: var(--ylf-c-text, #0f172a);
-  }
+.ylf-tooltip[data-side='top'] {
+  --_enter-y: 4px;
+}
+
+.ylf-tooltip[data-side='left'] {
+  --_enter-x: 4px;
+}
+
+.ylf-tooltip[data-side='right'] {
+  --_enter-x: -4px;
+}
+
+.ylf-tooltip__arrow {
+  fill: var(--ylf-c-text, #0f172a);
 }
 
 @keyframes ylf-tooltip-in {

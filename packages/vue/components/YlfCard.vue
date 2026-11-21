@@ -17,7 +17,6 @@ withDefaults(defineProps<{
   padding?: string
 }>(), {
   variant: 'soft',
-  tone: 'blue',
   hoverable: true,
   padding: '22px',
 })
@@ -34,54 +33,55 @@ withDefaults(defineProps<{
   </div>
 </template>
 
-<style lang="scss">
+<style>
 .ylf-card {
   position: relative;
-  border-radius: var(--ylf-radius-lg, 20px);
+  border-radius: var(--ylf-panel-radius, var(--ylf-radius-lg, 20px));
   color: var(--ylf-c-text, #0f172a);
   background: var(--ylf-c-surface, #fff);
   border: 1px solid var(--ylf-c-border, #e2e8f0);
-  box-shadow: var(--ylf-shadow-control, 0 2px 8px -2px rgba(15, 23, 42, 0.12));
+  box-shadow: var(--ylf-shadow-control);
   transition:
-    transform var(--ylf-duration-slow, 480ms) var(--ylf-ease-spring, var(--ylf-ease-standard, ease)),
-    box-shadow var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease),
-    background var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease);
+    transform var(--ylf-duration-slow, 480ms)
+      var(--ylf-ease-spring, var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1))),
+    box-shadow var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+    background var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+}
 
-  @media (hover: hover) and (pointer: fine) {
-    &.is-hoverable:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--ylf-shadow, 0 10px 28px -8px rgba(15, 23, 42, 0.16));
-    }
+@media (hover: hover) and (pointer: fine) {
+  .ylf-card.is-hoverable:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--ylf-shadow, 0 10px 28px -8px rgba(15, 23, 42, 0.16));
   }
+}
 
-  // 云玻璃
-  &--glass {
-    background: var(--ylf-glass-bg, rgba(255, 255, 255, 0.62));
-    border-color: var(--ylf-glass-border, rgba(255, 255, 255, 0.7));
-    -webkit-backdrop-filter: var(--ylf-glass-blur, saturate(160%) blur(16px));
-    backdrop-filter: var(--ylf-glass-blur, saturate(160%) blur(16px));
-    box-shadow: var(--ylf-shadow-panel, 0 22px 56px -14px rgba(15, 23, 42, 0.22));
-  }
+/* 云玻璃 */
+.ylf-card--glass {
+  background: var(--ylf-glass-bg, rgba(255, 255, 255, 0.82));
+  border-color: var(--ylf-glass-border, rgba(255, 255, 255, 0.7));
+  -webkit-backdrop-filter: var(--ylf-glass-blur, saturate(160%) blur(16px));
+  backdrop-filter: var(--ylf-glass-blur, saturate(160%) blur(16px));
+  box-shadow: var(--ylf-shadow-panel, var(--ylf-shadow-lg, 0 22px 56px -14px rgba(15, 23, 42, 0.22)));
+}
 
-  &--accent,
-  &--gradient {
-    border-top: 3px solid var(--ylf-accent, var(--ylf-c-brand, #2563eb));
-  }
+.ylf-card--accent,
+.ylf-card--gradient {
+  border-top: 3px solid var(--ylf-accent, var(--ylf-c-brand, #2563eb));
+}
 
-  &--tinted {
-    background: var(--ylf-accent-soft, var(--ylf-c-brand-soft, #eff6ff));
-    border-color: color-mix(in srgb, var(--ylf-accent, var(--ylf-c-brand, #2563eb)) 35%, var(--ylf-c-surface, #fff));
-    box-shadow: none;
-  }
+.ylf-card--tinted {
+  background: var(--ylf-accent-soft, var(--ylf-c-brand-soft, #eff6ff));
+  border-color: color-mix(in srgb, var(--ylf-accent, var(--ylf-c-brand, #2563eb)) 35%, var(--ylf-c-surface, #fff));
+  box-shadow: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .ylf-card {
     transition: none;
+  }
 
-    &.is-hoverable:hover {
-      transform: none;
-    }
+  .ylf-card.is-hoverable:hover {
+    transform: none;
   }
 }
 </style>

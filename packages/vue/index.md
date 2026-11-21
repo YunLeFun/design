@@ -6,16 +6,15 @@
 
 ```bash
 pnpm add @yunlefun/ui @yunlefun/vue
-pnpm add -D sass
 ```
 
-在应用的 SCSS 入口中加载一次：
+组件样式已完全使用原生 CSS 变量，无需安装 `sass`。在应用入口加载一次共享 token：
 
-```scss
-@use '@yunlefun/ui/styles';
+```ts
+import '@yunlefun/ui/css'
 ```
 
-再从应用入口导入该 SCSS 文件。品牌字体按需加载，见[字体规范](/guide/typography)。
+如果项目自身使用 SCSS，也仍可选装 `sass` 并使用 `@use '@yunlefun/ui/styles';`。品牌字体按需加载，见[字体规范](/guide/typography)。
 
 ## Vue / Vite：显式导入组件
 
@@ -29,14 +28,14 @@ import YlfButton from '@yunlefun/vue/components/YlfButton.vue'
 </template>
 ```
 
-当前根入口不导出所有组件，不使用 `import { YlfButton } from '@yunlefun/vue'`。仓库也没有公开的 `YlfResolver`，不需要添加不存在的自动导入解析器。
+`@yunlefun/vue` 根入口保持浏览器安全（仅导出类型，不包含 `node:path` / `node:url` 等 Node 依赖），不使用 `import { YlfButton } from '@yunlefun/vue'`；Node 工具常量（如 `componentsDir`）位于 `@yunlefun/vue/node`。仓库也没有公开的 `YlfResolver`，不需要添加不存在的自动导入解析器。
 
 ## Nuxt：注册模块
 
 ```ts
 export default defineNuxtConfig({
   modules: ['@yunlefun/vue/nuxt'],
-  css: ['@yunlefun/ui/styles'],
+  css: ['@yunlefun/ui/css'],
 })
 ```
 

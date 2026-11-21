@@ -48,10 +48,10 @@ const titleId = useId()
   min-width: 0;
   padding: var(--ylf-space-6, 24px);
   border: 1px solid var(--ylf-c-border, #e2e8f0);
-  border-radius: var(--ylf-radius-lg, 20px);
+  border-radius: var(--ylf-panel-radius, var(--ylf-radius-lg, 20px));
   background: var(--ylf-c-surface, #fff);
   color: var(--ylf-c-text, #0f172a);
-  box-shadow: var(--ylf-shadow-control, none);
+  box-shadow: var(--ylf-shadow-control);
   font-family: var(--ylf-font-body, inherit);
 }
 .ylf-agent-card__header {
@@ -81,14 +81,14 @@ const titleId = useId()
 .ylf-agent-card__name {
   margin: 0;
   font-family: var(--ylf-font-heading, inherit);
-  font-size: var(--ylf-text-lg, 20px);
+  font-size: var(--ylf-text-lg, 1.25rem);
   line-height: var(--ylf-leading-heading, 1.25);
   overflow-wrap: anywhere;
 }
 .ylf-agent-card__description {
   margin: var(--ylf-space-2, 8px) 0 0;
   color: var(--ylf-c-text-2, #475569);
-  font-size: var(--ylf-text-sm, 14px);
+  font-size: var(--ylf-text-sm, 0.875rem);
   line-height: 1.6;
   overflow-wrap: anywhere;
 }

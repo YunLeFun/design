@@ -35,7 +35,6 @@ const props = withDefaults(defineProps<{
   tag?: string
 }>(), {
   variant: 'primary',
-  tone: 'blue',
   appearance: 'solid',
   size: 'md',
   iconOnly: false,
@@ -62,8 +61,11 @@ const classes = computed(() => [
 ])
 
 function onClick(e: MouseEvent) {
-  if (props.disabled || props.loading)
+  if (props.disabled || props.loading) {
+    e.preventDefault()
+    e.stopPropagation()
     return
+  }
   emit('click', e)
 }
 </script>
@@ -75,7 +77,9 @@ function onClick(e: MouseEvent) {
     :class="classes"
     :data-ylf-tone="tone"
     :type="tag === 'button' ? 'button' : undefined"
-    :disabled="tag === 'button' ? (disabled || loading) : undefined"
+    :disabled="tag === 'button' ? disabled : undefined"
+    :aria-disabled="disabled || loading ? 'true' : undefined"
+    :tabindex="tag !== 'button' && disabled ? -1 : undefined"
     :aria-busy="loading || undefined"
     @click="onClick"
   >
@@ -85,9 +89,9 @@ function onClick(e: MouseEvent) {
   </component>
 </template>
 
-<style lang="scss">
+<style>
 .ylf-button {
-  --_radius: var(--ylf-radius, 14px);
+  --_radius: var(--ylf-control-radius, var(--ylf-radius, 14px));
   --_fill: var(--ylf-c-brand, #2563eb);
 
   box-sizing: border-box;
@@ -109,288 +113,320 @@ function onClick(e: MouseEvent) {
   user-select: none;
   text-decoration: none;
   transition:
-    transform var(--ylf-duration-slow, 480ms) var(--ylf-ease-spring, var(--ylf-ease-standard, ease)),
-    box-shadow var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease),
-    background var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease),
-    color var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease),
-    border-color var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease);
+    transform var(--ylf-duration-slow, 480ms)
+      var(--ylf-ease-spring, var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1))),
+    box-shadow var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+    background var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+    color var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+    border-color var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+}
 
-  &.is-round {
-    --_radius: var(--ylf-radius-pill, 999px);
+.ylf-button.is-round {
+  --_radius: var(--ylf-radius-pill, 999px);
+}
+
+.ylf-button.is-block {
+  display: flex;
+  width: 100%;
+}
+
+.ylf-button:focus-visible {
+  outline: var(--ylf-ring-width, 2px) solid var(--ylf-ring-color, var(--ylf-c-brand, #2563eb));
+  outline-offset: 4px;
+  box-shadow:
+    0 0 0 3px var(--ylf-c-brand-soft, #eff6ff),
+    0 0 0 5px var(--ylf-ring-color, var(--ylf-c-brand, #2563eb));
+}
+
+/* --- sizes --- */
+.ylf-button--sm {
+  padding: 8px 18px;
+  font-size: var(--ylf-control-font-size-sm, 0.8125rem);
+}
+
+.ylf-button--md {
+  padding: 11px 24px;
+  font-size: var(--ylf-control-font-size, 0.9375rem);
+}
+
+.ylf-button--lg {
+  padding: 14px 30px;
+  font-size: 17px;
+}
+
+.ylf-button--xl {
+  --_min-height: var(--ylf-control-h-xl, 56px);
+  min-height: var(--_min-height);
+  padding: 16px 28px;
+  font-size: var(--ylf-text-base, 1rem);
+  line-height: 22px;
+}
+
+.ylf-button.is-icon-only {
+  width: 36px;
+  height: 36px;
+  min-height: 36px;
+  flex: none;
+  padding: 0;
+  font-size: 18px;
+}
+
+.ylf-button.is-icon-only.ylf-button--sm {
+  width: 32px;
+  height: 32px;
+  min-height: 32px;
+  font-size: 16px;
+}
+
+.ylf-button.is-icon-only.ylf-button--lg,
+.ylf-button.is-icon-only.ylf-button--xl {
+  width: var(--ylf-touch-target, 44px);
+  height: var(--ylf-touch-target, 44px);
+  min-height: var(--ylf-touch-target, 44px);
+  font-size: 20px;
+}
+
+.ylf-button.is-icon-only:focus-visible {
+  outline-offset: -2px;
+  box-shadow: none;
+}
+
+/* Opt-in brand entrance; everyday primary actions keep their solid appearance. */
+.ylf-button--hero {
+  color: var(--ylf-hero-foreground, #fff);
+  background: var(--ylf-hero-background, linear-gradient(115deg, #2563eb, #0f74b8 58%, #0369a1));
+  border-color: var(--ylf-hero-border, rgb(255 255 255 / 0.16));
+  box-shadow: var(--ylf-hero-shadow, inset 0 1px 0 rgb(255 255 255 / 0.24), 0 12px 26px -14px rgb(3 105 161 / 0.58));
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ylf-button--hero:hover:not(.is-disabled, .is-loading, :disabled) {
+    background: var(--ylf-hero-background-hover, linear-gradient(115deg, #1d4ed8, #096ba9 58%, #075985));
+    box-shadow: var(
+      --ylf-hero-shadow-hover,
+      inset 0 1px 0 rgb(255 255 255 / 0.3),
+      0 14px 30px -14px rgb(3 105 161 / 0.58)
+    );
+    transform: translateY(var(--ylf-hover-lift, -1px));
   }
+}
 
-  &.is-block {
-    display: flex;
-    width: 100%;
-  }
+.ylf-button--hero:focus-visible {
+  outline: var(--ylf-ring-width, 2px) solid var(--ylf-hero-foreground, #fff);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 5px var(--ylf-hero-end, #0369a1);
+}
 
-  &:focus-visible {
-    outline: 2px solid var(--ylf-c-brand, #2563eb);
-    outline-offset: 4px;
-    box-shadow:
-      0 0 0 3px var(--ylf-c-brand-soft, #eff6ff),
-      0 0 0 5px var(--ylf-c-brand, #2563eb);
-  }
+/* --- primary：晴空蓝实色（主操作，单色不花） --- */
+.ylf-button--primary {
+  color: var(--ylf-c-text-on-accent, #fff);
+  background: var(--ylf-c-brand, #2563eb);
+  border-color: color-mix(in srgb, var(--_fill) 85%, #000);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 2px 0 color-mix(in srgb, var(--_fill) 80%, #000),
+    0 6px 14px -6px color-mix(in srgb, var(--_fill) 40%, transparent);
+}
 
-  // --- sizes ---
-  &--sm {
-    padding: 8px 18px;
-    font-size: 13px;
-  }
-
-  &--md {
-    padding: 11px 24px;
-    font-size: 15px;
-  }
-
-  &--lg {
-    padding: 14px 30px;
-    font-size: 17px;
-  }
-
-  &--xl {
-    --_min-height: 56px;
-    min-height: var(--_min-height);
-    padding: 16px 28px;
-    font-size: 16px;
-    line-height: 22px;
-  }
-
-  &.is-icon-only {
-    width: 36px;
-    height: 36px;
-    min-height: 36px;
-    flex: none;
-    padding: 0;
-    font-size: 18px;
-
-    &.ylf-button--sm {
-      width: 32px;
-      height: 32px;
-      min-height: 32px;
-      font-size: 16px;
-    }
-
-    &.ylf-button--lg,
-    &.ylf-button--xl {
-      width: 44px;
-      height: 44px;
-      min-height: 44px;
-      font-size: 20px;
-    }
-
-    &:focus-visible {
-      outline-offset: -2px;
-      box-shadow: none;
-    }
-  }
-
-  // Opt-in brand entrance; everyday primary actions keep their solid appearance.
-  &--hero {
-    color: var(--ylf-hero-foreground, #fff);
-    background: var(--ylf-hero-background, linear-gradient(115deg, #2563eb, #0f74b8 58%, #0369a1));
-    border-color: var(--ylf-hero-border, rgb(255 255 255 / 0.16));
-    box-shadow: var(--ylf-hero-shadow, inset 0 1px 0 rgb(255 255 255 / 0.24), 0 12px 26px -14px rgb(3 105 161 / 0.58));
-
-    @media (hover: hover) and (pointer: fine) {
-      &:hover:not(.is-disabled, .is-loading, :disabled) {
-        background: var(--ylf-hero-background-hover, linear-gradient(115deg, #1d4ed8, #096ba9 58%, #075985));
-        box-shadow: var(
-          --ylf-hero-shadow-hover,
-          inset 0 1px 0 rgb(255 255 255 / 0.3),
-          0 14px 30px -14px rgb(3 105 161 / 0.58)
-        );
-        transform: translateY(var(--ylf-hover-lift, -1px));
-      }
-    }
-
-    &:focus-visible {
-      outline: 2px solid var(--ylf-hero-foreground, #fff);
-      outline-offset: 3px;
-      box-shadow: 0 0 0 5px var(--ylf-hero-end, #0369a1);
-    }
-  }
-
-  // --- primary：晴空蓝实色（主操作，单色不花） ---
-  &--primary {
-    color: var(--ylf-c-text-on-accent, #fff);
-    background: var(--ylf-c-brand, #2563eb);
-    border-color: color-mix(in srgb, var(--_fill) 85%, #000);
+@media (hover: hover) and (pointer: fine) {
+  .ylf-button--primary:hover:not(.is-disabled, .is-loading, :disabled) {
+    background: var(--ylf-c-brand-hover, #1d4ed8);
+    transform: translateY(var(--ylf-hover-lift, -1px));
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.22),
-      0 2px 0 color-mix(in srgb, var(--_fill) 80%, #000),
-      0 6px 14px -6px color-mix(in srgb, var(--_fill) 40%, transparent);
-
-    @media (hover: hover) and (pointer: fine) {
-      &:hover:not(.is-disabled, .is-loading, :disabled) {
-        background: var(--ylf-c-brand-hover, #1d4ed8);
-        transform: translateY(var(--ylf-hover-lift, -1px));
-        box-shadow:
-          inset 0 1px 0 rgba(255, 255, 255, 0.22),
-          0 3px 0 color-mix(in srgb, var(--_fill) 80%, #000),
-          0 8px 18px -6px color-mix(in srgb, var(--_fill) 35%, transparent);
-      }
-    }
+      0 3px 0 color-mix(in srgb, var(--_fill) 80%, #000),
+      0 8px 18px -6px color-mix(in srgb, var(--_fill) 35%, transparent);
   }
+}
 
-  // 强调色来自共享上下文；实色上的文字与填充色成组维护。
-  &--accent,
-  &--aurora {
-    --_fill: var(--ylf-accent, var(--ylf-c-brand, #2563eb));
-    --_color: var(--ylf-accent, var(--ylf-c-brand, #2563eb));
-    --_soft: var(--ylf-accent-soft, var(--ylf-c-brand-soft, #eff6ff));
-    --_text: var(--ylf-accent-text, var(--ylf-c-brand, #2563eb));
+/* 强调色来自共享上下文；实色上的文字与填充色成组维护。 */
+.ylf-button--accent,
+.ylf-button--aurora {
+  --_fill: var(--ylf-accent, var(--ylf-c-brand, #2563eb));
+  --_color: var(--ylf-accent, var(--ylf-c-brand, #2563eb));
+  --_soft: var(--ylf-accent-soft, var(--ylf-c-brand-soft, #eff6ff));
+  --_text: var(--ylf-accent-text, var(--ylf-c-brand, #2563eb));
 
-    color: var(--ylf-accent-on, var(--ylf-c-text-on-accent, #fff));
-    background: var(--ylf-accent, var(--ylf-c-brand, #2563eb));
-    border-color: color-mix(in srgb, var(--_fill) 82%, #000);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.2),
-      0 2px 0 color-mix(in srgb, var(--_fill) 78%, #000);
+  color: var(--ylf-accent-on, var(--ylf-c-text-on-accent, #fff));
+  background: var(--ylf-accent, var(--ylf-c-brand, #2563eb));
+  border-color: color-mix(in srgb, var(--_fill) 82%, #000);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 2px 0 color-mix(in srgb, var(--_fill) 78%, #000);
+}
 
-    @media (hover: hover) and (pointer: fine) {
-      &:hover:not(.is-disabled, .is-loading, :disabled) {
-        background: var(--ylf-accent-hover, var(--ylf-c-brand-hover, #1d4ed8));
-      }
-    }
+@media (hover: hover) and (pointer: fine) {
+  .ylf-button--accent:hover:not(.is-disabled, .is-loading, :disabled),
+  .ylf-button--aurora:hover:not(.is-disabled, .is-loading, :disabled) {
+    background: var(--ylf-accent-hover, var(--ylf-c-brand-hover, #1d4ed8));
   }
+}
 
-  // --- secondary：描边 ---
-  &--secondary {
-    color: var(--ylf-c-text, #0f172a);
-    background: var(--ylf-c-surface, #fff);
-    border-color: var(--ylf-c-border-strong, #cbd5e1);
-    box-shadow: var(--ylf-shadow-control);
+/* --- secondary：描边 --- */
+.ylf-button--secondary {
+  color: var(--ylf-c-text, #0f172a);
+  background: var(--ylf-c-surface, #fff);
+  border-color: var(--ylf-c-border-strong, #cbd5e1);
+  box-shadow: var(--ylf-shadow-control);
+}
 
-    @media (hover: hover) and (pointer: fine) {
-      &:hover:not(.is-disabled, .is-loading, :disabled) {
-        color: var(--ylf-c-brand, #2563eb);
-        border-color: var(--ylf-c-brand, #2563eb);
-        transform: translateY(var(--ylf-hover-lift, -1px));
-      }
-    }
+@media (hover: hover) and (pointer: fine) {
+  .ylf-button--secondary:hover:not(.is-disabled, .is-loading, :disabled) {
+    color: var(--ylf-c-brand, #2563eb);
+    border-color: var(--ylf-c-brand, #2563eb);
+    transform: translateY(var(--ylf-hover-lift, -1px));
   }
+}
 
-  // --- soft：柔色填充 ---
-  &--soft {
+/* --- soft：柔色填充 --- */
+.ylf-button--soft {
+  color: var(--ylf-c-brand, #2563eb);
+  background: var(--ylf-c-brand-soft, #eff6ff);
+  border-color: color-mix(in srgb, var(--ylf-c-brand, #2563eb) 12%, transparent);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ylf-button--soft:hover:not(.is-disabled, .is-loading, :disabled) {
+    transform: translateY(var(--ylf-hover-lift, -1px));
+    box-shadow: var(--ylf-shadow-sm, 0 2px 8px -2px rgba(15, 23, 42, 0.12));
+  }
+}
+
+/* --- ghost：幽灵 --- */
+.ylf-button--ghost {
+  color: var(--ylf-c-text-2, #475569);
+  background: transparent;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ylf-button--ghost:hover:not(.is-disabled, .is-loading, :disabled) {
     color: var(--ylf-c-brand, #2563eb);
     background: var(--ylf-c-brand-soft, #eff6ff);
-    border-color: color-mix(in srgb, var(--ylf-c-brand, #2563eb) 12%, transparent);
+  }
+}
 
-    @media (hover: hover) and (pointer: fine) {
-      &:hover:not(.is-disabled, .is-loading, :disabled) {
-        transform: translateY(var(--ylf-hover-lift, -1px));
-        box-shadow: var(--ylf-shadow-sm, 0 2px 8px -2px rgba(15, 23, 42, 0.12));
-      }
-    }
+.ylf-button--ghost[aria-pressed='true'] {
+  color: var(--ylf-c-brand, #2563eb);
+  background: var(--ylf-c-brand-soft, #eff6ff);
+}
+
+/* --- 语义色 --- */
+.ylf-button--success {
+  --_color: var(--ylf-status-success, #22c55e);
+  --_soft: var(--ylf-status-success-soft, var(--ylf-c-bg-soft, #f1f5f9));
+  --_text: var(--ylf-status-success-text, #166534);
+
+  color: var(--ylf-status-success-on, #124324);
+  background: var(--ylf-status-success, #22c55e);
+}
+
+.ylf-button--warning {
+  --_color: var(--ylf-status-warning, #facc15);
+  --_soft: var(--ylf-status-warning-soft, var(--ylf-c-bg-soft, #f1f5f9));
+  --_text: var(--ylf-status-warning-text, #854d0e);
+
+  color: var(--ylf-status-warning-on, #64380e);
+  background: var(--ylf-status-warning, #facc15);
+}
+
+.ylf-button--danger {
+  --_color: var(--ylf-status-danger, #ff6b4a);
+  --_soft: var(--ylf-status-danger-soft, var(--ylf-c-bg-soft, #f1f5f9));
+  --_text: var(--ylf-status-danger-text, #9a3412);
+
+  color: var(--ylf-status-danger-on, #551b0a);
+  background: var(--ylf-status-danger, #ff6b4a);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ylf-button--success:hover:not(.is-disabled, .is-loading, :disabled) {
+    background: var(--ylf-status-success-hover, #4ade80);
   }
 
-  // --- ghost：幽灵 ---
-  &--ghost {
-    color: var(--ylf-c-text-2, #475569);
-    background: transparent;
-
-    @media (hover: hover) and (pointer: fine) {
-      &:hover:not(.is-disabled, .is-loading, :disabled) {
-        color: var(--ylf-c-brand, #2563eb);
-        background: var(--ylf-c-brand-soft, #eff6ff);
-      }
-    }
-
-    &[aria-pressed='true'] {
-      color: var(--ylf-c-brand, #2563eb);
-      background: var(--ylf-c-brand-soft, #eff6ff);
-    }
+  .ylf-button--warning:hover:not(.is-disabled, .is-loading, :disabled) {
+    background: var(--ylf-status-warning-hover, #eab308);
   }
 
-  // --- 语义色 ---
-  @each $status, $fill, $on, $hover in (success, #22c55e, #124324, #4ade80), (warning, #facc15, #64380e, #eab308),
-    (danger, #ff6b4a, #551b0a, #ff856b)
-  {
-    &--#{$status} {
-      --_color: var(--ylf-status-#{$status}, #{$fill});
-      --_soft: var(--ylf-status-#{$status}-soft, var(--ylf-c-bg-soft, #f1f5f9));
-      --_text: var(--ylf-status-#{$status}-text, #{$on});
-
-      color: var(--ylf-status-#{$status}-on, $on);
-      background: var(--ylf-status-#{$status}, $fill);
-
-      @media (hover: hover) and (pointer: fine) {
-        &:hover:not(.is-disabled, .is-loading, :disabled) {
-          background: var(--ylf-status-#{$status}-hover, $hover);
-        }
-      }
-    }
+  .ylf-button--danger:hover:not(.is-disabled, .is-loading, :disabled) {
+    background: var(--ylf-status-danger-hover, #ff856b);
   }
+}
 
-  &--accent,
-  &--aurora,
-  &--success,
-  &--warning,
-  &--danger {
-    &.is-soft,
-    &.is-outline {
-      color: var(--_text);
-      box-shadow: none;
+:is(.ylf-button--accent, .ylf-button--aurora, .ylf-button--success, .ylf-button--warning, .ylf-button--danger):is(
+  .is-soft,
+  .is-outline
+) {
+  color: var(--_text);
+  box-shadow: none;
+}
 
-      @media (hover: hover) and (pointer: fine) {
-        &:hover:not(.is-disabled, .is-loading, :disabled) {
-          background: var(--_soft);
-          border-color: var(--_text);
-        }
-      }
-
-      &:focus-visible {
-        outline: 2px solid var(--ylf-c-brand, #2563eb);
-        outline-offset: 3px;
-      }
-    }
-
-    &.is-soft {
-      background: var(--_soft);
-    }
-
-    &.is-outline {
-      background: transparent;
-      border-color: var(--_text);
-    }
+@media (hover: hover) and (pointer: fine) {
+  :is(.ylf-button--accent, .ylf-button--aurora, .ylf-button--success, .ylf-button--warning, .ylf-button--danger):is(
+      .is-soft,
+      .is-outline
+    ):hover:not(.is-disabled, .is-loading, :disabled) {
+    background: var(--_soft);
+    border-color: var(--_text);
   }
+}
 
-  // --- 状态 ---
-  &:active:not(.is-disabled, .is-loading, :disabled) {
-    transition-duration: var(--ylf-duration-press, 100ms);
-    transform: scale(var(--ylf-press-scale, 0.98));
-  }
+:is(.ylf-button--accent, .ylf-button--aurora, .ylf-button--success, .ylf-button--warning, .ylf-button--danger):is(
+    .is-soft,
+    .is-outline
+  ):focus-visible {
+  outline: var(--ylf-ring-width, 2px) solid var(--ylf-ring-color, var(--ylf-c-brand, #2563eb));
+  outline-offset: 3px;
+}
 
-  &.is-disabled,
-  &:disabled {
-    opacity: 0.45;
-    cursor: not-allowed;
-    box-shadow: none;
-    transform: none !important;
-  }
+:is(.ylf-button--accent, .ylf-button--aurora, .ylf-button--success, .ylf-button--warning, .ylf-button--danger).is-soft {
+  background: var(--_soft);
+}
 
-  &.is-loading {
-    cursor: progress;
-  }
+:is(
+  .ylf-button--accent,
+  .ylf-button--aurora,
+  .ylf-button--success,
+  .ylf-button--warning,
+  .ylf-button--danger
+).is-outline {
+  background: transparent;
+  border-color: var(--_text);
+}
 
-  &__label {
-    min-width: 0;
-    line-height: inherit;
-    box-sizing: border-box;
-    max-width: 100%;
-    display: inline-flex;
-    align-items: center;
-  }
+/* --- 状态 --- */
+.ylf-button:active:not(.is-disabled, .is-loading, :disabled) {
+  transition-duration: var(--ylf-duration-press, 100ms);
+  transform: scale(var(--ylf-press-scale, 0.98));
+}
 
-  &__spinner {
-    width: 1em;
-    height: 1em;
-    border: 2px solid currentColor;
-    border-right-color: transparent;
-    border-radius: 50%;
-    animation: ylf-button-spin 0.7s linear infinite;
-  }
+.ylf-button.is-disabled,
+.ylf-button:disabled {
+  opacity: var(--ylf-disabled-opacity, 0.48);
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none !important;
+}
+
+.ylf-button.is-loading {
+  cursor: progress;
+}
+
+.ylf-button__label {
+  min-width: 0;
+  line-height: inherit;
+  box-sizing: border-box;
+  max-width: 100%;
+  display: inline-flex;
+  align-items: center;
+}
+
+.ylf-button__spinner {
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: ylf-button-spin 0.7s linear infinite;
 }
 
 @keyframes ylf-button-spin {
@@ -399,32 +435,31 @@ function onClick(e: MouseEvent) {
   }
 }
 
-@media (pointer: coarse) {
-  .ylf-button.is-icon-only {
-    min-width: 44px;
-    min-height: 44px;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .ylf-button {
     transition: none;
+  }
 
-    &:is(:hover, :active):not(.is-disabled, .is-loading, :disabled) {
-      transform: none;
-      transition: none;
-    }
+  .ylf-button:is(:hover, :active):not(.is-disabled, .is-loading, :disabled) {
+    transform: none;
+    transition: none;
   }
 
   .ylf-button__spinner {
     animation: none;
   }
 }
+
 @media (pointer: coarse) {
   .ylf-button {
     min-width: var(--ylf-touch-target, 44px);
     min-height: max(var(--_min-height, 0px), var(--ylf-touch-target, 44px));
     line-height: 1.4;
+  }
+
+  .ylf-button.is-icon-only {
+    min-width: var(--ylf-touch-target, 44px);
+    min-height: var(--ylf-touch-target, 44px);
   }
 }
 </style>

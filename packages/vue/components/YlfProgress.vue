@@ -14,7 +14,6 @@ const props = withDefaults(defineProps<{
   value: 0,
   max: 100,
   variant: 'brand',
-  tone: 'blue',
 })
 
 const safeMax = computed(() => Number.isFinite(props.max) && props.max > 0 ? props.max : 100)
@@ -39,20 +38,20 @@ const percent = computed(() => safeValue.value === null ? null : safeValue.value
   </ProgressRoot>
 </template>
 
-<style lang="scss">
+<style>
 .ylf-progress {
   position: relative;
   width: 100%;
   height: 8px;
   overflow: hidden;
-  border-radius: 999px;
+  border-radius: var(--ylf-radius-pill, 999px);
   background: var(--ylf-c-bg-mute, #e2e8f0);
 }
 
 .ylf-progress__indicator {
   width: 100%;
   height: 100%;
-  border-radius: 999px;
+  border-radius: var(--ylf-radius-pill, 999px);
   background: var(--ylf-c-brand, #2563eb);
   transition: transform 0.4s var(--ylf-ease-bounce, cubic-bezier(0.34, 1.56, 0.64, 1));
 }
@@ -66,6 +65,7 @@ const percent = computed(() => safeValue.value === null ? null : safeValue.value
   from {
     transform: translateX(-100%);
   }
+
   to {
     transform: translateX(250%);
   }

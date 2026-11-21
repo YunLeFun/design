@@ -76,22 +76,22 @@ const descriptionProps = computed(() => hasDescription.value
   </DialogRoot>
 </template>
 
-<style lang="scss">
+<style>
 .ylf-dialog__overlay {
   position: fixed;
   inset: 0;
-  z-index: 100;
+  z-index: var(--ylf-z-overlay, 100);
   background: var(--ylf-c-overlay, rgba(13, 17, 32, 0.45));
-  -webkit-backdrop-filter: var(--ylf-overlay-blur, blur(10px));
-  backdrop-filter: var(--ylf-overlay-blur, blur(10px));
+  -webkit-backdrop-filter: var(--ylf-overlay-blur, saturate(85%) blur(10px));
+  backdrop-filter: var(--ylf-overlay-blur, saturate(85%) blur(10px));
+}
 
-  &[data-state='closed'] {
-    animation: ylf-dialog-overlay-out var(--ylf-duration-exit, 160ms) var(--ylf-ease-standard, ease);
-  }
+.ylf-dialog__overlay[data-state='closed'] {
+  animation: ylf-dialog-overlay-out var(--ylf-duration-exit, 160ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+}
 
-  &[data-state='open'] {
-    animation: ylf-dialog-overlay-in var(--ylf-duration-enter, 240ms) ease;
-  }
+.ylf-dialog__overlay[data-state='open'] {
+  animation: ylf-dialog-overlay-in var(--ylf-duration-enter, 240ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1));
 }
 
 .ylf-dialog__content {
@@ -101,7 +101,7 @@ const descriptionProps = computed(() => hasDescription.value
   --_inset-left: max(var(--ylf-viewport-gutter, 16px), env(safe-area-inset-left, 0px));
 
   position: fixed;
-  z-index: 101;
+  z-index: var(--ylf-z-modal, 101);
   top: 50%;
   top: calc((100dvh + var(--_inset-top) - var(--_inset-bottom)) / 2);
   left: calc((100% + var(--_inset-left) - var(--_inset-right)) / 2);
@@ -114,24 +114,24 @@ const descriptionProps = computed(() => hasDescription.value
   overflow: auto;
   padding: 28px;
   transform: translate(-50%, -50%);
-  border-radius: var(--ylf-radius-lg, 20px);
+  border-radius: var(--ylf-panel-radius, var(--ylf-radius-lg, 20px));
   background: var(--ylf-c-panel, var(--ylf-c-surface, #fff));
   border: 1px solid var(--ylf-c-border, #e2e8f0);
-  box-shadow: var(--ylf-shadow-panel, 0 22px 56px -14px rgba(15, 23, 42, 0.22));
-  -webkit-backdrop-filter: var(--ylf-glass-blur, blur(16px));
-  backdrop-filter: var(--ylf-glass-blur, blur(16px));
+  box-shadow: var(--ylf-shadow-panel, var(--ylf-shadow-lg, 0 22px 56px -14px rgba(15, 23, 42, 0.22)));
+  -webkit-backdrop-filter: var(--ylf-glass-blur, saturate(160%) blur(16px));
+  backdrop-filter: var(--ylf-glass-blur, saturate(160%) blur(16px));
+}
 
-  &[data-state='closed'] {
-    animation: ylf-dialog-out var(--ylf-duration-exit, 160ms) var(--ylf-ease-standard, ease);
-  }
+.ylf-dialog__content[data-state='closed'] {
+  animation: ylf-dialog-out var(--ylf-duration-exit, 160ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+}
 
-  &[data-state='open'] {
-    animation: ylf-dialog-in var(--ylf-duration-enter, 240ms) var(--ylf-ease-standard, ease);
-  }
+.ylf-dialog__content[data-state='open'] {
+  animation: ylf-dialog-in var(--ylf-duration-enter, 240ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+}
 
-  &:focus-visible {
-    outline: none;
-  }
+.ylf-dialog__content:focus-visible {
+  outline: none;
 }
 
 .ylf-dialog__title {
@@ -139,7 +139,7 @@ const descriptionProps = computed(() => hasDescription.value
   padding-right: var(--ylf-touch-target, 44px);
   overflow-wrap: anywhere;
   font-family: var(--ylf-font-heading, inherit);
-  font-size: 24px;
+  font-size: var(--ylf-text-xl, 1.5rem);
   font-weight: 650;
   line-height: 1.35;
   letter-spacing: -0.03em;
@@ -149,8 +149,8 @@ const descriptionProps = computed(() => hasDescription.value
 .ylf-dialog__desc {
   margin: 0 0 24px;
   overflow-wrap: anywhere;
-  font-size: 14px;
-  line-height: 1.75;
+  font-size: var(--ylf-text-sm, 0.875rem);
+  line-height: var(--ylf-leading-body, 1.75);
   color: var(--ylf-c-text-2, #475569);
 }
 
@@ -165,30 +165,30 @@ const descriptionProps = computed(() => hasDescription.value
   padding: 0;
   border: none;
   border-radius: var(--ylf-radius-sm, 10px);
-  background: var(--ylf-c-surface-raised, transparent);
-  box-shadow: inset 0 1px 0 var(--ylf-c-highlight, transparent);
-  color: var(--ylf-c-text-3, #64748b);
+  background: var(--ylf-c-surface-raised, #f6f9ff);
+  box-shadow: inset 0 1px 0 var(--ylf-c-highlight, rgba(255, 255, 255, 0.9));
+  color: var(--ylf-c-text-3, #5a697e);
   cursor: pointer;
   transition:
-    background var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease),
-    color var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease);
+    background var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+    color var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+}
 
-  @media (hover: hover) and (pointer: fine) {
-    &:hover {
-      background: var(--ylf-c-bg-mute, #e2e8f0);
-      color: var(--ylf-c-text, #0f172a);
-    }
+@media (hover: hover) and (pointer: fine) {
+  .ylf-dialog__close:hover {
+    background: var(--ylf-c-bg-mute, #e2e8f0);
+    color: var(--ylf-c-text, #0f172a);
   }
+}
 
-  &:focus-visible {
-    outline: 2px solid var(--ylf-c-brand, #2563eb);
-    outline-offset: 2px;
-  }
+.ylf-dialog__close:focus-visible {
+  outline: var(--ylf-ring-width, 2px) solid var(--ylf-ring-color, var(--ylf-c-brand, #2563eb));
+  outline-offset: 2px;
+}
 
-  svg {
-    width: 16px;
-    height: 16px;
-  }
+.ylf-dialog__close svg {
+  width: 16px;
+  height: 16px;
 }
 
 @media (pointer: coarse) {
@@ -223,6 +223,7 @@ const descriptionProps = computed(() => hasDescription.value
     transition: none;
   }
 }
+
 @keyframes ylf-dialog-overlay-out {
   to {
     opacity: 0;

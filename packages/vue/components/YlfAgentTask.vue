@@ -53,7 +53,7 @@ const titleId = useId()
 }
 .ylf-agent-task__title {
   margin: 0;
-  font-size: var(--ylf-text-sm, 14px);
+  font-size: var(--ylf-text-sm, 0.875rem);
   font-weight: 600;
   line-height: 1.5;
   overflow-wrap: anywhere;
@@ -61,15 +61,15 @@ const titleId = useId()
 .ylf-agent-task__id {
   display: block;
   margin-top: var(--ylf-space-3, 12px);
-  font-family: var(--ylf-font-mono, monospace);
-  font-size: var(--ylf-text-xs, 12px);
+  font-family: var(--ylf-font-mono, 'SFMono-Regular', Consolas, 'Liberation Mono', monospace);
+  font-size: var(--ylf-text-xs, 0.75rem);
   color: var(--ylf-c-text-2, #475569);
   overflow-wrap: anywhere;
 }
 .ylf-agent-task__description {
   margin: var(--ylf-space-3, 12px) 0 0;
   color: var(--ylf-c-text-2, #475569);
-  font-size: var(--ylf-text-sm, 14px);
+  font-size: var(--ylf-text-sm, 0.875rem);
   line-height: var(--ylf-leading-body, 1.75);
   overflow-wrap: anywhere;
 }

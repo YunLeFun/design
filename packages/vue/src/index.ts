@@ -1,13 +1,2 @@
-import { dirname, resolve } from 'node:path'
-
-import { fileURLToPath } from 'node:url'
-
-// other exports
+// Browser-safe types and helpers; Node path utilities live in '@yunlefun/vue/node'.
 export * from './types'
-
-// shim
-export const _dirname = typeof __dirname !== 'undefined'
-  ? __dirname
-  : dirname(fileURLToPath(import.meta.url))
-
-export const componentsDir = resolve(_dirname, '../components')

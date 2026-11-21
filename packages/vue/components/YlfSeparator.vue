@@ -12,7 +12,6 @@ withDefaults(defineProps<{
   orientation: 'horizontal',
   decorative: true,
   variant: 'neutral',
-  tone: 'blue',
 })
 </script>
 
@@ -26,43 +25,49 @@ withDefaults(defineProps<{
   />
 </template>
 
-<style lang="scss">
+<style>
 .ylf-separator {
   --_separator-size: 1px;
 
   flex: none;
   background: var(--ylf-c-border, #e2e8f0);
+}
 
-  &--horizontal {
-    width: 100%;
-    height: var(--_separator-size);
-  }
+.ylf-separator--horizontal {
+  width: 100%;
+  height: var(--_separator-size);
+}
 
-  &--vertical {
-    width: var(--_separator-size);
-    height: 100%;
-    align-self: stretch;
-  }
+.ylf-separator--vertical {
+  width: var(--_separator-size);
+  height: 100%;
+  align-self: stretch;
+}
 
-  &--brand {
-    background: var(--ylf-c-brand, #2563eb);
-  }
+.ylf-separator--brand {
+  background: var(--ylf-c-brand, #2563eb);
+}
 
-  &--accent {
-    --_separator-size: 2px;
+.ylf-separator--accent {
+  --_separator-size: 2px;
 
-    background: var(--ylf-accent, var(--ylf-c-brand, #2563eb));
-  }
+  background: var(--ylf-accent, var(--ylf-c-brand, #2563eb));
+}
 
-  &--spectrum {
-    --_separator-size: 4px;
+.ylf-separator--spectrum {
+  --_separator-size: 4px;
 
-    border-radius: var(--ylf-radius-pill, 999px);
-    background: linear-gradient(90deg, var(--ylf-spectrum-stops, #2563eb, #facc15));
+  border-radius: var(--ylf-radius-pill, 999px);
+  background: linear-gradient(
+    90deg,
+    var(--ylf-spectrum-stops, var(--ylf-palette-blue, #2563eb), var(--ylf-palette-sun, #facc15))
+  );
+}
 
-    &.ylf-separator--vertical {
-      background: linear-gradient(180deg, var(--ylf-spectrum-stops, #2563eb, #facc15));
-    }
-  }
+.ylf-separator--spectrum.ylf-separator--vertical {
+  background: linear-gradient(
+    180deg,
+    var(--ylf-spectrum-stops, var(--ylf-palette-blue, #2563eb), var(--ylf-palette-sun, #facc15))
+  );
 }
 </style>

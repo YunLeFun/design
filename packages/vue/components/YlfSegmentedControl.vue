@@ -132,22 +132,22 @@ onBeforeUnmount(() => resizeObserver?.disconnect())
   border-radius: calc(var(--ylf-radius-sm, 10px) - 4px);
   background: transparent;
   color: var(--ylf-c-text-2, #475569);
-  font: inherit;
-  font-size: var(--ylf-text-sm, 14px);
+  font-family: var(--ylf-font-body, inherit);
+  font-size: var(--ylf-text-sm, 0.875rem);
   font-weight: 500;
   line-height: 1.4;
   white-space: normal;
   overflow-wrap: anywhere;
   cursor: pointer;
   transition:
-    background var(--ylf-duration-fast, 160ms),
-    color var(--ylf-duration-fast, 160ms),
-    box-shadow var(--ylf-duration-fast, 160ms);
+    background var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+    color var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+    box-shadow var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1));
 }
 
 .ylf-segmented[data-size='sm'] .ylf-segmented__item {
   padding-inline: 8px;
-  font-size: 12px;
+  font-size: var(--ylf-text-xs, 0.75rem);
 }
 
 .ylf-segmented[data-icon-only] .ylf-segmented__item {
@@ -166,7 +166,7 @@ onBeforeUnmount(() => resizeObserver?.disconnect())
   color: var(--ylf-c-brand, #2563eb);
   background: var(--ylf-c-surface, #fff);
   border-color: var(--ylf-c-border, #e2e8f0);
-  box-shadow: var(--ylf-shadow-control, var(--ylf-shadow-sm));
+  box-shadow: var(--ylf-shadow-control);
 }
 
 .ylf-segmented__pill {
@@ -178,15 +178,16 @@ onBeforeUnmount(() => resizeObserver?.disconnect())
   border: 1px solid var(--ylf-c-border, #e2e8f0);
   border-radius: calc(var(--ylf-radius-sm, 10px) - 4px);
   background: var(--ylf-c-surface, #fff);
-  box-shadow: var(--ylf-shadow-control, var(--ylf-shadow-sm));
+  box-shadow: var(--ylf-shadow-control);
   pointer-events: none;
 }
 
 .ylf-segmented.is-pill-animated .ylf-segmented__pill {
   transition:
-    transform var(--ylf-duration-slow, 480ms) var(--ylf-ease-spring, var(--ylf-ease-standard, ease)),
-    width var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease),
-    height var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease);
+    transform var(--ylf-duration-slow, 480ms)
+      var(--ylf-ease-spring, var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1))),
+    width var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+    height var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1));
 }
 
 .ylf-segmented.has-pill .ylf-segmented__item[aria-pressed='true'] {
@@ -197,14 +198,14 @@ onBeforeUnmount(() => resizeObserver?.disconnect())
 
 .ylf-segmented__item:focus-visible {
   position: relative;
-  z-index: 1;
-  outline: 2px solid var(--ylf-c-brand, #2563eb);
+  z-index: var(--ylf-z-base, 1);
+  outline: var(--ylf-ring-width, 2px) solid var(--ylf-ring-color, var(--ylf-c-brand, #2563eb));
   outline-offset: 2px;
 }
 
 .ylf-segmented__item[data-disabled] {
   cursor: not-allowed;
-  opacity: 0.45;
+  opacity: var(--ylf-disabled-opacity, 0.48);
 }
 
 .ylf-segmented__icon {

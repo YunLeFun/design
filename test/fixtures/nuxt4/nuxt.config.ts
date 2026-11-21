@@ -4,5 +4,5 @@ export default defineNuxtConfig({
     enabled: false,
   },
   modules: ['@yunlefun/vue/nuxt'],
-  css: ['@yunlefun/ui/styles'],
+  css: ['@yunlefun/ui/css'],
 })

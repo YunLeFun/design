@@ -2,15 +2,15 @@
 import { readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { enableAutoUnmount, mount } from '@vue/test-utils'
-import { compile } from 'sass'
 import { afterEach, describe, expect, it } from 'vitest'
-import { ylfCloudShapes } from '../packages/vue/components/cloud'
+import { ylfCloudSilhouettes as uiCloudSilhouettes } from '../packages/ui/tokens/index.mjs'
+import { ylfCloudShapes, ylfCloudSilhouettes } from '../packages/vue/components/cloud'
 import YlfCloud from '../packages/vue/components/YlfCloud.vue'
 import * as root from '../packages/vue/src/types'
 
 enableAutoUnmount(afterEach)
 
-const css = compile(resolve(import.meta.dirname, '../packages/ui/styles/css-vars.scss')).css
+const css = await readFile(resolve(import.meta.dirname, '../packages/ui/styles/tokens.css'), 'utf8')
 
 function declarations(selector: string) {
   const block = css.split(`${selector} {`)[1]?.split('}')[0] ?? ''
@@ -34,6 +34,18 @@ describe('ylfCloud', () => {
     })
     expect(new Set(outlines).size).toBe(ylfCloudShapes.length)
     expect(root.ylfCloudShapes).toBe(ylfCloudShapes)
+  })
+
+  it('keeps cloud silhouettes synchronized across Vue, UI tokens and VitePress sky', async () => {
+    expect(ylfCloudSilhouettes).toEqual(uiCloudSilhouettes)
+    const homeCss = await readFile(resolve(import.meta.dirname, '../packages/vitepress-theme-yunlefun/styles/home.css'), 'utf8')
+    for (const shape of ['billow', 'puff', 'wisp'] as const) {
+      const rule = homeCss.match(new RegExp(`\\.ylf-home-sky__cloud\\[data-cloud='${shape}'\\][\\s\\S]*?--_shape:\\s*url\\("([^"]+)"\\)`))
+      expect(rule, `Missing home sky shape ${shape}`).not.toBeNull()
+      const decoded = decodeURIComponent(rule![1])
+      const pathMatch = decoded.match(/d='([^']+)'/)
+      expect(pathMatch?.[1]).toBe(ylfCloudSilhouettes[shape])
+    }
   })
 
   it('keeps gradient and clip ids unique per instance', () => {

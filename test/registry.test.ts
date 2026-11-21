@@ -24,9 +24,9 @@ describe('registry distribution', () => {
         sourcePackage: '@yunlefun/ui',
       },
       files: [{
-        path: 'packages/ui/styles/css-vars.scss',
+        path: 'packages/ui/styles/tokens.css',
         type: 'registry:file',
-        target: '~/src/styles/ylf-tokens.scss',
+        target: '~/src/styles/ylf-tokens.css',
       }],
     })
     expect(button).toMatchObject({
@@ -50,7 +50,7 @@ describe('registry distribution', () => {
     expect(dialog).toMatchObject({
       name: 'ylf-dialog',
       type: 'registry:item',
-      dependencies: ['reka-ui@^2.10.1', 'sass@^1.101.0'],
+      dependencies: ['reka-ui@^2.10.1'],
       registryDependencies: [tokenDependency],
       meta: {
         status: 'stable',
@@ -71,7 +71,7 @@ describe('registry distribution', () => {
       readJson('packages/public/r/ylf-dialog.json'),
     ])
     const [tokens, button, dialog, theme] = await Promise.all([
-      readFile(resolve(root, 'packages/ui/styles/css-vars.scss'), 'utf8'),
+      readFile(resolve(root, 'packages/ui/styles/tokens.css'), 'utf8'),
       readFile(resolve(root, 'packages/vue/components/YlfButton.vue'), 'utf8'),
       readFile(resolve(root, 'packages/vue/components/YlfDialog.vue'), 'utf8'),
       readFile(resolve(root, 'packages/vue/components/theme.ts'), 'utf8'),
@@ -80,8 +80,8 @@ describe('registry distribution', () => {
     expect(builtTokens).toMatchObject({
       $schema: 'https://shadcn-vue.com/schema/registry-item.json',
       files: [expect.objectContaining({
-        path: 'packages/ui/styles/css-vars.scss',
-        target: '~/src/styles/ylf-tokens.scss',
+        path: 'packages/ui/styles/tokens.css',
+        target: '~/src/styles/ylf-tokens.css',
         content: tokens,
       })],
     })

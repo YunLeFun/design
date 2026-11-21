@@ -175,7 +175,7 @@ async function open(event: MouseEvent, target: AiPromptTarget) {
   --_muted: var(--ylf-ai-muted, var(--ylf-c-text-2, #475569));
   --_border: var(--ylf-ai-border, var(--ylf-c-border, #e2e8f0));
   --_surface: var(--ylf-ai-surface, var(--ylf-c-surface, #fff));
-  --_soft: var(--ylf-ai-background, var(--ylf-c-bg-soft, #f8fafc));
+  --_soft: var(--ylf-ai-background, var(--ylf-c-bg-soft, #f1f5f9));
   --_brand: var(--ylf-ai-accent, var(--ylf-c-brand, #2563eb));
   color: var(--_ink);
   container: ylf-ai / inline-size;
@@ -203,8 +203,8 @@ async function open(event: MouseEvent, target: AiPromptTarget) {
   text-align: left;
   cursor: pointer;
   transition:
-    border-color 160ms ease,
-    background-color 160ms ease;
+    border-color var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+    background-color var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1));
 }
 .ylf-ai-launcher__provider:not([aria-disabled='true']):hover {
   border-color: var(--_brand);
@@ -304,7 +304,7 @@ async function open(event: MouseEvent, target: AiPromptTarget) {
   outline-offset: 3px;
 }
 :is(button:disabled, [aria-disabled='true']) {
-  opacity: 0.5;
+  opacity: var(--ylf-disabled-opacity, 0.48);
   cursor: not-allowed;
 }
 @container ylf-ai (max-width: 620px) {

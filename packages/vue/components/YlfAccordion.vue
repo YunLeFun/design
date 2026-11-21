@@ -53,7 +53,7 @@ const model = defineModel<string | string[]>()
   </AccordionRoot>
 </template>
 
-<style lang="scss">
+<style>
 .ylf-accordion {
   border: 1px solid var(--ylf-c-border, #e2e8f0);
   border-radius: var(--ylf-radius, 14px);
@@ -78,45 +78,46 @@ const model = defineModel<string | string[]>()
   width: 100%;
   padding: 16px;
   font-family: inherit;
-  font-size: 15px;
+  font-size: var(--ylf-control-font-size, 0.9375rem);
   font-weight: 500;
   text-align: left;
   color: var(--ylf-c-text, #0f172a);
   background: transparent;
   border: none;
   cursor: pointer;
-  min-height: var(--ylf-touch-target, 44px);
+  min-height: var(--ylf-control-h, var(--ylf-touch-target, 44px));
   overflow-wrap: anywhere;
-  transition: background var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease);
+  transition: background var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+}
 
-  @media (hover: hover) and (pointer: fine) {
-    &:hover {
-      background: var(--ylf-c-bg-soft, #f1f5f9);
-    }
+@media (hover: hover) and (pointer: fine) {
+  .ylf-accordion__trigger:hover {
+    background: var(--ylf-c-bg-soft, #f1f5f9);
   }
+}
 
-  &[data-state='open'] {
-    color: var(--ylf-c-brand, #2563eb);
-    background: color-mix(in srgb, var(--ylf-c-brand-soft, #eff6ff) 60%, transparent);
-  }
+.ylf-accordion__trigger[data-state='open'] {
+  color: var(--ylf-c-brand, #2563eb);
+  background: color-mix(in srgb, var(--ylf-c-brand-soft, #eff6ff) 60%, transparent);
+}
 
-  &[data-disabled] {
-    opacity: 0.45;
-    cursor: not-allowed;
-  }
+.ylf-accordion__trigger[data-disabled] {
+  opacity: var(--ylf-disabled-opacity, 0.48);
+  cursor: not-allowed;
+}
 
-  &:focus-visible {
-    outline: none;
-    box-shadow: inset 0 0 0 2px var(--ylf-c-brand, #2563eb);
-  }
+.ylf-accordion__trigger:focus-visible {
+  outline: var(--ylf-ring-width, 2px) solid transparent;
+  outline-offset: -2px;
+  box-shadow: inset 0 0 0 var(--ylf-ring-width, 2px) var(--ylf-ring-color, var(--ylf-c-brand, #2563eb));
 }
 
 .ylf-accordion__chevron {
   flex: none;
   width: 18px;
   height: 18px;
-  color: var(--ylf-c-text-3, #64748b);
-  transition: transform var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease);
+  color: var(--ylf-c-text-3, #5a697e);
+  transition: transform var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1));
 }
 
 .ylf-accordion__trigger[data-state='open'] .ylf-accordion__chevron {
@@ -125,17 +126,17 @@ const model = defineModel<string | string[]>()
 
 .ylf-accordion__content {
   overflow: hidden;
-  font-size: 14px;
+  font-size: var(--ylf-text-sm, 0.875rem);
   line-height: 1.6;
   color: var(--ylf-c-text-2, #475569);
+}
 
-  &[data-state='open'] {
-    animation: ylf-acc-down var(--ylf-duration-enter, 240ms) var(--ylf-ease-standard, ease);
-  }
+.ylf-accordion__content[data-state='open'] {
+  animation: ylf-acc-down var(--ylf-duration-enter, 240ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+}
 
-  &[data-state='closed'] {
-    animation: ylf-acc-up var(--ylf-duration-exit, 160ms) var(--ylf-ease-standard, ease);
-  }
+.ylf-accordion__content[data-state='closed'] {
+  animation: ylf-acc-up var(--ylf-duration-exit, 160ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1));
 }
 
 .ylf-accordion__body {

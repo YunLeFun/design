@@ -23,7 +23,7 @@ withDefaults(defineProps<{
   </AvatarRoot>
 </template>
 
-<style lang="scss">
+<style>
 .ylf-avatar {
   display: inline-flex;
   align-items: center;
@@ -33,39 +33,39 @@ withDefaults(defineProps<{
   border-radius: 50%;
   user-select: none;
   background: var(--ylf-c-brand-soft, #eff6ff);
+}
 
-  &--sm {
-    width: 32px;
-    height: 32px;
-    font-size: 13px;
-  }
+.ylf-avatar--sm {
+  width: 32px;
+  height: 32px;
+  font-size: 13px;
+}
 
-  &--md {
-    width: 44px;
-    height: 44px;
-    font-size: 16px;
-  }
+.ylf-avatar--md {
+  width: 44px;
+  height: 44px;
+  font-size: 16px;
+}
 
-  &--lg {
-    width: 64px;
-    height: 64px;
-    font-size: 22px;
-  }
+.ylf-avatar--lg {
+  width: 64px;
+  height: 64px;
+  font-size: 22px;
+}
 
-  &__img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+.ylf-avatar__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 
-  &__fallback {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    font-weight: 600;
-    color: var(--ylf-c-brand, #2563eb);
-  }
+.ylf-avatar__fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  font-weight: 600;
+  color: var(--ylf-c-brand, #2563eb);
 }
 </style>

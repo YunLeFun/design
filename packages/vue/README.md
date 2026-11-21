@@ -6,13 +6,12 @@ YunLeFun Design 的 Vue 组件实现，提供 `Ylf*` 组件与 Nuxt 集成。
 
 ```bash
 pnpm add @yunlefun/ui @yunlefun/vue
-pnpm add -D sass
 ```
 
-在应用 SCSS 入口加载共享主题：
+在应用入口加载共享主题（原生 CSS，无需安装 `sass`）：
 
-```scss
-@use '@yunlefun/ui/styles';
+```ts
+import '@yunlefun/ui/css'
 ```
 
 ## Vue / Vite
@@ -32,11 +31,11 @@ import YlfButton from '@yunlefun/vue/components/YlfButton.vue'
 ```ts
 export default defineNuxtConfig({
   modules: ['@yunlefun/vue/nuxt'],
-  css: ['@yunlefun/ui/styles'],
+  css: ['@yunlefun/ui/css'],
 })
 ```
 
-根入口目前提供类型和组件目录信息，组件通过 `components/*.vue` 子路径或 Nuxt 模块使用；没有公开的 `YlfResolver`。
+根入口 `@yunlefun/vue` 仅导出浏览器安全的类型声明，Node 路径信息（如 `componentsDir`）位于 `@yunlefun/vue/node`；组件通过 `components/*.vue` 子路径或 Nuxt 模块使用；没有公开的 `YlfResolver`。
 
 组件子路径提供预生成类型声明，运行时继续使用原始 SFC。现有 15 个 Reka UI 封装的验收范围见[组件验收](../guide/component-acceptance.md)。
 

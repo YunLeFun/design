@@ -47,7 +47,7 @@ const model = defineModel<string>()
   </TabsRoot>
 </template>
 
-<style lang="scss">
+<style>
 .ylf-tabs__list {
   position: relative;
   display: flex;
@@ -59,7 +59,7 @@ const model = defineModel<string>()
   position: relative;
   padding: 10px 16px;
   font-family: inherit;
-  font-size: 15px;
+  font-size: var(--ylf-control-font-size, 0.9375rem);
   font-weight: 500;
   color: var(--ylf-c-text-2, #475569);
   background: transparent;
@@ -67,31 +67,31 @@ const model = defineModel<string>()
   cursor: pointer;
   border-radius: var(--ylf-radius-sm, 10px) var(--ylf-radius-sm, 10px) 0 0;
   transition:
-    color var(--ylf-duration-fast, 160ms) ease,
-    background var(--ylf-duration-fast, 160ms) ease;
+    color var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+    background var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+}
 
-  @media (hover: hover) and (pointer: fine) {
-    &:hover:not([data-disabled]) {
-      color: var(--ylf-c-text, #0f172a);
-    }
+@media (hover: hover) and (pointer: fine) {
+  .ylf-tabs__trigger:hover:not([data-disabled]) {
+    color: var(--ylf-c-text, #0f172a);
   }
+}
 
-  &[data-state='active'] {
-    color: var(--ylf-c-brand, #2563eb);
-    background: color-mix(in srgb, var(--ylf-c-brand-soft, #eff6ff) 65%, transparent);
-  }
+.ylf-tabs__trigger[data-state='active'] {
+  color: var(--ylf-c-brand, #2563eb);
+  background: color-mix(in srgb, var(--ylf-c-brand-soft, #eff6ff) 65%, transparent);
+}
 
-  &[data-disabled] {
-    opacity: 0.45;
-    cursor: not-allowed;
-  }
+.ylf-tabs__trigger[data-disabled] {
+  opacity: var(--ylf-disabled-opacity, 0.48);
+  cursor: not-allowed;
+}
 
-  &:focus-visible {
-    outline: 2px solid var(--ylf-c-brand, #2563eb);
-    outline-offset: -3px;
-    border-radius: var(--ylf-radius-sm, 10px);
-    box-shadow: 0 0 0 3px var(--ylf-c-brand-soft, #eff6ff);
-  }
+.ylf-tabs__trigger:focus-visible {
+  outline: var(--ylf-ring-width, 2px) solid var(--ylf-ring-color, var(--ylf-c-brand, #2563eb));
+  outline-offset: -3px;
+  border-radius: var(--ylf-radius-sm, 10px);
+  box-shadow: 0 0 0 3px var(--ylf-c-brand-soft, #eff6ff);
 }
 
 .ylf-tabs__indicator {
@@ -100,21 +100,22 @@ const model = defineModel<string>()
   left: 0;
   width: var(--reka-tabs-indicator-size);
   height: 2.5px;
-  border-radius: 999px;
+  border-radius: var(--ylf-radius-pill, 999px);
   background: var(--ylf-c-brand, #2563eb);
   box-shadow: 0 1px 4px color-mix(in srgb, var(--ylf-c-brand, #2563eb) 25%, transparent);
   transform: translateX(var(--reka-tabs-indicator-position));
   transition:
-    transform var(--ylf-duration-slow, 480ms) var(--ylf-ease-spring, var(--ylf-ease-standard, ease)),
-    width var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, ease);
+    transform var(--ylf-duration-slow, 480ms)
+      var(--ylf-ease-spring, var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1))),
+    width var(--ylf-duration-normal, 240ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1));
 }
 
 .ylf-tabs__content {
   padding-top: 16px;
+}
 
-  &:focus-visible {
-    outline: none;
-  }
+.ylf-tabs__content:focus-visible {
+  outline: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -123,6 +124,7 @@ const model = defineModel<string>()
     transition: none;
   }
 }
+
 @media (pointer: coarse) {
   .ylf-tabs__trigger {
     min-height: var(--ylf-touch-target, 44px);

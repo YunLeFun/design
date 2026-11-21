@@ -82,7 +82,7 @@ const server = remoteRegistryBaseUrl
       response.end(payload.replaceAll(publicRegistryBaseUrl, localRegistryBaseUrl))
     })
 
-const canonicalTokens = await readFile(resolve(root, 'packages/ui/styles/css-vars.scss'), 'utf8')
+const canonicalTokens = await readFile(resolve(root, 'packages/ui/styles/tokens.css'), 'utf8')
 const consumers: ConsumerDefinition[] = [
   {
     item: 'ylf-agent',
@@ -111,7 +111,7 @@ createApp(App).mount('#app')
     canonicalComponent: await readFile(resolve(root, 'packages/vue/components/YlfButton.vue'), 'utf8'),
     mainSource: `import { createApp, h } from 'vue'
 import YlfButton from './components/ui/YlfButton.vue'
-import './styles/ylf-tokens.scss'
+import './styles/ylf-tokens.css'
 
 const App = { render: () => h(YlfButton, { variant: 'accent', tone: 'coral' }, () => '开始创作') }
 createApp(App).mount('#app')
@@ -123,7 +123,7 @@ createApp(App).mount('#app')
     canonicalComponent: await readFile(resolve(root, 'packages/vue/components/YlfDialog.vue'), 'utf8'),
     mainSource: `import { createApp, h } from 'vue'
 import YlfDialog from './components/ui/YlfDialog.vue'
-import './styles/ylf-tokens.scss'
+import './styles/ylf-tokens.css'
 
 const App = { render: () => h(YlfDialog, { open: true, title: '确认发布' }, () => 'Registry 验证') }
 createApp(App).mount('#app')
@@ -196,14 +196,20 @@ export default defineConfig({ plugins: [vue()] })
         writeFile(resolve(consumer, 'src/env.d.ts'), 'declare module \'@yunlefun/ui/css\'\n'),
       ])
 
+      await run(pnpm, ['install'], consumer)
       await run(shadcnVue, ['add', `${registryBaseUrl}/${registryFiles[definition.item]}`, '--yes'], consumer, localRegistryBaseUrl ? { REGISTRY_URL: localRegistryBaseUrl } : {})
       await run(pnpm, ['build'], consumer)
 
       const installedComponent = await readFile(resolve(consumer, 'src/components/ui', definition.componentFile), 'utf8')
       if (installedComponent !== definition.canonicalComponent)
         throw new Error(`${definition.item} install output differs from the canonical YunLeFun sources.`)
-      if (definition.tokens !== false && await readFile(resolve(consumer, 'src/styles/ylf-tokens.scss'), 'utf8') !== canonicalTokens)
+      if (definition.tokens !== false && await readFile(resolve(consumer, 'src/styles/ylf-tokens.css'), 'utf8') !== canonicalTokens)
         throw new Error(`${definition.item} tokens differ from the canonical source.`)
+      if (definition.item === 'ylf-button' || definition.item === 'ylf-dialog') {
+        const sassInstalled = await readFile(resolve(consumer, 'node_modules/sass/package.json'), 'utf8').then(() => true, () => false)
+        if (sassInstalled)
+          throw new Error(`${definition.item} should not require sass in consumer node_modules.`)
+      }
       for (const file of definition.additionalFiles ?? []) {
         const [installed, canonical] = await Promise.all([
           readFile(resolve(consumer, 'src/components/ui', file), 'utf8'),

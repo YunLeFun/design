@@ -23,7 +23,7 @@ const emit = defineEmits(['click'])
   </button>
 </template>
 
-<style lang="scss">
+<style>
 .ylf-bottom-menu-item {
   flex: 1;
   display: flex;
@@ -35,26 +35,26 @@ const emit = defineEmits(['click'])
   border: none;
   background: transparent;
   cursor: pointer;
-  color: var(--ylf-c-text-3, #64748b);
+  color: var(--ylf-c-text-3, #5a697e);
   transition:
-    color 0.2s ease,
+    color 0.2s var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1)),
     transform 0.2s var(--ylf-ease-bounce, cubic-bezier(0.34, 1.56, 0.64, 1));
+}
 
-  &__icon {
-    font-size: 22px;
-  }
+.ylf-bottom-menu-item__icon {
+  font-size: 22px;
+}
 
-  &__label {
-    font-size: 12px;
-  }
+.ylf-bottom-menu-item__label {
+  font-size: var(--ylf-text-xs, 0.75rem);
+}
 
-  &:active {
-    transform: scale(0.92);
-  }
+.ylf-bottom-menu-item:active {
+  transform: scale(0.92);
+}
 
-  &.active {
-    color: var(--ylf-c-brand, #2563eb);
-  }
+.ylf-bottom-menu-item.active {
+  color: var(--ylf-c-brand, #2563eb);
 }
 
 @media (prefers-reduced-motion: reduce) {

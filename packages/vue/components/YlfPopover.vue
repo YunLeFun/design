@@ -31,9 +31,9 @@ const open = defineModel<boolean>('open', { default: false })
   </PopoverRoot>
 </template>
 
-<style lang="scss">
+<style>
 .ylf-popover {
-  z-index: 105;
+  z-index: var(--ylf-z-popover, 105);
   box-sizing: border-box;
   min-width: min(180px, var(--reka-popover-content-available-width, 100vw));
   max-width: min(320px, var(--reka-popover-content-available-width, calc(100vw - 32px)));
@@ -45,41 +45,44 @@ const open = defineModel<boolean>('open', { default: false })
   background: var(--ylf-c-panel, var(--ylf-c-surface, #fff));
   border: 1px solid var(--ylf-c-border, #e2e8f0);
   border-radius: var(--ylf-radius, 14px);
-  box-shadow: var(--ylf-shadow-panel, 0 22px 56px -14px rgba(15, 23, 42, 0.22));
-  backdrop-filter: var(--ylf-glass-blur, blur(16px));
+  box-shadow: var(--ylf-shadow-panel, var(--ylf-shadow-lg, 0 22px 56px -14px rgba(15, 23, 42, 0.22)));
+  backdrop-filter: var(--ylf-glass-blur, saturate(160%) blur(16px));
   transform-origin: var(--reka-popover-content-transform-origin);
+}
 
-  &[data-state='open'] {
-    animation: ylf-popover-in var(--ylf-duration-enter, 240ms) var(--ylf-ease-standard, ease);
-  }
+.ylf-popover[data-state='open'] {
+  animation: ylf-popover-in var(--ylf-duration-enter, 240ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+}
 
-  &[data-state='closed'] {
-    animation: ylf-popover-out var(--ylf-duration-exit, 160ms) var(--ylf-ease-standard, ease);
-  }
+.ylf-popover[data-state='closed'] {
+  animation: ylf-popover-out var(--ylf-duration-exit, 160ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1));
+}
 
-  &[data-side='bottom'] {
-    --_enter-y: -4px;
-  }
-  &[data-side='top'] {
-    --_enter-y: 4px;
-  }
-  &[data-side='left'] {
-    --_enter-x: 4px;
-  }
-  &[data-side='right'] {
-    --_enter-x: -4px;
-  }
+.ylf-popover[data-side='bottom'] {
+  --_enter-y: -4px;
+}
 
-  &__body {
-    max-height: calc(var(--reka-popover-content-available-height, calc(100dvh - 32px)) - 34px);
-    overflow: auto;
-    overscroll-behavior: contain;
-  }
+.ylf-popover[data-side='top'] {
+  --_enter-y: 4px;
+}
 
-  &__arrow {
-    fill: var(--ylf-c-surface, #fff);
-    stroke: var(--ylf-c-border, #e2e8f0);
-  }
+.ylf-popover[data-side='left'] {
+  --_enter-x: 4px;
+}
+
+.ylf-popover[data-side='right'] {
+  --_enter-x: -4px;
+}
+
+.ylf-popover__body {
+  max-height: calc(var(--reka-popover-content-available-height, calc(100dvh - 32px)) - 34px);
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.ylf-popover__arrow {
+  fill: var(--ylf-c-surface, #fff);
+  stroke: var(--ylf-c-border, #e2e8f0);
 }
 
 @keyframes ylf-popover-in {

@@ -66,19 +66,19 @@ function selectFocusedRadio(event: KeyboardEvent) {
   </RadioGroupRoot>
 </template>
 
-<style lang="scss">
+<style>
 .ylf-radio-group {
   display: flex;
   gap: 14px;
+}
 
-  &--vertical {
-    flex-direction: column;
-  }
+.ylf-radio-group--vertical {
+  flex-direction: column;
+}
 
-  &--horizontal {
-    flex-direction: row;
-    flex-wrap: wrap;
-  }
+.ylf-radio-group--horizontal {
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .ylf-radio {
@@ -92,81 +92,88 @@ function selectFocusedRadio(event: KeyboardEvent) {
   font: inherit;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
+}
 
-  &__control {
-    flex: none;
-    width: 20px;
-    height: 20px;
-    display: inline-grid;
-    place-items: center;
-    border: 2px solid var(--ylf-c-border-strong, #cbd5e1);
-    border-radius: 50%;
-    background: var(--ylf-c-surface, #fff);
-    box-shadow: var(--ylf-shadow-control);
-    transition:
-      border-color var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease),
-      box-shadow var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, ease),
-      transform var(--ylf-duration-slow, 480ms) var(--ylf-ease-spring, var(--ylf-ease-standard, ease));
-  }
+.ylf-radio__control {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  display: inline-grid;
+  place-items: center;
+  border: 2px solid var(--ylf-c-border-strong, #cbd5e1);
+  border-radius: 50%;
+  background: var(--ylf-c-surface, #fff);
+  box-shadow: var(--ylf-shadow-control);
+  transition:
+    border-color var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+    box-shadow var(--ylf-duration-fast, 160ms) var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1)),
+    transform var(--ylf-duration-slow, 480ms)
+      var(--ylf-ease-spring, var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1)));
+}
 
-  @media (hover: hover) and (pointer: fine) {
-    &:hover:not([data-disabled]) .ylf-radio__control {
-      border-color: var(--ylf-c-brand, #2563eb);
-    }
-  }
-
-  &:focus-visible {
-    outline: none;
-  }
-
-  &:focus-visible .ylf-radio__control {
-    box-shadow: 0 0 0 3px var(--ylf-c-brand-soft, #eff6ff);
-    outline: 2px solid var(--ylf-c-brand, #2563eb);
-    outline-offset: 3px;
-  }
-
-  &[data-state='checked'] .ylf-radio__control {
+@media (hover: hover) and (pointer: fine) {
+  .ylf-radio:hover:not([data-disabled]) .ylf-radio__control {
     border-color: var(--ylf-c-brand, #2563eb);
   }
-
-  &[data-disabled] {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  &__dot {
-    display: block;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--ylf-c-brand, #2563eb);
-  }
-
-  &:active:not([data-disabled]) .ylf-radio__control {
-    transform: scale(0.9);
-    transition-duration: var(--ylf-duration-press, 100ms);
-  }
-
-  &__label {
-    font-size: 15px;
-  }
 }
+
+.ylf-radio:focus-visible {
+  outline: none;
+}
+
+.ylf-radio:focus-visible .ylf-radio__control {
+  box-shadow: 0 0 0 3px var(--ylf-c-brand-soft, #eff6ff);
+  outline: var(--ylf-ring-width, 2px) solid var(--ylf-ring-color, var(--ylf-c-brand, #2563eb));
+  outline-offset: 3px;
+}
+
+.ylf-radio[data-state='checked'] .ylf-radio__control {
+  border-color: var(--ylf-c-brand, #2563eb);
+}
+
+.ylf-radio[data-disabled] {
+  opacity: var(--ylf-disabled-opacity, 0.48);
+  cursor: not-allowed;
+}
+
+.ylf-radio__dot {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--ylf-c-brand, #2563eb);
+}
+
+.ylf-radio:active:not([data-disabled]) .ylf-radio__control {
+  transform: scale(0.9);
+  transition-duration: var(--ylf-duration-press, 100ms);
+}
+
+.ylf-radio__label {
+  font-size: var(--ylf-control-font-size, 0.9375rem);
+}
+
 .ylf-radio-group.is-animated .ylf-radio__dot {
-  animation: ylf-radio-dot var(--ylf-duration-slow, 480ms) var(--ylf-ease-spring, var(--ylf-ease-standard, ease));
+  animation: ylf-radio-dot var(--ylf-duration-slow, 480ms)
+    var(--ylf-ease-spring, var(--ylf-ease-standard, cubic-bezier(0.2, 0, 0, 1)));
 }
+
 @keyframes ylf-radio-dot {
   from {
     transform: scale(0);
   }
 }
+
 @media (prefers-reduced-motion: reduce) {
   .ylf-radio-group.is-animated .ylf-radio__dot {
     animation: none;
   }
+
   .ylf-radio__control {
     transition: none;
   }
 }
+
 @media (pointer: coarse) {
   .ylf-radio {
     min-width: var(--ylf-touch-target, 44px);
