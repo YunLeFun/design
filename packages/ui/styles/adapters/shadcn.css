@@ -1,0 +1,38 @@
+/* YunLeFun Design · shadcn / shadcn-vue variable adapter. Generated from packages/ui/tokens/source.mjs. */
+
+@layer ylf.tokens, ylf.compat, ylf.profile, ylf.adapters;
+
+@layer ylf.adapters {
+  :root,
+  .light,
+  .dark,
+  .ylf-theme-light,
+  .ylf-theme-dark,
+  [data-ylf-profile='admin'],
+  [data-ylf-profile='editor'],
+  [data-ylf-admin-theme='light'],
+  [data-ylf-admin-theme='dark'],
+  [data-ylf-editor-theme='light'],
+  [data-ylf-editor-theme='dark'] {
+    --background: var(--ylf-c-bg);
+    --foreground: var(--ylf-c-text);
+    --card: var(--ylf-c-surface);
+    --card-foreground: var(--ylf-c-text);
+    --popover: var(--ylf-c-panel);
+    --popover-foreground: var(--ylf-c-text);
+    --primary: var(--ylf-c-brand);
+    --primary-foreground: var(--ylf-c-text-on-accent);
+    --secondary: var(--ylf-c-bg-soft);
+    --secondary-foreground: var(--ylf-c-text);
+    --muted: var(--ylf-c-bg-soft);
+    --muted-foreground: var(--ylf-c-text-2);
+    --accent: var(--ylf-c-bg-mute);
+    --accent-foreground: var(--ylf-c-text);
+    --destructive: var(--ylf-status-danger-text);
+    --destructive-foreground: var(--ylf-c-bg);
+    --border: var(--ylf-c-border);
+    --input: var(--ylf-c-border-strong);
+    --ring: var(--ylf-c-brand);
+    --radius: var(--ylf-radius);
+  }
+}

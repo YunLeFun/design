@@ -1,0 +1,48 @@
+/* =============================================================================
+ * YunLeFun Design · Deprecated Compatibility Aliases（自动生成，请勿手改）
+ * 源文件：packages/ui/tokens/source.mjs
+ * ============================================================================= */
+
+@layer ylf.tokens, ylf.compat, ylf.profile, ylf.adapters;
+
+@layer ylf.compat {
+  :root,
+  .light,
+  .ylf-theme-light {
+    --ylf-c-success: var(--ylf-status-success-text);
+    --ylf-c-warning: var(--ylf-status-warning-text);
+    --ylf-c-danger: var(--ylf-status-danger-text);
+    --ylf-c-info: var(--ylf-status-info-text);
+    --ylf-aurora-sky: var(--ylf-accent-cyan);
+    --ylf-aurora-iris: var(--ylf-accent-coral);
+    --ylf-aurora-pink: var(--ylf-accent-pink);
+    --ylf-gradient-aurora: linear-gradient(var(--ylf-accent-sun), var(--ylf-accent-sun));
+    --ylf-gradient-brand: linear-gradient(var(--ylf-c-brand), var(--ylf-c-brand));
+    --ylf-c-text-on-aurora: var(--ylf-accent-sun-on);
+    --ylf-glow-aurora: var(--ylf-shadow-sm);
+    --ylf-glow-aurora-hover: var(--ylf-shadow-sm);
+    --ylf-c-primary: var(--ylf-c-brand);
+    --ylf-c-text-light: var(--ylf-c-text-2);
+    --ylf-c-text-lighter: var(--ylf-c-text-3);
+    --ylf-c-text-lightest: var(--ylf-c-border-strong);
+    --ylf-c-bg-light: var(--ylf-c-bg-soft);
+    --ylf-c-bg-lighter: var(--ylf-c-bg-mute);
+  }
+
+  .dark,
+  .ylf-theme-dark {
+    --ylf-c-success: var(--ylf-status-success-text);
+    --ylf-c-warning: var(--ylf-status-warning-text);
+    --ylf-c-danger: var(--ylf-status-danger-text);
+    --ylf-c-info: var(--ylf-status-info-text);
+    --ylf-gradient-brand: linear-gradient(var(--ylf-c-brand), var(--ylf-c-brand));
+    --ylf-glow-aurora: var(--ylf-shadow-sm);
+    --ylf-glow-aurora-hover: var(--ylf-shadow-sm);
+    --ylf-c-primary: var(--ylf-c-brand);
+    --ylf-c-text-light: var(--ylf-c-text-2);
+    --ylf-c-text-lighter: var(--ylf-c-text-3);
+    --ylf-c-text-lightest: var(--ylf-c-border-strong);
+    --ylf-c-bg-light: var(--ylf-c-bg-soft);
+    --ylf-c-bg-lighter: var(--ylf-c-bg-mute);
+  }
+}

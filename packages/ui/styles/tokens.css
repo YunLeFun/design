@@ -1,0 +1,403 @@
+/* =============================================================================
+ * YunLeFun Design · 晴空蓝为主，高饱和纯色点缀（自动生成，请勿手改）
+ * 源文件：packages/ui/tokens/source.mjs
+ * ============================================================================= */
+
+@layer ylf.tokens, ylf.compat, ylf.profile, ylf.adapters;
+
+@layer ylf.tokens {
+  :root,
+  .light,
+  .ylf-theme-light {
+    --ylf-palette-blue: #2563eb;
+    --ylf-palette-sun: #facc15;
+    --ylf-palette-cyan: #06b6d4;
+    --ylf-palette-coral: #ff6b4a;
+    --ylf-palette-pink: #ec4899;
+    --ylf-palette-green: #22c55e;
+    --ylf-spectrum-stops:
+      var(--ylf-palette-blue) 0% 16.667%, var(--ylf-palette-cyan) 16.667% 33.333%, var(--ylf-palette-green) 33.333% 50%,
+      var(--ylf-palette-sun) 50% 66.667%, var(--ylf-palette-coral) 66.667% 83.333%, var(--ylf-palette-pink) 83.333% 100%;
+    --ylf-c-brand: var(--ylf-palette-blue);
+    --ylf-c-brand-hover: #1d4ed8;
+    --ylf-c-brand-active: #1e40af;
+    --ylf-c-brand-soft: #eff6ff;
+    --ylf-accent-blue: var(--ylf-c-brand);
+    --ylf-accent-blue-hover: var(--ylf-c-brand-hover);
+    --ylf-accent-blue-soft: var(--ylf-c-brand-soft);
+    --ylf-accent-blue-text: var(--ylf-c-brand);
+    --ylf-accent-blue-on: var(--ylf-c-text-on-accent);
+    --ylf-accent: var(--ylf-accent-blue);
+    --ylf-accent-hover: var(--ylf-accent-blue-hover);
+    --ylf-accent-soft: var(--ylf-accent-blue-soft);
+    --ylf-accent-text: var(--ylf-accent-blue-text);
+    --ylf-accent-on: var(--ylf-accent-blue-on);
+    --ylf-hero-start: #2563eb;
+    --ylf-hero-middle: #0f74b8;
+    --ylf-hero-end: #0369a1;
+    --ylf-hero-hover-start: #1d4ed8;
+    --ylf-hero-hover-middle: #096ba9;
+    --ylf-hero-hover-end: #075985;
+    --ylf-hero-foreground: #ffffff;
+    --ylf-hero-background: linear-gradient(
+      115deg,
+      var(--ylf-hero-start),
+      var(--ylf-hero-middle) 58%,
+      var(--ylf-hero-end)
+    );
+    --ylf-hero-background-hover: linear-gradient(
+      115deg,
+      var(--ylf-hero-hover-start),
+      var(--ylf-hero-hover-middle) 58%,
+      var(--ylf-hero-hover-end)
+    );
+    --ylf-hero-border: rgb(255 255 255 / 0.16);
+    --ylf-hero-shadow: inset 0 1px 0 rgb(255 255 255 / 0.24), 0 12px 26px -14px rgb(3 105 161 / 0.58);
+    --ylf-hero-shadow-hover: inset 0 1px 0 rgb(255 255 255 / 0.3), 0 14px 30px -14px rgb(3 105 161 / 0.58);
+    --ylf-accent-sun: var(--ylf-palette-sun);
+    --ylf-accent-sun-hover: #eab308;
+    --ylf-accent-sun-soft: #fef9c3;
+    --ylf-accent-sun-text: #854d0e;
+    --ylf-accent-sun-on: #64380e;
+    --ylf-accent-cyan: var(--ylf-palette-cyan);
+    --ylf-accent-cyan-hover: #22d3ee;
+    --ylf-accent-cyan-soft: #cffafe;
+    --ylf-accent-cyan-text: #155e75;
+    --ylf-accent-cyan-on: #083e4f;
+    --ylf-accent-coral: var(--ylf-palette-coral);
+    --ylf-accent-coral-hover: #ff856b;
+    --ylf-accent-coral-soft: #ffede6;
+    --ylf-accent-coral-text: #9a3412;
+    --ylf-accent-coral-on: #551b0a;
+    --ylf-accent-pink: var(--ylf-palette-pink);
+    --ylf-accent-pink-hover: #f472b6;
+    --ylf-accent-pink-soft: #fce7f3;
+    --ylf-accent-pink-text: #9d174d;
+    --ylf-accent-pink-on: #400a2b;
+    --ylf-accent-green: var(--ylf-palette-green);
+    --ylf-accent-green-hover: #4ade80;
+    --ylf-accent-green-soft: #dcfce7;
+    --ylf-accent-green-text: #166534;
+    --ylf-accent-green-on: #124324;
+    --ylf-c-feature: var(--ylf-accent-sun);
+    --ylf-c-feature-bg: var(--ylf-accent-sun-soft);
+    --ylf-c-feature-text: var(--ylf-c-text);
+    --ylf-status-success: var(--ylf-accent-green);
+    --ylf-status-success-hover: var(--ylf-accent-green-hover);
+    --ylf-status-success-on: var(--ylf-accent-green-on);
+    --ylf-status-success-soft: var(--ylf-accent-green-soft);
+    --ylf-status-success-text: var(--ylf-accent-green-text);
+    --ylf-status-warning: var(--ylf-accent-sun);
+    --ylf-status-warning-hover: var(--ylf-accent-sun-hover);
+    --ylf-status-warning-on: var(--ylf-accent-sun-on);
+    --ylf-status-warning-soft: var(--ylf-accent-sun-soft);
+    --ylf-status-warning-text: var(--ylf-accent-sun-text);
+    --ylf-status-danger: var(--ylf-accent-coral);
+    --ylf-status-danger-hover: var(--ylf-accent-coral-hover);
+    --ylf-status-danger-on: var(--ylf-accent-coral-on);
+    --ylf-status-danger-soft: var(--ylf-accent-coral-soft);
+    --ylf-status-danger-text: var(--ylf-accent-coral-text);
+    --ylf-status-info: var(--ylf-accent-cyan);
+    --ylf-status-info-hover: var(--ylf-accent-cyan-hover);
+    --ylf-status-info-on: var(--ylf-accent-cyan-on);
+    --ylf-status-info-soft: var(--ylf-accent-cyan-soft);
+    --ylf-status-info-text: var(--ylf-accent-cyan-text);
+    --ylf-c-bg: #f8fafc;
+    --ylf-c-bg-soft: #f1f5f9;
+    --ylf-c-bg-mute: #e2e8f0;
+    --ylf-c-surface: #ffffff;
+    --ylf-c-surface-raised: #f6f9ff;
+    --ylf-c-surface-inset: #edf2f8;
+    --ylf-c-highlight: rgba(255, 255, 255, 0.9);
+    --ylf-c-panel: rgba(255, 255, 255, 0.96);
+    --ylf-c-edge: rgba(30, 64, 115, 0.12);
+    --ylf-c-text: #0f172a;
+    --ylf-c-text-2: #475569;
+    --ylf-c-text-3: #5a697e;
+    --ylf-c-placeholder: var(--ylf-c-text-3);
+    --ylf-c-text-on-accent: #ffffff;
+    --ylf-c-border: #e2e8f0;
+    --ylf-c-border-strong: #cbd5e1;
+    --ylf-c-overlay: rgba(13, 17, 32, 0.45);
+    --ylf-glass-bg: rgba(255, 255, 255, 0.82);
+    --ylf-glass-border: rgba(255, 255, 255, 0.7);
+    --ylf-glass-blur: saturate(160%) blur(16px);
+    --ylf-overlay-blur: saturate(85%) blur(10px);
+    --ylf-radius-2xs: 4px;
+    --ylf-radius-xs: 6px;
+    --ylf-radius-sm: 10px;
+    --ylf-radius: 14px;
+    --ylf-radius-lg: 20px;
+    --ylf-radius-xl: 28px;
+    --ylf-radius-pill: 999px;
+    --ylf-shadow-sm: 0 2px 8px -2px rgba(15, 23, 42, 0.12);
+    --ylf-shadow: 0 10px 28px -8px rgba(15, 23, 42, 0.16);
+    --ylf-shadow-lg: 0 22px 56px -14px rgba(15, 23, 42, 0.22);
+    --ylf-shadow-control:
+      inset 0 1px 0 var(--ylf-c-highlight), 0 1px 2px rgba(15, 23, 42, 0.06), 0 3px 6px -4px rgba(15, 23, 42, 0.16);
+    --ylf-shadow-inset: inset 0 1px 3px rgba(15, 23, 42, 0.08);
+    --ylf-shadow-panel:
+      inset 0 1px 0 var(--ylf-c-highlight), 0 0 0 1px var(--ylf-c-edge), 0 8px 16px -8px rgba(15, 23, 42, 0.14),
+      0 28px 64px -20px rgba(24, 52, 102, 0.24);
+    --ylf-glow-brand: 0 6px 18px -8px rgba(37, 99, 235, 0.35);
+    --ylf-glow-brand-hover: 0 8px 22px -8px rgba(37, 99, 235, 0.4);
+    --ylf-font-display:
+      'Baloo 2', 'ZCOOL KuaiLe', ui-rounded, 'Hiragino Maru Gothic ProN', 'Hiragino Maru Gothic Pro', 'PingFang SC',
+      'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', 'Source Han Sans SC', sans-serif;
+    --ylf-font-wordmark: var(--ylf-font-display);
+    --ylf-font-heading:
+      ui-rounded, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', '微软雅黑', 'Source Han Sans SC', system-ui,
+      sans-serif;
+    --ylf-font-body: 'Inter', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', system-ui, sans-serif;
+    --ylf-font-ui:
+      -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', system-ui,
+      sans-serif;
+    --ylf-font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+    --ylf-text-2xs: 0.6875rem;
+    --ylf-text-xs: 0.75rem;
+    --ylf-text-sm: 0.875rem;
+    --ylf-text-base: 1rem;
+    --ylf-text-lg: 1.25rem;
+    --ylf-text-xl: 1.5rem;
+    --ylf-text-2xl: 2rem;
+    --ylf-text-display: clamp(2.25rem, 4.5vw, 4rem);
+    --ylf-leading-heading: 1.25;
+    --ylf-leading-normal: 1.5;
+    --ylf-leading-body: 1.75;
+    --ylf-space-1: 4px;
+    --ylf-space-2: 8px;
+    --ylf-space-3: 12px;
+    --ylf-space-4: 16px;
+    --ylf-space-5: 20px;
+    --ylf-space-6: 24px;
+    --ylf-space-8: 32px;
+    --ylf-space-10: 40px;
+    --ylf-space-12: 48px;
+    --ylf-space-16: 64px;
+    --ylf-space-0_5: 2px;
+    --ylf-space-1_5: 6px;
+    --ylf-layout-page: 1200px;
+    --ylf-layout-reading: 720px;
+    --ylf-z-base: 1;
+    --ylf-z-sticky: 50;
+    --ylf-z-overlay: 100;
+    --ylf-z-modal: 101;
+    --ylf-z-popover: 105;
+    --ylf-z-tooltip: 110;
+    --ylf-z-toast: 120;
+    --ylf-ring-width: 2px;
+    --ylf-ring-offset: 2px;
+    --ylf-ring-color: var(--ylf-c-brand);
+    --ylf-disabled-opacity: 0.48;
+    --ylf-control-h-sm: 34px;
+    --ylf-control-h: 44px;
+    --ylf-control-h-lg: 48px;
+    --ylf-control-h-xl: 56px;
+    --ylf-control-radius-sm: var(--ylf-radius-sm);
+    --ylf-control-radius: var(--ylf-radius);
+    --ylf-panel-radius: var(--ylf-radius-lg);
+    --ylf-control-font-size-sm: 0.8125rem;
+    --ylf-control-font-size: 0.9375rem;
+    --ylf-grid-size: 32px;
+    --ylf-c-grid: rgba(37, 99, 235, 0.06);
+    --ylf-c-sky: #dbeafe;
+    --ylf-c-cloud: #ffffff;
+    --ylf-cloud-highlight: #fffefa;
+    --ylf-cloud-body: #f2f8ff;
+    --ylf-cloud-shade: #c6dff5;
+    --ylf-cloud-shadow: #83addb;
+    --ylf-cloud-rim: #ffffff;
+    --ylf-cloud-face: #5a7fae;
+    --ylf-cloud-haze-color: #9cc6ef;
+    --ylf-touch-target: 44px;
+    --ylf-viewport-gutter: 16px;
+    --ylf-duration-press: 100ms;
+    --ylf-duration-enter: 240ms;
+    --ylf-duration-exit: 160ms;
+    --ylf-press-scale: 0.98;
+    --ylf-hover-lift: -1px;
+    --ylf-duration-fast: 160ms;
+    --ylf-duration-normal: 240ms;
+    --ylf-duration-slow: 480ms;
+    --ylf-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+    --ylf-ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --ylf-ease-spring: linear(
+      0,
+      0.009,
+      0.035 2.1%,
+      0.141 4.4%,
+      0.723 12.9%,
+      0.938 16.7%,
+      1.017 19.4%,
+      1.067,
+      1.089 24.6%,
+      1.088 27.4%,
+      1.061 31.2%,
+      1.008 38.7%,
+      0.988 44.4%,
+      0.999 61.5%,
+      1
+    );
+  }
+
+  .dark,
+  .ylf-theme-dark {
+    --ylf-c-brand: #60a5fa;
+    --ylf-c-brand-hover: #93c5fd;
+    --ylf-c-brand-active: #3b82f6;
+    --ylf-c-brand-soft: #15264a;
+    --ylf-accent-blue: var(--ylf-c-brand);
+    --ylf-accent-blue-hover: var(--ylf-c-brand-hover);
+    --ylf-accent-blue-soft: var(--ylf-c-brand-soft);
+    --ylf-accent-blue-text: var(--ylf-c-brand);
+    --ylf-accent-blue-on: var(--ylf-c-text-on-accent);
+    --ylf-accent: var(--ylf-accent-blue);
+    --ylf-accent-hover: var(--ylf-accent-blue-hover);
+    --ylf-accent-soft: var(--ylf-accent-blue-soft);
+    --ylf-accent-text: var(--ylf-accent-blue-text);
+    --ylf-accent-on: var(--ylf-accent-blue-on);
+    --ylf-accent-sun-soft: #30290f;
+    --ylf-accent-sun-text: #fde047;
+    --ylf-accent-cyan-soft: #10313d;
+    --ylf-accent-cyan-text: #67e8f9;
+    --ylf-accent-coral-soft: #39231f;
+    --ylf-accent-coral-text: #fda48c;
+    --ylf-accent-pink-soft: #351e32;
+    --ylf-accent-pink-text: #f9a8d4;
+    --ylf-accent-green-soft: #142e26;
+    --ylf-accent-green-text: #86efac;
+    --ylf-status-success: var(--ylf-accent-green);
+    --ylf-status-success-hover: var(--ylf-accent-green-hover);
+    --ylf-status-success-on: var(--ylf-accent-green-on);
+    --ylf-status-success-soft: var(--ylf-accent-green-soft);
+    --ylf-status-success-text: var(--ylf-accent-green-text);
+    --ylf-status-warning: var(--ylf-accent-sun);
+    --ylf-status-warning-hover: var(--ylf-accent-sun-hover);
+    --ylf-status-warning-on: var(--ylf-accent-sun-on);
+    --ylf-status-warning-soft: var(--ylf-accent-sun-soft);
+    --ylf-status-warning-text: var(--ylf-accent-sun-text);
+    --ylf-status-danger: var(--ylf-accent-coral);
+    --ylf-status-danger-hover: var(--ylf-accent-coral-hover);
+    --ylf-status-danger-on: var(--ylf-accent-coral-on);
+    --ylf-status-danger-soft: var(--ylf-accent-coral-soft);
+    --ylf-status-danger-text: var(--ylf-accent-coral-text);
+    --ylf-status-info: var(--ylf-accent-cyan);
+    --ylf-status-info-hover: var(--ylf-accent-cyan-hover);
+    --ylf-status-info-on: var(--ylf-accent-cyan-on);
+    --ylf-status-info-soft: var(--ylf-accent-cyan-soft);
+    --ylf-status-info-text: var(--ylf-accent-cyan-text);
+    --ylf-c-feature-bg: var(--ylf-accent-sun-soft);
+    --ylf-c-feature-text: var(--ylf-c-text);
+    --ylf-c-text-on-accent: #0f172a;
+    --ylf-c-bg-mute: #22304a;
+    --ylf-c-panel: rgba(20, 29, 43, 0.96);
+    --ylf-c-highlight: rgba(186, 214, 255, 0.1);
+    --ylf-c-edge: rgba(2, 6, 15, 0.55);
+    --ylf-c-overlay: rgba(2, 6, 15, 0.72);
+    --ylf-ring-color: var(--ylf-c-brand);
+    --ylf-glass-bg: rgba(20, 29, 43, 0.9);
+    --ylf-glass-border: rgba(96, 165, 250, 0.18);
+    --ylf-shadow-sm: 0 2px 10px -2px rgba(2, 6, 15, 0.55);
+    --ylf-shadow: 0 12px 30px -8px rgba(2, 6, 15, 0.6);
+    --ylf-shadow-lg: 0 24px 60px -14px rgba(2, 6, 15, 0.65);
+    --ylf-shadow-control:
+      inset 0 1px 0 var(--ylf-c-highlight), 0 1px 2px rgba(2, 6, 15, 0.3), 0 4px 8px -4px rgba(2, 6, 15, 0.35);
+    --ylf-shadow-inset: inset 0 1px 4px rgba(2, 6, 15, 0.4);
+    --ylf-shadow-panel:
+      inset 0 1px 0 var(--ylf-c-highlight), 0 0 0 1px var(--ylf-c-edge), 0 10px 20px -8px rgba(2, 6, 15, 0.4),
+      0 32px 72px -18px rgba(2, 6, 15, 0.6);
+    --ylf-glow-brand: 0 6px 18px -8px rgba(96, 165, 250, 0.3);
+    --ylf-glow-brand-hover: 0 8px 22px -8px rgba(96, 165, 250, 0.4);
+    --ylf-c-bg: #0b111c;
+    --ylf-c-bg-soft: #101826;
+    --ylf-c-surface: #141d2b;
+    --ylf-c-surface-raised: #1b2638;
+    --ylf-c-surface-inset: #080d16;
+    --ylf-c-text: #e7eef8;
+    --ylf-c-text-2: #b9c6d9;
+    --ylf-c-text-3: #8d9db4;
+    --ylf-c-placeholder: var(--ylf-c-text-3);
+    --ylf-c-border: #24324a;
+    --ylf-c-border-strong: #36486a;
+    --ylf-c-grid: rgba(96, 165, 250, 0.08);
+    --ylf-c-sky: #13233a;
+    --ylf-c-cloud: #22304a;
+    --ylf-cloud-highlight: #a6bcd8;
+    --ylf-cloud-body: #3e5679;
+    --ylf-cloud-shade: #1c2b44;
+    --ylf-cloud-shadow: #0a1424;
+    --ylf-cloud-rim: #cfdff2;
+    --ylf-cloud-face: #0e1a2d;
+    --ylf-cloud-haze-color: #1f3354;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :root,
+    .light,
+    .dark,
+    .ylf-theme-light,
+    .ylf-theme-dark {
+      --ylf-duration-press: 0ms;
+      --ylf-duration-enter: 0ms;
+      --ylf-duration-exit: 0ms;
+      --ylf-press-scale: 1;
+      --ylf-hover-lift: 0px;
+      --ylf-duration-fast: 0ms;
+      --ylf-duration-normal: 0ms;
+      --ylf-duration-slow: 0ms;
+    }
+  }
+
+  [data-ylf-tone='blue'] {
+    --ylf-accent-blue: var(--ylf-c-brand);
+    --ylf-accent-blue-hover: var(--ylf-c-brand-hover);
+    --ylf-accent-blue-soft: var(--ylf-c-brand-soft);
+    --ylf-accent-blue-text: var(--ylf-c-brand);
+    --ylf-accent-blue-on: var(--ylf-c-text-on-accent);
+    --ylf-accent: var(--ylf-accent-blue);
+    --ylf-accent-hover: var(--ylf-accent-blue-hover);
+    --ylf-accent-soft: var(--ylf-accent-blue-soft);
+    --ylf-accent-text: var(--ylf-accent-blue-text);
+    --ylf-accent-on: var(--ylf-accent-blue-on);
+  }
+
+  [data-ylf-tone='sun'] {
+    --ylf-accent: var(--ylf-accent-sun);
+    --ylf-accent-hover: var(--ylf-accent-sun-hover);
+    --ylf-accent-soft: var(--ylf-accent-sun-soft);
+    --ylf-accent-text: var(--ylf-accent-sun-text);
+    --ylf-accent-on: var(--ylf-accent-sun-on);
+  }
+
+  [data-ylf-tone='cyan'] {
+    --ylf-accent: var(--ylf-accent-cyan);
+    --ylf-accent-hover: var(--ylf-accent-cyan-hover);
+    --ylf-accent-soft: var(--ylf-accent-cyan-soft);
+    --ylf-accent-text: var(--ylf-accent-cyan-text);
+    --ylf-accent-on: var(--ylf-accent-cyan-on);
+  }
+
+  [data-ylf-tone='coral'] {
+    --ylf-accent: var(--ylf-accent-coral);
+    --ylf-accent-hover: var(--ylf-accent-coral-hover);
+    --ylf-accent-soft: var(--ylf-accent-coral-soft);
+    --ylf-accent-text: var(--ylf-accent-coral-text);
+    --ylf-accent-on: var(--ylf-accent-coral-on);
+  }
+
+  [data-ylf-tone='pink'] {
+    --ylf-accent: var(--ylf-accent-pink);
+    --ylf-accent-hover: var(--ylf-accent-pink-hover);
+    --ylf-accent-soft: var(--ylf-accent-pink-soft);
+    --ylf-accent-text: var(--ylf-accent-pink-text);
+    --ylf-accent-on: var(--ylf-accent-pink-on);
+  }
+
+  [data-ylf-tone='green'] {
+    --ylf-accent: var(--ylf-accent-green);
+    --ylf-accent-hover: var(--ylf-accent-green-hover);
+    --ylf-accent-soft: var(--ylf-accent-green-soft);
+    --ylf-accent-text: var(--ylf-accent-green-text);
+    --ylf-accent-on: var(--ylf-accent-green-on);
+  }
+}

@@ -22,22 +22,67 @@
       "types": "./styles/css.d.ts",
       "default": "./dist/index.css"
     },
-    "./patterns.css": "./dist/patterns.css",
+    "./tokens.css": {
+      "types": "./styles/css.d.ts",
+      "default": "./dist/tokens.css"
+    },
+    "./compat.css": {
+      "types": "./styles/css.d.ts",
+      "default": "./dist/compat.css"
+    },
+    "./fonts.css": {
+      "types": "./styles/css.d.ts",
+      "default": "./dist/fonts.css"
+    },
+    "./patterns.css": {
+      "types": "./styles/css.d.ts",
+      "default": "./dist/patterns.css"
+    },
+    "./admin.css": {
+      "types": "./styles/css.d.ts",
+      "default": "./dist/admin.css"
+    },
+    "./editor.css": {
+      "types": "./styles/css.d.ts",
+      "default": "./dist/editor.css"
+    },
+    "./adapters/shadcn.css": {
+      "types": "./styles/css.d.ts",
+      "default": "./dist/adapters/shadcn.css"
+    },
+    "./adapters/nuxt-ui.css": {
+      "types": "./styles/css.d.ts",
+      "default": "./dist/adapters/nuxt-ui.css"
+    },
+    "./adapters/tdesign.css": {
+      "types": "./styles/css.d.ts",
+      "default": "./dist/adapters/tdesign.css"
+    },
+    "./tokens.json": "./dist/tokens.json",
+    "./tokens": {
+      "types": "./tokens/index.d.ts",
+      "default": "./tokens/index.mjs"
+    },
+    "./unocss": {
+      "types": "./unocss.d.ts",
+      "default": "./unocss.mjs"
+    },
     "./styles": "./styles/index.scss",
     "./styles/*": "./styles/*",
-    "./*": "./*",
-    "./admin.css": "./styles/admin.css",
-    "./editor.css": "./styles/editor.css"
+    "./*": "./*"
   },
   "files": [
     "dist",
-    "styles"
+    "styles",
+    "tokens",
+    "unocss.d.ts",
+    "unocss.mjs"
   ],
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "build": "sass styles/index.scss dist/index.css --no-source-map --style=compressed && sass styles/patterns.scss dist/patterns.css --no-source-map --style=compressed",
+    "build": "node scripts/build.mjs",
     "prepack": "npm run build",
     "release": "bumpp --no-commit --no-tag --no-push && npm publish"
   },

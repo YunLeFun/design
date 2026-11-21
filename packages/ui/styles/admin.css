@@ -1,48 +1,245 @@
-/* YunLeFun Design · Admin profile. Tokens only; import after the base theme.
- * Keep the vendored copy in YunLeFun/admin identical until this entry is published. */
-:root {
-  --ylf-admin-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-  --ylf-admin-control-sm: 28px;
-  --ylf-admin-control: 32px;
-  --ylf-admin-control-lg: 40px;
-  --ylf-admin-radius: 6px;
-  --ylf-admin-panel-radius: 10px;
-  --ylf-admin-icon-gap: 8px;
-}
+/* YunLeFun Design · Admin profile. Generated from packages/ui/tokens/source.mjs. */
 
-:root,
-.light,
-.ylf-theme-light,
-[data-ylf-admin-theme='light'] {
-  --ylf-admin-bg: #f6f7f9;
-  --ylf-admin-surface: #ffffff;
-  --ylf-admin-raised: #f0f2f5;
-  --ylf-admin-inset: #f8f9fb;
-  --ylf-admin-fg: #20242c;
-  --ylf-admin-muted: #626b78;
-  --ylf-admin-placeholder: #757e8b;
-  --ylf-admin-border: #e1e5eb;
-  --ylf-admin-border-strong: #c7cdd6;
-}
+@layer ylf.tokens, ylf.compat, ylf.profile, ylf.adapters;
 
-.dark,
-.ylf-theme-dark,
-[data-ylf-admin-theme='dark'] {
-  --ylf-admin-bg: #111318;
-  --ylf-admin-surface: #191c22;
-  --ylf-admin-raised: #252a33;
-  --ylf-admin-inset: #15181e;
-  --ylf-admin-fg: #eef1f6;
-  --ylf-admin-muted: #aab2c0;
-  --ylf-admin-placeholder: #929cac;
-  --ylf-admin-border: #303641;
-  --ylf-admin-border-strong: #4d5869;
-}
-
-@media (max-width: 767.9px), (pointer: coarse) {
+@layer ylf.profile {
   :root {
-    --ylf-admin-control-sm: 40px;
-    --ylf-admin-control: 44px;
-    --ylf-admin-control-lg: 48px;
+    --ylf-admin-font: var(
+      --ylf-font-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      'Segoe UI',
+      'PingFang SC',
+      'Hiragino Sans GB',
+      'Microsoft YaHei',
+      system-ui,
+      sans-serif
+    );
+    --ylf-admin-control-sm: 28px;
+    --ylf-admin-control: 32px;
+    --ylf-admin-control-lg: 40px;
+    --ylf-admin-radius: 6px;
+    --ylf-admin-panel-radius: 10px;
+    --ylf-admin-icon-gap: 8px;
+  }
+
+  :root,
+  .light,
+  .ylf-theme-light {
+    --ylf-admin-bg: #f6f7f9;
+    --ylf-admin-surface: #ffffff;
+    --ylf-admin-raised: #f0f2f5;
+    --ylf-admin-inset: #f8f9fb;
+    --ylf-admin-fg: #20242c;
+    --ylf-admin-muted: #626b78;
+    --ylf-admin-placeholder: #656e7b;
+    --ylf-admin-border: #e1e5eb;
+    --ylf-admin-border-strong: #c7cdd6;
+  }
+
+  .dark,
+  .ylf-theme-dark {
+    --ylf-admin-bg: #111318;
+    --ylf-admin-surface: #191c22;
+    --ylf-admin-raised: #252a33;
+    --ylf-admin-inset: #15181e;
+    --ylf-admin-fg: #eef1f6;
+    --ylf-admin-muted: #aab2c0;
+    --ylf-admin-placeholder: #929cac;
+    --ylf-admin-border: #303641;
+    --ylf-admin-border-strong: #4d5869;
+  }
+
+  [data-ylf-admin-theme='light'] {
+    --ylf-admin-bg: #f6f7f9;
+    --ylf-admin-surface: #ffffff;
+    --ylf-admin-raised: #f0f2f5;
+    --ylf-admin-inset: #f8f9fb;
+    --ylf-admin-fg: #20242c;
+    --ylf-admin-muted: #626b78;
+    --ylf-admin-placeholder: #656e7b;
+    --ylf-admin-border: #e1e5eb;
+    --ylf-admin-border-strong: #c7cdd6;
+    --ylf-c-brand: var(--ylf-palette-blue);
+    --ylf-c-brand-hover: #1d4ed8;
+    --ylf-c-brand-active: #1e40af;
+    --ylf-c-brand-soft: #eff6ff;
+    --ylf-accent-blue: var(--ylf-c-brand);
+    --ylf-accent-blue-hover: var(--ylf-c-brand-hover);
+    --ylf-accent-blue-soft: var(--ylf-c-brand-soft);
+    --ylf-accent-blue-text: var(--ylf-c-brand);
+    --ylf-accent-blue-on: var(--ylf-c-text-on-accent);
+    --ylf-accent: var(--ylf-accent-blue);
+    --ylf-accent-hover: var(--ylf-accent-blue-hover);
+    --ylf-accent-soft: var(--ylf-accent-blue-soft);
+    --ylf-accent-text: var(--ylf-accent-blue-text);
+    --ylf-accent-on: var(--ylf-accent-blue-on);
+    --ylf-accent-sun-soft: #fef9c3;
+    --ylf-accent-sun-text: #854d0e;
+    --ylf-accent-cyan-soft: #cffafe;
+    --ylf-accent-cyan-text: #155e75;
+    --ylf-accent-coral-soft: #ffede6;
+    --ylf-accent-coral-text: #9a3412;
+    --ylf-accent-pink-soft: #fce7f3;
+    --ylf-accent-pink-text: #9d174d;
+    --ylf-accent-green-soft: #dcfce7;
+    --ylf-accent-green-text: #166534;
+    --ylf-status-success: var(--ylf-accent-green);
+    --ylf-status-success-hover: var(--ylf-accent-green-hover);
+    --ylf-status-success-on: var(--ylf-accent-green-on);
+    --ylf-status-success-soft: var(--ylf-accent-green-soft);
+    --ylf-status-success-text: var(--ylf-accent-green-text);
+    --ylf-status-warning: var(--ylf-accent-sun);
+    --ylf-status-warning-hover: var(--ylf-accent-sun-hover);
+    --ylf-status-warning-on: var(--ylf-accent-sun-on);
+    --ylf-status-warning-soft: var(--ylf-accent-sun-soft);
+    --ylf-status-warning-text: var(--ylf-accent-sun-text);
+    --ylf-status-danger: var(--ylf-accent-coral);
+    --ylf-status-danger-hover: var(--ylf-accent-coral-hover);
+    --ylf-status-danger-on: var(--ylf-accent-coral-on);
+    --ylf-status-danger-soft: var(--ylf-accent-coral-soft);
+    --ylf-status-danger-text: var(--ylf-accent-coral-text);
+    --ylf-status-info: var(--ylf-accent-cyan);
+    --ylf-status-info-hover: var(--ylf-accent-cyan-hover);
+    --ylf-status-info-on: var(--ylf-accent-cyan-on);
+    --ylf-status-info-soft: var(--ylf-accent-cyan-soft);
+    --ylf-status-info-text: var(--ylf-accent-cyan-text);
+    --ylf-c-feature-bg: var(--ylf-accent-sun-soft);
+    --ylf-c-feature-text: var(--ylf-c-text);
+    --ylf-c-text-on-accent: #ffffff;
+    --ylf-c-bg-mute: #e2e8f0;
+    --ylf-c-panel: rgba(255, 255, 255, 0.96);
+    --ylf-c-highlight: rgba(255, 255, 255, 0.9);
+    --ylf-c-edge: rgba(30, 64, 115, 0.12);
+    --ylf-c-overlay: rgba(13, 17, 32, 0.45);
+    --ylf-ring-color: var(--ylf-c-brand);
+    --ylf-glass-bg: rgba(255, 255, 255, 0.82);
+    --ylf-glass-border: rgba(255, 255, 255, 0.7);
+    --ylf-shadow-sm: 0 2px 8px -2px rgba(15, 23, 42, 0.12);
+    --ylf-shadow: 0 10px 28px -8px rgba(15, 23, 42, 0.16);
+    --ylf-shadow-lg: 0 22px 56px -14px rgba(15, 23, 42, 0.22);
+    --ylf-shadow-control:
+      inset 0 1px 0 var(--ylf-c-highlight), 0 1px 2px rgba(15, 23, 42, 0.06), 0 3px 6px -4px rgba(15, 23, 42, 0.16);
+    --ylf-shadow-inset: inset 0 1px 3px rgba(15, 23, 42, 0.08);
+    --ylf-shadow-panel:
+      inset 0 1px 0 var(--ylf-c-highlight), 0 0 0 1px var(--ylf-c-edge), 0 8px 16px -8px rgba(15, 23, 42, 0.14),
+      0 28px 64px -20px rgba(24, 52, 102, 0.24);
+    --ylf-glow-brand: 0 6px 18px -8px rgba(37, 99, 235, 0.35);
+    --ylf-glow-brand-hover: 0 8px 22px -8px rgba(37, 99, 235, 0.4);
+  }
+
+  [data-ylf-admin-theme='dark'] {
+    --ylf-admin-bg: #111318;
+    --ylf-admin-surface: #191c22;
+    --ylf-admin-raised: #252a33;
+    --ylf-admin-inset: #15181e;
+    --ylf-admin-fg: #eef1f6;
+    --ylf-admin-muted: #aab2c0;
+    --ylf-admin-placeholder: #929cac;
+    --ylf-admin-border: #303641;
+    --ylf-admin-border-strong: #4d5869;
+    --ylf-c-brand: #60a5fa;
+    --ylf-c-brand-hover: #93c5fd;
+    --ylf-c-brand-active: #3b82f6;
+    --ylf-c-brand-soft: #15264a;
+    --ylf-accent-blue: var(--ylf-c-brand);
+    --ylf-accent-blue-hover: var(--ylf-c-brand-hover);
+    --ylf-accent-blue-soft: var(--ylf-c-brand-soft);
+    --ylf-accent-blue-text: var(--ylf-c-brand);
+    --ylf-accent-blue-on: var(--ylf-c-text-on-accent);
+    --ylf-accent: var(--ylf-accent-blue);
+    --ylf-accent-hover: var(--ylf-accent-blue-hover);
+    --ylf-accent-soft: var(--ylf-accent-blue-soft);
+    --ylf-accent-text: var(--ylf-accent-blue-text);
+    --ylf-accent-on: var(--ylf-accent-blue-on);
+    --ylf-accent-sun-soft: #30290f;
+    --ylf-accent-sun-text: #fde047;
+    --ylf-accent-cyan-soft: #10313d;
+    --ylf-accent-cyan-text: #67e8f9;
+    --ylf-accent-coral-soft: #39231f;
+    --ylf-accent-coral-text: #fda48c;
+    --ylf-accent-pink-soft: #351e32;
+    --ylf-accent-pink-text: #f9a8d4;
+    --ylf-accent-green-soft: #142e26;
+    --ylf-accent-green-text: #86efac;
+    --ylf-status-success: var(--ylf-accent-green);
+    --ylf-status-success-hover: var(--ylf-accent-green-hover);
+    --ylf-status-success-on: var(--ylf-accent-green-on);
+    --ylf-status-success-soft: var(--ylf-accent-green-soft);
+    --ylf-status-success-text: var(--ylf-accent-green-text);
+    --ylf-status-warning: var(--ylf-accent-sun);
+    --ylf-status-warning-hover: var(--ylf-accent-sun-hover);
+    --ylf-status-warning-on: var(--ylf-accent-sun-on);
+    --ylf-status-warning-soft: var(--ylf-accent-sun-soft);
+    --ylf-status-warning-text: var(--ylf-accent-sun-text);
+    --ylf-status-danger: var(--ylf-accent-coral);
+    --ylf-status-danger-hover: var(--ylf-accent-coral-hover);
+    --ylf-status-danger-on: var(--ylf-accent-coral-on);
+    --ylf-status-danger-soft: var(--ylf-accent-coral-soft);
+    --ylf-status-danger-text: var(--ylf-accent-coral-text);
+    --ylf-status-info: var(--ylf-accent-cyan);
+    --ylf-status-info-hover: var(--ylf-accent-cyan-hover);
+    --ylf-status-info-on: var(--ylf-accent-cyan-on);
+    --ylf-status-info-soft: var(--ylf-accent-cyan-soft);
+    --ylf-status-info-text: var(--ylf-accent-cyan-text);
+    --ylf-c-feature-bg: var(--ylf-accent-sun-soft);
+    --ylf-c-feature-text: var(--ylf-c-text);
+    --ylf-c-text-on-accent: #0f172a;
+    --ylf-c-bg-mute: #22304a;
+    --ylf-c-panel: rgba(20, 29, 43, 0.96);
+    --ylf-c-highlight: rgba(186, 214, 255, 0.1);
+    --ylf-c-edge: rgba(2, 6, 15, 0.55);
+    --ylf-c-overlay: rgba(2, 6, 15, 0.72);
+    --ylf-ring-color: var(--ylf-c-brand);
+    --ylf-glass-bg: rgba(20, 29, 43, 0.9);
+    --ylf-glass-border: rgba(96, 165, 250, 0.18);
+    --ylf-shadow-sm: 0 2px 10px -2px rgba(2, 6, 15, 0.55);
+    --ylf-shadow: 0 12px 30px -8px rgba(2, 6, 15, 0.6);
+    --ylf-shadow-lg: 0 24px 60px -14px rgba(2, 6, 15, 0.65);
+    --ylf-shadow-control:
+      inset 0 1px 0 var(--ylf-c-highlight), 0 1px 2px rgba(2, 6, 15, 0.3), 0 4px 8px -4px rgba(2, 6, 15, 0.35);
+    --ylf-shadow-inset: inset 0 1px 4px rgba(2, 6, 15, 0.4);
+    --ylf-shadow-panel:
+      inset 0 1px 0 var(--ylf-c-highlight), 0 0 0 1px var(--ylf-c-edge), 0 10px 20px -8px rgba(2, 6, 15, 0.4),
+      0 32px 72px -18px rgba(2, 6, 15, 0.6);
+    --ylf-glow-brand: 0 6px 18px -8px rgba(96, 165, 250, 0.3);
+    --ylf-glow-brand-hover: 0 8px 22px -8px rgba(96, 165, 250, 0.4);
+  }
+
+  @media (max-width: 767.9px), (pointer: coarse) {
+    :root {
+      --ylf-admin-control-sm: 40px;
+      --ylf-admin-control: 44px;
+      --ylf-admin-control-lg: 48px;
+    }
+  }
+
+  [data-ylf-profile='admin'],
+  [data-ylf-profile='admin'] :is(.light, .dark, .ylf-theme-light, .ylf-theme-dark, [data-ylf-admin-theme]) {
+    --ylf-c-bg: var(--ylf-admin-bg);
+    --ylf-c-bg-soft: var(--ylf-admin-raised);
+    --ylf-c-bg-mute: var(--ylf-admin-raised);
+    --ylf-c-surface: var(--ylf-admin-surface);
+    --ylf-c-surface-raised: var(--ylf-admin-raised);
+    --ylf-c-surface-inset: var(--ylf-admin-inset);
+    --ylf-c-panel: var(--ylf-admin-surface);
+    --ylf-c-text: var(--ylf-admin-fg);
+    --ylf-c-text-2: var(--ylf-admin-muted);
+    --ylf-c-text-3: var(--ylf-admin-placeholder);
+    --ylf-c-placeholder: var(--ylf-admin-placeholder);
+    --ylf-c-border: var(--ylf-admin-border);
+    --ylf-c-border-strong: var(--ylf-admin-border-strong);
+    --ylf-font-body: var(--ylf-admin-font);
+    --ylf-radius: var(--ylf-admin-radius);
+    --ylf-radius-sm: var(--ylf-radius-xs, 6px);
+    --ylf-radius-lg: var(--ylf-admin-panel-radius);
+    --ylf-control-h-sm: var(--ylf-admin-control-sm);
+    --ylf-control-h: var(--ylf-admin-control);
+    --ylf-control-h-lg: var(--ylf-admin-control-lg);
+    --ylf-control-radius: var(--ylf-admin-radius);
+    --ylf-control-radius-sm: var(--ylf-admin-radius);
+    --ylf-panel-radius: var(--ylf-admin-panel-radius);
+    --ylf-control-font-size: var(--ylf-text-sm, 0.875rem);
+    --ylf-control-font-size-sm: var(--ylf-text-xs, 0.75rem);
   }
 }

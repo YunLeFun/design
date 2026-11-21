@@ -1,0 +1,160 @@
+/* YunLeFun Design · TDesign variable adapter. Generated from packages/ui/tokens/source.mjs. */
+
+@layer ylf.tokens, ylf.compat, ylf.profile, ylf.adapters;
+
+@layer ylf.adapters {
+  :root,
+  .light,
+  .dark,
+  .ylf-theme-light,
+  .ylf-theme-dark,
+  [data-ylf-profile='admin'],
+  [data-ylf-profile='editor'],
+  [data-ylf-admin-theme='light'],
+  [data-ylf-admin-theme='dark'],
+  [data-ylf-editor-theme='light'],
+  [data-ylf-editor-theme='dark'],
+  [theme-mode='light'],
+  [theme-mode='dark'] {
+    --td-brand-color: var(--ylf-c-brand);
+    --td-brand-color-hover: var(--ylf-c-brand-hover);
+    --td-brand-color-active: var(--ylf-c-brand-active);
+    --td-brand-color-focus: color-mix(in srgb, var(--ylf-c-brand) 20%, var(--ylf-c-surface));
+    --td-brand-color-disabled: color-mix(in srgb, var(--ylf-c-brand) 35%, var(--ylf-c-surface));
+    --td-brand-color-light: color-mix(in srgb, var(--ylf-c-brand) 9%, var(--ylf-admin-surface, var(--ylf-c-surface)));
+    --td-brand-color-light-hover: color-mix(
+      in srgb,
+      var(--ylf-c-brand) 15%,
+      var(--ylf-admin-surface, var(--ylf-c-surface))
+    );
+    --td-text-color-brand: var(--ylf-c-brand);
+    --td-text-color-link: var(--ylf-c-brand);
+    --td-success-color: var(--ylf-status-success-text);
+    --td-success-color-hover: color-mix(in srgb, var(--ylf-status-success-text) 88%, var(--ylf-c-text));
+    --td-success-color-active: color-mix(in srgb, var(--ylf-status-success-text) 76%, var(--ylf-c-text));
+    --td-success-color-focus: color-mix(in srgb, var(--ylf-status-success-text) 20%, var(--ylf-c-surface));
+    --td-success-color-disabled: color-mix(in srgb, var(--ylf-status-success-text) 35%, var(--ylf-c-surface));
+    --td-success-color-light: color-mix(
+      in srgb,
+      var(--ylf-status-success-text) 9%,
+      var(--ylf-admin-surface, var(--ylf-c-surface))
+    );
+    --td-success-color-light-hover: color-mix(
+      in srgb,
+      var(--ylf-status-success-text) 12%,
+      var(--ylf-status-success-soft)
+    );
+    --td-success-color-1: var(--ylf-status-success-soft);
+    --td-success-color-3: color-mix(in srgb, var(--ylf-status-success-text) 30%, var(--ylf-c-surface));
+    --td-success-color-4: color-mix(in srgb, var(--ylf-status-success-text) 45%, var(--ylf-c-surface));
+    --td-warning-color: var(--ylf-status-warning-text);
+    --td-warning-color-hover: color-mix(in srgb, var(--ylf-status-warning-text) 88%, var(--ylf-c-text));
+    --td-warning-color-active: color-mix(in srgb, var(--ylf-status-warning-text) 76%, var(--ylf-c-text));
+    --td-warning-color-focus: color-mix(in srgb, var(--ylf-status-warning-text) 20%, var(--ylf-c-surface));
+    --td-warning-color-disabled: color-mix(in srgb, var(--ylf-status-warning-text) 35%, var(--ylf-c-surface));
+    --td-warning-color-light: color-mix(
+      in srgb,
+      var(--ylf-status-warning-text) 9%,
+      var(--ylf-admin-surface, var(--ylf-c-surface))
+    );
+    --td-warning-color-light-hover: color-mix(
+      in srgb,
+      var(--ylf-status-warning-text) 12%,
+      var(--ylf-status-warning-soft)
+    );
+    --td-warning-color-1: var(--ylf-status-warning-soft);
+    --td-warning-color-3: color-mix(in srgb, var(--ylf-status-warning-text) 30%, var(--ylf-c-surface));
+    --td-warning-color-4: color-mix(in srgb, var(--ylf-status-warning-text) 45%, var(--ylf-c-surface));
+    --td-error-color: var(--ylf-status-danger-text);
+    --td-error-color-hover: color-mix(in srgb, var(--ylf-status-danger-text) 88%, var(--ylf-c-text));
+    --td-error-color-active: color-mix(in srgb, var(--ylf-status-danger-text) 76%, var(--ylf-c-text));
+    --td-error-color-focus: color-mix(in srgb, var(--ylf-status-danger-text) 20%, var(--ylf-c-surface));
+    --td-error-color-disabled: color-mix(in srgb, var(--ylf-status-danger-text) 35%, var(--ylf-c-surface));
+    --td-error-color-light: color-mix(
+      in srgb,
+      var(--ylf-status-danger-text) 9%,
+      var(--ylf-admin-surface, var(--ylf-c-surface))
+    );
+    --td-error-color-light-hover: color-mix(in srgb, var(--ylf-status-danger-text) 12%, var(--ylf-status-danger-soft));
+    --td-error-color-1: var(--ylf-status-danger-soft);
+    --td-error-color-3: color-mix(in srgb, var(--ylf-status-danger-text) 30%, var(--ylf-c-surface));
+    --td-error-color-4: color-mix(in srgb, var(--ylf-status-danger-text) 45%, var(--ylf-c-surface));
+    --td-bg-color-page: var(--ylf-admin-bg, var(--ylf-c-bg));
+    --td-bg-color-container: var(--ylf-admin-surface, var(--ylf-c-surface));
+    --td-bg-color-container-hover: var(--ylf-admin-raised, var(--ylf-c-surface-raised));
+    --td-bg-color-container-active: var(--ylf-admin-border, var(--ylf-c-border));
+    --td-bg-color-container-select: var(--ylf-admin-surface, var(--ylf-c-surface));
+    --td-bg-color-secondarycontainer: var(--ylf-admin-inset, var(--ylf-c-surface-inset));
+    --td-bg-color-secondarycontainer-hover: var(--ylf-admin-raised, var(--ylf-c-surface-raised));
+    --td-bg-color-secondarycontainer-active: var(--ylf-admin-border-strong, var(--ylf-c-border-strong));
+    --td-bg-color-component: var(--ylf-admin-raised, var(--ylf-c-bg-soft));
+    --td-bg-color-component-hover: var(--ylf-admin-border-strong, var(--ylf-c-border-strong));
+    --td-bg-color-component-active: var(--ylf-c-text-3);
+    --td-bg-color-secondarycomponent: var(--ylf-admin-border, var(--ylf-c-border));
+    --td-bg-color-secondarycomponent-hover: var(--ylf-admin-border-strong, var(--ylf-c-border-strong));
+    --td-bg-color-secondarycomponent-active: var(--ylf-c-text-3);
+    --td-bg-color-component-disabled: var(--ylf-admin-inset, var(--ylf-c-surface-inset));
+    --td-bg-color-specialcomponent: var(--ylf-admin-surface, var(--ylf-c-surface));
+    --td-text-color-primary: var(--ylf-admin-fg, var(--ylf-c-text));
+    --td-text-color-secondary: var(--ylf-admin-muted, var(--ylf-c-text-2));
+    --td-text-color-placeholder: var(--ylf-admin-placeholder, var(--ylf-c-placeholder));
+    --td-text-color-disabled: color-mix(in srgb, var(--ylf-c-text-3) 55%, var(--ylf-c-surface));
+    --td-text-color-anti: var(--ylf-c-text-on-accent);
+    --td-text-color-watermark: color-mix(in srgb, var(--ylf-c-text) 10%, transparent);
+    --td-border-level-1-color: var(--ylf-admin-border, var(--ylf-c-border));
+    --td-component-stroke: var(--ylf-admin-border, var(--ylf-c-border));
+    --td-border-level-2-color: var(--ylf-admin-border-strong, var(--ylf-c-border-strong));
+    --td-component-border: var(--ylf-admin-border-strong, var(--ylf-c-border-strong));
+    --td-mask-active: var(--ylf-c-overlay);
+    --td-mask-disabled: color-mix(in srgb, var(--ylf-c-surface) 60%, transparent);
+    --td-mask-background: var(--ylf-c-panel);
+    --td-mask-gradient: transparent;
+    --td-shadow-1: var(--ylf-shadow-sm);
+    --td-shadow-2: var(--ylf-shadow);
+    --td-shadow-3: var(--ylf-shadow-lg);
+    --td-shadow-inset-top: inset 0 0.5px 0 var(--ylf-c-border);
+    --td-shadow-inset-right: inset 0.5px 0 0 var(--ylf-c-border);
+    --td-shadow-inset-bottom: inset 0 -0.5px 0 var(--ylf-c-border);
+    --td-shadow-inset-left: inset -0.5px 0 0 var(--ylf-c-border);
+    --td-table-shadow-color: var(--ylf-c-edge);
+    --td-scrollbar-color: color-mix(in srgb, var(--ylf-c-text-3) 25%, transparent);
+    --td-scrollbar-hover-color: color-mix(in srgb, var(--ylf-c-text-3) 45%, transparent);
+    --td-scroll-track-color: var(--ylf-c-surface);
+    --td-comp-size-xs: var(--ylf-admin-control-sm, var(--ylf-control-h-sm));
+    --td-comp-size-s: var(--ylf-admin-control-sm, var(--ylf-control-h-sm));
+    --td-comp-size-m: var(--ylf-admin-control, var(--ylf-control-h));
+    --td-comp-size-l: var(--ylf-admin-control-lg, var(--ylf-control-h-lg));
+    --td-radius-small: var(--ylf-radius-2xs, 4px);
+    --td-radius-default: var(--ylf-admin-radius, var(--ylf-radius-xs));
+    --td-radius-medium: var(--ylf-radius-xs, 6px);
+    --td-radius-large: var(--ylf-radius-sm);
+    --td-radius-extraLarge: var(--ylf-radius);
+    --td-radius-round: var(--ylf-radius-pill);
+    --td-font-family: var(--ylf-admin-font, var(--ylf-font-ui));
+    --td-font-family-medium: var(--ylf-admin-font, var(--ylf-font-ui));
+    --td-font-family-code: var(--ylf-font-mono);
+  }
+
+  :root,
+  .light,
+  .ylf-theme-light,
+  [data-ylf-admin-theme='light'],
+  [data-ylf-editor-theme='light'],
+  [theme-mode='light'] {
+    color-scheme: light;
+  }
+
+  .dark,
+  .ylf-theme-dark,
+  [data-ylf-admin-theme='dark'],
+  [data-ylf-editor-theme='dark'],
+  [theme-mode='dark'] {
+    color-scheme: dark;
+  }
+
+  .t-tooltip--default {
+    --td-gray-color-13: var(--ylf-c-text);
+    --td-gray-color-9: var(--ylf-c-text-2);
+    --td-text-color-anti: var(--ylf-c-surface);
+  }
+}

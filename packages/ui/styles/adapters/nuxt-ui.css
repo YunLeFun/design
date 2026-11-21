@@ -1,0 +1,36 @@
+/* YunLeFun Design · Nuxt UI variable adapter. Generated from packages/ui/tokens/source.mjs. */
+
+@layer ylf.tokens, ylf.compat, ylf.profile, ylf.adapters;
+
+@layer ylf.adapters {
+  :root,
+  .light,
+  .dark,
+  .ylf-theme-light,
+  .ylf-theme-dark,
+  [data-ylf-profile='admin'],
+  [data-ylf-profile='editor'],
+  [data-ylf-admin-theme='light'],
+  [data-ylf-admin-theme='dark'],
+  [data-ylf-editor-theme='light'],
+  [data-ylf-editor-theme='dark'] {
+    --ui-primary: var(--ylf-c-brand);
+    --ui-success: var(--ylf-status-success-text);
+    --ui-warning: var(--ylf-status-warning-text);
+    --ui-error: var(--ylf-status-danger-text);
+    --ui-info: var(--ylf-status-info-text);
+    --ui-bg: var(--ylf-c-bg);
+    --ui-bg-muted: var(--ylf-c-bg-soft);
+    --ui-bg-elevated: var(--ylf-c-surface);
+    --ui-bg-accented: var(--ylf-c-bg-mute);
+    --ui-text: var(--ylf-c-text);
+    --ui-text-muted: var(--ylf-c-text-2);
+    --ui-text-dimmed: var(--ylf-c-text-3);
+    --ui-text-toned: var(--ylf-c-text-2);
+    --ui-text-highlighted: var(--ylf-c-text);
+    --ui-border: var(--ylf-c-border-strong);
+    --ui-border-muted: var(--ylf-c-border);
+    --ui-border-accented: var(--ylf-c-border-strong);
+    --ui-radius: var(--ylf-radius);
+  }
+}
