@@ -95,11 +95,13 @@ AG-UI 1.0 的 interrupt/resume 与普通工具结果是两种协议机制：「�
 const interrupt = interrupts.value[0]
 if (interrupt) {
   await run({
-    resume: [{
-      interruptId: interrupt.id,
-      status: approved ? 'resolved' : 'cancelled',
-      payload: approved,
-    }],
+    resume: [
+      {
+        interruptId: interrupt.id,
+        status: approved ? 'resolved' : 'cancelled',
+        payload: approved,
+      }
+    ],
   })
 }
 ```

@@ -13,7 +13,9 @@ export async function previewElement(el: HTMLElement, options: {
 } = {}) {
   const { clone = true, scale = 2 } = options
   const transformScale = `scale(${scale})`
-  const previousFocus = document.activeElement instanceof HTMLElement ? document.activeElement : undefined
+  const previousFocus = document.activeElement instanceof HTMLElement
+    ? document.activeElement
+    : undefined
   // copy element
   // el.cloneNode canvas will lose context
 

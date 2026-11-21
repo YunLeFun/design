@@ -16,17 +16,50 @@ import { useHydrated } from '../composables/useHydrated'
 
 const { text } = useDocsLocale()
 const tones = computed<{ value: YlfAccentTone, label: string, color: string }[]>(() => [
-  { value: 'blue', label: text('晴空蓝', 'Sky blue'), color: 'var(--ylf-accent-blue)' },
-  { value: 'sun', label: text('明黄', 'Sun yellow'), color: 'var(--ylf-accent-sun)' },
-  { value: 'cyan', label: text('青色', 'Cyan'), color: 'var(--ylf-accent-cyan)' },
-  { value: 'coral', label: text('珊瑚橙', 'Coral'), color: 'var(--ylf-accent-coral)' },
-  { value: 'pink', label: text('桃粉', 'Pink'), color: 'var(--ylf-accent-pink)' },
-  { value: 'green', label: text('鲜绿', 'Green'), color: 'var(--ylf-accent-green)' },
+  {
+    value: 'blue',
+    label: text('晴空蓝', 'Sky blue'),
+    color: 'var(--ylf-accent-blue)',
+  },
+  {
+    value: 'sun',
+    label: text('明黄', 'Sun yellow'),
+    color: 'var(--ylf-accent-sun)',
+  },
+  {
+    value: 'cyan',
+    label: text('青色', 'Cyan'),
+    color: 'var(--ylf-accent-cyan)',
+  },
+  {
+    value: 'coral',
+    label: text('珊瑚橙', 'Coral'),
+    color: 'var(--ylf-accent-coral)',
+  },
+  {
+    value: 'pink',
+    label: text('桃粉', 'Pink'),
+    color: 'var(--ylf-accent-pink)',
+  },
+  {
+    value: 'green',
+    label: text('鲜绿', 'Green'),
+    color: 'var(--ylf-accent-green)',
+  },
 ])
 const appearances = computed<{ value: YlfColorAppearance, label: string }[]>(() => [
-  { value: 'solid', label: text('实色', 'Solid') },
-  { value: 'soft', label: text('柔色', 'Soft') },
-  { value: 'outline', label: text('描边', 'Outline') },
+  {
+    value: 'solid',
+    label: text('实色', 'Solid'),
+  },
+  {
+    value: 'soft',
+    label: text('柔色', 'Soft'),
+  },
+  {
+    value: 'outline',
+    label: text('描边', 'Outline'),
+  },
 ])
 const { isDark } = useData()
 const { setAppearance, toggleAppearance } = useAppearanceTransition()
@@ -61,8 +94,11 @@ const pokeLines = computed(() => [
   text('再戳就要飘走啦。', 'One more and I\'ll drift away.'),
 ])
 const caption = computed(() => {
-  if (pokes.value === 0)
-    return night.value ? text('灵感在夜空继续', 'Ideas carry on after dark') : text('今天，晴空正好', 'A little sunshine today')
+  if (pokes.value === 0) {
+    return night.value
+      ? text('灵感在夜空继续', 'Ideas carry on after dark')
+      : text('今天，晴空正好', 'A little sunshine today')
+  }
   if (pokes.value <= pokeLines.value.length)
     return pokeLines.value[pokes.value - 1]
   return text(`这朵云已经被你戳了 ${pokes.value} 下`, `You've poked this cloud ${pokes.value} times`)

@@ -30,7 +30,9 @@ function mountMeasuredNavigation() {
     disconnect = disconnect
   })
   vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function () {
-    const key = this.classList.contains('ylf-navigation') ? 'nav' : this.getAttribute('data-destination')
+    const key = this.classList.contains('ylf-navigation')
+      ? 'nav'
+      : this.getAttribute('data-destination')
     return rectangles[key as keyof typeof rectangles] ?? new DOMRect()
   })
   const wrapper = mount(YlfNavigation, {
@@ -43,7 +45,13 @@ function mountMeasuredNavigation() {
       }, () => id)),
     },
   })
-  return { wrapper, active, rectangles, resize: () => notifyResize(), disconnect }
+  return {
+    wrapper,
+    active,
+    rectangles,
+    resize: () => notifyResize(),
+    disconnect,
+  }
 }
 
 describe('site navigation', () => {
@@ -91,13 +99,18 @@ describe('site navigation', () => {
   it('names the landmark and updates the current destination', async () => {
     const wrapper = mount(YlfNavigation, {
       props: { label: '主导航', orientation: 'vertical' },
-      slots: { default: () => h(YlfNavigationLink, { href: '/blog', active: true }, () => '博客') },
+      slots: {
+        default: () => h(YlfNavigationLink, { href: '/blog', active: true }, () => '博客'),
+      },
     })
     expect(wrapper.element.tagName).toBe('NAV')
     expect(wrapper.attributes('aria-label')).toBe('主导航')
     expect(wrapper.get('a').attributes('href')).toBe('/blog')
     expect(wrapper.get('a').attributes('aria-current')).toBe('page')
-    const link = mount(YlfNavigationLink, { props: { active: true }, attrs: { href: '/docs' } })
+    const link = mount(YlfNavigationLink, {
+      props: { active: true },
+      attrs: { href: '/docs' },
+    })
     await link.setProps({ active: false })
     expect(link.attributes('aria-current')).toBeUndefined()
     expect(link.attributes('href')).toBe('/docs')
@@ -107,13 +120,17 @@ describe('site navigation', () => {
     const childClick = vi.fn()
     const wrapperClick = vi.fn()
     const RouterLink = defineComponent({
-      props: { to: { type: String, required: true } },
+      props: {
+        to: { type: String, required: true },
+      },
       setup: (props, { slots }) => () => h('a', { href: props.to }, slots.default?.()),
     })
     const wrapper = mount(YlfNavigationLink, {
       props: { asChild: true, active: true },
       attrs: { 'aria-label': '查看博客', 'onClick': wrapperClick },
-      slots: { default: () => h(RouterLink, { to: '/blog', onClick: childClick }, () => '博客') },
+      slots: {
+        default: () => h(RouterLink, { to: '/blog', onClick: childClick }, () => '博客'),
+      },
     })
     expect(wrapper.element.tagName).toBe('A')
     expect(wrapper.find('a a').exists()).toBe(false)
@@ -128,8 +145,14 @@ describe('site navigation', () => {
   it('lets the menu own expanded state and respond to Enter and Escape', async () => {
     const wrapper = mount(YlfDropdownMenu, {
       attachTo: document.body,
-      props: { items: [{ label: '应用', value: 'apps' }] },
-      slots: { trigger: () => h(YlfNavigationTrigger, {}, () => '官网') },
+      props: {
+        items: [
+          { label: '应用', value: 'apps' },
+        ],
+      },
+      slots: {
+        trigger: () => h(YlfNavigationTrigger, {}, () => '官网'),
+      },
     })
     const trigger = wrapper.get('button')
     expect(trigger.attributes('type')).toBe('button')
@@ -146,7 +169,10 @@ describe('site navigation', () => {
 
   it('keeps a disabled menu trigger native and non-submitting', () => {
     const click = vi.fn()
-    const wrapper = mount(YlfNavigationTrigger, { props: { disabled: true }, attrs: { onClick: click } })
+    const wrapper = mount(YlfNavigationTrigger, {
+      props: { disabled: true },
+      attrs: { onClick: click },
+    })
     expect(wrapper.attributes('type')).toBe('button')
     expect(wrapper.attributes('disabled')).toBeDefined()
     wrapper.element.click()

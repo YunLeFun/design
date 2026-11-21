@@ -4,9 +4,16 @@ import YlfSegmentedControl from '../YlfSegmentedControl.vue'
 
 const view = shallowRef<'grid' | 'list'>('grid')
 const kind = shallowRef('all')
-const options = [{ value: 'grid', label: '网格视图' }, { value: 'list', label: '列表视图' }] as const
+const options = [
+  { value: 'grid', label: '网格视图' },
+  { value: 'list', label: '列表视图' },
+] as const
 const icons = { grid: 'i-ri-grid-line', list: 'i-ri-list-check' }
-const kinds = [{ value: 'all', label: '全部', count: 24 }, { value: 'image', label: '图片', count: 18 }, { value: 'video', label: '视频', count: 6 }]
+const kinds = [
+  { value: 'all', label: '全部', count: 24 },
+  { value: 'image', label: '图片', count: 18 },
+  { value: 'video', label: '视频', count: 6 },
+]
 </script>
 
 <template>

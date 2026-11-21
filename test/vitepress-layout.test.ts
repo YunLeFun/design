@@ -4,14 +4,24 @@ import { describe, expect, it, vi } from 'vitest'
 import { defineComponent, h, inject, nextTick } from 'vue'
 import Layout from '../packages/vitepress-theme-yunlefun/components/Layout.vue'
 
-const site = vi.hoisted(() => ({ brand: { icon: 'design-mark', hero: true } as { icon: unknown, hero?: boolean, sky?: boolean } }))
-const page = vi.hoisted(() => ({ frontmatter: { hero: { name: 'Design' } } as Record<string, unknown> }))
+const site = vi.hoisted(() => ({
+  brand: { icon: 'design-mark', hero: true } as { icon: unknown, hero?: boolean, sky?: boolean },
+}))
+const page = vi.hoisted(() => ({
+  frontmatter: {
+    hero: { name: 'Design' },
+  } as Record<string, unknown>,
+}))
 const route = vi.hoisted(() => ({ path: '/' }))
 vi.mock('vitepress', async () => {
   const { reactive, ref } = await import('vue')
   const current = reactive(route)
   return {
-    useData: () => ({ isDark: ref(false), theme: ref(site), frontmatter: ref(page.frontmatter) }),
+    useData: () => ({
+      isDark: ref(false),
+      theme: ref(site),
+      frontmatter: ref(page.frontmatter),
+    }),
     useRoute: () => current,
     withBase: (path: string) => `/base${path}`,
   }
@@ -42,14 +52,20 @@ describe('shared layout slots', () => {
   })
 
   it('renders a site-provided Iconify mark or image without forking the theme', () => {
-    site.brand = { icon: { body: '<path fill="currentColor" d="M0 0h24v24H0z"/>', width: 24, height: 24 }, hero: true }
+    site.brand = {
+      icon: { body: '<path fill="currentColor" d="M0 0h24v24H0z"/>', width: 24, height: 24 },
+      hero: true,
+    }
     const iconified = mount(Layout)
     expect(iconified.findAll('svg[data-icon="site"]')).toHaveLength(2)
     expect(iconified.get('.ylf-nav-logo').attributes('viewBox')).toBe('0 0 24 24')
     expect(iconified.get('.ylf-nav-logo').html()).toContain('fill="currentColor"')
     iconified.unmount()
 
-    site.brand = { icon: { src: '/logo.svg' }, hero: true }
+    site.brand = {
+      icon: { src: '/logo.svg' },
+      hero: true,
+    }
     const image = mount(Layout)
     expect(image.get('img.ylf-nav-logo').attributes()).toMatchObject({ src: '/base/logo.svg', alt: '' })
     expect(image.get('img.ylf-hero-logo').attributes('alt')).toBe('Design')
@@ -108,22 +124,38 @@ describe('shared layout slots', () => {
       site.brand = brand
       const wrapper = mount(Layout)
       const html = wrapper.find('.ylf-home-sky')
-      const result = html.exists() ? { hidden: html.attributes('aria-hidden'), clouds: html.findAll('.ylf-home-sky__cloud').length } : null
+      const result = html.exists()
+        ? {
+            hidden: html.attributes('aria-hidden'),
+            clouds: html.findAll('.ylf-home-sky__cloud').length,
+          }
+        : null
       wrapper.unmount()
       return result
     }
-    const home = { layout: 'home', hero: { name: 'AI' } }
+    const home = {
+      layout: 'home',
+      hero: { name: 'AI' },
+    }
     expect(sky(home, { icon: 'design-mark' })).toBeNull()
     expect(sky(home, { icon: 'design-mark', sky: true })).toEqual({ hidden: 'true', clouds: 3 })
     expect(sky({ layout: 'home' }, { icon: 'design-mark', sky: true })).toBeNull()
-    expect(sky({ hero: { name: 'AI' } }, { icon: 'design-mark', sky: true })).toBeNull()
+    expect(sky({
+      hero: { name: 'AI' },
+    }, { icon: 'design-mark', sky: true })).toBeNull()
 
     page.frontmatter = home
     site.brand = { icon: 'design-mark', sky: true }
-    const wrapper = mount(Layout, { slots: { 'home-hero-before': () => h('p', { id: 'site-banner' }, 'Banner') } })
+    const wrapper = mount(Layout, {
+      slots: {
+        'home-hero-before': () => h('p', { id: 'site-banner' }, 'Banner'),
+      },
+    })
     expect(wrapper.find('.ylf-home-sky + #site-banner').exists()).toBe(true)
     wrapper.unmount()
-    page.frontmatter = { hero: { name: 'Design' } }
+    page.frontmatter = {
+      hero: { name: 'Design' },
+    }
     site.brand = { icon: 'design-mark', hero: true }
   })
 })

@@ -8,9 +8,30 @@ import DesignSpecimens from './DesignSpecimens.vue'
 
 const { text, link } = useDocsLocale()
 const entries = computed(() => [
-  { title: text('理解设计', 'Understand the design'), description: text('从品牌、视觉基础到页面与交互，了解每一个选择。', 'Explore the choices behind the brand, visual foundations and interactions.'), href: '/guide/design-system', label: text('设计体系', 'Design system'), icon: 'i-ri-compasses-2-line', tone: 'pink' },
-  { title: text('开始构建', 'Start building'), description: text('按需接入样式与 Vue 组件，让界面拥有共同的起点。', 'Bring shared styles and Vue components into your next interface.'), href: '/guide/', label: text('接入指南', 'Get started'), icon: 'i-ri-code-s-slash-line', tone: 'cyan' },
-  { title: text('逐步统一', 'Build consistency'), description: text('梳理现有界面，从颜色和排版开始迁移到共享规范。', 'Move existing interfaces toward shared colors, typography and patterns.'), href: '/guide/migration', label: text('迁移指南', 'Migration guide'), icon: 'i-ri-route-line', tone: 'coral' },
+  {
+    title: text('理解设计', 'Understand the design'),
+    description: text('从品牌、视觉基础到页面与交互，了解每一个选择。', 'Explore the choices behind the brand, visual foundations and interactions.'),
+    href: '/guide/design-system',
+    label: text('设计体系', 'Design system'),
+    icon: 'i-ri-compasses-2-line',
+    tone: 'pink',
+  },
+  {
+    title: text('开始构建', 'Start building'),
+    description: text('按需接入样式与 Vue 组件，让界面拥有共同的起点。', 'Bring shared styles and Vue components into your next interface.'),
+    href: '/guide/',
+    label: text('接入指南', 'Get started'),
+    icon: 'i-ri-code-s-slash-line',
+    tone: 'cyan',
+  },
+  {
+    title: text('逐步统一', 'Build consistency'),
+    description: text('梳理现有界面，从颜色和排版开始迁移到共享规范。', 'Move existing interfaces toward shared colors, typography and patterns.'),
+    href: '/guide/migration',
+    label: text('迁移指南', 'Migration guide'),
+    icon: 'i-ri-route-line',
+    tone: 'coral',
+  },
 ] as const)
 </script>
 

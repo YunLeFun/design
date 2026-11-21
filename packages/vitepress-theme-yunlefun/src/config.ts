@@ -62,7 +62,10 @@ export function yunlefunMarkdown(md: MarkdownRenderer, options: MarkdownOptions 
 export const zhThemeConfig: DefaultTheme.Config = {
   langMenuLabel: '切换语言',
   skipToContentLabel: '跳至内容',
-  outline: { label: '本页内容', level: [2, 3] },
+  outline: {
+    label: '本页内容',
+    level: [2, 3],
+  },
   sidebarMenuLabel: '目录',
   returnToTopLabel: '返回顶部',
   darkModeSwitchLabel: '外观',
@@ -94,8 +97,12 @@ export const zhThemeConfig: DefaultTheme.Config = {
 export function withYunlefun(config: UserConfig<YunlefunThemeConfig>): UserConfig<YunlefunThemeConfig> {
   return mergeConfig({
     vite: {
-      ssr: { noExternal: ['vitepress-theme-yunlefun'] },
-      optimizeDeps: { exclude: ['vitepress-theme-yunlefun'] },
+      ssr: {
+        noExternal: ['vitepress-theme-yunlefun'],
+      },
+      optimizeDeps: {
+        exclude: ['vitepress-theme-yunlefun'],
+      },
     },
   }, config)
 }

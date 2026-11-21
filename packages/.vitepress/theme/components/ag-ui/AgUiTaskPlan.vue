@@ -6,7 +6,9 @@ import YlfBadge from '../../../../vue/components/YlfBadge.vue'
 import YlfProgress from '../../../../vue/components/YlfProgress.vue'
 
 const props = defineProps<{ tasks: readonly DeepReadonly<DemoTask>[], progress: number, english: boolean }>()
-const labels = computed(() => props.english ? { queued: 'Queued', running: 'In progress', done: 'Done' } : { queued: '待开始', running: '进行中', done: '已完成' })
+const labels = computed(() => props.english
+  ? { queued: 'Queued', running: 'In progress', done: 'Done' }
+  : { queued: '待开始', running: '进行中', done: '已完成' })
 </script>
 
 <template>

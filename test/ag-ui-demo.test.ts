@@ -10,7 +10,10 @@ const scopes: ReturnType<typeof effectScope>[] = []
 function createSession(scenario: DemoScenario, english = false, delayMs = 0) {
   const scope = effectScope()
   scopes.push(scope)
-  return { scope, demo: scope.run(() => useAgUiDemo(scenario, english, delayMs))! }
+  return {
+    scope,
+    demo: scope.run(() => useAgUiDemo(scenario, english, delayMs))!,
+  }
 }
 
 afterEach(() => {
@@ -39,7 +42,11 @@ describe('interactive AG-UI examples through local SSE and the official client',
 
   it.each([true, false])('handles tool approval=%s and reads the page only when allowed', async (approved) => {
     const readTheme = vi.fn(() => true)
-    vi.stubGlobal('document', { documentElement: { classList: { contains: readTheme } } })
+    vi.stubGlobal('document', {
+      documentElement: {
+        classList: { contains: readTheme },
+      },
+    })
     const { demo } = createSession('tool')
     await demo.submit('检查主题')
     expect(demo.pendingTool.value?.function).toMatchObject({ name: 'read_theme', arguments: '{}' })
@@ -55,7 +62,9 @@ describe('interactive AG-UI examples through local SSE and the official client',
       ? { scenario: 'tool', phase: 'done', theme: 'dark' }
       : { scenario: 'tool', phase: 'declined' })
     const result = demo.messages.value.find(message => message.role === 'tool')
-    expect(JSON.parse(String(result?.content))).toEqual(approved ? { approved, theme: 'dark' } : { approved })
+    expect(JSON.parse(String(result?.content))).toEqual(approved
+      ? { approved, theme: 'dark' }
+      : { approved })
     expect(demo.messages.value.at(-1)?.content).toContain(approved ? '已收到主题信息' : '已拒绝')
   })
 
@@ -119,7 +128,13 @@ describe('interactive AG-UI examples through local SSE and the official client',
   })
 
   it('keeps an approved tool result when retrying a stopped reply', async () => {
-    vi.stubGlobal('document', { documentElement: { classList: { contains: () => false } } })
+    vi.stubGlobal('document', {
+      documentElement: {
+        classList: {
+          contains: () => false,
+        },
+      },
+    })
     const { demo } = createSession('tool', false, 5)
     await demo.submit('检查主题')
     const continuing = demo.confirmTool(true)
@@ -253,7 +268,11 @@ describe('interactive AG-UI examples through local SSE and the official client',
 
   it.each([true, false])('waits for both tool answers, including out-of-order approval=%s', async (approveTheme) => {
     const readTheme = vi.fn(() => false)
-    vi.stubGlobal('document', { documentElement: { classList: { contains: readTheme } } })
+    vi.stubGlobal('document', {
+      documentElement: {
+        classList: { contains: readTheme },
+      },
+    })
     const { demo } = createSession('multi-tool')
     await demo.submit('检查主题和示例')
     expect(demo.pendingTools.value.map(tool => tool.function.name)).toEqual(['read_theme', 'list_examples'])
@@ -270,13 +289,24 @@ describe('interactive AG-UI examples through local SSE and the official client',
     expect(demo.status.value).toBe('success')
     expect(demo.pendingToolCallIds.value).toEqual([])
     expect(readTheme).toHaveBeenCalledTimes(approveTheme ? 1 : 0)
-    expect(demo.state.value.toolResults).toContainEqual({ name: 'list_examples', approved: true, count: demoScenarios.length, examples: demoScenarios.map(item => item.id) })
-    expect(demo.state.value.toolResults).toContainEqual(approveTheme ? { name: 'read_theme', approved: true, theme: 'light' } : { name: 'read_theme', approved: false })
+    expect(demo.state.value.toolResults).toContainEqual({
+      name: 'list_examples',
+      approved: true,
+      count: demoScenarios.length,
+      examples: demoScenarios.map(item => item.id),
+    })
+    expect(demo.state.value.toolResults).toContainEqual(approveTheme
+      ? { name: 'read_theme', approved: true, theme: 'light' }
+      : { name: 'read_theme', approved: false })
   })
 
   it('records two refusals without reading the page or blocking a new request', async () => {
     const readTheme = vi.fn()
-    vi.stubGlobal('document', { documentElement: { classList: { contains: readTheme } } })
+    vi.stubGlobal('document', {
+      documentElement: {
+        classList: { contains: readTheme },
+      },
+    })
     const { demo } = createSession('multi-tool')
     await demo.submit('可以检查吗')
     const pending = [...demo.pendingTools.value]

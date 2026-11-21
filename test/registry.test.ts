@@ -23,11 +23,13 @@ describe('registry distribution', () => {
         status: 'stable',
         sourcePackage: '@yunlefun/ui',
       },
-      files: [{
-        path: 'packages/ui/styles/tokens.css',
-        type: 'registry:file',
-        target: '~/src/styles/ylf-tokens.css',
-      }],
+      files: [
+        {
+          path: 'packages/ui/styles/tokens.css',
+          type: 'registry:file',
+          target: '~/src/styles/ylf-tokens.css',
+        },
+      ],
     })
     expect(button).toMatchObject({
       name: 'ylf-button',
@@ -37,15 +39,18 @@ describe('registry distribution', () => {
         status: 'stable',
         sourcePackage: '@yunlefun/vue',
       },
-      files: [{
-        path: 'packages/vue/components/YlfButton.vue',
-        type: 'registry:item',
-        target: '~/src/components/ui/YlfButton.vue',
-      }, {
-        path: 'packages/vue/components/theme.ts',
-        type: 'registry:file',
-        target: '~/src/components/ui/theme.ts',
-      }],
+      files: [
+        {
+          path: 'packages/vue/components/YlfButton.vue',
+          type: 'registry:item',
+          target: '~/src/components/ui/YlfButton.vue',
+        },
+        {
+          path: 'packages/vue/components/theme.ts',
+          type: 'registry:file',
+          target: '~/src/components/ui/theme.ts',
+        },
+      ],
     })
     expect(dialog).toMatchObject({
       name: 'ylf-dialog',
@@ -56,11 +61,13 @@ describe('registry distribution', () => {
         status: 'stable',
         sourcePackage: '@yunlefun/vue',
       },
-      files: [{
-        path: 'packages/vue/components/YlfDialog.vue',
-        type: 'registry:item',
-        target: '~/src/components/ui/YlfDialog.vue',
-      }],
+      files: [
+        {
+          path: 'packages/vue/components/YlfDialog.vue',
+          type: 'registry:item',
+          target: '~/src/components/ui/YlfDialog.vue',
+        },
+      ],
     })
   })
 
@@ -79,33 +86,40 @@ describe('registry distribution', () => {
 
     expect(builtTokens).toMatchObject({
       $schema: 'https://shadcn-vue.com/schema/registry-item.json',
-      files: [expect.objectContaining({
-        path: 'packages/ui/styles/tokens.css',
-        target: '~/src/styles/ylf-tokens.css',
-        content: tokens,
-      })],
+      files: [
+        expect.objectContaining({
+          path: 'packages/ui/styles/tokens.css',
+          target: '~/src/styles/ylf-tokens.css',
+          content: tokens,
+        }),
+      ],
     })
     expect(builtButton).toMatchObject({
       $schema: 'https://shadcn-vue.com/schema/registry-item.json',
       registryDependencies: [tokenDependency],
-      files: [expect.objectContaining({
-        path: 'packages/vue/components/YlfButton.vue',
-        target: '~/src/components/ui/YlfButton.vue',
-        content: button,
-      }), expect.objectContaining({
-        path: 'packages/vue/components/theme.ts',
-        target: '~/src/components/ui/theme.ts',
-        content: theme,
-      })],
+      files: [
+        expect.objectContaining({
+          path: 'packages/vue/components/YlfButton.vue',
+          target: '~/src/components/ui/YlfButton.vue',
+          content: button,
+        }),
+        expect.objectContaining({
+          path: 'packages/vue/components/theme.ts',
+          target: '~/src/components/ui/theme.ts',
+          content: theme,
+        }),
+      ],
     })
     expect(builtDialog).toMatchObject({
       $schema: 'https://shadcn-vue.com/schema/registry-item.json',
       registryDependencies: [tokenDependency],
-      files: [expect.objectContaining({
-        path: 'packages/vue/components/YlfDialog.vue',
-        target: '~/src/components/ui/YlfDialog.vue',
-        content: dialog,
-      })],
+      files: [
+        expect.objectContaining({
+          path: 'packages/vue/components/YlfDialog.vue',
+          target: '~/src/components/ui/YlfDialog.vue',
+          content: dialog,
+        }),
+      ],
     })
   })
 })

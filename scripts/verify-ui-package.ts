@@ -13,7 +13,10 @@ const pkg = JSON.parse(await readFile(resolve(ui, 'package.json'), 'utf8'))
 const archive = `${pkg.name.slice(1).replace('/', '-')}-${pkg.version}.tgz`
 
 async function run(command: string, args: string[], cwd: string) {
-  const result = await exec(command, args, { cwd, env: { ...process.env, CI: 'true' } })
+  const result = await exec(command, args, {
+    cwd,
+    env: { ...process.env, CI: 'true' },
+  })
   if (result.stdout)
     process.stdout.write(result.stdout)
   if (result.stderr)

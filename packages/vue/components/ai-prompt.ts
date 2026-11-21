@@ -12,10 +12,30 @@ export interface AiProvider {
 export const aiProviders: readonly AiProvider[] = [
   { id: 'yuanbao', name: '元宝', url: 'https://yuanbao.tencent.com/' },
   { id: 'doubao', name: '豆包', url: 'https://www.doubao.com/chat/' },
-  { id: 'deepseek', name: 'DeepSeek', url: 'https://chat.deepseek.com/', promptParameter: 'q' },
-  { id: 'chatgpt', name: 'ChatGPT', url: 'https://chatgpt.com/', promptParameter: 'q' },
-  { id: 'claude', name: 'Claude', url: 'https://claude.ai/new', promptParameter: 'q' },
-  { id: 'cursor', name: 'Cursor', url: 'https://cursor.com/link/prompt', promptParameter: 'text' },
+  {
+    id: 'deepseek',
+    name: 'DeepSeek',
+    url: 'https://chat.deepseek.com/',
+    promptParameter: 'q',
+  },
+  {
+    id: 'chatgpt',
+    name: 'ChatGPT',
+    url: 'https://chatgpt.com/',
+    promptParameter: 'q',
+  },
+  {
+    id: 'claude',
+    name: 'Claude',
+    url: 'https://claude.ai/new',
+    promptParameter: 'q',
+  },
+  {
+    id: 'cursor',
+    name: 'Cursor',
+    url: 'https://cursor.com/link/prompt',
+    promptParameter: 'text',
+  },
 ]
 
 export interface AiPromptOptions {
@@ -37,7 +57,12 @@ export function buildAiPromptTarget(id: AiProviderId, prompt: string, options: A
   const provider = aiProviders.find(item => item.id === id)
   if (!provider)
     throw new Error(`Unknown AI provider: ${id}`)
-  const fallback = (reason: AiPromptTarget['reason']): AiPromptTarget => ({ provider, url: provider.url, mode: 'copy', reason })
+  const fallback = (reason: AiPromptTarget['reason']): AiPromptTarget => ({
+    provider,
+    url: provider.url,
+    mode: 'copy',
+    reason,
+  })
   if (!prompt.trim())
     return fallback('empty')
   if (!provider.promptParameter)
@@ -48,7 +73,9 @@ export function buildAiPromptTarget(id: AiProviderId, prompt: string, options: A
   if (id === 'chatgpt' && options.chatgptSearch)
     url.searchParams.set('hints', 'search')
   // Cursor's HTTPS landing page builds a slightly longer cursor:// deeplink.
-  const providerLimit = id === 'cursor' ? 9900 : Number.POSITIVE_INFINITY
+  const providerLimit = id === 'cursor'
+    ? 9900
+    : Number.POSITIVE_INFINITY
   const limit = Math.min(options.maxUrlLength ?? 8192, providerLimit)
   if (!Number.isFinite(limit) || limit <= 0 || url.href.length > limit)
     return fallback('too-long')

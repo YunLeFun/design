@@ -8,8 +8,14 @@ const props = defineProps<{ scene: PlaygroundScene, scenes: PlaygroundScene[], e
 const emit = defineEmits<{ update: [patch: Partial<PlaygroundScene>], select: [id: string] }>()
 const view = defineModel<PlaygroundView>('view', { required: true })
 const views = computed(() => [
-  { value: 'document' as const, label: props.english ? 'Script' : '文稿' },
-  { value: 'preview' as const, label: props.english ? 'Preview' : '画面预览' },
+  {
+    value: 'document' as const,
+    label: props.english ? 'Script' : '文稿',
+  },
+  {
+    value: 'preview' as const,
+    label: props.english ? 'Preview' : '画面预览',
+  },
 ])
 const sceneIndex = computed(() => props.scenes.findIndex(scene => scene.id === props.scene.id))
 const paragraphs = computed(() => props.scene.body.split('\n\n').filter(Boolean))

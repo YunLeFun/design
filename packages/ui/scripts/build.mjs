@@ -36,7 +36,13 @@ const LAYER_ORDER = '@layer ylf.tokens, ylf.compat, ylf.profile, ylf.adapters;'
 
 const LIGHT_BASE_SELECTORS = [':root', '.light', '.ylf-theme-light']
 const DARK_BASE_SELECTORS = ['.dark', '.ylf-theme-dark']
-const REDUCED_MOTION_SELECTORS = [':root', '.light', '.dark', '.ylf-theme-light', '.ylf-theme-dark']
+const REDUCED_MOTION_SELECTORS = [
+  ':root',
+  '.light',
+  '.dark',
+  '.ylf-theme-light',
+  '.ylf-theme-dark',
+]
 const ALL_THEME_BOUNDARY_SELECTORS = [
   ':root',
   '.light',
@@ -123,7 +129,12 @@ function matchSingleOuterCall(value) {
     else if (ch === ')') {
       depth--
       if (depth === 0) {
-        return i === value.length - 1 ? [fnPrefix[1], value.slice(fnPrefix[1].length + 1, -1)] : undefined
+        return i === value.length - 1
+          ? [
+              fnPrefix[1],
+              value.slice(fnPrefix[1].length + 1, -1),
+            ]
+          : undefined
       }
     }
   }
@@ -135,7 +146,9 @@ function packCommaItems(items, continuationIndent = '    ') {
   let current = ''
   for (let i = 0; i < items.length; i++) {
     const item = items[i].trim()
-    const suffix = i < items.length - 1 ? ',' : ''
+    const suffix = i < items.length - 1
+      ? ','
+      : ''
     const token = `${item}${suffix}`
     if (!current) {
       current = `${continuationIndent}${token}`
@@ -166,7 +179,9 @@ function formatDecl(prop, value, indent = '  ') {
     const [fnName, inner] = fnCall
     const args = splitTopLevelCommas(inner)
     if (args.length > 1) {
-      const wrappedArgs = args.map((arg, i) => `${indent}  ${arg.trim()}${i < args.length - 1 ? ',' : ''}`).join('\n')
+      const wrappedArgs = args.map((arg, i) => `${indent}  ${arg.trim()}${i < args.length - 1
+        ? ','
+        : ''}`).join('\n')
       return `${indent}${prop}: ${fnName}(\n${wrappedArgs}\n${indent});`
     }
   }
@@ -182,7 +197,9 @@ function formatDecl(prop, value, indent = '  ') {
 }
 
 function formatBlock(selectors, entries, baseIndent = '') {
-  const selectorList = Array.isArray(selectors) ? selectors : [selectors]
+  const selectorList = Array.isArray(selectors)
+    ? selectors
+    : [selectors]
   const selectorText = selectorList.map(sel => `${baseIndent}${sel}`).join(',\n')
   const declIndent = `${baseIndent}  `
   const lines = Object.entries(entries).map(([prop, value]) => formatDecl(prop, value, declIndent))
@@ -660,7 +677,9 @@ function minifyCss(css) {
 
     if (ch === '/' && next === '*') {
       const end = css.indexOf('*/', i + 2)
-      i = end === -1 ? css.length : end + 2
+      i = end === -1
+        ? css.length
+        : end + 2
       continue
     }
 
@@ -732,10 +751,15 @@ function toDtcgTokens() {
   const wrap = ($type, $value, $description) => ({
     $type,
     $value,
-    ...($description ? { $description } : {}),
+    ...($description
+      ? { $description }
+      : {}),
   })
   const mapGroup = (obj, $type) => Object.fromEntries(
-    Object.entries(obj).map(([key, value]) => [key, wrap($type, value)]),
+    Object.entries(obj).map(([key, value]) => [
+      key,
+      wrap($type, value),
+    ]),
   )
 
   const accent = {
@@ -972,7 +996,10 @@ export async function renderArtifacts() {
 
 async function main() {
   const { files, distFiles } = await renderArtifacts()
-  const all = { ...files, ...distFiles }
+  const all = {
+    ...files,
+    ...distFiles,
+  }
   await Promise.all(Object.entries(all).map(async ([rel, content]) => {
     const abs = resolve(pkgRoot, rel)
     await mkdir(dirname(abs), { recursive: true })

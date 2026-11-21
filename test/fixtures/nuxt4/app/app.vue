@@ -2,7 +2,10 @@
 import { ref } from 'vue'
 
 const view = ref<'grid' | 'list'>('grid')
-const viewOptions = [{ value: 'grid', label: '网格' }, { value: 'list', label: '列表' }] as const
+const viewOptions = [
+  { value: 'grid', label: '网格' },
+  { value: 'list', label: '列表' },
+] as const
 </script>
 
 <template>

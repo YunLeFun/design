@@ -38,7 +38,9 @@ export function createDemoAgent(english: boolean, scenario: DemoScenario = 'tool
             controller.enqueue(encoder.encode(`data: ${JSON.stringify(event)}\n\n`))
             if (index < events.length) {
               const isActiveTask = event.type === EventType.STATE_DELTA && event.delta.some(patch => patch.op === 'replace' && patch.path.endsWith('/status') && patch.value === 'running')
-              timer = setTimeout(next, isActiveTask ? delayMs * 6 : delayMs)
+              timer = setTimeout(next, isActiveTask
+                ? delayMs * 6
+                : delayMs)
             }
             else {
               cleanup()
@@ -49,7 +51,9 @@ export function createDemoAgent(english: boolean, scenario: DemoScenario = 'tool
         },
         cancel: () => cleanup(),
       })
-      return new Response(body, { headers: { 'Content-Type': 'text/event-stream' } })
+      return new Response(body, {
+        headers: { 'Content-Type': 'text/event-stream' },
+      })
     },
   })
 }

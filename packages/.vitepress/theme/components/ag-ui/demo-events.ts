@@ -13,7 +13,10 @@ interface Context {
 }
 
 function snapshot(ctx: Context, state: Partial<DemoState> = {}) {
-  ctx.events.push({ type: EventType.STATE_SNAPSHOT, snapshot: { phase: 'streaming', scenario: ctx.scenario, ...state } })
+  ctx.events.push({
+    type: EventType.STATE_SNAPSHOT,
+    snapshot: { phase: 'streaming', scenario: ctx.scenario, ...state },
+  })
 }
 
 function reply(ctx: Context, content: string) {
@@ -25,8 +28,18 @@ function reply(ctx: Context, content: string) {
 
 function finish(ctx: Context, phase: DemoState['phase'] = 'done', outcome: RunFinishedOutcome = { type: 'success' }) {
   ctx.events.push(
-    { type: EventType.STATE_DELTA, delta: [{ op: 'replace', path: '/phase', value: phase }] },
-    { type: EventType.RUN_FINISHED, threadId: ctx.input.threadId, runId: ctx.input.runId, outcome },
+    {
+      type: EventType.STATE_DELTA,
+      delta: [
+        { op: 'replace', path: '/phase', value: phase },
+      ],
+    },
+    {
+      type: EventType.RUN_FINISHED,
+      threadId: ctx.input.threadId,
+      runId: ctx.input.runId,
+      outcome,
+    },
   )
 }
 
@@ -42,12 +55,19 @@ function currentToolResults(input: RunAgentInput): DemoToolResult[] {
   // A stopped continuation may already have appended a partial assistant message.
   const lastUserIndex = input.messages.findLastIndex(message => message.role === 'user')
   const current = input.messages.slice(lastUserIndex + 1)
-  const calls = current.flatMap(message => message.role === 'assistant' ? message.toolCalls ?? [] : [])
+  const calls = current.flatMap(message => message.role === 'assistant'
+    ? message.toolCalls ?? []
+    : [])
   return current.filter(message => message.role === 'tool').flatMap((message) => {
     const name = calls.find(call => call.id === message.toolCallId)?.function.name
     if (name !== 'read_theme' && name !== 'list_examples')
       return []
-    return [{ ...JSON.parse(String(message.content)), name }]
+    return [
+      {
+        ...JSON.parse(String(message.content)),
+        name,
+      },
+    ]
   })
 }
 
@@ -85,7 +105,12 @@ function createTools(ctx: Context) {
   for (const tool of getDemoTools(ctx.scenario).filter(tool => !results.some(result => result.name === tool.name))) {
     const toolCallId = `${tool.name}-${ctx.messageId}`
     ctx.events.push(
-      { type: EventType.TOOL_CALL_START, toolCallId, toolCallName: tool.name, parentMessageId: ctx.messageId },
+      {
+        type: EventType.TOOL_CALL_START,
+        toolCallId,
+        toolCallName: tool.name,
+        parentMessageId: ctx.messageId,
+      },
       { type: EventType.TOOL_CALL_ARGS, toolCallId, delta: '{' },
       { type: EventType.TOOL_CALL_ARGS, toolCallId, delta: '}' },
       { type: EventType.TOOL_CALL_END, toolCallId },
@@ -108,27 +133,43 @@ function createInterrupt(ctx: Context) {
   reply(ctx, ctx.english ? 'The next step needs your confirmation. This run will pause until you choose to continue or decline.' : '下一步需要你的确认。本次运行会暂停，等待你选择继续或取消。')
   finish(ctx, 'awaiting_input', {
     type: 'interrupt',
-    interrupts: [{
-      id: `approval-${ctx.messageId}`,
-      reason: 'approval',
-      message: ctx.english ? 'Continue the paused example?' : '继续这个暂停的示例吗？',
-      responseSchema: { type: 'boolean' },
-    }],
+    interrupts: [
+      {
+        id: `approval-${ctx.messageId}`,
+        reason: 'approval',
+        message: ctx.english ? 'Continue the paused example?' : '继续这个暂停的示例吗？',
+        responseSchema: { type: 'boolean' },
+      },
+    ],
   })
 }
 
 function createPlan(ctx: Context) {
-  const titles = ctx.english ? ['Define the workshop goal', 'Prepare the materials', 'Arrange the schedule'] : ['确定活动目标', '准备创作材料', '安排活动流程']
+  const titles = ctx.english
+    ? ['Define the workshop goal', 'Prepare the materials', 'Arrange the schedule']
+    : ['确定活动目标', '准备创作材料', '安排活动流程']
   const tasks: DemoTask[] = titles.map((title, index) => ({ id: `task-${index + 1}`, title, status: 'queued' }))
   snapshot(ctx, { tasks, progress: 0 })
   for (const [index, task] of tasks.entries()) {
     ctx.events.push(
       { type: EventType.STEP_STARTED, stepName: task.title },
-      { type: EventType.STATE_DELTA, delta: [{ op: 'replace', path: `/tasks/${index}/status`, value: 'running' }] },
-      { type: EventType.STATE_DELTA, delta: [
-        { op: 'replace', path: `/tasks/${index}/status`, value: 'done' },
-        { op: 'replace', path: '/progress', value: Math.round((index + 1) / tasks.length * 100) },
-      ] },
+      {
+        type: EventType.STATE_DELTA,
+        delta: [
+          { op: 'replace', path: `/tasks/${index}/status`, value: 'running' },
+        ],
+      },
+      {
+        type: EventType.STATE_DELTA,
+        delta: [
+          { op: 'replace', path: `/tasks/${index}/status`, value: 'done' },
+          {
+            op: 'replace',
+            path: '/progress',
+            value: Math.round((index + 1) / tasks.length * 100),
+          },
+        ],
+      },
       { type: EventType.STEP_FINISHED, stepName: task.title },
     )
   }
@@ -138,13 +179,37 @@ function createPlan(ctx: Context) {
 
 function createCards(ctx: Context) {
   const recommendations: DemoRecommendation[] = [
-    { id: 'sky', title: ctx.english ? 'Clear sky' : '晴空蓝', description: ctx.english ? 'Clear actions and light surfaces.' : '清晰的主操作，搭配轻盈表面。', tone: 'blue', colors: ['#2563eb', '#93c5fd', '#eff6ff'] },
-    { id: 'mint', title: ctx.english ? 'Fresh mint' : '薄荷绿', description: ctx.english ? 'A relaxed palette for creative spaces.' : '适合创作空间的轻松配色。', tone: 'green', colors: ['#16a34a', '#86efac', '#f0fdf4'] },
-    { id: 'sun', title: ctx.english ? 'Warm sunshine' : '暖阳黄', description: ctx.english ? 'Bright accents for featured moments.' : '为精选内容带来明亮点缀。', tone: 'sun', colors: ['#ca8a04', '#fde047', '#fefce8'] },
+    {
+      id: 'sky',
+      title: ctx.english ? 'Clear sky' : '晴空蓝',
+      description: ctx.english ? 'Clear actions and light surfaces.' : '清晰的主操作，搭配轻盈表面。',
+      tone: 'blue',
+      colors: ['#2563eb', '#93c5fd', '#eff6ff'],
+    },
+    {
+      id: 'mint',
+      title: ctx.english ? 'Fresh mint' : '薄荷绿',
+      description: ctx.english ? 'A relaxed palette for creative spaces.' : '适合创作空间的轻松配色。',
+      tone: 'green',
+      colors: ['#16a34a', '#86efac', '#f0fdf4'],
+    },
+    {
+      id: 'sun',
+      title: ctx.english ? 'Warm sunshine' : '暖阳黄',
+      description: ctx.english ? 'Bright accents for featured moments.' : '为精选内容带来明亮点缀。',
+      tone: 'sun',
+      colors: ['#ca8a04', '#fde047', '#fefce8'],
+    },
   ]
   snapshot(ctx, { recommendations: [], selectedRecommendation: ctx.input.state?.selectedRecommendation ?? '' })
-  for (const recommendation of recommendations)
-    ctx.events.push({ type: EventType.STATE_DELTA, delta: [{ op: 'add', path: '/recommendations/-', value: recommendation }] })
+  for (const recommendation of recommendations) {
+    ctx.events.push({
+      type: EventType.STATE_DELTA,
+      delta: [
+        { op: 'add', path: '/recommendations/-', value: recommendation },
+      ],
+    })
+  }
   reply(ctx, ctx.english ? 'Three structured palettes are ready. Choose a card below; your choice is written back to the shared state.' : '三组结构化配色已生成。请选择下方卡片，你的选择会写回共享状态。')
   finish(ctx)
 }
@@ -154,15 +219,40 @@ function createForm(ctx: Context) {
     const draft = ctx.input.state?.draft
     snapshot(ctx, { draft, draftSubmitted: true })
     reply(ctx, ctx.english
-      ? `Draft confirmed: ${draft.title}. Audience: ${draft.audience}. Tone: ${draft.tone === 'formal' ? 'formal' : 'friendly'}. Your edited fields were included in this request.`
-      : `已确认草稿：${draft.title}。面向${draft.audience}，采用${draft.tone === 'formal' ? '正式' : '亲切'}语气。本次请求已携带你修改后的字段。`)
+      ? `Draft confirmed: ${draft.title}. Audience: ${draft.audience}. Tone: ${draft.tone === 'formal'
+        ? 'formal'
+        : 'friendly'}. Your edited fields were included in this request.`
+      : `已确认草稿：${draft.title}。面向${draft.audience}，采用${draft.tone === 'formal'
+        ? '正式'
+        : '亲切'}语气。本次请求已携带你修改后的字段。`)
     finish(ctx)
     return
   }
-  snapshot(ctx, { draft: { title: '', audience: '', tone: 'friendly' }, draftSubmitted: false })
+  snapshot(ctx, {
+    draft: { title: '', audience: '', tone: 'friendly' },
+    draftSubmitted: false,
+  })
   ctx.events.push(
-    { type: EventType.STATE_DELTA, delta: [{ op: 'replace', path: '/draft/title', value: ctx.english ? 'YunLeFun weekend workshop' : '云乐坊周末创作活动' }] },
-    { type: EventType.STATE_DELTA, delta: [{ op: 'replace', path: '/draft/audience', value: ctx.english ? 'First-time creators' : '第一次参加的创作者' }] },
+    {
+      type: EventType.STATE_DELTA,
+      delta: [
+        {
+          op: 'replace',
+          path: '/draft/title',
+          value: ctx.english ? 'YunLeFun weekend workshop' : '云乐坊周末创作活动',
+        },
+      ],
+    },
+    {
+      type: EventType.STATE_DELTA,
+      delta: [
+        {
+          op: 'replace',
+          path: '/draft/audience',
+          value: ctx.english ? 'First-time creators' : '第一次参加的创作者',
+        },
+      ],
+    },
   )
   reply(ctx, ctx.english ? 'The draft form is filled. Edit any field, then confirm to send your changes back and continue.' : '活动草稿已填入表单。可以修改任意字段，确认后将修改回传，再继续生成。')
   finish(ctx, 'awaiting_form')
@@ -170,12 +260,23 @@ function createForm(ctx: Context) {
 
 /** Scripted application scenarios produce valid events for the real SDK parser. */
 export function createDemoEvents(input: RunAgentInput, english: boolean, scenario: DemoScenario): Event[] {
-  const events: Event[] = [{ type: EventType.RUN_STARTED, threadId: input.threadId, runId: input.runId }]
+  const events: Event[] = [
+    { type: EventType.RUN_STARTED, threadId: input.threadId, runId: input.runId },
+  ]
   if (input.forwardedProps?.fail) {
-    events.push({ type: EventType.RUN_ERROR, message: english ? 'Demo service failed. Retry this run to continue.' : '模拟服务失败，可以重试本次运行。' })
+    events.push({
+      type: EventType.RUN_ERROR,
+      message: english ? 'Demo service failed. Retry this run to continue.' : '模拟服务失败，可以重试本次运行。',
+    })
     return events
   }
-  const ctx: Context = { events, input, english, scenario, messageId: randomUUID() }
+  const ctx: Context = {
+    events,
+    input,
+    english,
+    scenario,
+    messageId: randomUUID(),
+  }
   if (scenario === 'stream')
     createStream(ctx)
   else if (scenario === 'tool' || scenario === 'multi-tool')

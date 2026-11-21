@@ -28,7 +28,9 @@ describe('form controls', () => {
     expect(checkbox.attributes('aria-checked')).toBe('mixed')
     expect(checkbox.attributes('aria-label')).toBe('选择所有项目')
     await checkbox.trigger('click')
-    expect(wrapper.emitted('update:modelValue')).toEqual([[true]])
+    expect(wrapper.emitted('update:modelValue')).toEqual([
+      [true],
+    ])
     await wrapper.setProps({ modelValue: false, disabled: true })
     await checkbox.trigger('click')
     expect(wrapper.emitted('update:modelValue')).toHaveLength(1)
@@ -52,10 +54,15 @@ describe('form controls', () => {
   })
 
   it('updates switch state with Enter and prevents disabled interaction', async () => {
-    const wrapper = mount(YlfSwitch, { props: { modelValue: false }, attrs: { 'aria-label': '通知' } })
+    const wrapper = mount(YlfSwitch, {
+      props: { modelValue: false },
+      attrs: { 'aria-label': '通知' },
+    })
     const control = wrapper.get('[role="switch"]')
     await control.trigger('keydown', { key: 'Enter' })
-    expect(wrapper.emitted('update:modelValue')).toEqual([[true]])
+    expect(wrapper.emitted('update:modelValue')).toEqual([
+      [true],
+    ])
     await wrapper.setProps({ modelValue: true, disabled: true })
     await control.trigger('click')
     await control.trigger('keydown', { key: 'Enter' })
@@ -74,7 +81,9 @@ describe('form controls', () => {
     await radios[1].trigger('click')
     expect(wrapper.emitted('update:modelValue')).toBeUndefined()
     await radios[2].trigger('click')
-    expect(wrapper.emitted('update:modelValue')).toEqual([['sun']])
+    expect(wrapper.emitted('update:modelValue')).toEqual([
+      ['sun'],
+    ])
     await wrapper.setProps({ disabled: true })
     for (const radio of radios)
       expect(radio.attributes('disabled')).toBeDefined()
@@ -83,7 +92,11 @@ describe('form controls', () => {
   it('names each slider thumb and preserves keyboard stepping and bounds', async () => {
     const wrapper = mount(YlfSlider, {
       attachTo: document.body,
-      props: { modelValue: [40], label: '音量', step: 5 },
+      props: {
+        modelValue: [40],
+        label: '音量',
+        step: 5,
+      },
     })
     await flushPromises()
     const thumb = wrapper.get('[role="slider"]')
@@ -91,11 +104,23 @@ describe('form controls', () => {
     expect(thumb.attributes('aria-valuenow')).toBe('40')
     ;(thumb.element as HTMLElement).focus()
     await thumb.trigger('keydown', { key: 'ArrowRight' })
-    expect(wrapper.emitted('update:modelValue')).toEqual([[[45]]])
-    expect(wrapper.emitted('valueCommit')).toEqual([[[45]]])
-    await wrapper.setProps({ modelValue: [45] })
+    expect(wrapper.emitted('update:modelValue')).toEqual([
+      [
+        [45],
+      ],
+    ])
+    expect(wrapper.emitted('valueCommit')).toEqual([
+      [
+        [45],
+      ],
+    ])
+    await wrapper.setProps({
+      modelValue: [45],
+    })
     await thumb.trigger('keydown', { key: 'End' })
-    expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual([[100]])
+    expect(wrapper.emitted('update:modelValue')?.at(-1)).toEqual([
+      [100],
+    ])
     await wrapper.setProps({ disabled: true })
     expect(thumb.attributes('tabindex')).toBeUndefined()
   })
@@ -113,7 +138,9 @@ describe('form controls', () => {
     await radios[0].trigger('keyup', { key: 'ArrowDown' })
     await flushPromises()
     expect(document.activeElement).toBe(radios[2].element)
-    expect(wrapper.emitted('update:modelValue')).toEqual([['sun']])
+    expect(wrapper.emitted('update:modelValue')).toEqual([
+      ['sun'],
+    ])
     await wrapper.setProps({ modelValue: 'sun' })
     await radios[2].trigger('keydown', { key: 'ArrowUp', ctrlKey: true })
     expect(wrapper.emitted('update:modelValue')).toHaveLength(1)
@@ -121,7 +148,10 @@ describe('form controls', () => {
 
   it('assigns distinct accessible names to range endpoints', async () => {
     const wrapper = mount(YlfSlider, {
-      props: { modelValue: [20, 70], thumbLabels: ['最低价格', '最高价格'] },
+      props: {
+        modelValue: [20, 70],
+        thumbLabels: ['最低价格', '最高价格'],
+      },
     })
     await flushPromises()
     expect(wrapper.findAll('[role="slider"]').map(thumb => thumb.attributes('aria-label'))).toEqual(['最低价格', '最高价格'])

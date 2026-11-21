@@ -9,15 +9,29 @@ function dependency(chain: string[], manifest = new URL('../package.json', impor
 }
 
 const braces = dependency(['fast-glob', 'micromatch', 'braces'])
-const { sprintf } = dependency(['gray-matter', 'js-yaml', 'argparse', 'sprintf-js'])
+const { sprintf } = dependency([
+  'gray-matter',
+  'js-yaml',
+  'argparse',
+  'sprintf-js',
+])
 const forge = dependency(
-  ['nuxt/package.json', '@nuxt/nitro-server/package.json', 'nitropack/package.json', 'listhen', 'node-forge'],
+  [
+    'nuxt/package.json',
+    '@nuxt/nitro-server/package.json',
+    'nitropack/package.json',
+    'listhen',
+    'node-forge',
+  ],
   new URL('../packages/vue/package.json', import.meta.url),
 )
 
 describe('dependency security regressions', () => {
   it('rejects excessive brace and parenthesis nesting before recursive processing', () => {
-    for (const [open, close] of [['{', '}'], ['(', ')']]) {
+    for (const [open, close] of [
+      ['{', '}'],
+      ['(', ')'],
+    ]) {
       const pattern = `${open.repeat(3500)}a,b${close.repeat(3500)}`
       expect(() => braces(pattern)).toThrow(/exceeds max depth/)
       expect(() => braces.expand(pattern)).toThrow(/exceeds max depth/)
@@ -28,9 +42,16 @@ describe('dependency security regressions', () => {
 
   it('also bounds callers that supply an AST directly', () => {
     let ast: { type: string, value?: string, nodes?: unknown[] } = { type: 'text', value: 'a' }
-    for (let index = 0; index < 150; index++)
-      ast = { type: 'brace', nodes: [ast] }
-    ast = { type: 'root', nodes: [ast] }
+    for (let index = 0; index < 150; index++) {
+      ast = {
+        type: 'brace',
+        nodes: [ast],
+      }
+    }
+    ast = {
+      type: 'root',
+      nodes: [ast],
+    }
     for (const walk of [braces.compile, braces.expand, braces.stringify])
       expect(() => walk(ast)).toThrow(/exceeds max depth/)
   })
@@ -56,8 +77,14 @@ describe('dependency security regressions', () => {
     const parameters = asn1.create(asn1.Class.UNIVERSAL, asn1.Type.NULL, false, '')
     const extra = asn1.create(asn1.Class.UNIVERSAL, asn1.Type.OCTETSTRING, false, 'extra')
     const hash = asn1.create(asn1.Class.UNIVERSAL, asn1.Type.OCTETSTRING, false, digest.digest().getBytes())
-    for (const algorithm of [[identifier, extra], [identifier, parameters, extra]]) {
-      const malformed = asn1.toDer(sequence([sequence(algorithm), hash])).getBytes()
+    for (const algorithm of [
+      [identifier, extra],
+      [identifier, parameters, extra],
+    ]) {
+      const malformed = asn1.toDer(sequence([
+        sequence(algorithm),
+        hash,
+      ])).getBytes()
       const signature = keys.privateKey.sign(malformed, 'NONE')
       expect(() => keys.publicKey.verify(digest.digest().getBytes(), signature)).toThrow(/DigestInfo/)
     }

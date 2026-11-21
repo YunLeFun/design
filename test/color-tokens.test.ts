@@ -207,8 +207,15 @@ function parseStylesheet(source: string): ParsedStylesheet {
       }
       else if (!header.startsWith('@')) {
         const decls = parseDecls(body)
-        for (const selector of splitTopLevelCommas(header))
-          rules.push({ layer, media, selector, decls, order: order++ })
+        for (const selector of splitTopLevelCommas(header)) {
+          rules.push({
+            layer,
+            media,
+            selector,
+            decls,
+            order: order++,
+          })
+        }
       }
     }
   }
@@ -397,8 +404,15 @@ function evaluateCssCascade(sources: string[], chain: DomNode[]): Record<string,
         const spec = matchComplex(rule.selector, chain, nodeIdx)
         if (spec === null)
           continue
-        const layerRank = rule.layer === null ? Number.MAX_SAFE_INTEGER : combinedLayers.indexOf(rule.layer)
-        winning.push({ layerRank, spec, order: ruleOrder, decls: rule.decls })
+        const layerRank = rule.layer === null
+          ? Number.MAX_SAFE_INTEGER
+          : combinedLayers.indexOf(rule.layer)
+        winning.push({
+          layerRank,
+          spec,
+          order: ruleOrder,
+          decls: rule.decls,
+        })
       }
     }
     winning.sort((a, b) => (a.layerRank - b.layerRank) || (a.spec - b.spec) || (a.order - b.order))
@@ -457,10 +471,18 @@ function replaceVarCalls(input: string, resolver: (ref: string, fallback?: strin
     }
     if (depth === 0) {
       const inner = input.slice(start + 4, cursor - 1)
-      const relComma = comma === -1 ? -1 : comma - (start + 4)
-      const name = (relComma === -1 ? inner : inner.slice(0, relComma)).trim()
-      const rawFallback = relComma === -1 ? undefined : inner.slice(relComma + 1).trim()
-      const fallback = rawFallback ? replaceVarCalls(rawFallback, resolver) : undefined
+      const relComma = comma === -1
+        ? -1
+        : comma - (start + 4)
+      const name = (relComma === -1
+        ? inner
+        : inner.slice(0, relComma)).trim()
+      const rawFallback = relComma === -1
+        ? undefined
+        : inner.slice(relComma + 1).trim()
+      const fallback = rawFallback
+        ? replaceVarCalls(rawFallback, resolver)
+        : undefined
       out += resolver(name, fallback)
       i = cursor
     }
@@ -473,11 +495,20 @@ function replaceVarCalls(input: string, resolver: (ref: string, fallback?: strin
 }
 
 const light = declarations(compiledScss, '.ylf-theme-light')
-const dark = { ...light, ...declarations(compiledScss, '.ylf-theme-dark') }
+const dark = {
+  ...light,
+  ...declarations(compiledScss, '.ylf-theme-dark'),
+}
 const adminLight = declarations(adminCss, `[data-ylf-admin-theme='light']`)
-const adminDark = { ...adminLight, ...declarations(adminCss, `[data-ylf-admin-theme='dark']`) }
+const adminDark = {
+  ...adminLight,
+  ...declarations(adminCss, `[data-ylf-admin-theme='dark']`),
+}
 const editorLight = declarations(editorCss, `[data-ylf-editor-theme='light']`)
-const editorDark = { ...editorLight, ...declarations(editorCss, `[data-ylf-editor-theme='dark']`) }
+const editorDark = {
+  ...editorLight,
+  ...declarations(editorCss, `[data-ylf-editor-theme='dark']`),
+}
 
 function color(tokens: Record<string, string>, name: string): string {
   const value = tokens[name]
@@ -486,7 +517,9 @@ function color(tokens: Record<string, string>, name: string): string {
   const reference = value.match(/^var\((--[\w-]+)(?:,([^)]+))?\)$/)
   if (!reference)
     return value
-  return tokens[reference[1]] ? color(tokens, reference[1]) : (reference[2]?.trim() ?? value)
+  return tokens[reference[1]]
+    ? color(tokens, reference[1])
+    : (reference[2]?.trim() ?? value)
 }
 
 function luminance(hex: string) {
@@ -494,25 +527,47 @@ function luminance(hex: string) {
     throw new Error(`Expected a six-digit color, received ${hex}`)
   const channels = [1, 3, 5].map((offset) => {
     const channel = Number.parseInt(hex.slice(offset, offset + 2), 16) / 255
-    return channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4
+    return channel <= 0.04045
+      ? channel / 12.92
+      : ((channel + 0.055) / 1.055) ** 2.4
   })
   return channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722
 }
 
 function contrast(foreground: string, background: string) {
-  const values = [luminance(foreground), luminance(background)].sort((a, b) => b - a)
+  const values = [
+    luminance(foreground),
+    luminance(background),
+  ].sort((a, b) => b - a)
   return (values[0] + 0.05) / (values[1] + 0.05)
 }
 
-describe.each([{ name: 'light', tokens: light }, { name: 'dark', tokens: dark }])('$name color tokens', ({ tokens }) => {
+describe.each([
+  { name: 'light', tokens: light },
+  { name: 'dark', tokens: dark },
+])('$name color tokens', ({ tokens }) => {
   it('keeps reading text readable across the surface hierarchy', () => {
-    for (const background of ['--ylf-c-bg', '--ylf-c-bg-soft', '--ylf-c-bg-mute', '--ylf-c-surface', '--ylf-c-surface-raised', '--ylf-c-surface-inset']) {
+    for (const background of [
+      '--ylf-c-bg',
+      '--ylf-c-bg-soft',
+      '--ylf-c-bg-mute',
+      '--ylf-c-surface',
+      '--ylf-c-surface-raised',
+      '--ylf-c-surface-inset',
+    ]) {
       for (const foreground of ['--ylf-c-text', '--ylf-c-text-2', '--ylf-c-text-3'])
         expect(contrast(color(tokens, foreground), color(tokens, background)), `${foreground} on ${background}`).toBeGreaterThanOrEqual(4.5)
     }
   })
 
-  it.each(['blue', 'sun', 'cyan', 'coral', 'pink', 'green'])('%s supports small text on solid, hover and soft fills', (tone) => {
+  it.each([
+    'blue',
+    'sun',
+    'cyan',
+    'coral',
+    'pink',
+    'green',
+  ])('%s supports small text on solid, hover and soft fills', (tone) => {
     const prefix = `--ylf-accent-${tone}`
     for (const [foreground, background] of [
       [`${prefix}-on`, prefix],
@@ -568,8 +623,16 @@ describe.each([
   { name: 'admin dark', tokens: adminDark, base: dark },
 ])('$name profile contrast', ({ tokens, base }) => {
   it('keeps foreground, muted and placeholder text readable on all admin surfaces', () => {
-    const merged = { ...base, ...tokens }
-    for (const background of ['--ylf-admin-bg', '--ylf-admin-surface', '--ylf-admin-raised', '--ylf-admin-inset']) {
+    const merged = {
+      ...base,
+      ...tokens,
+    }
+    for (const background of [
+      '--ylf-admin-bg',
+      '--ylf-admin-surface',
+      '--ylf-admin-raised',
+      '--ylf-admin-inset',
+    ]) {
       for (const foreground of ['--ylf-admin-fg', '--ylf-admin-muted', '--ylf-admin-placeholder'])
         expect(contrast(color(merged, foreground), color(merged, background)), `${foreground} on ${background}`).toBeGreaterThanOrEqual(4.5)
     }
@@ -581,8 +644,17 @@ describe.each([
   { name: 'editor dark', tokens: editorDark, base: dark },
 ])('$name profile contrast', ({ tokens, base }) => {
   it('keeps foreground, muted and accent readable on editor surfaces', () => {
-    const merged = { ...base, ...tokens }
-    for (const background of ['--ylf-editor-bg', '--ylf-editor-panel', '--ylf-editor-chrome', '--ylf-editor-field', '--ylf-editor-workspace']) {
+    const merged = {
+      ...base,
+      ...tokens,
+    }
+    for (const background of [
+      '--ylf-editor-bg',
+      '--ylf-editor-panel',
+      '--ylf-editor-chrome',
+      '--ylf-editor-field',
+      '--ylf-editor-workspace',
+    ]) {
       for (const foreground of ['--ylf-editor-fg', '--ylf-editor-muted'])
         expect(contrast(color(merged, foreground), color(merged, background)), `${foreground} on ${background}`).toBeGreaterThanOrEqual(4.5)
     }
@@ -603,7 +675,9 @@ describe('dark theme variable re-declaration invariant', () => {
     for (const [token, value] of Object.entries(lightDecls)) {
       if (token in darkDecls)
         continue
-      const refs = [...value.matchAll(/var\((--[\w-]+)/g)].map(match => match[1])
+      const refs = [
+        ...value.matchAll(/var\((--[\w-]+)/g),
+      ].map(match => match[1])
       const staleDeps = refs.filter(ref => ref in darkDecls || baseDarkKeys.has(ref))
       expect(staleDeps, `${token} (${value}) depends on dark-overridden tokens but is missing in .ylf-theme-dark`).toEqual([])
     }
@@ -614,7 +688,15 @@ describe('theme island cascade and layer precedence', () => {
   it('recomputes panel, bg-mute, and status contrast inside isolated admin light and dark islands', () => {
     const adminLightIsland = evaluateCssCascade(
       [tokensCss, adminCss],
-      [{ root: true, classes: ['dark'] }, { attrs: { 'data-ylf-profile': 'admin', 'data-ylf-admin-theme': 'light' } }],
+      [
+        {
+          root: true,
+          classes: ['dark'],
+        },
+        {
+          attrs: { 'data-ylf-profile': 'admin', 'data-ylf-admin-theme': 'light' },
+        },
+      ],
     )
     expect(adminLightIsland['--ylf-c-panel']).toBe('#ffffff')
     expect(contrast(adminLightIsland['--ylf-status-danger-text'], adminLightIsland['--ylf-c-panel'])).toBeGreaterThanOrEqual(4.5)
@@ -622,7 +704,12 @@ describe('theme island cascade and layer precedence', () => {
 
     const adminDarkIsland = evaluateCssCascade(
       [tokensCss, adminCss],
-      [{ root: true }, { attrs: { 'data-ylf-profile': 'admin', 'data-ylf-admin-theme': 'dark' } }],
+      [
+        { root: true },
+        {
+          attrs: { 'data-ylf-profile': 'admin', 'data-ylf-admin-theme': 'dark' },
+        },
+      ],
     )
     expect(adminDarkIsland['--ylf-c-panel']).toBe('#191c22')
     expect(adminDarkIsland['--ylf-c-bg-mute']).toBe('#252a33')
@@ -633,7 +720,12 @@ describe('theme island cascade and layer precedence', () => {
   it('keeps status and panel tokens readable inside isolated editor dark islands', () => {
     const editorDarkIsland = evaluateCssCascade(
       [tokensCss, editorCss],
-      [{ root: true }, { attrs: { 'data-ylf-profile': 'editor', 'data-ylf-editor-theme': 'dark' } }],
+      [
+        { root: true },
+        {
+          attrs: { 'data-ylf-profile': 'editor', 'data-ylf-editor-theme': 'dark' },
+        },
+      ],
     )
     expect(editorDarkIsland['--ylf-c-panel']).toBe('#292a2d')
     for (const status of ['success', 'warning', 'danger', 'info'])
@@ -643,14 +735,28 @@ describe('theme island cascade and layer precedence', () => {
   it('preserves profile precedence regardless of stylesheet import order and supports nested .dark/.light', () => {
     const reversedOrder = evaluateCssCascade(
       [adminCss, tokensCss],
-      [{ root: true, classes: ['dark'], attrs: { 'data-ylf-profile': 'admin' } }],
+      [
+        {
+          root: true,
+          classes: ['dark'],
+          attrs: { 'data-ylf-profile': 'admin' },
+        },
+      ],
     )
     expect(reversedOrder['--ylf-c-bg']).toBe('#111318')
     expect(reversedOrder['--ylf-c-panel']).toBe('#191c22')
 
     const nestedDark = evaluateCssCascade(
       [adminCss, tokensCss],
-      [{ root: true, attrs: { 'data-ylf-profile': 'admin' } }, { classes: ['dark'] }],
+      [
+        {
+          root: true,
+          attrs: { 'data-ylf-profile': 'admin' },
+        },
+        {
+          classes: ['dark'],
+        },
+      ],
     )
     expect(nestedDark['--ylf-c-bg']).toBe('#111318')
   })
@@ -658,7 +764,12 @@ describe('theme island cascade and layer precedence', () => {
   it('resolves TDesign adapter variables inside nested admin dark islands', () => {
     const tdesignDarkIsland = evaluateCssCascade(
       [tokensCss, adminCss, tdesignAdapterCss],
-      [{ root: true }, { attrs: { 'data-ylf-profile': 'admin', 'data-ylf-admin-theme': 'dark' } }],
+      [
+        { root: true },
+        {
+          attrs: { 'data-ylf-profile': 'admin', 'data-ylf-admin-theme': 'dark' },
+        },
+      ],
     )
     expect(tdesignDarkIsland['--td-bg-color-page']).toBe('#111318')
     expect(tdesignDarkIsland['--td-bg-color-container']).toBe('#191c22')

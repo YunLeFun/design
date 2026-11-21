@@ -42,7 +42,9 @@ import { withYunlefun, yunlefunMarkdown, zhThemeConfig } from 'vitepress-theme-y
 export default defineConfig(withYunlefun({
   lang: 'zh-CN',
   title: '云乐坊文档',
-  markdown: { config: md => md.use(yunlefunMarkdown) },
+  markdown: {
+    config: md => md.use(yunlefunMarkdown)
+  },
   themeConfig: { ...zhThemeConfig },
 }))
 ```

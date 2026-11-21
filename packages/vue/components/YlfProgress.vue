@@ -16,11 +16,15 @@ const props = withDefaults(defineProps<{
   variant: 'brand',
 })
 
-const safeMax = computed(() => Number.isFinite(props.max) && props.max > 0 ? props.max : 100)
+const safeMax = computed(() => Number.isFinite(props.max) && props.max > 0
+  ? props.max
+  : 100)
 const safeValue = computed(() => props.value === null || !Number.isFinite(props.value)
   ? null
   : Math.max(0, Math.min(safeMax.value, props.value)))
-const percent = computed(() => safeValue.value === null ? null : safeValue.value / safeMax.value * 100)
+const percent = computed(() => safeValue.value === null
+  ? null
+  : safeValue.value / safeMax.value * 100)
 </script>
 
 <template>

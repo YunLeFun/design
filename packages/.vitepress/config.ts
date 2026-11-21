@@ -118,7 +118,10 @@ export default defineConfig(withYunlefun({
         siteTitle: 'YunLeFun Design',
         langMenuLabel: 'Change language',
         skipToContentLabel: 'Skip to content',
-        outline: { label: 'On this page', level: [2, 3] },
+        outline: {
+          label: 'On this page',
+          level: [2, 3],
+        },
         sidebarMenuLabel: 'Menu',
         returnToTopLabel: 'Back to top',
         darkModeSwitchLabel: 'Appearance',
@@ -156,25 +159,55 @@ export default defineConfig(withYunlefun({
   // 圆体展示字（仅 display 角色）：拉丁 Baloo 2 + 中文 ZCOOL KuaiLe 站酷快乐体。
   // 详见 /guide/typography 与 @yunlefun/ui/styles/css-vars.scss。
   head: [
-    ['link', { rel: 'icon', href: '/favicon.svg', type: 'image/svg+xml' }],
-    ['link', { rel: 'icon', href: '/favicon-32.png', sizes: '32x32' }],
-    ['link', { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' }],
-    ['link', { rel: 'manifest', href: '/site.webmanifest' }],
-    ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
-    ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
+    [
+      'link',
+      { rel: 'icon', href: '/favicon.svg', type: 'image/svg+xml' },
+    ],
+    [
+      'link',
+      { rel: 'icon', href: '/favicon-32.png', sizes: '32x32' },
+    ],
+    [
+      'link',
+      { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
+    ],
+    [
+      'link',
+      { rel: 'manifest', href: '/site.webmanifest' },
+    ],
+    [
+      'link',
+      { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
+    ],
+    [
+      'link',
+      { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
+    ],
     // 拉丁圆体 Baloo 2（仅展示常用字重）
-    ['link', { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap' }],
+    [
+      'link',
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&display=swap' },
+    ],
     // 中文圆体 ZCOOL KuaiLe — 品牌字「云乐坊」文本子集（首屏即刻，体积极小）
-    ['link', { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&text=%E4%BA%91%E4%B9%90%E5%9D%8A&display=swap' }],
+    [
+      'link',
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&text=%E4%BA%91%E4%B9%90%E5%9D%8A&display=swap' },
+    ],
     // 中文圆体 ZCOOL KuaiLe — 完整字族（Google Fonts 自动按 unicode-range 分片，只下用到的字形）
-    ['link', { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap' }],
+    [
+      'link',
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap' },
+    ],
   ],
 
   themeConfig: {
     brand: { icon: 'design-mark' },
     langMenuLabel: '切换语言',
     skipToContentLabel: '跳至内容',
-    outline: { label: '本页内容', level: [2, 3] },
+    outline: {
+      label: '本页内容',
+      level: [2, 3],
+    },
     sidebarMenuLabel: '目录',
     returnToTopLabel: '返回顶部',
     darkModeSwitchLabel: '外观',
@@ -256,13 +289,16 @@ export default defineConfig(withYunlefun({
 
 function getVueComponentsSidebar(english = false) {
   const prefix = english ? '/en' : ''
-  const links: DefaultTheme.Sidebar = [{
-    text: 'Vue',
-    link: `${prefix}/vue/`,
-  }, {
-    text: english ? 'AG-UI examples' : 'AG-UI 示例',
-    link: `${prefix}/guide/ag-ui`,
-  }]
+  const links: DefaultTheme.Sidebar = [
+    {
+      text: 'Vue',
+      link: `${prefix}/vue/`,
+    },
+    {
+      text: english ? 'AG-UI examples' : 'AG-UI 示例',
+      link: `${prefix}/guide/ag-ui`,
+    },
+  ]
 
   const components = metadata.components.filter(i => i.name)
 
@@ -270,7 +306,9 @@ function getVueComponentsSidebar(english = false) {
     text: english ? 'Vue components' : 'Vue 组件',
     collapsed: false,
     items: components.map(i => ({
-      text: i.title + (!english && i.title_zh ? ` - ${i.title_zh}` : ''),
+      text: i.title + (!english && i.title_zh
+        ? ` - ${i.title_zh}`
+        : ''),
       link: `${prefix}/vue/components/${i.name}/`,
     })),
   })

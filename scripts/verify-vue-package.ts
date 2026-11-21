@@ -10,7 +10,10 @@ const root = resolve(import.meta.dirname, '..')
 const consumer = await mkdtemp(resolve(tmpdir(), 'yunlefun-vue-consumer-'))
 
 async function run(command: string, args: string[], cwd: string) {
-  const { stdout, stderr } = await exec(command, args, { cwd, env: { ...process.env, CI: 'true' } })
+  const { stdout, stderr } = await exec(command, args, {
+    cwd,
+    env: { ...process.env, CI: 'true' },
+  })
   if (stdout)
     process.stdout.write(stdout)
   if (stderr)
@@ -18,7 +21,7 @@ async function run(command: string, args: string[], cwd: string) {
 }
 
 try {
-  const dependencies: Record<string, string> = { vue: '3.5.44' }
+  const dependencies: Record<string, string> = { vue: '3.5.46' }
   for (const directory of ['packages/ui', 'packages/vue']) {
     const cwd = resolve(root, directory)
     const pkg = JSON.parse(await readFile(resolve(cwd, 'package.json'), 'utf8'))
@@ -33,10 +36,10 @@ try {
     type: 'module',
     dependencies,
     devDependencies: {
-      '@vitejs/plugin-vue': '6.0.10',
+      '@vitejs/plugin-vue': '6.0.11',
       'typescript': '6.0.3',
-      'vite': '8.3.4',
-      'vue-tsc': '3.3.13',
+      'vite': '8.3.8',
+      'vue-tsc': '3.3.14',
     },
   }))
   await run('pnpm', ['install', '--ignore-scripts'], consumer)
@@ -125,7 +128,7 @@ assert.equal('componentsDir' in vueRoot, false)
 const { componentsDir } = await import('@yunlefun/vue/node')
 assert.equal(statSync(componentsDir).isDirectory(), true)
 `], consumer)
-  await run('pnpm', ['add', '@ag-ui/client@1.0.2', '--ignore-scripts'], consumer)
+  await run('pnpm', ['add', '@ag-ui/client@1.0.5', '--ignore-scripts'], consumer)
   await writeFile(resolve(consumer, 'App.vue'), `<script setup lang="ts">
 import { HttpAgent } from '@ag-ui/client'
 import { useAgUiAgent } from '@yunlefun/vue/ag-ui'

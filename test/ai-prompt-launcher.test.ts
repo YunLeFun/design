@@ -10,7 +10,9 @@ afterEach(() => {
 
 describe('aI prompt launcher', () => {
   it('renders six local logos, native prefill links and accessible copy buttons', () => {
-    const wrapper = mount(YlfAiPromptLauncher, { props: { prompt: '你好 🌟' } })
+    const wrapper = mount(YlfAiPromptLauncher, {
+      props: { prompt: '你好 🌟' },
+    })
     expect(wrapper.findAll('nav img')).toHaveLength(6)
     expect(wrapper.findAll('nav a')).toHaveLength(4)
     expect(wrapper.findAll('nav button')).toHaveLength(2)
@@ -21,7 +23,9 @@ describe('aI prompt launcher', () => {
 
   it('does not expose a prompt URL or launch when disabled or empty', async () => {
     const launch = vi.fn()
-    const wrapper = mount(YlfAiPromptLauncher, { props: { prompt: 'secret', disabled: true } })
+    const wrapper = mount(YlfAiPromptLauncher, {
+      props: { prompt: 'secret', disabled: true },
+    })
     expect(wrapper.get('[data-provider="chatgpt"]').attributes('href')).toBeUndefined()
     await wrapper.setProps({ disabled: false, prompt: ' ', launch })
     await wrapper.get('[data-provider="chatgpt"]').trigger('click')
@@ -34,21 +38,37 @@ describe('aI prompt launcher', () => {
     const launch = vi.fn(() => new Promise<'opened'>((resolve) => {
       finish = resolve
     }))
-    const wrapper = mount(YlfAiPromptLauncher, { props: { prompt: '全文\nA&B 🌟', launch, providers: ['cursor', 'chatgpt'], locale: 'en' } })
+    const wrapper = mount(YlfAiPromptLauncher, {
+      props: {
+        prompt: '全文\nA&B 🌟',
+        launch,
+        providers: ['cursor', 'chatgpt'],
+        locale: 'en',
+      },
+    })
     await wrapper.get('[data-provider="cursor"]').trigger('click')
-    expect(launch).toHaveBeenCalledWith(expect.objectContaining({ mode: 'link', provider: expect.objectContaining({ id: 'cursor' }) }), '全文\nA&B 🌟')
+    expect(launch).toHaveBeenCalledWith(expect.objectContaining({
+      mode: 'link',
+      provider: expect.objectContaining({ id: 'cursor' }),
+    }), '全文\nA&B 🌟')
     await wrapper.get('[data-provider="chatgpt"]').trigger('click')
     expect(launch).toHaveBeenCalledTimes(1)
     finish('opened')
     await flushPromises()
-    expect(wrapper.emitted('busy')).toEqual([[true], [false]])
+    expect(wrapper.emitted('busy')).toEqual([
+      [true],
+      [false],
+    ])
     expect(wrapper.emitted('result')?.[0]?.[0]).toMatchObject({ status: 'opened' })
     wrapper.unmount()
   })
 
   it('selects full manual text when clipboard access fails', async () => {
     vi.stubGlobal('navigator', {})
-    const wrapper = mount(YlfAiPromptLauncher, { props: { prompt: '请完整保留这段内容 🌟' }, attachTo: document.body })
+    const wrapper = mount(YlfAiPromptLauncher, {
+      props: { prompt: '请完整保留这段内容 🌟' },
+      attachTo: document.body,
+    })
     await wrapper.get('.ylf-ai-launcher__actions button').trigger('click')
     await flushPromises()
     const textarea = wrapper.get('textarea').element
@@ -59,9 +79,13 @@ describe('aI prompt launcher', () => {
   })
 
   it('reports manual copies so hosts can bind the response to the displayed snapshot', async () => {
-    const wrapper = mount(YlfAiPromptLauncher, { props: { prompt: '完整的文章快照' } })
+    const wrapper = mount(YlfAiPromptLauncher, {
+      props: { prompt: '完整的文章快照' },
+    })
     await wrapper.get('textarea').trigger('copy')
-    expect(wrapper.emitted('manualCopy')).toEqual([['完整的文章快照']])
+    expect(wrapper.emitted('manualCopy')).toEqual([
+      ['完整的文章快照'],
+    ])
     wrapper.unmount()
   })
 
@@ -70,7 +94,9 @@ describe('aI prompt launcher', () => {
     const copyText = vi.fn(() => new Promise<void>((resolve) => {
       finish = resolve
     }))
-    const wrapper = mount(YlfAiPromptLauncher, { props: { prompt: 'old', copyText } })
+    const wrapper = mount(YlfAiPromptLauncher, {
+      props: { prompt: 'old', copyText },
+    })
     await wrapper.get('.ylf-ai-launcher__actions button').trigger('click')
     await wrapper.setProps({ prompt: 'new' })
     finish()

@@ -42,7 +42,9 @@ import { withYunlefun, yunlefunMarkdown } from 'vitepress-theme-yunlefun/config'
 export default defineConfig(withYunlefun({
   lang: 'en',
   title: 'YunLeFun Docs',
-  markdown: { config: md => md.use(yunlefunMarkdown) },
+  markdown: {
+    config: md => md.use(yunlefunMarkdown)
+  },
 }))
 ```
 

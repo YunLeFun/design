@@ -8,7 +8,9 @@ import { provideAppearanceTransition, useAppearanceTransition } from '../package
 
 const isDark = shallowRef(false)
 const lang = shallowRef('zh-Hans')
-vi.mock('vitepress', () => ({ useData: () => ({ isDark, lang }) }))
+vi.mock('vitepress', () => ({
+  useData: () => ({ isDark, lang }),
+}))
 
 const wrappers: VueWrapper[] = []
 
@@ -37,7 +39,9 @@ function mountControls() {
 beforeEach(() => {
   isDark.value = false
   lang.value = 'zh-Hans'
-  vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] })
+  vi.useFakeTimers({
+    toFake: ['setTimeout', 'clearTimeout'],
+  })
   vi.spyOn(window, 'matchMedia').mockReturnValue({ matches: true } as MediaQueryList)
 })
 
@@ -143,13 +147,17 @@ describe('appearance transitions', () => {
     })
     const animations: { cancel: ReturnType<typeof vi.fn> }[] = []
     const animate = vi.fn(() => {
-      const animation = { cancel: vi.fn() }
+      const animation = {
+        cancel: vi.fn(),
+      }
       animations.push(animation)
       return animation
     })
     Object.assign(document, { startViewTransition })
     Object.assign(document.documentElement, { animate })
-    vi.stubGlobal('CSS', { supports: () => softMask })
+    vi.stubGlobal('CSS', {
+      supports: () => softMask,
+    })
     return {
       animate,
       animations,

@@ -19,7 +19,9 @@ withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{ valueCommit: [value: number[]] }>()
-const model = defineModel<number[]>({ default: () => [50] })
+const model = defineModel<number[]>({
+  default: () => [50],
+})
 </script>
 
 <template>

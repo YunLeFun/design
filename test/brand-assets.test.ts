@@ -9,7 +9,9 @@ describe('shared brand assets', () => {
       const assets = renderBrandAssets(name, palette)
       expect(assets.favicon).toContain('@media(prefers-color-scheme:dark)')
       expect(assets.dark).toContain('#60a5fa')
-      expect(assets.app).toContain(name === 'brand-mark' ? '#60a5fa' : '#2563eb')
+      expect(assets.app).toContain(name === 'brand-mark'
+        ? '#60a5fa'
+        : '#2563eb')
       expect(assets.mark).toContain('currentColor')
     }
   })

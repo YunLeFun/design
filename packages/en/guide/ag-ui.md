@@ -95,11 +95,13 @@ AG-UI 1.0 interrupt/resume and ordinary tool results are separate mechanisms. â€
 const interrupt = interrupts.value[0]
 if (interrupt) {
   await run({
-    resume: [{
-      interruptId: interrupt.id,
-      status: approved ? 'resolved' : 'cancelled',
-      payload: approved,
-    }],
+    resume: [
+      {
+        interruptId: interrupt.id,
+        status: approved ? 'resolved' : 'cancelled',
+        payload: approved,
+      }
+    ],
   })
 }
 ```

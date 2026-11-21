@@ -55,7 +55,9 @@ describe('overlay public interfaces', () => {
     expect(content.classList.contains('custom-popover')).toBe(true)
     expect(content.getAttribute('aria-label')).toBe('帮助信息')
     expect(content.textContent).toContain('帮助正文')
-    expect(wrapper.emitted('update:open')).toEqual([[true]])
+    expect(wrapper.emitted('update:open')).toEqual([
+      [true],
+    ])
   })
 
   it('supports controlled menu state, disabled items and empty string values', async () => {
@@ -65,7 +67,10 @@ describe('overlay public interfaces', () => {
       props: {
         open: true,
         portalTo: target,
-        items: [{ label: '禁用', value: 'disabled', disabled: true }, { label: '全部项目', value: '' }],
+        items: [
+          { label: '禁用', value: 'disabled', disabled: true },
+          { label: '全部项目', value: '' },
+        ],
       },
       attrs: { 'aria-label': '项目范围' },
       slots: { trigger: '<button>范围</button>' },
@@ -79,7 +84,9 @@ describe('overlay public interfaces', () => {
     expect(wrapper.emitted('select')).toBeUndefined()
     items[1].click()
     await flushPromises()
-    expect(wrapper.emitted('select')).toEqual([['']])
+    expect(wrapper.emitted('select')).toEqual([
+      [''],
+    ])
     expect(wrapper.emitted('update:open')).toContainEqual([false])
   })
 
@@ -87,7 +94,12 @@ describe('overlay public interfaces', () => {
     const target = createThemeTarget()
     const wrapper = mount(YlfSelect, {
       attachTo: document.body,
-      props: { portalTo: target, options: [{ value: 'blue', label: '晴空蓝' }] },
+      props: {
+        portalTo: target,
+        options: [
+          { value: 'blue', label: '晴空蓝' },
+        ],
+      },
       attrs: { 'aria-label': '主题颜色' },
     })
     await wrapper.get('[role="combobox"]').trigger('keydown', { key: 'ArrowDown' })

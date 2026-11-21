@@ -61,7 +61,9 @@ export function MarkdownTransform(): Plugin {
 
       if (type) {
         const frontmatterEnds = code.indexOf('\n---\n')
-        const sliceIndex = frontmatterEnds < 0 ? 0 : frontmatterEnds + 5
+        const sliceIndex = frontmatterEnds < 0
+          ? 0
+          : frontmatterEnds + 5
 
         const options = {
           pkg: '',
@@ -145,7 +147,9 @@ ${code}
 
   const links = ([
     ['Source', `${URL}/index.ts`],
-    demoPath ? ['Demo', `${URL}/${demoPath}`] : undefined,
+    demoPath
+      ? ['Demo', `${URL}/${demoPath}`]
+      : undefined,
     ['Docs', `${URL}/index.md`],
   ])
     .filter(i => i)
@@ -213,11 +217,15 @@ ${codeSnippets}
   const footer = `${typingSection}\n\n${sourceSection}\n${ContributorsSection}\n${changelogSection}\n`
 
   const title = comp?.title || name
-  const chineseTitle = title + (comp?.title_zh ? ` - ${comp.title_zh}` : '')
+  const chineseTitle = title + (comp?.title_zh
+    ? ` - ${comp.title_zh}`
+    : '')
   // VitePress preserves the current hash when switching languages.
   // Keep the component title anchor compatible with the original Chinese page.
   const titleAnchor = chineseTitle.toLowerCase().replace(/\s+-?\s*/g, '-')
-  const header = `# ${english ? `${title} {#${titleAnchor}}` : chineseTitle}\n${demoSection}`
+  const header = `# ${english
+    ? `${title} {#${titleAnchor}}`
+    : chineseTitle}\n${demoSection}`
 
   return {
     footer,

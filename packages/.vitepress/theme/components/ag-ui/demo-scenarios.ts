@@ -48,5 +48,10 @@ export type DemoScenario = typeof demoScenarios[number]['id']
 export function getDemoScenario(scenario: DemoScenario, english: boolean) {
   const entry = demoScenarios.find(item => item.id === scenario)!
   const index = english ? 1 : 0
-  return { value: entry.id, label: entry.label[index], description: entry.description[index], prompt: entry.prompt[index] }
+  return {
+    value: entry.id,
+    label: entry.label[index],
+    description: entry.description[index],
+    prompt: entry.prompt[index],
+  }
 }

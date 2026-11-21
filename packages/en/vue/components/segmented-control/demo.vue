@@ -4,9 +4,16 @@ import { shallowRef } from 'vue'
 
 const view = shallowRef<'grid' | 'list'>('grid')
 const kind = shallowRef('all')
-const options = [{ value: 'grid', label: 'Grid view' }, { value: 'list', label: 'List view' }] as const
+const options = [
+  { value: 'grid', label: 'Grid view' },
+  { value: 'list', label: 'List view' },
+] as const
 const icons = { grid: 'i-ri-grid-line', list: 'i-ri-list-check' }
-const kinds = [{ value: 'all', label: 'All', count: 24 }, { value: 'image', label: 'Images', count: 18 }, { value: 'video', label: 'Videos', count: 6 }]
+const kinds = [
+  { value: 'all', label: 'All', count: 24 },
+  { value: 'image', label: 'Images', count: 18 },
+  { value: 'video', label: 'Videos', count: 6 },
+]
 </script>
 
 <template>

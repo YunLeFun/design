@@ -37,7 +37,12 @@ let resizeObserver: ResizeObserver | undefined
 function measurePill() {
   const item = root.value?.$el?.querySelector<HTMLElement>('.ylf-segmented__item[aria-pressed="true"]')
   pill.value = item?.offsetWidth
-    ? { x: item.offsetLeft, y: item.offsetTop, width: item.offsetWidth, height: item.offsetHeight }
+    ? {
+        x: item.offsetLeft,
+        y: item.offsetTop,
+        width: item.offsetWidth,
+        height: item.offsetHeight,
+      }
     : null
 }
 

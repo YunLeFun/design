@@ -26,7 +26,14 @@ export function useAgUiDemo(scenario: DemoScenario, english: boolean, delayMs = 
     onEvent({ event }) {
       if (disposed)
         return
-      events.value = [...events.value.slice(-79), { id: ++eventId, type: event.type, payload: JSON.stringify(event, null, 2) }]
+      events.value = [
+        ...events.value.slice(-79),
+        {
+          id: ++eventId,
+          type: event.type,
+          payload: JSON.stringify(event, null, 2),
+        },
+      ]
     },
   })
   onScopeDispose(() => {
@@ -40,13 +47,17 @@ export function useAgUiDemo(scenario: DemoScenario, english: boolean, delayMs = 
     && (binding.status.value === 'error' || binding.status.value === 'cancelled')
     && binding.interrupts.value.every(interrupt => lastParameters.value?.resume?.some(entry => entry.interruptId === interrupt.id)))
   const pendingTools = computed(() => binding.messages.value
-    .flatMap(message => message.role === 'assistant' ? message.toolCalls ?? [] : [])
+    .flatMap(message => message.role === 'assistant'
+      ? message.toolCalls ?? []
+      : [])
     .filter(tool => binding.pendingToolCallIds.value.includes(tool.id)))
   const pendingTool = computed(() => pendingTools.value[0])
 
   function toolParameters(): RunAgentParameters | undefined {
     const tools = getDemoTools(scenario)
-    return tools.length ? { tools } : undefined
+    return tools.length
+      ? { tools }
+      : undefined
   }
 
   async function execute(parameters?: RunAgentParameters) {
@@ -82,8 +93,17 @@ export function useAgUiDemo(scenario: DemoScenario, english: boolean, delayMs = 
     const result = !approved
       ? { approved }
       : tool.function.name === 'read_theme'
-        ? { approved, theme: document.documentElement.classList.contains('dark') ? 'dark' : 'light' }
-        : { approved, count: demoScenarios.length, examples: demoScenarios.map(item => item.id) }
+        ? {
+            approved,
+            theme: document.documentElement.classList.contains('dark')
+              ? 'dark'
+              : 'light',
+          }
+        : {
+            approved,
+            count: demoScenarios.length,
+            examples: demoScenarios.map(item => item.id),
+          }
     binding.addToolResult(tool.id, JSON.stringify(result))
     if (!binding.pendingToolCallIds.value.length)
       await execute(toolParameters())
@@ -93,7 +113,15 @@ export function useAgUiDemo(scenario: DemoScenario, english: boolean, delayMs = 
     const interrupt = binding.interrupts.value[0]
     if (!interrupt || binding.isRunning.value)
       return
-    await execute({ resume: [{ interruptId: interrupt.id, status: approved ? 'resolved' : 'cancelled', payload: approved }] })
+    await execute({
+      resume: [
+        {
+          interruptId: interrupt.id,
+          status: approved ? 'resolved' : 'cancelled',
+          payload: approved,
+        },
+      ],
+    })
   }
 
   async function simulateFailure() {
@@ -103,7 +131,10 @@ export function useAgUiDemo(scenario: DemoScenario, english: boolean, delayMs = 
     const retryParameters = binding.interrupts.value.length || (scenario === 'form' && binding.state.value.draftSubmitted)
       ? lastParameters.value
       : toolParameters()
-    await execute({ ...retryParameters, forwardedProps: { ...retryParameters?.forwardedProps, fail: true } })
+    await execute({
+      ...retryParameters,
+      forwardedProps: { ...retryParameters?.forwardedProps, fail: true },
+    })
     lastParameters.value = retryParameters
   }
 
@@ -115,13 +146,19 @@ export function useAgUiDemo(scenario: DemoScenario, english: boolean, delayMs = 
   function selectRecommendation(id: string) {
     if (scenario !== 'cards' || binding.isRunning.value || !binding.state.value.recommendations?.some(item => item.id === id))
       return
-    binding.setState({ ...toRaw(binding.state.value), selectedRecommendation: id })
+    binding.setState({
+      ...toRaw(binding.state.value),
+      selectedRecommendation: id,
+    })
   }
 
   function updateDraft(draft: DemoDraft) {
     if (scenario !== 'form' || binding.isRunning.value || binding.state.value.draftSubmitted)
       return
-    binding.setState({ ...toRaw(binding.state.value), draft: { ...draft } })
+    binding.setState({
+      ...toRaw(binding.state.value),
+      draft: { ...draft },
+    })
   }
 
   async function submitDraft() {
@@ -132,7 +169,9 @@ export function useAgUiDemo(scenario: DemoScenario, english: boolean, delayMs = 
       actionError.value = english ? 'Complete the title and audience before confirming.' : '请补全活动名称和参与对象后再确认。'
       return
     }
-    await execute({ forwardedProps: { draftSubmitted: true } })
+    await execute({
+      forwardedProps: { draftSubmitted: true },
+    })
   }
 
   return {

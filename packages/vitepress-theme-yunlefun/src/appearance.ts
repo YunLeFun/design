@@ -25,7 +25,11 @@ export function provideAppearanceTransition() {
   // 记住最近一次按下的位置，让夜幕或晴空从点击处扩散开。
   let lastPointer: { x: number, y: number, time: number } | undefined
   function recordPointer(event: PointerEvent) {
-    lastPointer = { x: event.clientX, y: event.clientY, time: performance.now() }
+    lastPointer = {
+      x: event.clientX,
+      y: event.clientY,
+      time: performance.now(),
+    }
   }
   if (typeof window !== 'undefined')
     window.addEventListener('pointerdown', recordPointer, { capture: true, passive: true })
@@ -78,10 +82,14 @@ export function provideAppearanceTransition() {
     const height = window.innerHeight
     // 键盘切换或超过一秒的旧坐标，从右上角的主题开关附近展开。
     const recent = lastPointer && performance.now() - lastPointer.time < 1000
-    const x = recent ? lastPointer!.x : width - 64
+    const x = recent
+      ? lastPointer!.x
+      : width - 64
     const y = recent ? lastPointer!.y : 32
     const softMask = typeof CSS !== 'undefined' && CSS.supports?.('mask-image', 'linear-gradient(#000, #000)')
-    const sceneClass = softMask ? (dark ? nightClass : dayClass) : undefined
+    const sceneClass = softMask
+      ? (dark ? nightClass : dayClass)
+      : undefined
     // 过渡期间暂停毛玻璃：新视图是实时画面，模糊层会让每一帧都重新绘制。
     root.classList.add(revealClass)
     if (sceneClass)
@@ -110,8 +118,15 @@ export function provideAppearanceTransition() {
       if (!softMask) {
         const radius = Math.hypot(Math.max(x, width - x), Math.max(y, height - y))
         animate(
-          { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`] },
-          { duration: 480, easing: 'cubic-bezier(0.4, 0, 0.2, 1)', fill, pseudoElement: newView },
+          {
+            clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${radius}px at ${x}px ${y}px)`],
+          },
+          {
+            duration: 480,
+            easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+            fill,
+            pseudoElement: newView,
+          },
         )
         return
       }
@@ -119,8 +134,12 @@ export function provideAppearanceTransition() {
         // 夜幕落下：带柔和下缘的夜色从屏幕顶端垂落，白天的页面随之暗下来。
         const curtain = height * 1.3
         const timing = { duration: 820, easing: 'cubic-bezier(0.55, 0, 0.2, 1)', fill }
-        animate({ maskPosition: [`0px ${-curtain}px`, '0px 0px'] }, { ...timing, pseudoElement: newView })
-        animate({ filter: ['none', 'brightness(0.72) saturate(0.85)'] }, { ...timing, pseudoElement: oldView })
+        animate({
+          maskPosition: [`0px ${-curtain}px`, '0px 0px'],
+        }, { ...timing, pseudoElement: newView })
+        animate({
+          filter: ['none', 'brightness(0.72) saturate(0.85)'],
+        }, { ...timing, pseudoElement: oldView })
         return
       }
       // 晴空展开：光从点击处向外柔和铺开，新画面带一点刚放晴的明亮，再回到正常。
@@ -135,7 +154,9 @@ export function provideAppearanceTransition() {
         { ...timing, pseudoElement: newView },
       )
       animate(
-        { filter: ['brightness(1.15) saturate(1.1)', 'none'] },
+        {
+          filter: ['brightness(1.15) saturate(1.1)', 'none'],
+        },
         { ...timing, duration: 720, pseudoElement: newView },
       )
     }, () => {})

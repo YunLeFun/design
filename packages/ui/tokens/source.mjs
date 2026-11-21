@@ -12,7 +12,14 @@ export const ylfPalette = {
   green: '#22c55e',
 }
 
-export const ylfAccentTones = /** @type {const} */ (['blue', 'sun', 'cyan', 'coral', 'pink', 'green'])
+export const ylfAccentTones = /** @type {const} */ ([
+  'blue',
+  'sun',
+  'cyan',
+  'coral',
+  'pink',
+  'green',
+])
 
 export const ylfStatusMap = /** @type {const} */ ({
   success: 'green',
@@ -25,7 +32,13 @@ export const ylfStatuses = /** @type {const} */ (['success', 'warning', 'danger'
 
 export const ylfProfiles = /** @type {const} */ (['consumer', 'admin', 'editor'])
 
-export const ylfCloudShapes = /** @type {const} */ (['billow', 'heap', 'bank', 'puff', 'wisp'])
+export const ylfCloudShapes = /** @type {const} */ ([
+  'billow',
+  'heap',
+  'bank',
+  'puff',
+  'wisp',
+])
 
 export const ylfCloudSilhouettes = {
   billow: 'M 58 199 C 26 199 8 185 8 164 C 8 144 22 130 43 128 C 39 102 55 81 79 80 C 94 79 106 85 115 94 C 106 57 129 24 164 23 C 191 22 211 38 220 61 C 232 43 251 36 269 40 C 295 45 310 66 309 90 C 325 80 345 83 357 95 C 367 104 371 117 369 129 C 392 119 417 130 424 151 C 449 147 477 163 477 183 C 477 207 453 218 422 218 C 391 218 367 213 341 216 C 303 222 272 218 246 215 C 211 222 176 217 151 212 C 118 218 84 214 58 199 Z',
@@ -67,23 +80,53 @@ export const ylfHero = {
 
 export const ylfAccents = {
   sun: {
-    light: { base: 'var(--ylf-palette-sun)', hover: '#eab308', soft: '#fef9c3', text: '#854d0e', on: '#64380e' },
+    light: {
+      base: 'var(--ylf-palette-sun)',
+      hover: '#eab308',
+      soft: '#fef9c3',
+      text: '#854d0e',
+      on: '#64380e',
+    },
     dark: { soft: '#30290f', text: '#fde047' },
   },
   cyan: {
-    light: { base: 'var(--ylf-palette-cyan)', hover: '#22d3ee', soft: '#cffafe', text: '#155e75', on: '#083e4f' },
+    light: {
+      base: 'var(--ylf-palette-cyan)',
+      hover: '#22d3ee',
+      soft: '#cffafe',
+      text: '#155e75',
+      on: '#083e4f',
+    },
     dark: { soft: '#10313d', text: '#67e8f9' },
   },
   coral: {
-    light: { base: 'var(--ylf-palette-coral)', hover: '#ff856b', soft: '#ffede6', text: '#9a3412', on: '#551b0a' },
+    light: {
+      base: 'var(--ylf-palette-coral)',
+      hover: '#ff856b',
+      soft: '#ffede6',
+      text: '#9a3412',
+      on: '#551b0a',
+    },
     dark: { soft: '#39231f', text: '#fda48c' },
   },
   pink: {
-    light: { base: 'var(--ylf-palette-pink)', hover: '#f472b6', soft: '#fce7f3', text: '#9d174d', on: '#400a2b' },
+    light: {
+      base: 'var(--ylf-palette-pink)',
+      hover: '#f472b6',
+      soft: '#fce7f3',
+      text: '#9d174d',
+      on: '#400a2b',
+    },
     dark: { soft: '#351e32', text: '#f9a8d4' },
   },
   green: {
-    light: { base: 'var(--ylf-palette-green)', hover: '#4ade80', soft: '#dcfce7', text: '#166534', on: '#124324' },
+    light: {
+      base: 'var(--ylf-palette-green)',
+      hover: '#4ade80',
+      soft: '#dcfce7',
+      text: '#166534',
+      on: '#124324',
+    },
     dark: { soft: '#142e26', text: '#86efac' },
   },
 }
@@ -496,7 +539,9 @@ export function buildBaseLightTokens() {
     tokens[`--ylf-${key}`] = value
 
   for (const [key, value] of Object.entries(ylfRadius)) {
-    const suffix = key === 'DEFAULT' ? '' : `-${key}`
+    const suffix = key === 'DEFAULT'
+      ? ''
+      : `-${key}`
     tokens[`--ylf-radius${suffix}`] = value
   }
 

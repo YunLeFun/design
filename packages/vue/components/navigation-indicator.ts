@@ -29,8 +29,12 @@ export function useNavigationIndicator(root: Readonly<Ref<HTMLElement | null>>, 
       return
     }
     // Convert viewport coordinates to the padding box, including scaled previews.
-    const scaleX = element.offsetWidth ? bounds.width / element.offsetWidth : 1
-    const scaleY = element.offsetHeight ? bounds.height / element.offsetHeight : 1
+    const scaleX = element.offsetWidth
+      ? bounds.width / element.offsetWidth
+      : 1
+    const scaleY = element.offsetHeight
+      ? bounds.height / element.offsetHeight
+      : 1
     const x = (target.left - bounds.left + target.width / 2) / scaleX - element.clientLeft + element.scrollLeft - 8
     const y = (target.bottom - bounds.top) / scaleY - element.clientTop + element.scrollTop - 6
     if (indicator.value?.x !== x || indicator.value?.y !== y)
@@ -47,7 +51,9 @@ export function useNavigationIndicator(root: Readonly<Ref<HTMLElement | null>>, 
   }
 
   function observeLinks() {
-    const current = new Set(root.value ? options.links(root.value) : [])
+    const current = new Set(root.value
+      ? options.links(root.value)
+      : [])
     for (const link of observedLinks) {
       if (!current.has(link)) {
         resizeObserver?.unobserve(link)

@@ -26,8 +26,16 @@ watch(model, () => {
 })
 
 function selectFocusedRadio(event: KeyboardEvent) {
-  if (props.disabled || !event.defaultPrevented || !['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key))
+  if (props.disabled || !event.defaultPrevented || ![
+    'ArrowUp',
+    'ArrowDown',
+    'ArrowLeft',
+    'ArrowRight',
+    'Home',
+    'End',
+  ].includes(event.key)) {
     return
+  }
   const group = event.currentTarget as HTMLElement
   // Reka 2.10.x defers selection until after focus; a fast keyup can clear its flag.
   // Let Reka move focus and skip disabled items, then synchronize that choice.

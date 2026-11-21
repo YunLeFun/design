@@ -1,17 +1,24 @@
 import type { DemoScenario } from './demo-scenarios'
 
-export const demoTools = [{
-  name: 'read_theme',
-  description: 'Read the current page theme after confirmation',
-  parameters: { type: 'object', properties: {}, additionalProperties: false },
-}, {
-  name: 'list_examples',
-  description: 'Read the local example catalog after confirmation',
-  parameters: { type: 'object', properties: {}, additionalProperties: false },
-}]
+export const demoTools = [
+  {
+    name: 'read_theme',
+    description: 'Read the current page theme after confirmation',
+    parameters: { type: 'object', properties: {}, additionalProperties: false },
+  },
+  {
+    name: 'list_examples',
+    description: 'Read the local example catalog after confirmation',
+    parameters: { type: 'object', properties: {}, additionalProperties: false },
+  },
+]
 
 export function getDemoTools(scenario: DemoScenario) {
-  return scenario === 'multi-tool' ? demoTools : scenario === 'tool' ? demoTools.slice(0, 1) : []
+  return scenario === 'multi-tool'
+    ? demoTools
+    : scenario === 'tool'
+      ? demoTools.slice(0, 1)
+      : []
 }
 
 export function getDemoToolLabel(name: string, english: boolean) {

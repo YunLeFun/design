@@ -4,7 +4,11 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { ref } from 'vue'
 import NavigationIndicator from '../packages/vitepress-theme-yunlefun/components/NavigationIndicator.vue'
 
-vi.mock('vitepress', () => ({ useData: () => ({ theme: ref({ nav: [] }) }) }))
+vi.mock('vitepress', () => ({
+  useData: () => ({
+    theme: ref({ nav: [] }),
+  }),
+}))
 enableAutoUnmount(cleanup => afterEach(() => {
   cleanup()
   document.body.innerHTML = ''
@@ -16,7 +20,9 @@ describe('native VitePress navigation adapter', () => {
     vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function () {
       if (this.classList.contains('VPNavBarMenu'))
         return new DOMRect(100, 10, 400, 44)
-      return new DOMRect(this.getAttribute('href') === '/vue/' ? 220 : 100, 10, 100, 44)
+      return new DOMRect(this.getAttribute('href') === '/vue/'
+        ? 220
+        : 100, 10, 100, 44)
     })
     const wrapper = mount({
       components: { NavigationIndicator },

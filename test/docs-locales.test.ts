@@ -21,14 +21,21 @@ describe('bilingual documentation routes', () => {
       readFile(resolve(root, 'en', page), 'utf8'),
     ])
     // Every public API table entry remains available in both versions.
-    const apiRows = (source: string) => [...source.matchAll(/^\|\s*(`[^`]+`)\s*\|/gm)].map(row => row[1])
+    const apiRows = (source: string) => [
+      ...source.matchAll(/^\|\s*(`[^`]+`)\s*\|/gm),
+    ].map(row => row[1])
     for (const entry of apiRows(chinese))
       expect(apiRows(english), entry).toContain(entry)
     expect(english).not.toMatch(/\]\(\/(?:guide|vue|css|utils)(?:\/|\))/)
   })
 
   it('shows localized demo source without changing component implementation paths', async () => {
-    const wrapper = await getWrapperMarkdown({ pkg: 'vue', subPath: 'components', name: 'dialog', english: true })
+    const wrapper = await getWrapperMarkdown({
+      pkg: 'vue',
+      subPath: 'components',
+      name: 'dialog',
+      english: true,
+    })
     expect(wrapper.header).toContain('import Demo from \'./demo.vue\'')
     expect(wrapper.header).toContain('@/en/vue/components/dialog/demo.vue')
     expect(wrapper.header).toContain('/packages/en/vue/components/dialog/demo.vue')

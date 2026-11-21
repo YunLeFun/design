@@ -25,7 +25,9 @@ describe('shared VitePress theme config', () => {
 
   it('escapes custom labels and uses visible chapter names with explicit bilingual IDs', async () => {
     const md = await renderer()
-    md.use(yunlefunMarkdown, { tableLabel: () => 'Table "A" <B>' })
+    md.use(yunlefunMarkdown, {
+      tableLabel: () => 'Table "A" <B>',
+    })
     const html = md.render('# Getting started {#快速开始}\n\n| Name |\n| --- |\n| A |', {})
     expect(html).toContain('aria-label="Table &quot;A&quot; &lt;B&gt;"')
     expect(html).toContain('id="快速开始"')
@@ -36,11 +38,21 @@ describe('shared VitePress theme config', () => {
   it('preserves site configuration and SSR package exceptions', () => {
     const config = withYunlefun({
       title: 'Site',
-      vite: { ssr: { noExternal: ['other-theme-plugin'] } },
-      themeConfig: { nav: [{ text: 'Guide', link: '/guide/' }] },
+      vite: {
+        ssr: {
+          noExternal: ['other-theme-plugin'],
+        },
+      },
+      themeConfig: {
+        nav: [
+          { text: 'Guide', link: '/guide/' },
+        ],
+      },
     })
     expect(config.title).toBe('Site')
-    expect(config.themeConfig?.nav).toEqual([{ text: 'Guide', link: '/guide/' }])
+    expect(config.themeConfig?.nav).toEqual([
+      { text: 'Guide', link: '/guide/' },
+    ])
     expect(config.vite?.ssr?.noExternal).toEqual(['vitepress-theme-yunlefun', 'other-theme-plugin'])
   })
 
@@ -49,7 +61,12 @@ describe('shared VitePress theme config', () => {
     const markdownConfig = () => {}
     const config = withYunlefun({
       markdown: { config: markdownConfig },
-      vite: { plugins: [plugin], optimizeDeps: { include: ['dayjs'] } },
+      vite: {
+        plugins: [plugin],
+        optimizeDeps: {
+          include: ['dayjs'],
+        },
+      },
     })
     expect(config.markdown?.config).toBe(markdownConfig)
     expect(config.vite?.plugins).toEqual([plugin])
@@ -59,14 +76,22 @@ describe('shared VitePress theme config', () => {
 
   it('keeps the dev optimizer from pre-bundling the theme with a second VitePress', () => {
     expect(withYunlefun({}).vite?.optimizeDeps?.exclude).toEqual(['vitepress-theme-yunlefun'])
-    const config = withYunlefun({ vite: { optimizeDeps: { exclude: ['@site/local-plugin'] } } })
+    const config = withYunlefun({
+      vite: {
+        optimizeDeps: {
+          exclude: ['@site/local-plugin'],
+        },
+      },
+    })
     expect(config.vite?.optimizeDeps?.exclude).toEqual(['vitepress-theme-yunlefun', '@site/local-plugin'])
   })
 
   it('animates doc content only under the client route-change class, never on first paint', async () => {
     const source = await readFile(resolve(import.meta.dirname, '../packages/vitepress-theme-yunlefun/styles/index.css'), 'utf8')
     const css = source.replace(/\/\*[\s\S]*?\*\//g, '')
-    const rules = [...css.matchAll(/([^{}]+)\{[^{}]*animation:\s*ylf-doc-enter/g)].map(match => match[1].trim())
+    const rules = [
+      ...css.matchAll(/([^{}]+)\{[^{}]*animation:\s*ylf-doc-enter/g),
+    ].map(match => match[1].trim())
     expect(rules).toHaveLength(1)
     for (const selector of rules[0].split(','))
       expect(selector.trim()).toMatch(/^\.ylf-route-enter /)

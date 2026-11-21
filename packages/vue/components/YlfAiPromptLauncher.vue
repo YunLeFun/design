@@ -28,8 +28,14 @@ const expanded = shallowRef(false)
 const fallback = shallowRef<AiPromptTarget>()
 const manualPrompt = useTemplateRef<HTMLTextAreaElement>('manual-prompt')
 const unavailable = computed(() => props.disabled || busy.value || !props.prompt.trim())
-const targets = computed(() => [...new Set(props.providers ?? aiProviders.map(provider => provider.id))].map(provider => buildAiPromptTarget(provider, props.prompt, props.options)))
-const text = (zh: string, en: string) => props.locale === 'en' ? en : zh
+const targets = computed(() => [
+  ...new Set(props.providers ?? aiProviders.map(provider => provider.id)),
+].map(provider => buildAiPromptTarget(provider, props.prompt, props.options)))
+function text(zh: string, en: string) {
+  return props.locale === 'en'
+    ? en
+    : zh
+}
 let revision = 0
 watch(() => props.prompt, () => {
   revision++
@@ -56,7 +62,9 @@ async function copyOnly() {
   const currentRevision = revision
   setBusy(true)
   try {
-    await (props.copyText ? props.copyText(props.prompt) : navigator.clipboard.writeText(props.prompt))
+    await (props.copyText
+      ? props.copyText(props.prompt)
+      : navigator.clipboard.writeText(props.prompt))
     if (currentRevision === revision)
       message.value = text('提示词已复制，可粘贴到你常用的 AI。', 'Prompt copied. Paste it into your preferred AI.')
   }
@@ -89,7 +97,9 @@ async function open(event: MouseEvent, target: AiPromptTarget) {
   event.preventDefault()
   setBusy(true)
   try {
-    const status = await (props.launch ? props.launch(target, prompt) : copyAndOpenAiPrompt(target, prompt))
+    const status = await (props.launch
+      ? props.launch(target, prompt)
+      : copyAndOpenAiPrompt(target, prompt))
     emit('result', { target, status })
     if (currentRevision !== revision)
       return

@@ -5,11 +5,18 @@ afterEach(() => vi.unstubAllGlobals())
 
 describe('aI prompt handoff', () => {
   const prompt = '中文 🌟\nA&B? x=1#2 + 100% https://example.com/?a=1&b=2'
-  it.each(['deepseek', 'chatgpt', 'claude', 'cursor'] as const)('round trips a complete prompt through %s', (provider) => {
+  it.each([
+    'deepseek',
+    'chatgpt',
+    'claude',
+    'cursor',
+  ] as const)('round trips a complete prompt through %s', (provider) => {
     const target = buildAiPromptTarget(provider, prompt)
     const url = new URL(target.url)
     expect(target.mode).toBe('link')
-    expect(url.searchParams.get(provider === 'cursor' ? 'text' : 'q')).toBe(prompt)
+    expect(url.searchParams.get(provider === 'cursor'
+      ? 'text'
+      : 'q')).toBe(prompt)
     expect(url.searchParams.has('autosend')).toBe(false)
     expect(url.searchParams.has('hints')).toBe(false)
     expect(url.hash).toBe('')
@@ -32,10 +39,19 @@ describe('aI prompt handoff', () => {
   })
 
   function setup(copying: Promise<void>, blocked = false) {
-    const popup = { opener: {}, closed: false, close: vi.fn(), location: { replace: vi.fn() } }
+    const popup = {
+      opener: {},
+      closed: false,
+      close: vi.fn(),
+      location: {
+        replace: vi.fn(),
+      },
+    }
     const writeText = vi.fn(() => copying)
     const open = vi.fn(() => blocked ? null : popup)
-    vi.stubGlobal('navigator', { clipboard: { writeText } })
+    vi.stubGlobal('navigator', {
+      clipboard: { writeText },
+    })
     vi.stubGlobal('window', { open })
     return { popup, writeText, open }
   }

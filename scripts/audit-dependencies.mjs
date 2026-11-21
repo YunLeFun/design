@@ -7,16 +7,28 @@ import process from 'node:process'
 import { parse, parseAllDocuments } from 'yaml'
 
 const root = resolve(import.meta.dirname, '..')
-const pnpm = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm'
+const pnpm = process.platform === 'win32'
+  ? 'pnpm.cmd'
+  : 'pnpm'
 const localFixes = {
   'GHSA-vfj7-8cjw-p6xm': 'braces@3.0.3',
   'GHSA-hp3w-g68c-fv3c': 'sprintf-js@1.0.3',
 }
 
 // Never suppress an advisory unless the installed fix passes its exploit regression.
-execFileSync(pnpm, ['exec', 'vitest', 'run', 'test/dependency-security.test.ts'], { cwd: root, stdio: 'inherit' })
+execFileSync(pnpm, [
+  'exec',
+  'vitest',
+  'run',
+  'test/dependency-security.test.ts',
+], { cwd: root, stdio: 'inherit' })
 
-const result = spawnSync(pnpm, ['audit', '--json', '--audit-level', 'low'], {
+const result = spawnSync(pnpm, [
+  'audit',
+  '--json',
+  '--audit-level',
+  'low',
+], {
   cwd: root,
   encoding: 'utf8',
   maxBuffer: 10 * 1024 * 1024,

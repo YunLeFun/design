@@ -14,7 +14,12 @@ const css = await readFile(resolve(import.meta.dirname, '../packages/ui/styles/t
 
 function declarations(selector: string) {
   const block = css.split(`${selector} {`)[1]?.split('}')[0] ?? ''
-  return Object.fromEntries([...block.matchAll(/(--[\w-]+):([^;]+);/g)].map(match => [match[1], match[2].trim()]))
+  return Object.fromEntries([
+    ...block.matchAll(/(--[\w-]+):([^;]+);/g),
+  ].map(match => [
+    match[1],
+    match[2].trim(),
+  ]))
 }
 
 describe('ylfCloud', () => {
@@ -28,7 +33,9 @@ describe('ylfCloud', () => {
 
   it('draws a distinct silhouette for every shape', () => {
     const outlines = ylfCloudShapes.map((shape) => {
-      const wrapper = mount(YlfCloud, { props: { shape } })
+      const wrapper = mount(YlfCloud, {
+        props: { shape },
+      })
       expect(wrapper.attributes('data-shape')).toBe(shape)
       return wrapper.get('clipPath path').attributes('d')
     })
@@ -81,7 +88,15 @@ describe('ylfCloud', () => {
 })
 
 describe('shared cloud and motion tokens', () => {
-  const cloudTokens = ['highlight', 'body', 'shade', 'shadow', 'rim', 'face', 'haze-color'].map(name => `--ylf-cloud-${name}`)
+  const cloudTokens = [
+    'highlight',
+    'body',
+    'shade',
+    'shadow',
+    'rim',
+    'face',
+    'haze-color',
+  ].map(name => `--ylf-cloud-${name}`)
 
   it.each(['.ylf-theme-light', '.ylf-theme-dark'])('%s defines the cloud palette', (selector) => {
     const tokens = declarations(selector)

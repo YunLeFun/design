@@ -37,10 +37,14 @@ import { withYunlefun, yunlefunMarkdown, zhThemeConfig } from 'vitepress-theme-y
 export default defineConfig(withYunlefun({
   lang: 'zh-CN',
   title: '云乐坊文档',
-  markdown: { config: md => md.use(yunlefunMarkdown) },
+  markdown: {
+    config: md => md.use(yunlefunMarkdown)
+  },
   themeConfig: {
     ...zhThemeConfig,
-    nav: [{ text: '指南', link: '/guide/' }],
+    nav: [
+      { text: '指南', link: '/guide/' }
+    ],
   },
 }))
 ```
@@ -200,7 +204,9 @@ import { withMermaid } from 'vitepress-plugin-mermaid'
 import { withYunlefun, yunlefunMarkdown } from 'vitepress-theme-yunlefun/config'
 
 export default withMermaid(withYunlefun({
-  markdown: { config: md => md.use(yunlefunMarkdown) },
+  markdown: {
+    config: md => md.use(yunlefunMarkdown)
+  },
   // ...
 }))
 ```

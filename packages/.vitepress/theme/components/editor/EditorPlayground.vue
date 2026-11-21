@@ -38,12 +38,24 @@ const project = computed(() => projects.value[mode.value])
 const scene = computed(() => project.value.scenes.find(item => item.id === selected[mode.value]) ?? project.value.scenes[0]!)
 const characters = computed(() => scene.value.body.replace(/\s/g, '').length)
 const modes = computed(() => [
-  { value: 'studio' as const, label: text('制作工作台', 'Production') },
-  { value: 'story' as const, label: text('叙事编辑器', 'Narrative') },
+  {
+    value: 'studio' as const,
+    label: text('制作工作台', 'Production'),
+  },
+  {
+    value: 'story' as const,
+    label: text('叙事编辑器', 'Narrative'),
+  },
 ])
 const schemes = computed(() => [
-  { value: 'light' as const, label: text('浅色', 'Light') },
-  { value: 'dark' as const, label: text('深色', 'Dark') },
+  {
+    value: 'light' as const,
+    label: text('浅色', 'Light'),
+  },
+  {
+    value: 'dark' as const,
+    label: text('深色', 'Dark'),
+  },
 ])
 const inspectorId = useId()
 const announcement = shallowRef('')

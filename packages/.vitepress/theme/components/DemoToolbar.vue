@@ -12,13 +12,28 @@ const scheme = defineModel<DemoPreviewScheme>('scheme', { required: true })
 const sourceVisible = defineModel<boolean>('sourceVisible', { required: true })
 const { text } = useDocsLocale()
 const viewports = computed(() => [
-  { value: 'responsive', label: text('自适应宽度', 'Responsive width') },
-  { value: 'tablet', label: text('平板宽度 768px', 'Tablet width 768px') },
-  { value: 'mobile', label: text('手机宽度 390px', 'Mobile width 390px') },
+  {
+    value: 'responsive',
+    label: text('自适应宽度', 'Responsive width'),
+  },
+  {
+    value: 'tablet',
+    label: text('平板宽度 768px', 'Tablet width 768px'),
+  },
+  {
+    value: 'mobile',
+    label: text('手机宽度 390px', 'Mobile width 390px'),
+  },
 ] as const)
 const schemes = computed(() => [
-  { value: 'light', label: text('浅色预览', 'Light preview') },
-  { value: 'dark', label: text('深色预览', 'Dark preview') },
+  {
+    value: 'light',
+    label: text('浅色预览', 'Light preview'),
+  },
+  {
+    value: 'dark',
+    label: text('深色预览', 'Dark preview'),
+  },
 ] as const)
 const viewportIcons = { responsive: 'i-ri-computer-line', tablet: 'i-ri-tablet-line', mobile: 'i-ri-smartphone-line' }
 const schemeIcons = { light: 'i-ri-sun-line', dark: 'i-ri-moon-line' }

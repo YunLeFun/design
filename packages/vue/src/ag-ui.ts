@@ -48,8 +48,14 @@ export function useAgUiAgent<TState = Record<string, unknown>>(agent: AbstractAg
     onRunFinishedEvent(result) {
       if (disposed || cancelRequested)
         return
-      status.value = result.outcome === 'interrupt' ? 'interrupted' : result.outcome === 'cancelled' ? 'cancelled' : 'success'
-      pendingToolCallIds.value = result.outcome === 'success' ? [...result.pendingToolCallIds] : []
+      status.value = result.outcome === 'interrupt'
+        ? 'interrupted'
+        : result.outcome === 'cancelled'
+          ? 'cancelled'
+          : 'success'
+      pendingToolCallIds.value = result.outcome === 'success'
+        ? [...result.pendingToolCallIds]
+        : []
     },
     onRunErrorEvent({ event }) {
       if (disposed || cancelRequested)
@@ -87,7 +93,9 @@ export function useAgUiAgent<TState = Record<string, unknown>>(agent: AbstractAg
     }
     catch (cause) {
       if (!disposed && !cancelRequested) {
-        error.value = cause instanceof Error ? cause : new Error(String(cause))
+        error.value = cause instanceof Error
+          ? cause
+          : new Error(String(cause))
         status.value = 'error'
       }
     }
@@ -105,7 +113,11 @@ export function useAgUiAgent<TState = Record<string, unknown>>(agent: AbstractAg
     assertReadyToRun()
     if (!content.trim())
       return Promise.resolve(undefined)
-    agent.addMessage({ id: randomUUID(), role: 'user', content })
+    agent.addMessage({
+      id: randomUUID(),
+      role: 'user',
+      content,
+    })
     sync()
     return run(parameters)
   }
@@ -128,7 +140,12 @@ export function useAgUiAgent<TState = Record<string, unknown>>(agent: AbstractAg
     assertAvailable()
     if (!pendingToolCallIds.value.includes(toolCallId))
       throw new Error('The tool call is not awaiting a result.')
-    agent.addMessage({ id: randomUUID(), role: 'tool', toolCallId, content })
+    agent.addMessage({
+      id: randomUUID(),
+      role: 'tool',
+      toolCallId,
+      content,
+    })
     pendingToolCallIds.value = pendingToolCallIds.value.filter(id => id !== toolCallId)
     sync()
   }

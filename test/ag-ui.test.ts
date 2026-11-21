@@ -22,7 +22,9 @@ function createHarness() {
         ready()
       },
     })
-    return new Response(stream, { headers: { 'Content-Type': 'text/event-stream' } })
+    return new Response(stream, {
+      headers: { 'Content-Type': 'text/event-stream' },
+    })
   })
   const agent = new HttpAgent({ url: 'https://agent.example.test/run', fetch })
   const scope = effectScope()
@@ -59,13 +61,21 @@ describe('aG-UI optional Vue binding through the real HttpAgent SSE parser', () 
     expect(h.input().messages.at(-1)).toMatchObject({ role: 'user', content: 'Inspect the theme' })
     expect(h.input().state).toEqual({ theme: 'light' })
     h.start()
-    h.emit({ type: EventType.STATE_SNAPSHOT, snapshot: { phase: 'checking' } } as BaseEvent)
+    h.emit({
+      type: EventType.STATE_SNAPSHOT,
+      snapshot: { phase: 'checking' },
+    } as BaseEvent)
     h.emit({ type: EventType.TEXT_MESSAGE_START, messageId: 'reply', role: 'assistant' } as BaseEvent)
     h.emit({ type: EventType.TEXT_MESSAGE_CONTENT, messageId: 'reply', delta: 'Hello ' } as BaseEvent)
     await vi.waitFor(() => expect(h.binding.messages.value.at(-1)?.content).toBe('Hello '))
     h.emit({ type: EventType.TEXT_MESSAGE_CONTENT, messageId: 'reply', delta: 'YunLeFun' } as BaseEvent)
     h.emit({ type: EventType.TEXT_MESSAGE_END, messageId: 'reply' } as BaseEvent)
-    h.emit({ type: EventType.STATE_DELTA, delta: [{ op: 'replace', path: '/phase', value: 'done' }] } as BaseEvent)
+    h.emit({
+      type: EventType.STATE_DELTA,
+      delta: [
+        { op: 'replace', path: '/phase', value: 'done' },
+      ],
+    } as BaseEvent)
     h.finish()
     await running
     expect(h.binding.messages.value.at(-1)?.content).toBe('Hello YunLeFun')
@@ -77,10 +87,23 @@ describe('aG-UI optional Vue binding through the real HttpAgent SSE parser', () 
 
   it('exposes tool calls for explicit host handling and rejects duplicate results', async () => {
     const h = createHarness()
-    const running = h.binding.run({ tools: [{ name: 'inspect_theme', description: 'Read theme', parameters: { type: 'object' } }] })
+    const running = h.binding.run({
+      tools: [
+        {
+          name: 'inspect_theme',
+          description: 'Read theme',
+          parameters: { type: 'object' },
+        },
+      ],
+    })
     await h.started
     h.start()
-    h.emit({ type: EventType.TOOL_CALL_START, toolCallId: 'tool-1', toolCallName: 'inspect_theme', parentMessageId: 'assistant-1' } as BaseEvent)
+    h.emit({
+      type: EventType.TOOL_CALL_START,
+      toolCallId: 'tool-1',
+      toolCallName: 'inspect_theme',
+      parentMessageId: 'assistant-1',
+    } as BaseEvent)
     h.emit({ type: EventType.TOOL_CALL_ARGS, toolCallId: 'tool-1', delta: '{}' } as BaseEvent)
     h.emit({ type: EventType.TOOL_CALL_END, toolCallId: 'tool-1' } as BaseEvent)
     h.finish()
@@ -140,14 +163,23 @@ describe('aG-UI optional Vue binding through the real HttpAgent SSE parser', () 
       type: EventType.RUN_FINISHED,
       threadId: h.input().threadId,
       runId: h.input().runId,
-      outcome: { type: 'interrupt', interrupts: [{ id: 'approval-1', reason: 'approval', message: 'Continue?' }] },
+      outcome: {
+        type: 'interrupt',
+        interrupts: [
+          { id: 'approval-1', reason: 'approval', message: 'Continue?' },
+        ],
+      },
     } as BaseEvent)
     h.close()
     await running
     expect(h.binding.status.value).toBe('interrupted')
-    expect(h.binding.interrupts.value).toEqual([{ id: 'approval-1', reason: 'approval', message: 'Continue?' }])
+    expect(h.binding.interrupts.value).toEqual([
+      { id: 'approval-1', reason: 'approval', message: 'Continue?' },
+    ])
     expect(h.binding.isAwaitingInput.value).toBe(true)
-    const resume = [{ interruptId: 'approval-1', status: 'resolved' as const, payload: true }]
+    const resume = [
+      { interruptId: 'approval-1', status: 'resolved' as const, payload: true },
+    ]
     const resumed = h.binding.run({ resume })
     await vi.waitFor(() => expect(h.fetch).toHaveBeenCalledTimes(2))
     expect(h.input().resume).toEqual(resume)

@@ -12,7 +12,9 @@ enableAutoUnmount(afterEach)
 
 describe('aI agent presentation contracts', () => {
   it('keeps unverified and listening states explicit and live announcements opt-in', async () => {
-    const wrapper = mount(YlfAgentStatus, { props: { state: 'unknown', label: '未验证' } })
+    const wrapper = mount(YlfAgentStatus, {
+      props: { state: 'unknown', label: '未验证' },
+    })
     expect(wrapper.text()).toBe('未验证')
     expect(wrapper.attributes('role')).toBeUndefined()
     await wrapper.setProps({ state: 'waiting', label: '回调已监听', live: true })
@@ -23,10 +25,12 @@ describe('aI agent presentation contracts', () => {
   })
 
   it('names separate cards with their own headings and keeps identity text escaped', () => {
-    const wrapper = mount({ render: () => h('div', [
-      h(YlfAgentCard, { name: '<img src=x onerror=alert(1)>', state: 'unknown', statusLabel: '未验证' }),
-      h(YlfAgentCard, { name: 'Assistant', state: 'ready', statusLabel: 'Ready' }),
-    ]) })
+    const wrapper = mount({
+      render: () => h('div', [
+        h(YlfAgentCard, { name: '<img src=x onerror=alert(1)>', state: 'unknown', statusLabel: '未验证' }),
+        h(YlfAgentCard, { name: 'Assistant', state: 'ready', statusLabel: 'Ready' }),
+      ]),
+    })
     const cards = wrapper.findAll('article')
     const ids = cards.map(card => card.attributes('aria-labelledby'))
     expect(new Set(ids).size).toBe(2)
@@ -40,8 +44,16 @@ describe('aI agent presentation contracts', () => {
   it('shows a waiting task without fabricated progress or executing a slotted action', async () => {
     const approve = vi.fn()
     const wrapper = mount(YlfAgentTask, {
-      props: { title: '当前任务', state: 'waiting', statusLabel: '等待审批', taskId: 'task-001', description: '<script>approve()</script>' },
-      slots: { actions: () => h('button', { disabled: true, onClick: approve }, '批准') },
+      props: {
+        title: '当前任务',
+        state: 'waiting',
+        statusLabel: '等待审批',
+        taskId: 'task-001',
+        description: '<script>approve()</script>',
+      },
+      slots: {
+        actions: () => h('button', { disabled: true, onClick: approve }, '批准'),
+      },
     })
     expect(wrapper.get('code').text()).toBe('task-001')
     expect(wrapper.find('script').exists()).toBe(false)

@@ -23,27 +23,60 @@ function statusColorEntry(status) {
 
 export function presetYunlefun() {
   const paletteColors = Object.fromEntries(ylfAccentTones.map(tone => [tone, `var(--ylf-palette-${tone})`]))
-  const accentColors = Object.fromEntries(ylfAccentTones.map(tone => [tone, accentColorEntry(tone)]))
-  const statusColors = Object.fromEntries(ylfStatuses.map(status => [status, statusColorEntry(status)]))
+  const accentColors = Object.fromEntries(ylfAccentTones.map(tone => [
+    tone,
+    accentColorEntry(tone),
+  ]))
+  const statusColors = Object.fromEntries(ylfStatuses.map(status => [
+    status,
+    statusColorEntry(status),
+  ]))
   const zIndex = Object.fromEntries(Object.keys(ylfZIndex).map(key => [`ylf-${key}`, `var(--ylf-z-${key})`]))
 
   return {
     name: 'unocss-preset-yunlefun',
     rules: [
-      ['bg-hero', { 'background-image': 'var(--ylf-hero-background)' }],
-      ['bg-brand-gradient', { 'background-image': 'var(--ylf-hero-background)' }],
-      ['bg-spectrum', { 'background-image': 'linear-gradient(90deg, var(--ylf-spectrum-stops))' }],
-      ['shadow-soft-sm', { 'box-shadow': 'var(--ylf-shadow-sm)' }],
-      ['shadow-soft', { 'box-shadow': 'var(--ylf-shadow)' }],
-      ['shadow-soft-lg', { 'box-shadow': 'var(--ylf-shadow-lg)' }],
-      ['shadow-control', { 'box-shadow': 'var(--ylf-shadow-control)' }],
-      ['shadow-panel', { 'box-shadow': 'var(--ylf-shadow-panel)' }],
-      ['ylf-glass', {
-        'background': 'var(--ylf-glass-bg)',
-        'backdrop-filter': 'var(--ylf-glass-blur)',
-        '-webkit-backdrop-filter': 'var(--ylf-glass-blur)',
-        'border': '1px solid var(--ylf-glass-border)',
-      }],
+      [
+        'bg-hero',
+        { 'background-image': 'var(--ylf-hero-background)' },
+      ],
+      [
+        'bg-brand-gradient',
+        { 'background-image': 'var(--ylf-hero-background)' },
+      ],
+      [
+        'bg-spectrum',
+        { 'background-image': 'linear-gradient(90deg, var(--ylf-spectrum-stops))' },
+      ],
+      [
+        'shadow-soft-sm',
+        { 'box-shadow': 'var(--ylf-shadow-sm)' },
+      ],
+      [
+        'shadow-soft',
+        { 'box-shadow': 'var(--ylf-shadow)' },
+      ],
+      [
+        'shadow-soft-lg',
+        { 'box-shadow': 'var(--ylf-shadow-lg)' },
+      ],
+      [
+        'shadow-control',
+        { 'box-shadow': 'var(--ylf-shadow-control)' },
+      ],
+      [
+        'shadow-panel',
+        { 'box-shadow': 'var(--ylf-shadow-panel)' },
+      ],
+      [
+        'ylf-glass',
+        {
+          'background': 'var(--ylf-glass-bg)',
+          'backdrop-filter': 'var(--ylf-glass-blur)',
+          '-webkit-backdrop-filter': 'var(--ylf-glass-blur)',
+          'border': '1px solid var(--ylf-glass-border)',
+        },
+      ],
     ],
     theme: {
       colors: {

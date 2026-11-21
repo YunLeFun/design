@@ -11,8 +11,14 @@ const emit = defineEmits<{ update: [draft: DemoDraft], submit: [] }>()
 const id = useId()
 const canSubmit = computed(() => !props.disabled && !props.submitted && !!props.draft.title.trim() && !!props.draft.audience.trim())
 const tones = computed(() => [
-  { value: 'friendly', label: props.english ? 'Friendly' : '亲切' },
-  { value: 'formal', label: props.english ? 'Formal' : '正式' },
+  {
+    value: 'friendly',
+    label: props.english ? 'Friendly' : '亲切',
+  },
+  {
+    value: 'formal',
+    label: props.english ? 'Formal' : '正式',
+  },
 ] as const)
 function update<K extends keyof DemoDraft>(field: K, value: DemoDraft[K] | undefined) {
   if (value === undefined || props.disabled || props.submitted)

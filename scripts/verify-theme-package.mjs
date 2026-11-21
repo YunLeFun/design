@@ -12,14 +12,39 @@ const uiTarball = resolve(directory, 'ui.tgz')
 const run = (command, args, cwd = root) => execFileSync(command, args, { cwd, stdio: 'inherit' })
 
 try {
-  run('pnpm', ['-C', 'packages/vitepress-theme-yunlefun', 'pack', '--out', tarball])
+  run('pnpm', [
+    '-C',
+    'packages/vitepress-theme-yunlefun',
+    'pack',
+    '--out',
+    tarball,
+  ])
   const manifest = JSON.parse(execFileSync('tar', ['-xOf', tarball, 'package/package.json'], { encoding: 'utf8' }))
   assert.equal(manifest.name, 'vitepress-theme-yunlefun')
   assert.equal(manifest.dependencies['@yunlefun/ui'].includes('workspace:'), false)
   // Verify against the tokens this checkout ships; a bumped @yunlefun/ui may not be on npm yet.
-  run('pnpm', ['-C', 'packages/ui', 'pack', '--out', uiTarball])
+  run('pnpm', [
+    '-C',
+    'packages/ui',
+    'pack',
+    '--out',
+    uiTarball,
+  ])
   const files = execFileSync('tar', ['-tf', tarball], { encoding: 'utf8' })
-  for (const file of ['index.mjs', 'index.d.ts', 'components/Layout.vue', 'components/YunlefunLogo.vue', 'components/NavigationIndicator.vue', 'brand-assets.mjs', 'styles/style.css', 'styles/workbench.css', 'dist/config.mjs', 'dist/config.d.mts', 'dist/appearance.mjs', 'dist/navigation.mjs'])
+  for (const file of [
+    'index.mjs',
+    'index.d.ts',
+    'components/Layout.vue',
+    'components/YunlefunLogo.vue',
+    'components/NavigationIndicator.vue',
+    'brand-assets.mjs',
+    'styles/style.css',
+    'styles/workbench.css',
+    'dist/config.mjs',
+    'dist/config.d.mts',
+    'dist/appearance.mjs',
+    'dist/navigation.mjs',
+  ])
     assert.ok(files.includes(`package/${file}`), `Missing package file: ${file}`)
 
   for (const version of ['1.6.4', '2.0.0-alpha.17', '2.0.0-alpha.19']) {
@@ -32,7 +57,7 @@ try {
       dependencies: {
         'vitepress-theme-yunlefun': `file:${tarball}`,
         'vitepress': version,
-        'vue': '3.5.44',
+        'vue': '3.5.46',
         // Personal sites compose the theme with Mermaid; cover that on the stable line.
         ...(mermaid && { 'mermaid': '11.16.1', 'vitepress-plugin-mermaid': '2.0.17' }),
       },
@@ -56,7 +81,12 @@ import 'vitepress-theme-yunlefun/workbench.css'
 export default Theme
 `)
     await writeFile(resolve(cwd, 'docs/index.md'), `# Theme\n\n<div class="ylf-workbench"><div class="ylf-workbench-panel ylf-workbench-grid">Workbench</div></div>\n\n| Name | State |\n| --- | --- |\n| Theme | Ready |\n\n::: tip\nNative Markdown\n:::\n${mermaid ? '\n```mermaid\nflowchart LR\n  A --> B\n```\n' : ''}`)
-    run('npm', ['install', '--ignore-scripts', '--no-audit', '--no-fund'], cwd)
+    run('npm', [
+      'install',
+      '--ignore-scripts',
+      '--no-audit',
+      '--no-fund',
+    ], cwd)
     run(process.execPath, ['node_modules/vitepress/bin/vitepress.js', 'build', 'docs'], cwd)
     const html = await readFile(resolve(cwd, 'docs/.vitepress/dist/index.html'), 'utf8')
     assert.ok(html.includes(mermaid ? 'data-icon="site"' : 'data-icon="ylf:design-mark"'), `Missing brand mark on VitePress ${version}`)

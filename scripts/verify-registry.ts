@@ -10,8 +10,12 @@ import { promisify } from 'node:util'
 
 const exec = promisify(execFile)
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const pnpm = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm'
-const shadcnVue = resolve(root, `node_modules/.bin/shadcn-vue${process.platform === 'win32' ? '.cmd' : ''}`)
+const pnpm = process.platform === 'win32'
+  ? 'pnpm.cmd'
+  : 'pnpm'
+const shadcnVue = resolve(root, `node_modules/.bin/shadcn-vue${process.platform === 'win32'
+  ? '.cmd'
+  : ''}`)
 const publicRegistryBaseUrl = 'https://design.yunle.fun/r'
 const legacyRemoteRegistryUrl = process.env.YLF_REGISTRY_URL
 const remoteRegistryBaseUrl = process.env.YLF_REGISTRY_BASE_URL
@@ -71,7 +75,9 @@ const server = remoteRegistryBaseUrl
   ? undefined
   : createServer((request, response) => {
       const requestPath = request.url?.split('?')[0]
-      const payload = requestPath ? registryPayloads.get(requestPath) : undefined
+      const payload = requestPath
+        ? registryPayloads.get(requestPath)
+        : undefined
 
       if (!payload || !localRegistryBaseUrl) {
         response.writeHead(404).end()
@@ -153,18 +159,18 @@ try {
           private: true,
           version: '0.0.0',
           type: 'module',
-          packageManager: 'pnpm@12.11.2',
+          packageManager: 'pnpm@12.21.0',
           scripts: {
             build: 'vue-tsc --noEmit && vite build',
           },
           dependencies: {
-            vue: '^3.5.44',
+            vue: '^3.5.46',
           },
           devDependencies: {
-            '@vitejs/plugin-vue': '^6.0.10',
+            '@vitejs/plugin-vue': '^6.0.11',
             'typescript': '6.0.3',
-            'vite': '^8.3.4',
-            'vue-tsc': '^3.3.13',
+            'vite': '^8.3.8',
+            'vue-tsc': '^3.3.14',
           },
         }, null, 2)}\n`),
         writeFile(resolve(consumer, 'index.html'), '<div id="app"></div><script type="module" src="/src/main.ts"></script>\n'),
@@ -197,7 +203,9 @@ export default defineConfig({ plugins: [vue()] })
       ])
 
       await run(pnpm, ['install'], consumer)
-      await run(shadcnVue, ['add', `${registryBaseUrl}/${registryFiles[definition.item]}`, '--yes'], consumer, localRegistryBaseUrl ? { REGISTRY_URL: localRegistryBaseUrl } : {})
+      await run(shadcnVue, ['add', `${registryBaseUrl}/${registryFiles[definition.item]}`, '--yes'], consumer, localRegistryBaseUrl
+        ? { REGISTRY_URL: localRegistryBaseUrl }
+        : {})
       await run(pnpm, ['build'], consumer)
 
       const installedComponent = await readFile(resolve(consumer, 'src/components/ui', definition.componentFile), 'utf8')

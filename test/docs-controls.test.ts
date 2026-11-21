@@ -8,7 +8,12 @@ import DemoContainer from '../packages/.vitepress/theme/components/DemoContainer
 import YlfButton from '../packages/vue/components/YlfButton.vue'
 import YlfInput from '../packages/vue/components/YlfInput.vue'
 
-vi.mock('vitepress', () => ({ useData: () => ({ lang: ref('en') }), withBase: (path: string) => path }))
+vi.mock('vitepress', () => ({
+  useData: () => ({
+    lang: ref('en'),
+  }),
+  withBase: (path: string) => path,
+}))
 enableAutoUnmount(cleanup => afterEach(() => {
   cleanup()
   document.body.innerHTML = ''
@@ -38,9 +43,20 @@ describe('documentation consumes shared controls', () => {
 
   it('updates a draft through shared inputs without mutating the supplied draft', async () => {
     const draft = { title: 'Workshop', audience: 'Creators', tone: 'friendly' as const }
-    const wrapper = mount(AgUiDraftForm, { props: { draft, submitted: false, disabled: false, english: true } })
+    const wrapper = mount(AgUiDraftForm, {
+      props: {
+        draft,
+        submitted: false,
+        disabled: false,
+        english: true,
+      },
+    })
     await wrapper.findAll('input.ylf-input')[0].setValue('Updated workshop')
-    expect(wrapper.emitted('update')).toEqual([[{ ...draft, title: 'Updated workshop' }]])
+    expect(wrapper.emitted('update')).toEqual([
+      [
+        { ...draft, title: 'Updated workshop' },
+      ],
+    ])
     expect(draft.title).toBe('Workshop')
     expect(wrapper.get('[role="combobox"]').text()).toContain('Friendly')
     await wrapper.setProps({ submitted: true })
@@ -50,11 +66,21 @@ describe('documentation consumes shared controls', () => {
   })
 
   it('submits the edited message once and keeps the explicit submit button type', async () => {
-    const wrapper = mount(AgUiComposer, { props: { scenario: 'stream', english: true, disabled: false, isRunning: false, canRetry: false } })
+    const wrapper = mount(AgUiComposer, {
+      props: {
+        scenario: 'stream',
+        english: true,
+        disabled: false,
+        isRunning: false,
+        canRetry: false,
+      },
+    })
     await wrapper.get('input').setValue('Try the shared field')
     expect(wrapper.get('button').attributes('type')).toBe('submit')
     await wrapper.get('form').trigger('submit')
-    expect(wrapper.emitted('submit')).toEqual([['Try the shared field']])
+    expect(wrapper.emitted('submit')).toEqual([
+      ['Try the shared field'],
+    ])
     expect((wrapper.get('input').element as HTMLInputElement).value).toBe('')
     expect(wrapper.get('button').attributes('disabled')).toBeDefined()
   })
@@ -64,7 +90,12 @@ describe('shared native controls', () => {
   it('keeps IME text uncommitted until composition ends and forwards field semantics', async () => {
     const wrapper = mount(YlfInput, {
       props: { modelValue: '', invalid: true },
-      attrs: { 'name': 'title', 'required': true, 'aria-label': 'Title', 'aria-describedby': 'title-error' },
+      attrs: {
+        'name': 'title',
+        'required': true,
+        'aria-label': 'Title',
+        'aria-describedby': 'title-error',
+      },
     })
     const input = wrapper.get('input')
     await input.trigger('compositionstart')
@@ -72,7 +103,9 @@ describe('shared native controls', () => {
     await input.trigger('input')
     expect(wrapper.emitted('update:modelValue')).toBeUndefined()
     await input.trigger('compositionend')
-    expect(wrapper.emitted('update:modelValue')).toEqual([['云']])
+    expect(wrapper.emitted('update:modelValue')).toEqual([
+      ['云'],
+    ])
     expect(input.attributes('aria-invalid')).toBe('true')
     expect(input.attributes('aria-describedby')).toBe('title-error')
     expect(input.attributes('name')).toBe('title')

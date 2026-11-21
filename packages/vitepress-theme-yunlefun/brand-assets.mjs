@@ -11,7 +11,11 @@ export function readBrandPalette(css) {
   const dark = new Map()
   postcss.parse(css).walkRules((rule) => {
     const selectors = rule.selectors || []
-    const target = selectors.includes(':root') ? light : selectors.includes('.dark') ? dark : undefined
+    const target = selectors.includes(':root')
+      ? light
+      : selectors.includes('.dark')
+        ? dark
+        : undefined
     if (!target)
       return
     rule.walkDecls(/^--ylf-/, decl => target.set(decl.prop, decl.value))
@@ -22,12 +26,17 @@ export function readBrandPalette(css) {
     seen.add(name)
     const value = values.get(name)
     const alias = value?.match(/^var\((--[\w-]+)\)$/)
-    const color = alias ? resolveColor(alias[1], values, seen) : value
+    const color = alias
+      ? resolveColor(alias[1], values, seen)
+      : value
     if (!color || !/^#[\da-f]{3,8}$/i.test(color))
       throw new Error(`Expected a hex color for ${name}, received ${color}`)
     return color
   }
-  const night = new Map([...light, ...dark])
+  const night = new Map([
+    ...light,
+    ...dark,
+  ])
   return {
     light: resolveColor('--ylf-c-brand', light),
     dark: resolveColor('--ylf-c-brand', night),
@@ -44,8 +53,10 @@ export function renderBrandAssets(mark, palette) {
   if (typeof mark !== 'object' && !['brand-mark', 'design-mark'].includes(mark))
     throw new Error(`Unsupported site mark: ${mark}`)
   if (typeof mark === 'object' && typeof mark?.body !== 'string')
-    throw new Error('Site mark needs Iconify data with a body')
-  const icon = typeof mark === 'string' ? icons.icons[mark] : mark
+    throw new TypeError('Site mark needs Iconify data with a body')
+  const icon = typeof mark === 'string'
+    ? icons.icons[mark]
+    : mark
   const width = icon.width || icons.width || 16
   const height = icon.height || icons.height || 16
   const viewBox = `0 0 ${width} ${height}`
@@ -53,7 +64,9 @@ export function renderBrandAssets(mark, palette) {
     const scale = (size - padding * 2) / Math.max(width, height)
     return `<g color="${color}" transform="translate(${(size - width * scale) / 2} ${(size - height * scale) / 2}) scale(${scale})">${icon.body}</g>`
   }
-  const app = typeof mark === 'string' ? icons.icons[mark.replace('-mark', '-app-icon')] : undefined
+  const app = typeof mark === 'string'
+    ? icons.icons[mark.replace('-mark', '-app-icon')]
+    : undefined
   return {
     mark: svg(viewBox, icon.body),
     light: svg(viewBox, `<g color="${palette.light}">${icon.body}</g>`),
@@ -68,9 +81,14 @@ export function renderBrandAssets(mark, palette) {
 
 /** Generated assets are committed; librsvg is needed only when regenerating PNGs. */
 export async function generateBrandAssets({ outDir, icon = 'brand-mark', title = 'YunLeFun', png = true, palette = {}, base = '/' }) {
-  const normalizedBase = base.endsWith('/') ? base : `${base}/`
+  const normalizedBase = base.endsWith('/')
+    ? base
+    : `${base}/`
   const css = await readFile(fileURLToPath(import.meta.resolve('@yunlefun/ui/css')), 'utf8')
-  const assets = renderBrandAssets(icon, { ...readBrandPalette(css), ...palette })
+  const assets = renderBrandAssets(icon, {
+    ...readBrandPalette(css),
+    ...palette,
+  })
   await mkdir(resolve(outDir, 'brand'), { recursive: true })
   for (const [path, content] of Object.entries({
     'brand/brand-mark.svg': assets.mark,
@@ -87,8 +105,16 @@ export async function generateBrandAssets({ outDir, icon = 'brand-mark', title =
       ['apple-touch-icon', 180, assets.app],
       ['icon-192', 192, assets.app],
       ['icon-512', 512, assets.app],
-    ])
-      execFileSync('rsvg-convert', ['--width', `${size}`, '--height', `${size}`, '--output', resolve(outDir, `${file}.png`)], { input })
+    ]) {
+      execFileSync('rsvg-convert', [
+        '--width',
+        `${size}`,
+        '--height',
+        `${size}`,
+        '--output',
+        resolve(outDir, `${file}.png`),
+      ], { input })
+    }
   }
   await writeFile(resolve(outDir, 'site.webmanifest'), `${JSON.stringify({
     name: title,
@@ -97,6 +123,8 @@ export async function generateBrandAssets({ outDir, icon = 'brand-mark', title =
     display: 'standalone',
     icons: png
       ? [192, 512].map(size => ({ src: `${normalizedBase}icon-${size}.png`, sizes: `${size}x${size}`, type: 'image/png' }))
-      : [{ src: `${normalizedBase}brand/app-icon.svg`, sizes: 'any', type: 'image/svg+xml' }],
+      : [
+          { src: `${normalizedBase}brand/app-icon.svg`, sizes: 'any', type: 'image/svg+xml' },
+        ],
   }, null, 2)}\n`)
 }

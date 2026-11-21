@@ -44,9 +44,15 @@ function parseBalancedVarCalls(css: string) {
     }
     if (depth === 0) {
       const inner = css.slice(start + 4, cursor - 1)
-      const relComma = commaIndex === -1 ? -1 : commaIndex - (start + 4)
-      const name = (relComma === -1 ? inner : inner.slice(0, relComma)).trim()
-      const fallback = relComma === -1 ? undefined : inner.slice(relComma + 1).trim()
+      const relComma = commaIndex === -1
+        ? -1
+        : commaIndex - (start + 4)
+      const name = (relComma === -1
+        ? inner
+        : inner.slice(0, relComma)).trim()
+      const fallback = relComma === -1
+        ? undefined
+        : inner.slice(relComma + 1).trim()
       if (name.startsWith('--ylf-'))
         calls.push({ name, fallback })
     }
@@ -80,9 +86,15 @@ function replaceBalancedVarRefs(input: string, resolver: (ref: string, fallback?
     }
     if (depth === 0) {
       const inner = input.slice(start + 4, cursor - 1)
-      const relComma = comma === -1 ? -1 : comma - (start + 4)
-      const ref = (relComma === -1 ? inner : inner.slice(0, relComma)).trim()
-      const fallback = relComma === -1 ? undefined : inner.slice(relComma + 1).trim()
+      const relComma = comma === -1
+        ? -1
+        : comma - (start + 4)
+      const ref = (relComma === -1
+        ? inner
+        : inner.slice(0, relComma)).trim()
+      const fallback = relComma === -1
+        ? undefined
+        : inner.slice(relComma + 1).trim()
       out += resolver(ref, fallback)
       index = cursor
     }
@@ -132,7 +144,14 @@ describe('design token single source of truth', () => {
     expect(dtcg.radius['2xs']).toEqual({ $type: 'dimension', $value: '4px' })
     expect(dtcg.profiles.admin.light.placeholder.$value).toBe('#656e7b')
 
-    expect(ylfAccentTones).toEqual(['blue', 'sun', 'cyan', 'coral', 'pink', 'green'])
+    expect(ylfAccentTones).toEqual([
+      'blue',
+      'sun',
+      'cyan',
+      'coral',
+      'pink',
+      'green',
+    ])
     expect(ylfStatuses).toEqual(['success', 'warning', 'danger', 'info'])
     expect(ylfProfiles).toEqual(['consumer', 'admin', 'editor'])
     expect(ylfTokens.light['--ylf-c-brand']).toBe('var(--ylf-palette-blue)')
@@ -178,8 +197,15 @@ describe('vue SFC zero-Sass and token contract audit', () => {
   it('references only registered --ylf-* tokens with accurate fallback values', async () => {
     const entries = await readdir(vueComponentsDir)
     const vueFiles = entries.filter(name => /^Ylf.*\.vue$/.test(name)).sort()
-    const allowedVars = new Set([...ylfTokenNames, ...ylfCompatTokenNames, ...ylfComponentTokenNames])
-    const canonicalLight: Record<string, string> = { ...ylfTokens.light, ...ylfTokens.compat.light }
+    const allowedVars = new Set([
+      ...ylfTokenNames,
+      ...ylfCompatTokenNames,
+      ...ylfComponentTokenNames,
+    ])
+    const canonicalLight: Record<string, string> = {
+      ...ylfTokens.light,
+      ...ylfTokens.compat.light,
+    }
 
     for (const file of vueFiles) {
       const source = await readFile(resolve(vueComponentsDir, file), 'utf8')

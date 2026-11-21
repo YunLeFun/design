@@ -8,8 +8,13 @@ const packages = ['packages/ui', 'packages/vue', 'packages/vitepress-theme-yunle
 
 function publishedVersions(name) {
   try {
-    const versions = JSON.parse(execFileSync('npm', ['view', name, 'versions', '--json'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }))
-    return Array.isArray(versions) ? versions : [versions]
+    const versions = JSON.parse(execFileSync('npm', ['view', name, 'versions', '--json'], {
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'pipe'],
+    }))
+    return Array.isArray(versions)
+      ? versions
+      : [versions]
   }
   catch (error) {
     // A package that has never been published answers E404.
@@ -39,7 +44,12 @@ for (const directory of packages) {
   try {
     const tarball = resolve(outDir, 'package.tgz')
     execFileSync('pnpm', ['pack', '--out', tarball], { cwd, stdio: 'inherit' })
-    execFileSync('npm', ['publish', tarball, '--access', 'public'], { cwd, stdio: 'inherit' })
+    execFileSync('npm', [
+      'publish',
+      tarball,
+      '--access',
+      'public',
+    ], { cwd, stdio: 'inherit' })
   }
   finally {
     rmSync(outDir, { recursive: true, force: true })

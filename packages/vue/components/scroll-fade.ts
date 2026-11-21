@@ -3,7 +3,9 @@ import { computed, shallowRef, watch } from 'vue'
 
 function edgeOpacity(distance: number): number {
   // Layout heights are rounded to whole pixels, but scrollTop can be fractional.
-  return distance <= 1 ? 0 : Math.min(1, distance / 24)
+  return distance <= 1
+    ? 0
+    : Math.min(1, distance / 24)
 }
 
 /** Reveal the edges with more content, including before the first scroll. */

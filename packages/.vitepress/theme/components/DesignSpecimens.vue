@@ -4,12 +4,42 @@ import { useDocsLocale } from '../composables/useDocsLocale'
 
 const { text, link } = useDocsLocale()
 const colors = computed(() => [
-  { name: text('晴空蓝', 'Sky blue'), token: '--ylf-c-brand', onToken: '--ylf-c-text-on-accent', role: text('主操作', 'Primary actions') },
-  { name: text('明黄', 'Sun yellow'), token: '--ylf-accent-sun', onToken: '--ylf-accent-sun-on', role: text('精选', 'Featured') },
-  { name: text('青色', 'Cyan'), token: '--ylf-accent-cyan', onToken: '--ylf-accent-cyan-on', role: text('工具', 'Tools') },
-  { name: text('珊瑚橙', 'Coral'), token: '--ylf-accent-coral', onToken: '--ylf-accent-coral-on', role: text('活动', 'Events') },
-  { name: text('桃粉', 'Pink'), token: '--ylf-accent-pink', onToken: '--ylf-accent-pink-on', role: text('创作', 'Creation') },
-  { name: text('鲜绿', 'Green'), token: '--ylf-accent-green', onToken: '--ylf-accent-green-on', role: text('完成', 'Completion') },
+  {
+    name: text('晴空蓝', 'Sky blue'),
+    token: '--ylf-c-brand',
+    onToken: '--ylf-c-text-on-accent',
+    role: text('主操作', 'Primary actions'),
+  },
+  {
+    name: text('明黄', 'Sun yellow'),
+    token: '--ylf-accent-sun',
+    onToken: '--ylf-accent-sun-on',
+    role: text('精选', 'Featured'),
+  },
+  {
+    name: text('青色', 'Cyan'),
+    token: '--ylf-accent-cyan',
+    onToken: '--ylf-accent-cyan-on',
+    role: text('工具', 'Tools'),
+  },
+  {
+    name: text('珊瑚橙', 'Coral'),
+    token: '--ylf-accent-coral',
+    onToken: '--ylf-accent-coral-on',
+    role: text('活动', 'Events'),
+  },
+  {
+    name: text('桃粉', 'Pink'),
+    token: '--ylf-accent-pink',
+    onToken: '--ylf-accent-pink-on',
+    role: text('创作', 'Creation'),
+  },
+  {
+    name: text('鲜绿', 'Green'),
+    token: '--ylf-accent-green',
+    onToken: '--ylf-accent-green-on',
+    role: text('完成', 'Completion'),
+  },
 ])
 
 // 点色块复制 CSS 变量，直接粘进代码。

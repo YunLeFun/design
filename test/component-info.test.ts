@@ -3,10 +3,16 @@ import { createSSRApp, shallowRef } from 'vue'
 import { renderToString } from 'vue/server-renderer'
 import ComponentInfo from '../packages/.vitepress/theme/components/ComponentInfo.vue'
 
-vi.mock('vitepress', () => ({ useData: () => ({ lang: shallowRef('zh-Hans') }) }))
+vi.mock('vitepress', () => ({
+  useData: () => ({
+    lang: shallowRef('zh-Hans'),
+  }),
+}))
 
 vi.mock('@yunlefun/metadata', () => ({
-  components: [{ name: 'button', lastUpdated: '2026-09-24T16:41:00.000Z' }],
+  components: [
+    { name: 'button', lastUpdated: '2026-09-24T16:41:00.000Z' },
+  ],
 }))
 
 afterEach(() => vi.useRealTimers())

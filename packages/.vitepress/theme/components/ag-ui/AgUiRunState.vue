@@ -7,8 +7,22 @@ import YlfBadge from '../../../../vue/components/YlfBadge.vue'
 
 const props = defineProps<{ status: AgUiStatus, state: DeepReadonly<DemoState>, pending: boolean, english: boolean }>()
 const labels = computed(() => props.english
-  ? { idle: 'Ready', running: 'Streaming', success: 'Complete', cancelled: 'Stopped', interrupted: 'Paused', error: 'Failed' }
-  : { idle: '就绪', running: '接收中', success: '完成', cancelled: '已停止', interrupted: '已暂停', error: '失败' })
+  ? {
+      idle: 'Ready',
+      running: 'Streaming',
+      success: 'Complete',
+      cancelled: 'Stopped',
+      interrupted: 'Paused',
+      error: 'Failed',
+    }
+  : {
+      idle: '就绪',
+      running: '接收中',
+      success: '完成',
+      cancelled: '已停止',
+      interrupted: '已暂停',
+      error: '失败',
+    })
 </script>
 
 <template>

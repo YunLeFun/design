@@ -11,22 +11,30 @@ const options = [
 
 describe('segmented choices', () => {
   it('keeps the selected choice when clicked again and emits valid changes', async () => {
-    const wrapper = mount(YlfSegmentedControl, { props: { modelValue: 'grid', options, label: '资源视图' } })
+    const wrapper = mount(YlfSegmentedControl, {
+      props: { modelValue: 'grid', options, label: '资源视图' },
+    })
     const buttons = wrapper.findAll('button')
     await buttons[0].trigger('click')
     expect(wrapper.emitted('update:modelValue')).toBeUndefined()
     await buttons[1].trigger('click')
-    expect(wrapper.emitted('update:modelValue')).toEqual([['list']])
+    expect(wrapper.emitted('update:modelValue')).toEqual([
+      ['list'],
+    ])
     await wrapper.setProps({ modelValue: 'list' })
     expect(buttons[0].attributes('aria-pressed')).toBe('false')
     expect(buttons[1].attributes('aria-pressed')).toBe('true')
     await buttons[1].trigger('click')
-    expect(wrapper.emitted('update:modelValue')).toEqual([['list']])
+    expect(wrapper.emitted('update:modelValue')).toEqual([
+      ['list'],
+    ])
     wrapper.unmount()
   })
 
   it('prevents disabled choices and group interaction', async () => {
-    const wrapper = mount(YlfSegmentedControl, { props: { modelValue: 'grid', options, label: '资源视图' } })
+    const wrapper = mount(YlfSegmentedControl, {
+      props: { modelValue: 'grid', options, label: '资源视图' },
+    })
     expect(wrapper.findAll('button')[2].attributes('disabled')).toBeDefined()
     await wrapper.findAll('button')[2].trigger('click')
     expect(wrapper.emitted('update:modelValue')).toBeUndefined()
@@ -41,7 +49,12 @@ describe('segmented choices', () => {
 
   it('keeps accessible names for icon-only choices and forwards group attributes', async () => {
     const wrapper = mount(YlfSegmentedControl, {
-      props: { modelValue: 'grid', options, label: '资源视图', iconOnly: true },
+      props: {
+        modelValue: 'grid',
+        options,
+        label: '资源视图',
+        iconOnly: true,
+      },
       attrs: { id: 'view-switch' },
       slots: { icon: '<i class="test-icon" />' },
     })
