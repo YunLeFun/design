@@ -8,16 +8,20 @@ YunLeFun Design is available for early use as a Web design foundation: shared to
 
 ## Public interfaces {#公共接口}
 
-| Layer                | Entry                                                                    | Contract                                            |
-| -------------------- | ------------------------------------------------------------------------ | --------------------------------------------------- |
-| Foundations          | `@yunlefun/ui/css`                                                       | Compiled tokens and themes, no fonts or framework   |
-| Optional backgrounds | `@yunlefun/ui/patterns.css`                                              | Grid/sky classes after foundations                  |
-| SCSS                 | `@yunlefun/ui/styles`                                                    | Same source as CSS; requires Sass; choose one entry |
-| Vue components       | `@yunlefun/vue/components/*.vue`                                         | Explicit imports, props, slots, events and v-model  |
-| Public types         | `import type { YlfAccentTone, YlfColorAppearance } from '@yunlefun/vue'` | Hue and emphasis contracts                          |
-| Nuxt                 | `@yunlefun/vue/nuxt`                                                     | Auto imports; applications explicitly load styles   |
+| Layer                 | Entry                                                                    | Contract                                                                   |
+| --------------------- | ------------------------------------------------------------------------ | -------------------------------------------------------------------------- |
+| Foundations           | `@yunlefun/ui/css`                                                       | Compiled core CSS tokens and themes, no fonts or framework                 |
+| Compat & profiles     | `@yunlefun/ui/compat.css` / `admin.css` / `editor.css`                   | Opt-in legacy aliases, Admin/Editor layers, and `data-ylf-profile` scoping |
+| Framework adapters    | `@yunlefun/ui/adapters/*.css`                                            | Theme mappings for `shadcn.css`, `nuxt-ui.css`, and `tdesign.css`          |
+| Programmatic & UnoCSS | `@yunlefun/ui/tokens` / `unocss` / `tokens.json`                         | Browser-safe JS/TS tokens, zero-dep `presetYunlefun()`, and W3C DTCG JSON  |
+| Optional backgrounds  | `@yunlefun/ui/patterns.css`                                              | Grid/sky classes after foundations                                         |
+| SCSS                  | `@yunlefun/ui/styles`                                                    | Same structured source as CSS; optional and requires Sass                  |
+| Vue components        | `@yunlefun/vue/components/*.vue`                                         | Explicit imports using native CSS custom properties (no Sass required)     |
+| Public types          | `import type { YlfAccentTone, YlfColorAppearance } from '@yunlefun/vue'` | Browser-safe public type contracts                                         |
+| Node helpers          | `@yunlefun/vue/node`                                                     | Node component directory resolution (`componentsDir`, `_dirname`)          |
+| Nuxt                  | `@yunlefun/vue/nuxt`                                                     | Auto imports; applications explicitly load styles                          |
 
-Vue components are SFCs with SCSS and need Vue/Sass in the consuming build. CSS-only projects need neither. Pregenerated subpath declarations check public APIs without resolving internal Reka source. Root runtime tools locate the component directory; browsers import component paths.
+Vue components use native CSS custom properties and require Vue in the consuming build without Sass; CSS-only projects need neither. Pregenerated subpath declarations check public APIs without resolving internal Reka source. The root `@yunlefun/vue` entry stays browser-safe, while Node directory helpers live in `@yunlefun/vue/node`.
 
 ## Consistent visual APIs {#一致的视觉接口}
 
@@ -49,14 +53,14 @@ Avoid global button/span/svg skin selectors. Components use `ylf-*` classes and 
 
 ## Current maturity {#当前成熟度}
 
-| Scope                | Available                                                                              | Further work before broader adoption                                 |
-| -------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| Visual guidelines    | Six hues, purpose/status roles, three emphasis levels, themes, typography and spacing  | Validate hierarchy across real content densities                     |
-| Distribution         | Shared CSS/SCSS source, Vue/Nuxt, Registry and npm releases                            | Maintain changelogs and deployed artifact checks                     |
-| Behavior             | 15 Reka wrappers accepted in Chromium, themes, keyboard, focus, names and distribution | Other browsers, screen readers and business scenarios                |
-| Adoption             | Real components in docs; shared tokens and color APIs in the main site                 | Acceptance in another real application                               |
-| Coverage             | Buttons, badges, cards, selection and overlays                                         | Inputs, textareas, errors, empty states and forms based on needs     |
-| Design collaboration | Code tokens and online guidelines                                                      | No synchronized Figma library, design export or native artifacts yet |
+| Scope                | Available                                                                              | Further work before broader adoption                             |
+| -------------------- | -------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| Visual guidelines    | Six hues, purpose/status roles, three emphasis levels, themes, typography and spacing  | Validate hierarchy across real content densities                 |
+| Distribution         | Shared CSS/SCSS source, Vue/Nuxt, Registry and npm releases                            | Maintain changelogs and deployed artifact checks                 |
+| Behavior             | 15 Reka wrappers accepted in Chromium, themes, keyboard, focus, names and distribution | Other browsers, screen readers and business scenarios            |
+| Adoption             | Real components in docs; shared tokens and color APIs in the main site                 | Acceptance in another real application                           |
+| Coverage             | Buttons, badges, cards, selection and overlays                                         | Inputs, textareas, errors, empty states and forms based on needs |
+| Design collaboration | Code tokens, W3C DTCG JSON / JS/TS exports, and online guidelines                      | No synchronized Figma library or native mobile artifacts yet     |
 
 This is an early release with an explicit trial scope. Acceptance of existing demos is not universal accessibility certification or a guarantee for every business scenario.
 

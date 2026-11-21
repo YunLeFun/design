@@ -32,10 +32,10 @@ Install Dialog:
 pnpm dlx shadcn-vue@2.8.2 add https://design.yunle.fun/r/ylf-dialog.json
 ```
 
-Both install `ylf-tokens` through `registryDependencies`. Load it once:
+Both install `ylf-tokens` (zero-Sass native CSS) through `registryDependencies`. Load it once:
 
 ```ts
-import './styles/ylf-tokens.scss'
+import './styles/ylf-tokens.css'
 ```
 
 Use the copied components:
@@ -87,10 +87,10 @@ YLF_REGISTRY_BASE_URL=https://design.yunle.fun/r pnpm registry:verify
 `registry.json` declares relationships; output is generated from package source:
 
 ```text
-packages/ui/styles/css-vars.scss ───────→ ylf-tokens.json
-                                              ↑
-packages/vue/components/YlfButton.vue ──→ ylf-button.json
-packages/vue/components/YlfDialog.vue ──→ ylf-dialog.json
+packages/ui/tokens/source.mjs ─→ tokens.css ─→ ylf-tokens.json
+                                                       ↑
+packages/vue/components/YlfButton.vue ─────────→ ylf-button.json
+packages/vue/components/YlfDialog.vue ─────────→ ylf-dialog.json
 ```
 
 Button and Dialog reuse remote tokens through `registryDependencies`. They do not carry separate copies. Rebuild after editing package source; maintain no Registry specific implementations.

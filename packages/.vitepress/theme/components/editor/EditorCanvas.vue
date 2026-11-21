@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { PlaygroundScene, PlaygroundView } from './playground-types'
+import { withBase } from 'vitepress'
 import { computed } from 'vue'
 import YlfSegmentedControl from '../../../../vue/components/YlfSegmentedControl.vue'
 
@@ -39,7 +40,7 @@ const totalDuration = computed(() => props.scenes.reduce((total, scene) => total
       </article>
       <div v-else class="preview-workspace">
         <div class="preview-frame" :class="{ 'story-preview': story }">
-          <img class="preview-brand" src="/favicon.svg" alt="" width="42" height="42">
+          <img class="preview-brand" :src="withBase('/favicon.svg')" alt="" width="42" height="42">
           <span class="preview-project">{{ story ? (english ? 'Letters from the clouds' : '来自云端的信') : (english ? 'YunLeFun · A creator’s notebook' : '云乐坊 · 创作手记') }}</span>
           <h2 class="preview-title">
             {{ scene.title || (english ? 'Untitled' : '未命名片段') }}

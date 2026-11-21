@@ -23,7 +23,7 @@ outline: deep
 
 ## `@yunlefun/ui`：设计基础
 
-这个包提供编译好的 CSS 和 SCSS 源码。CSS 入口无需 Sass；仅在使用 SCSS 入口时需要 Sass 编译支持。它不包含 Vue 组件，也不导入 Vue、路由、认证 SDK 或业务 API。
+这个包以 `packages/ui/tokens/source.mjs` 作为唯一权威 token 源码，构建输出零依赖 CSS（`tokens.css`、`compat.css`、`admin.css`、`editor.css`、`adapters/{shadcn,nuxt-ui,tdesign}.css`）、可选 SCSS（`css-vars.scss`）、W3C DTCG JSON（`@yunlefun/ui/tokens.json`）、浏览器安全 JS/TS 常量（`@yunlefun/ui/tokens`）以及零依赖 UnoCSS 预设（`@yunlefun/ui/unocss` 的 `presetYunlefun()`）。CSS 入口无需 Sass；仅在使用 SCSS 入口时需要 Sass 编译支持。它不包含 Vue 组件，也不导入 Vue、路由、认证 SDK 或业务 API。
 
 ```bash
 pnpm add @yunlefun/ui
@@ -31,23 +31,26 @@ pnpm add @yunlefun/ui
 
 ```ts
 import '@yunlefun/ui/css'
-// 可选的网格与晴空背景
+// 可选的兼容别名、网格/晴空背景，以及 Admin / Editor 场景层
+// import '@yunlefun/ui/compat.css'
 import '@yunlefun/ui/patterns.css'
+// import '@yunlefun/ui/admin.css'
+// import '@yunlefun/ui/editor.css'
 ```
 
-需要 SCSS 时安装 `sass`，使用 `@use '@yunlefun/ui/styles'`。CSS 与 SCSS 从同一份 token 源码构建，入口选择其一。
+需要 SCSS 时安装 `sass`，使用 `@use '@yunlefun/ui/styles'`。CSS 与 SCSS 从同一份结构化 token 源码生成，入口选择其一。
 
 基础入口只加载 token。需要品牌展示字体时再选择 `@yunlefun/ui/styles/fonts` 或自行托管字体；字体角色和加载方式见[字体规范](/guide/typography)。
 
-目前 token 直接维护在 SCSS 中，尚无独立的 JSON token 包或原生平台生成器。只有当第二种平台确实需要生成产物时，再考虑独立拆出 tokens 包。
+目前 `@yunlefun/ui/tokens.json` 已随构建输出标准的 W3C Design Tokens 格式，`@yunlefun/ui/tokens` 与 `@yunlefun/ui/unocss` 可直接在 UnoCSS 或多端工具链中消费，无需重复维护一份副本。
 
 ## `@yunlefun/vue`：Vue 组件实现
 
-组件接收展示数据和交互状态，通过 props、slots、events 和 `v-model` 与业务应用协作。焦点管理、键盘操作与浮层行为优先复用 Reka UI。
+组件接收展示数据和交互状态，通过 props、slots、events 和 `v-model` 与业务应用协作，组件样式已全部转为原生 CSS 变量，无需安装 `sass`。焦点管理、键盘操作与浮层行为优先复用 Reka UI。
 
 - 组件源码从 `@yunlefun/vue/components/YlfButton.vue` 等子路径导入。
-- Nuxt 通过 `@yunlefun/vue/nuxt` 注册组件；应用仍需主动加载共享 token。
-- 根入口当前主要导出类型和组件目录信息，不提供全部 `Ylf*` 组件的命名导出。
+- Nuxt 通过 `@yunlefun/vue/nuxt` 注册组件；应用仍需主动加载共享 token（推荐 `@yunlefun/ui/css`）。
+- 根入口 `@yunlefun/vue` 仅导出浏览器安全的类型，不提供全部 `Ylf*` 组件的命名导出；Node 路径辅助（如 `componentsDir`）位于 `@yunlefun/vue/node`。
 - `@yunlefun/ui` 由业务应用一同安装和加载，目前不是 Vue 包自动注入的样式依赖。
 
 可执行的接入示例见 [Vue 组件](/vue/)。

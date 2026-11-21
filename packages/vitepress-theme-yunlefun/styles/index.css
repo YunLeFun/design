@@ -5,15 +5,27 @@ html {
 ::selection {
   background: color-mix(in srgb, var(--ylf-c-brand) 20%, transparent);
 }
-.VPNavBar .content-body {
+:root .VPNav .VPNavBar.has-sidebar .content-body {
   background: color-mix(in srgb, var(--ylf-c-bg) 92%, transparent);
   backdrop-filter: blur(12px);
 }
-/* 窄于 960px 时 VitePress 导航不固定、随页面滚走，按滚动位置切换底色只会在回到顶部时闪一下。 */
-@media (min-width: 960px) {
-  .VPNavBar:not(.has-sidebar):not(.home.top) {
+@media (max-width: 959px) {
+  .VPNavBar:not(.home) .content-body {
     background: color-mix(in srgb, var(--ylf-c-bg) 92%, transparent);
     backdrop-filter: blur(12px);
+  }
+}
+/* 窄于 960px 时 VitePress 导航不固定、随页面滚走，按滚动位置切换底色只会在回到顶部时闪一下。 */
+@media (min-width: 960px) {
+  .VPNav .VPNavBar:not(.has-sidebar):not(.home.top) {
+    background: color-mix(in srgb, var(--ylf-c-bg) 92%, transparent);
+    backdrop-filter: blur(12px);
+  }
+}
+@media (min-width: 960px) {
+  .VPNav .VPNavBar:not(.has-sidebar):not(.home.top) .content-body {
+    background: transparent;
+    backdrop-filter: none;
   }
 }
 .VPNavBarTitle .title {
@@ -131,7 +143,7 @@ html {
 .VPSidebarItem.level-1.is-active > .item {
   margin-inline: -10px;
   padding-inline: 10px;
-  border-radius: 6px;
+  border-radius: var(--ylf-radius-xs);
   background: var(--ylf-c-brand-soft);
 }
 .VPSidebarItem.level-1.is-active > .item .text {
@@ -185,7 +197,7 @@ html {
 :root.dark {
   color-scheme: dark;
 }
-:where(a[href], button:not(:disabled), input, textarea, select, [tabindex]):focus-visible {
+:where(a[href], button:not(:disabled), input, textarea, select, [tabindex]:not([tabindex='-1'])):focus-visible {
   outline: 2px solid var(--ylf-c-brand);
   outline-offset: 3px;
 }

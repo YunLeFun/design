@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { PlaygroundMode, PlaygroundScene, PlaygroundView } from './playground-types'
-import { computed, reactive, ref, shallowRef, useId } from 'vue'
+import { useData, withBase } from 'vitepress'
+import { computed, onMounted, reactive, ref, shallowRef, useId, watch } from 'vue'
 import YlfButton from '../../../../vue/components/YlfButton.vue'
 import YlfSegmentedControl from '../../../../vue/components/YlfSegmentedControl.vue'
 import EditorCanvas from './EditorCanvas.vue'
@@ -11,8 +12,24 @@ import '../../../../ui/styles/editor.css'
 
 const props = withDefaults(defineProps<{ english?: boolean }>(), { english: false })
 const text = (zh: string, en: string) => props.english ? en : zh
+const { isDark } = useData()
+const manualScheme = shallowRef(false)
 const mode = shallowRef<PlaygroundMode>('studio')
-const scheme = shallowRef<'light' | 'dark'>('light')
+const schemeState = shallowRef<'light' | 'dark'>('light')
+const scheme = computed({
+  get: () => schemeState.value,
+  set: (value: 'light' | 'dark') => {
+    manualScheme.value = true
+    schemeState.value = value
+  },
+})
+onMounted(() => {
+  schemeState.value = isDark.value ? 'dark' : 'light'
+})
+watch(isDark, (nextDark) => {
+  if (!manualScheme.value)
+    schemeState.value = nextDark ? 'dark' : 'light'
+})
 const view = shallowRef<PlaygroundView>('document')
 const inspectorVisible = shallowRef(true)
 const projects = ref(createPlaygroundProjects(props.english))
@@ -45,7 +62,7 @@ function reset() {
 </script>
 
 <template>
-  <div class="editor-playground" :data-ylf-editor-theme="scheme" :style="{ colorScheme: scheme }">
+  <div class="editor-playground" data-ylf-profile="editor" :data-ylf-editor-theme="scheme" :style="{ colorScheme: scheme }">
     <header class="playground-controls">
       <YlfSegmentedControl v-model="mode" class="editor-segmented" :options="modes" :label="text('工作区示例', 'Workspace example')" size="sm" />
       <span class="demo-label">{{ text('交互样板', 'Interactive specimen') }}</span>
@@ -57,7 +74,7 @@ function reset() {
     </header>
     <div class="editor-window">
       <header class="workspace-header">
-        <img src="/favicon.svg" class="workspace-brand" alt="" width="26" height="26">
+        <img :src="withBase('/favicon.svg')" class="workspace-brand" alt="" width="26" height="26">
         <div class="workspace-identity">
           <strong>{{ project.title }}</strong><span>{{ project.subtitle }}</span>
         </div>
@@ -65,10 +82,10 @@ function reset() {
           <YlfButton class="editor-button" variant="ghost" size="sm" :round="false" @click="reset">
             <span class="i-ri-restart-line" aria-hidden="true" />{{ text('恢复示例', 'Reset') }}
           </YlfButton>
-          <YlfButton class="editor-button" variant="secondary" size="sm" :round="false" :aria-pressed="inspectorVisible" :aria-expanded="inspectorVisible" :aria-controls="inspectorId" @click="inspectorVisible = !inspectorVisible">
+          <YlfButton class="editor-button" variant="secondary" size="sm" :round="false" :aria-expanded="inspectorVisible" :aria-controls="inspectorId" @click="inspectorVisible = !inspectorVisible">
             <span class="i-ri-side-bar-line" aria-hidden="true" />{{ text('属性', 'Inspector') }}
           </YlfButton>
-          <YlfButton class="editor-button preview-button" size="sm" :round="false" :aria-pressed="view === 'preview'" @click="view = view === 'preview' ? 'document' : 'preview'">
+          <YlfButton class="editor-button preview-button" size="sm" :round="false" @click="view = view === 'preview' ? 'document' : 'preview'">
             <span :class="view === 'preview' ? 'i-ri-edit-line' : 'i-ri-play-line'" aria-hidden="true" />{{ view === 'preview' ? text('编辑文稿', 'Edit script') : text('预览', 'Preview') }}
           </YlfButton>
         </div>
@@ -91,17 +108,6 @@ function reset() {
 
 <style scoped>
 .editor-playground {
-  /* Local adapter: reuse the shared controls without changing consumer defaults. */
-  --ylf-c-brand: var(--ylf-editor-accent);
-  --ylf-c-brand-soft: var(--ylf-editor-selection);
-  --ylf-c-text: var(--ylf-editor-fg);
-  --ylf-c-text-2: var(--ylf-editor-muted);
-  --ylf-c-surface: var(--ylf-editor-field);
-  --ylf-c-surface-inset: var(--ylf-editor-chrome);
-  --ylf-c-border: var(--ylf-editor-border);
-  --ylf-radius: var(--ylf-editor-radius);
-  --ylf-radius-sm: var(--ylf-editor-radius);
-  --ylf-font-body: var(--ylf-editor-font);
   color: var(--ylf-editor-fg);
   font: var(--ylf-editor-text) / 1.5 var(--ylf-editor-font);
   text-align: left;
@@ -232,8 +238,8 @@ function reset() {
   background: var(--ylf-editor-selection);
 }
 .editor-playground :deep(.preview-button) {
-  background: var(--ylf-palette-blue, #2563eb);
-  color: #ffffff;
+  background: var(--ylf-c-brand, #2563eb);
+  color: var(--ylf-c-text-on-accent, #ffffff);
   border-color: transparent;
 }
 .editor-playground :deep(.preview-button:hover) {

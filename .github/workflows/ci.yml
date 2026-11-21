@@ -40,7 +40,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build
-        run: pnpm run build:theme && pnpm run build:vue
+        run: pnpm run build:ui && pnpm run build:theme && pnpm run build:vue
 
       - name: Typecheck
         run: pnpm run typecheck
@@ -62,7 +62,7 @@ jobs:
       - run: npm install --global corepack@0.36.0
       - run: pnpm install --frozen-lockfile
       - run: pnpm run audit
-      - run: pnpm run build:theme
+      - run: pnpm run build:ui && pnpm run build:theme
       - run: pnpm run test --run
       - run: pnpm run nuxt:verify
       - run: pnpm run registry:verify
@@ -78,4 +78,4 @@ jobs:
           node-version-file: .node-version
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm theme:verify
+      - run: pnpm run build:ui && pnpm theme:verify

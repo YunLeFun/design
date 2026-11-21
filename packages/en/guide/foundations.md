@@ -4,7 +4,7 @@ outline: deep
 
 # Visual foundations {#视觉基础}
 
-The default direction is **sky blue with vivid solid accents**. Components read semantic variables from `@yunlefun/ui`; theme values live in `packages/ui/styles/css-vars.scss`.
+The default direction is **sky blue with vivid solid accents**. Components read semantic variables from `@yunlefun/ui`; the single structured source of truth lives in `packages/ui/tokens/source.mjs`, building `packages/ui/styles/tokens.css`, `compat.css`, `css-vars.scss`, and `dist/tokens.json`.
 
 ## Color roles {#颜色的角色}
 
@@ -90,7 +90,7 @@ Documentation follows the same reading hierarchy: clear table headers and light 
 
 ## Radii, shadows and motion {#圆角、阴影与动效}
 
-Radii are 10, 14, 20, 28px and pill. Select by the hierarchy of small controls, standard controls and containers; use pills where appropriate for buttons and labels.
+Radii cover `4` (`2xs`), `6` (`xs`), `10` (`sm`), `14` (`md`), `20` (`lg`), `28px` (`xl`), and `pill` (`999px`), alongside layer `--ylf-z-*`, focus ring `--ylf-ring-*`, and `--ylf-disabled-opacity` tokens. Select by the hierarchy of compact controls, standard controls and containers; use pills where appropriate for buttons and labels.
 
 `--ylf-shadow-sm`, `--ylf-shadow` and `--ylf-shadow-lg` express surface hierarchy. Controls use `--ylf-shadow-control` for fine highlights and contact shadows. Tracks use `--ylf-shadow-inset`. Dialogs, menus and popovers use `--ylf-shadow-panel`. Primary button edges and pressed states respond to clicks; cloud scenes can express day and night, while static content remains steady.
 

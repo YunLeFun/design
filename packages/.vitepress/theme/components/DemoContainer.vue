@@ -139,10 +139,10 @@ onErrorCaptured((err) => {
   gap: 4px;
   margin: 0 20px 20px;
   padding: 12px 14px;
-  border: 1px solid color-mix(in srgb, var(--ylf-c-danger) 35%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ylf-status-danger-text) 35%, transparent);
   border-radius: var(--ylf-radius-sm);
-  background: color-mix(in srgb, var(--ylf-c-danger) 9%, var(--ylf-c-surface));
-  color: var(--ylf-c-danger);
+  background: var(--ylf-status-danger-soft);
+  color: var(--ylf-status-danger-text);
   font-size: 13px;
 }
 

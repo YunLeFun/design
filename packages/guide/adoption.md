@@ -8,16 +8,20 @@ outline: deep
 
 ## 公共接口
 
-| 层        | 入口                                                                     | 契约                                                      |
-| --------- | ------------------------------------------------------------------------ | --------------------------------------------------------- |
-| 设计基础  | `@yunlefun/ui/css`                                                       | 编译好的 CSS，包含 `--ylf-*` 与明暗主题，不加载字体或框架 |
-| 可选背景  | `@yunlefun/ui/patterns.css`                                              | 网格与晴空类；先加载设计基础，再按需引用                  |
-| SCSS 源码 | `@yunlefun/ui/styles`                                                    | 与 CSS 同源，需要 Sass；入口二选一                        |
-| Vue 组件  | `@yunlefun/vue/components/*.vue`                                         | 显式导入，使用 props、slots、events 和 v-model            |
-| 公共类型  | `import type { YlfAccentTone, YlfColorAppearance } from '@yunlefun/vue'` | 色相与强调程度的公共类型                                  |
-| Nuxt      | `@yunlefun/vue/nuxt`                                                     | 组件自动导入，样式由应用主动加载                          |
+| 层         | 入口                                                                     | 契约                                                                      |
+| ---------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------- |
+| 设计基础   | `@yunlefun/ui/css`                                                       | 编译好的核心 CSS，包含 `--ylf-*` 与明暗主题，不加载字体或框架             |
+| 兼容与场景 | `@yunlefun/ui/compat.css` / `admin.css` / `editor.css`                   | 按需引入的兼容别名、Admin / Editor 语义层与 `data-ylf-profile` 作用域     |
+| 框架适配器 | `@yunlefun/ui/adapters/*.css`                                            | `shadcn.css`、`nuxt-ui.css`、`tdesign.css` 三端主题变量映射               |
+| 程序化消费 | `@yunlefun/ui/tokens` / `unocss` / `tokens.json`                         | 浏览器安全的 JS/TS token 常量、零依赖 `presetYunlefun()` 与 W3C DTCG JSON |
+| 可选背景   | `@yunlefun/ui/patterns.css`                                              | 网格与晴空类；先加载设计基础，再按需引用                                  |
+| SCSS 源码  | `@yunlefun/ui/styles`                                                    | 与 CSS 同源，可选入口，需要 Sass                                          |
+| Vue 组件   | `@yunlefun/vue/components/*.vue`                                         | 显式导入原生 CSS 组件，使用 props、slots、events 和 v-model，不依赖 Sass  |
+| 公共类型   | `import type { YlfAccentTone, YlfColorAppearance } from '@yunlefun/vue'` | 浏览器安全的公共类型                                                      |
+| Node 路径  | `@yunlefun/vue/node`                                                     | Node 环境组件目录定位（`componentsDir`、` _dirname`）                     |
+| Nuxt       | `@yunlefun/vue/nuxt`                                                     | 组件自动导入，样式由应用主动加载                                          |
 
-Vue 组件仍以带 SCSS 的 SFC 分发，消费构建需要 Vue 和 Sass；CSS-only 项目不需要安装它们。组件子路径带预生成类型声明，独立消费项目无需解析内部 Reka 源码即可检查公开接口。包根目录的运行时工具用于组件目录定位，浏览器中按组件路径导入。
+Vue 组件全部使用原生 CSS 变量，消费构建只需 Vue，不再依赖 Sass；CSS-only 项目不需要安装 Vue 或 Sass。组件子路径带预生成类型声明，独立消费项目无需解析内部 Reka 源码即可检查公开接口。`@yunlefun/vue` 根入口保持浏览器安全，Node 目录定位工具位于 `@yunlefun/vue/node`。
 
 ## 一致的视觉接口
 
@@ -56,7 +60,7 @@ Vue 组件仍以带 SCSS 的 SFC 分发，消费构建需要 Vue 和 Sass；CSS-
 | 组件行为 | 现有 15 个 Reka 封装已完成 Chromium、明暗主题、键盘、焦点、名称和分发验收 | 在其他浏览器、屏幕阅读器与业务场景中继续验证           |
 | 使用范围 | 文档站复用真实组件；主站已接入共享 token 和统一色彩接口                   | 在另一个真实应用完成接入验收                           |
 | 组件覆盖 | 按钮、徽标、卡片、选择与浮层等基础组件                                    | 按真实需求补输入框、文本域、字段错误、空状态和组合表单 |
-| 设计协作 | 代码 token 与在线规范                                                     | 尚无同步的 Figma 组件库、设计变量导出或原生平台产物    |
+| 设计协作 | 代码 token、W3C DTCG JSON / JS/TS 导出与在线规范                          | 尚无同步的 Figma 组件库或原生移动端产物                |
 
 目前适合发布为明确标注试用范围的早期版本。不要把所有组件都视为已完成无障碍认证，也不要因为一个 Demo 正常就承诺全部业务场景可用。
 

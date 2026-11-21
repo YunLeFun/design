@@ -32,10 +32,10 @@ pnpm dlx shadcn-vue@2.8.2 add https://design.yunle.fun/r/ylf-button.json
 pnpm dlx shadcn-vue@2.8.2 add https://design.yunle.fun/r/ylf-dialog.json
 ```
 
-两个组件都会通过 `registryDependencies` 自动安装 `ylf-tokens`。在应用入口加载一次：
+两个组件都会通过 `registryDependencies` 自动安装 `ylf-tokens`（零 Sass 原生 CSS）。在应用入口加载一次：
 
 ```ts
-import './styles/ylf-tokens.scss'
+import './styles/ylf-tokens.css'
 ```
 
 然后使用复制到项目中的组件：
@@ -88,10 +88,10 @@ YLF_REGISTRY_BASE_URL=https://design.yunle.fun/r pnpm registry:verify
 `registry.json` 只声明分发关系，所有生成物仍来自包内权威文件：
 
 ```text
-packages/ui/styles/css-vars.scss ───────→ ylf-tokens.json
-                                              ↑
-packages/vue/components/YlfButton.vue ──→ ylf-button.json
-packages/vue/components/YlfDialog.vue ──→ ylf-dialog.json
+packages/ui/tokens/source.mjs ─→ tokens.css ─→ ylf-tokens.json
+                                                       ↑
+packages/vue/components/YlfButton.vue ─────────→ ylf-button.json
+packages/vue/components/YlfDialog.vue ─────────→ ylf-dialog.json
 ```
 
 `ylf-button` 与 `ylf-dialog` 通过远程 `registryDependencies` 复用 `ylf-tokens`，不再分别携带一份 token 文件。修改组件或 token 后重新构建即可，不维护 Registry 专用副本。

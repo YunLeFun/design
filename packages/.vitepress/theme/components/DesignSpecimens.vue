@@ -4,12 +4,12 @@ import { useDocsLocale } from '../composables/useDocsLocale'
 
 const { text, link } = useDocsLocale()
 const colors = computed(() => [
-  { name: text('晴空蓝', 'Sky blue'), token: '--ylf-c-brand', role: text('主操作', 'Primary actions') },
-  { name: text('明黄', 'Sun yellow'), token: '--ylf-accent-sun', role: text('精选', 'Featured') },
-  { name: text('青色', 'Cyan'), token: '--ylf-accent-cyan', role: text('工具', 'Tools') },
-  { name: text('珊瑚橙', 'Coral'), token: '--ylf-accent-coral', role: text('活动', 'Events') },
-  { name: text('桃粉', 'Pink'), token: '--ylf-accent-pink', role: text('创作', 'Creation') },
-  { name: text('鲜绿', 'Green'), token: '--ylf-accent-green', role: text('完成', 'Completion') },
+  { name: text('晴空蓝', 'Sky blue'), token: '--ylf-c-brand', onToken: '--ylf-c-text-on-accent', role: text('主操作', 'Primary actions') },
+  { name: text('明黄', 'Sun yellow'), token: '--ylf-accent-sun', onToken: '--ylf-accent-sun-on', role: text('精选', 'Featured') },
+  { name: text('青色', 'Cyan'), token: '--ylf-accent-cyan', onToken: '--ylf-accent-cyan-on', role: text('工具', 'Tools') },
+  { name: text('珊瑚橙', 'Coral'), token: '--ylf-accent-coral', onToken: '--ylf-accent-coral-on', role: text('活动', 'Events') },
+  { name: text('桃粉', 'Pink'), token: '--ylf-accent-pink', onToken: '--ylf-accent-pink-on', role: text('创作', 'Creation') },
+  { name: text('鲜绿', 'Green'), token: '--ylf-accent-green', onToken: '--ylf-accent-green-on', role: text('完成', 'Completion') },
 ])
 
 // 点色块复制 CSS 变量，直接粘进代码。
@@ -60,12 +60,15 @@ async function copyToken(token: string) {
           @click="copyToken(color.token)"
         >
           <span class="design-specimens__swatch" :style="{ background: `var(${color.token})` }" aria-hidden="true">
-            <span class="design-specimens__check i-ri-check-line" />
+            <span class="design-specimens__check i-ri-check-line" :style="{ color: `var(${color.onToken})` }" />
           </span>
           <strong>{{ color.name }}</strong>
           <span>{{ copied === color.token ? text('已复制变量', 'Variable copied') : color.role }}</span>
         </button>
       </div>
+      <p class="design-specimens__sr" role="status" aria-live="polite">
+        {{ copied ? text(`已复制变量 ${copied}`, `Copied variable ${copied}`) : '' }}
+      </p>
     </div>
     <div class="design-specimens__type">
       <h3>{{ text('让内容自在呼吸', 'Give content room to breathe') }}</h3>
@@ -145,7 +148,7 @@ async function copyToken(token: string) {
   align-self: stretch;
   height: 48px;
   margin-bottom: var(--ylf-space-2);
-  border-radius: var(--ylf-radius) var(--ylf-radius) var(--ylf-radius) 6px;
+  border-radius: var(--ylf-radius) var(--ylf-radius) var(--ylf-radius) var(--ylf-radius-xs);
   box-shadow:
     inset 0 1px 0 rgb(255 255 255 / 0.35),
     inset 0 -6px 12px -6px rgb(0 0 0 / 0.12);
@@ -163,12 +166,21 @@ async function copyToken(token: string) {
   transform: scale(var(--ylf-press-scale));
   transition-duration: var(--ylf-duration-press);
 }
+.design-specimens__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
 .design-specimens__check {
   font-size: 22px;
-  color: #fff;
+  color: var(--ylf-c-text-on-accent);
   opacity: 0;
   transform: scale(0.4);
-  filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.3));
   transition:
     opacity var(--ylf-duration-fast) var(--ylf-ease-standard),
     transform var(--ylf-duration-slow) var(--ylf-ease-spring);

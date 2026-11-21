@@ -23,7 +23,7 @@ Release configuration describes repository capability; it does not establish tha
 
 ## `@yunlefun/ui`: foundations {#yunlefun-ui-设计基础}
 
-This package supplies compiled CSS and SCSS source. CSS does not need Sass; SCSS does. It contains no Vue components and imports no framework, router, authentication SDK or business API.
+This package uses `packages/ui/tokens/source.mjs` as its single structured source of truth, generating zero-dependency CSS (`tokens.css`, `compat.css`, `admin.css`, `editor.css`, `adapters/{shadcn,nuxt-ui,tdesign}.css`), optional SCSS (`css-vars.scss`), W3C DTCG JSON (`@yunlefun/ui/tokens.json`), browser-safe JS/TS constants (`@yunlefun/ui/tokens`), and a zero-dependency UnoCSS preset (`presetYunlefun()` from `@yunlefun/ui/unocss`). CSS does not need Sass; SCSS does. It contains no Vue components and imports no framework, router, authentication SDK or business API.
 
 ```bash
 pnpm add @yunlefun/ui
@@ -31,23 +31,26 @@ pnpm add @yunlefun/ui
 
 ```ts
 import '@yunlefun/ui/css'
-// Optional grid and sky backgrounds
+// Optional legacy aliases, grid/sky backgrounds, and Admin / Editor profile layers
+// import '@yunlefun/ui/compat.css'
 import '@yunlefun/ui/patterns.css'
+// import '@yunlefun/ui/admin.css'
+// import '@yunlefun/ui/editor.css'
 ```
 
-For SCSS, install `sass` and use `@use '@yunlefun/ui/styles'`. CSS and SCSS share one token source; choose one foundation entry.
+For SCSS, install `sass` and use `@use '@yunlefun/ui/styles'`. CSS and SCSS are generated from one structured token source; choose one foundation entry.
 
 The base entry only loads tokens. Opt into `@yunlefun/ui/styles/fonts` for brand display fonts, or host fonts yourself. See [Typography](/en/guide/typography).
 
-Tokens are maintained directly in SCSS. There is no standalone JSON token package or native platform generator. Consider separating tokens when a second platform actually needs generated artifacts.
+`@yunlefun/ui/tokens.json` already exports W3C Design Tokens, while `@yunlefun/ui/tokens` and `@yunlefun/ui/unocss` share those exact definitions with JS/TS and UnoCSS toolchains without duplicating token tables.
 
 ## `@yunlefun/vue`: Vue implementation {#yunlefun-vue-vue-组件实现}
 
-Components receive presentation data and interaction state through props, slots, events and `v-model`. Focus, keyboard and overlay behavior reuse Reka UI where appropriate.
+Components receive presentation data and interaction state through props, slots, events and `v-model`, using native CSS custom properties with no `sass` dependency. Focus, keyboard and overlay behavior reuse Reka UI where appropriate.
 
 - Import SFCs from paths such as `@yunlefun/vue/components/YlfButton.vue`.
-- Nuxt registers components through `@yunlefun/vue/nuxt`; the application explicitly loads tokens.
-- The root primarily exports types and component directory information, not named exports for every `Ylf*` component.
+- Nuxt registers components through `@yunlefun/vue/nuxt`; the application explicitly loads tokens (prefer `@yunlefun/ui/css`).
+- The root `@yunlefun/vue` entry exports browser-safe types only, not named exports for every `Ylf*` component; Node path helpers such as `componentsDir` live in `@yunlefun/vue/node`.
 - Applications install and load `@yunlefun/ui` alongside Vue; the Vue package does not inject styles automatically.
 
 See [Vue components](/en/vue/) for executable integration examples.

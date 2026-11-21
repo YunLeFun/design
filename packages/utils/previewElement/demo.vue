@@ -43,15 +43,24 @@ onMounted(() => {
 
 <template>
   <div>
-    <div ref="previewedElRef" class="m-2 size-50 cursor-pointer bg-green p-2" @click="onClick">
-      PreviewElement
-    </div>
-
-    <canvas
-      ref="previewedCanvasRef" class="m-2 size-50 cursor-pointer bg-green p-2"
-      @click="onCanvasClick"
+    <button
+      ref="previewedElRef"
+      type="button"
+      class="m-2 size-50 cursor-pointer border-none bg-green p-2 text-left"
+      @click="onClick"
     >
       PreviewElement
-    </canvas>
+    </button>
+
+    <button
+      type="button"
+      class="m-2 inline-flex cursor-pointer border-none bg-transparent p-0"
+      aria-label="Preview canvas element"
+      @click="onCanvasClick"
+    >
+      <canvas ref="previewedCanvasRef" class="size-50 bg-green p-2">
+        PreviewElement
+      </canvas>
+    </button>
   </div>
 </template>

@@ -3,15 +3,24 @@ import type { Message } from '@ag-ui/client'
 import type { DeepReadonly } from 'vue'
 import { computed, shallowRef, useTemplateRef, watch } from 'vue'
 
-const props = defineProps<{ messages: readonly DeepReadonly<Message>[], english: boolean }>()
+const props = defineProps<{ messages: readonly DeepReadonly<Message>[], english: boolean, isRunning?: boolean }>()
 const visibleMessages = computed(() => props.messages.filter(message => message.role === 'user' || message.role === 'assistant'))
 const conversation = useTemplateRef<HTMLDivElement>('conversation')
 const followLatest = shallowRef(true)
+const completionNotice = shallowRef('')
 function onScroll() {
   const element = conversation.value
   if (element)
     followLatest.value = element.scrollHeight - element.scrollTop - element.clientHeight < 48
 }
+watch(() => props.isRunning, (running, wasRunning) => {
+  if (running) {
+    completionNotice.value = ''
+  }
+  else if (wasRunning) {
+    completionNotice.value = props.english ? 'Agent reply completed' : 'Agent 回复已完成'
+  }
+})
 watch(() => props.messages, () => {
   const element = conversation.value
   if (element && followLatest.value)
@@ -27,7 +36,7 @@ function messageText(message: DeepReadonly<Message>) {
 </script>
 
 <template>
-  <div ref="conversation" class="conversation" role="log" :aria-label="english ? 'Agent conversation' : 'Agent 对话'" aria-live="polite" aria-relevant="additions text" @scroll="onScroll">
+  <div ref="conversation" class="conversation" role="log" :aria-label="english ? 'Agent conversation' : 'Agent 对话'" aria-live="polite" aria-relevant="additions" :aria-busy="isRunning || undefined" @scroll="onScroll">
     <p v-if="!visibleMessages.length" class="empty">
       {{ english ? 'Send a message to try streaming and explicit tool confirmation.' : '发送消息，体验流式回复与工具确认。' }}
     </p>
@@ -37,6 +46,9 @@ function messageText(message: DeepReadonly<Message>) {
       <span v-if="message.role === 'assistant' && message.toolCalls?.length" class="tool-label">{{ english ? 'Tool requested' : '请求工具' }} · {{ message.toolCalls.map(tool => tool.function.name).join(', ') }}</span>
     </article>
   </div>
+  <p class="sr-only" role="status" aria-live="polite">
+    {{ completionNotice }}
+  </p>
 </template>
 
 <style scoped>
@@ -75,5 +87,15 @@ function messageText(message: DeepReadonly<Message>) {
   margin-top: 8px;
   color: var(--ylf-c-text-2);
   font-size: 12px;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 </style>

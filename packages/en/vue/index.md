@@ -6,16 +6,15 @@
 
 ```bash
 pnpm add @yunlefun/ui @yunlefun/vue
-pnpm add -D sass
 ```
 
-Load once in your application's SCSS entry:
+Component styles use native CSS variables directly and do not require `sass`. Load shared tokens once in your application entry:
 
-```scss
-@use '@yunlefun/ui/styles';
+```ts
+import '@yunlefun/ui/css'
 ```
 
-Import that SCSS from the application entry. Brand fonts are optional; see [Typography](/en/guide/typography).
+If your project prefers SCSS, you may still optionally install `sass` and `@use '@yunlefun/ui/styles';`. Brand fonts are optional; see [Typography](/en/guide/typography).
 
 ## Vue / Vite: explicit imports
 
@@ -29,14 +28,14 @@ import YlfButton from '@yunlefun/vue/components/YlfButton.vue'
 </template>
 ```
 
-The root does not export every component. Do not use `import { YlfButton } from '@yunlefun/vue'`. There is no public `YlfResolver` auto import resolver.
+The `@yunlefun/vue` root entry is browser-safe (types only, no `node:path` / `node:url`); do not use `import { YlfButton } from '@yunlefun/vue'`. Node path helpers such as `componentsDir` live in `@yunlefun/vue/node`. There is no public `YlfResolver` auto import resolver.
 
 ## Nuxt: register the module
 
 ```ts
 export default defineNuxtConfig({
   modules: ['@yunlefun/vue/nuxt'],
-  css: ['@yunlefun/ui/styles'],
+  css: ['@yunlefun/ui/css'],
 })
 ```
 

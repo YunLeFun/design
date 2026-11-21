@@ -2,7 +2,7 @@
 import type { YlfAccentTone, YlfColorAppearance } from '../../../vue/components/theme'
 import { ConfigProvider } from 'reka-ui'
 import { useData } from 'vitepress'
-import { computed, onMounted, shallowRef, useId } from 'vue'
+import { computed, shallowRef, useId } from 'vue'
 import YlfBadge from '../../../vue/components/YlfBadge.vue'
 import YlfButton from '../../../vue/components/YlfButton.vue'
 import YlfCard from '../../../vue/components/YlfCard.vue'
@@ -12,6 +12,7 @@ import YlfSelect from '../../../vue/components/YlfSelect.vue'
 import YlfSwitch from '../../../vue/components/YlfSwitch.vue'
 import { useAppearanceTransition } from '../composables/useAppearanceTransition'
 import { useDocsLocale } from '../composables/useDocsLocale'
+import { useHydrated } from '../composables/useHydrated'
 
 const { text } = useDocsLocale()
 const tones = computed<{ value: YlfAccentTone, label: string, color: string }[]>(() => [
@@ -29,17 +30,13 @@ const appearances = computed<{ value: YlfColorAppearance, label: string }[]>(() 
 ])
 const { isDark } = useData()
 const { setAppearance, toggleAppearance } = useAppearanceTransition()
-// 云景配色跟随全局 CSS，挂载后再读取主题偏好以保持 SSR 标记一致。
-const isMounted = shallowRef(false)
+// 云景配色跟随全局 CSS；首个实例完成水合后保持静态标记不变，客户端路由切换不再闪现太阳。
+const isMounted = useHydrated()
 const night = computed({
   get: () => isMounted.value && isDark.value,
   set: (value: boolean) => {
     setAppearance(value)
   },
-})
-
-onMounted(() => {
-  isMounted.value = true
 })
 const tone = shallowRef<YlfAccentTone>('blue')
 const appearance = shallowRef<YlfColorAppearance>('solid')
@@ -92,7 +89,6 @@ function onSkyMove(event: PointerEvent) {
 
 function resetAppearance() {
   pokes.value = 0
-  night.value = false
   tone.value = 'blue'
   appearance.value = 'solid'
 }
@@ -187,7 +183,6 @@ function resetAppearance() {
 <style scoped>
 .design-playground {
   position: relative;
-  isolation: isolate;
   min-width: 0;
   padding-bottom: 1px;
   color: var(--ylf-c-text);
@@ -212,10 +207,10 @@ function resetAppearance() {
 }
 .design-playground__night {
   opacity: 0;
-  background-color: #0a1120;
+  background-color: var(--ylf-c-bg);
   background-image:
-    radial-gradient(circle at 80% 32%, rgba(178, 202, 232, 0.14), transparent 36%),
-    linear-gradient(165deg, #0a1120 15%, #12203a 65%, #1f3354);
+    radial-gradient(circle at 80% 32%, color-mix(in srgb, var(--ylf-cloud-rim) 14%, transparent), transparent 36%),
+    linear-gradient(165deg, var(--ylf-c-bg) 15%, var(--ylf-c-bg-soft) 65%, var(--ylf-c-sky));
 }
 .dark .design-playground__day {
   opacity: 0;
@@ -224,8 +219,8 @@ function resetAppearance() {
   opacity: 1;
 }
 .dark .design-playground__sky {
-  border-color: rgba(148, 169, 192, 0.18);
-  box-shadow: inset 0 1px 0 rgba(210, 226, 240, 0.1);
+  border-color: color-mix(in srgb, var(--ylf-c-border-strong) 80%, transparent);
+  box-shadow: inset 0 1px 0 var(--ylf-c-highlight);
 }
 .design-playground__sky::after {
   content: '';
@@ -448,19 +443,21 @@ function resetAppearance() {
   opacity: 0;
   pointer-events: none;
   background:
-    radial-gradient(ellipse at 100% 0%, rgba(184, 205, 227, 0.06), transparent 55%),
-    linear-gradient(150deg, rgba(27, 38, 56, 0.97), rgba(18, 27, 42, 0.98));
+    radial-gradient(ellipse at 100% 0%, color-mix(in srgb, var(--ylf-c-highlight) 60%, transparent), transparent 55%),
+    linear-gradient(
+      150deg,
+      color-mix(in srgb, var(--ylf-c-surface-raised) 97%, transparent),
+      color-mix(in srgb, var(--ylf-c-surface) 98%, transparent)
+    );
 }
 .dark .design-playground__card::before {
   opacity: 1;
 }
 .dark .design-playground__card {
-  border-color: rgba(159, 178, 201, 0.22);
+  border-color: color-mix(in srgb, var(--ylf-c-border-strong) 80%, transparent);
   box-shadow:
-    inset 0 1px 0 rgba(220, 232, 248, 0.12),
-    0 -8px 18px -12px rgba(2, 7, 15, 0.9),
-    0 8px 18px rgba(4, 9, 19, 0.3),
-    -8px 28px 50px -14px rgba(4, 9, 19, 0.65);
+    inset 0 1px 0 var(--ylf-c-highlight),
+    var(--ylf-shadow-panel);
 }
 .design-playground__heading {
   display: flex;

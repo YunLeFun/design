@@ -15,11 +15,11 @@ YunLeFun 的产品界面分为 Consumer（面向用户）与 Workspace（面向�
 ```ts
 import '@yunlefun/ui/css'
 import '@yunlefun/ui/admin.css'
+// 如接入 TDesign，可按需叠加适配器：
+// import '@yunlefun/ui/adapters/tdesign.css'
 ```
 
-`admin.css` 是可选 token 层，只声明 `--ylf-admin-*`，不覆盖 Consumer 或 Editor，不包含 TDesign、Vue 或 Reka UI 依赖。该入口目前属于源码改动，使用前确认安装版本已经发布；首个接入方 YunLeFun/admin 暂存同一份文件，发布后改为包入口。
-
-颜色支持 `.dark` / `.ylf-theme-dark` 与 `.light` / `.ylf-theme-light`；独立预览可在容器设置 `data-ylf-admin-theme="dark"` 或 `"light"`。同时加载 base theme 并设置对应主题，品牌与语义色继续由 base 提供。
+`admin.css` 是可选 token 层，默认只声明 `--ylf-admin-*`，不覆盖全局 Consumer 或 Editor，不包含 TDesign、Vue 或 Reka UI 依赖；当容器声明 `data-ylf-profile="admin"` 时，会将该作用域内的共享 `--ylf-c-*`、`--ylf-radius-*` 与字体语义同步切换为 Admin 配置。颜色支持 `.dark` / `.ylf-theme-dark` 与 `.light` / `.ylf-theme-light`；独立预览可在容器设置 `data-ylf-admin-theme="dark"` 或 `"light"`（该独立作用域会同步切换 Admin 表面与配套品牌、语义明暗派生值）。
 
 ## 页面与控件
 

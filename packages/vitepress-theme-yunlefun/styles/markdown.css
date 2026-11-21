@@ -145,6 +145,7 @@
 }
 .vp-doc .ylf-doc-table td code {
   font-size: 0.9em;
+  overflow-wrap: break-word;
 }
 .vp-doc .ylf-doc-table td:first-child code {
   white-space: nowrap;

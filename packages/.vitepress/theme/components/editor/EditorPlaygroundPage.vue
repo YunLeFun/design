@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { useDocsLocale } from '../../composables/useDocsLocale'
 import EditorPlayground from './EditorPlayground.vue'
 
 withDefaults(defineProps<{ english?: boolean }>(), { english: false })
+const { link } = useDocsLocale()
 </script>
 
 <template>
@@ -11,7 +13,7 @@ withDefaults(defineProps<{ english?: boolean }>(), { english: false })
         <h1>{{ english ? 'Editor Playground' : '编辑器 Playground' }}</h1>
         <p>{{ english ? 'One design language, two creative workspaces. Try the script, preview and inspector.' : '同一套设计语言，两种创作工作区。试试文稿编辑、画面预览和属性联动。' }}</p>
       </div>
-      <a class="spec-link" :href="english ? '/en/guide/editor' : '/guide/editor'">{{ english ? 'Editor guidelines' : '阅读设计规范' }}<span class="i-ri-arrow-right-line" aria-hidden="true" /></a>
+      <a class="spec-link" :href="link('/guide/editor')">{{ english ? 'Editor guidelines' : '阅读设计规范' }}<span class="i-ri-arrow-right-line" aria-hidden="true" /></a>
     </header>
     <EditorPlayground :english="english" />
     <div class="playground-notes">
@@ -36,7 +38,7 @@ withDefaults(defineProps<{ english?: boolean }>(), { english: false })
   box-sizing: border-box;
   max-width: 1480px;
   margin: 0 auto;
-  padding: 40px 32px 64px;
+  padding: 24px 32px 56px;
 }
 .page-intro {
   display: flex;
@@ -44,7 +46,7 @@ withDefaults(defineProps<{ english?: boolean }>(), { english: false })
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 20px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 .page-intro h1 {
   margin: 0 0 10px;

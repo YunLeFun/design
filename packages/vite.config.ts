@@ -58,7 +58,6 @@ export default defineConfig(async () => {
     resolve: {
       alias: {
         '@yunlefun/metadata': resolve(__dirname, 'metadata/index.ts'),
-        '@yunlefun/ui/*': resolve(__dirname, 'ui/*'),
       },
       dedupe: [
         'vue',

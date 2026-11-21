@@ -4,22 +4,22 @@
 
 云乐坊设计系统统一维护应用共享的设计规范、品牌视觉与 UI 实现。Vue 组件通过 npm 包统一维护，复杂交互由 Reka UI 提供行为和无障碍能力，视觉由 `--ylf-*` token 驱动。
 
-仅接入设计 token 的项目可以使用 CSS 入口，不依赖 Vue 或 Sass；Vue 组件目前以 SFC 分发，构建仍需要 Sass。公共接入范围与发布标准见[公共使用与发布](/guide/adoption)。
+无论是只接入 `@yunlefun/ui` 的设计 token，还是引入 `@yunlefun/vue` 组件与 Registry 条目，均采用原生 CSS 变量，无需在业务构建中安装 Sass（仅显式使用 `@use '@yunlefun/ui/styles'` SCSS 入口时才需安装 `sass`）。公共接入范围与发布标准见[公共使用与发布](/guide/adoption)。
 
 ## 安装
 
 ```bash
 pnpm add @yunlefun/ui @yunlefun/vue
-pnpm add -D sass
 ```
 
-在应用入口加载设计 token，任选 CSS 或 SCSS：
+在应用入口加载设计 token（原生 CSS 推荐 `@yunlefun/ui/css`，也提供 `@yunlefun/ui/tokens`、`@yunlefun/ui/unocss` 与可选 SCSS `@yunlefun/ui/styles`）：
 
 ```ts
 import '@yunlefun/ui/css'
 ```
 
 ```scss
+// 可选（需安装 sass）：
 @use '@yunlefun/ui/styles';
 ```
 
@@ -28,7 +28,7 @@ Nuxt 项目可以注册组件自动导入：
 ```ts
 export default defineNuxtConfig({
   modules: ['@yunlefun/vue/nuxt'],
-  css: ['@yunlefun/ui/styles'],
+  css: ['@yunlefun/ui/css'],
 })
 ```
 

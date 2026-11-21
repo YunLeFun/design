@@ -1,20 +1,35 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
+import { useData } from 'vitepress'
+import { computed, onMounted, ref, watch } from 'vue'
 import '../../../ui/styles/editor.css'
 
 const props = defineProps<{ english?: boolean }>()
+const { isDark } = useData()
+const manualTheme = ref(false)
 const dark = ref(false)
 const selected = ref(1)
 const opacity = ref(60)
 const layers = computed(() => props.english
   ? ['Heart signature', 'Cross ribbon', 'Fine texture']
   : ['心形签名', '十字缎带', '满屏细纹理'])
+
+onMounted(() => {
+  dark.value = isDark.value
+})
+watch(isDark, (nextDark) => {
+  if (!manualTheme.value)
+    dark.value = nextDark
+})
+function toggleTheme() {
+  manualTheme.value = true
+  dark.value = !dark.value
+}
 </script>
 
 <template>
   <section class="editor-specimen" :data-ylf-editor-theme="dark ? 'dark' : 'light'" :aria-label="english ? 'Interactive editor specimen' : 'Editor 交互样板'">
     <header>
-      <strong>{{ english ? 'Saier' : '云绘' }} <span>Editor</span></strong><button type="button" :aria-pressed="dark" @click="dark = !dark">
+      <strong>{{ english ? 'Saier' : '云绘' }} <span>Editor</span></strong><button type="button" @click="toggleTheme">
         {{ english ? (dark ? 'Use light theme' : 'Use dark theme') : (dark ? '切换浅色' : '切换深色') }}
       </button>
     </header>

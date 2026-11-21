@@ -33,22 +33,26 @@
 
 ```bash
 pnpm add @yunlefun/ui @yunlefun/vue
-pnpm add -D sass
 ```
 
-在应用入口加载共享 token，CSS 与 SCSS 入口任选一个：
+在应用入口加载共享 token（默认零 Sass 原生 CSS；如需与现有 SCSS 混编，可选装 `sass` 并使用 SCSS 入口）：
 
 ```ts
 import '@yunlefun/ui/css'
+// 可选场景层与框架适配：
+// import '@yunlefun/ui/admin.css'
+// import '@yunlefun/ui/editor.css'
+// import '@yunlefun/ui/adapters/shadcn.css' // 或 nuxt-ui.css / tdesign.css
 ```
 
 ```scss
+// 可选（需安装 sass）：
 @use '@yunlefun/ui/styles';
 ```
 
-Vue 组件从明确的子路径导入；Nuxt 可通过模块注册组件。完整示例见[开始使用](./packages/guide/index.md)与 [Vue 接入](./packages/vue/index.md)。
+设计 token 唯一权威源码在 `packages/ui/tokens/source.mjs`，同步生成 CSS、`compat.css`、W3C DTCG `@yunlefun/ui/tokens.json`、浏览器安全的 JS/TS 常量 `@yunlefun/ui/tokens` 以及零依赖 UnoCSS 预设 `@yunlefun/ui/unocss`（`presetYunlefun()`）。Vue 组件从明确的子路径导入（根入口 `@yunlefun/vue` 仅导出浏览器安全的类型，Node 路径辅助位于 `@yunlefun/vue/node`）；Nuxt 可通过模块注册组件。完整示例见[开始使用](./packages/guide/index.md)与 [Vue 接入](./packages/vue/index.md)。
 
-仅使用 CSS token 的项目不需要安装 Vue 或 Sass；Vue SFC 组件仍需要 Sass。当前公开版本为 `@yunlefun/ui@0.0.4` 和 `@yunlefun/vue@0.1.3`；主站已从 npm 包复用共享 token。
+无论是纯 CSS token 还是 `@yunlefun/vue` SFC 组件及 Registry `ylf-tokens.css` / `ylf-button` / `ylf-dialog`，均已完全使用原生 CSS，无需安装 `sass`。
 
 ## 开发与文档
 

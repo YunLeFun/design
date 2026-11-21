@@ -17,29 +17,31 @@ const { messages, state, status, isRunning, error, interrupts, isAwaitingInput, 
 </script>
 
 <template>
-  <div class="demo-grid">
-    <div class="demo-chat ylf-workbench-panel">
-      <AgUiConversation :messages="messages" :english="english" />
-      <AgUiToolApprovals v-if="pendingTools.length && !isRunning" :tools="pendingTools" :english="english" @confirm="(id, approved) => confirmTool(approved, id)" />
-      <div v-if="interrupts.length && !isRunning" class="confirmation" role="group" :aria-label="english ? 'Resume approval' : '继续确认'">
-        <p class="confirmation-prompt">
-          {{ interrupts[0]?.message }}
-        </p>
-        <div class="confirmation-actions">
-          <YlfButton size="sm" @click="resume(true)">
-            {{ english ? 'Confirm and resume' : '确认并继续' }}
-          </YlfButton>
-          <YlfButton size="sm" variant="secondary" @click="resume(false)">
-            {{ english ? 'Decline continuation' : '取消继续' }}
-          </YlfButton>
+  <div class="demo-session">
+    <div class="demo-grid">
+      <div class="demo-chat ylf-workbench-panel">
+        <AgUiConversation :messages="messages" :is-running="isRunning" :english="english" />
+        <AgUiToolApprovals v-if="pendingTools.length && !isRunning" :tools="pendingTools" :english="english" @confirm="(id, approved) => confirmTool(approved, id)" />
+        <div v-if="interrupts.length && !isRunning" class="confirmation" role="group" :aria-label="english ? 'Resume approval' : '继续确认'">
+          <p class="confirmation-prompt">
+            {{ interrupts[0]?.message }}
+          </p>
+          <div class="confirmation-actions">
+            <YlfButton size="sm" @click="resume(true)">
+              {{ english ? 'Confirm and resume' : '确认并继续' }}
+            </YlfButton>
+            <YlfButton size="sm" variant="secondary" @click="resume(false)">
+              {{ english ? 'Decline continuation' : '取消继续' }}
+            </YlfButton>
+          </div>
         </div>
+        <p v-if="error || actionError" class="demo-error" role="alert">
+          {{ actionError || error?.message }}
+        </p>
+        <AgUiComposer :scenario="scenario" :english="english" :disabled="disabled" :is-running="isRunning" :can-retry="canRetry" @submit="submit" @cancel="cancel" @simulate-failure="simulateFailure" @retry="retry" />
       </div>
-      <p v-if="error || actionError" class="demo-error" role="alert">
-        {{ actionError || error?.message }}
-      </p>
-      <AgUiComposer :scenario="scenario" :english="english" :disabled="disabled" :is-running="isRunning" :can-retry="canRetry" @submit="submit" @cancel="cancel" @simulate-failure="simulateFailure" @retry="retry" />
+      <AgUiRunState :status="status" :state="state" :pending="isAwaitingInput" :english="english" />
     </div>
-    <AgUiRunState :status="status" :state="state" :pending="isAwaitingInput" :english="english" />
   </div>
   <div v-if="state.tasks || state.recommendations || state.draft || state.toolResults" class="scenario-result">
     <AgUiTaskPlan v-if="state.tasks" :tasks="state.tasks" :progress="state.progress ?? 0" :english="english" />
@@ -51,6 +53,9 @@ const { messages, state, status, isRunning, error, interrupts, isAwaitingInput, 
 </template>
 
 <style scoped>
+.demo-session {
+  container-type: inline-size;
+}
 .demo-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr);
@@ -79,7 +84,7 @@ const { messages, state, status, isRunning, error, interrupts, isAwaitingInput, 
   margin: 12px 20px;
   color: var(--ylf-status-danger-text);
 }
-@media (max-width: 640px) {
+@container (max-width: 640px) {
   .demo-grid {
     grid-template-columns: minmax(0, 1fr);
   }

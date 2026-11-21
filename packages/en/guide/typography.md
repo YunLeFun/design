@@ -13,7 +13,7 @@ Font roles are part of [Visual foundations](/en/guide/foundations). The main sit
 
 ## Font family tokens {#字族-token}
 
-Maintained in [`css-vars.scss`](https://github.com/YunLeFun/design/blob/main/packages/ui/styles/css-vars.scss), consumed as `var(--ylf-font-*)`:
+Maintained in [`tokens/source.mjs`](https://github.com/YunLeFun/design/blob/main/packages/ui/tokens/source.mjs) (built into CSS, SCSS, and `@yunlefun/ui/tokens`), consumed as `var(--ylf-font-*)`:
 
 | Token                 | Role                      | Description                                      |
 | --------------------- | ------------------------- | ------------------------------------------------ |

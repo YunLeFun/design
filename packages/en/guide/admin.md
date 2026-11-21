@@ -15,11 +15,11 @@ YunLeFun interfaces have two families: Consumer for user-facing experiences and 
 ```ts
 import '@yunlefun/ui/css'
 import '@yunlefun/ui/admin.css'
+// Optional framework adapter for TDesign:
+// import '@yunlefun/ui/adapters/tdesign.css'
 ```
 
-`admin.css` is an optional token layer. It declares only `--ylf-admin-*`, does not override Consumer or Editor, and has no TDesign, Vue or Reka UI dependency. The entry is currently a source change: confirm that your installed release includes it before importing. YunLeFun/admin temporarily vendors the same file and can switch to the package entry after publication.
-
-Colors support `.dark` / `.ylf-theme-dark` and `.light` / `.ylf-theme-light`. For an isolated preview, set `data-ylf-admin-theme="dark"` or `"light"` on its container. Also load the base theme and select its matching appearance; brand and semantic colors still come from the base.
+`admin.css` is an optional token layer. By default it declares only `--ylf-admin-*` without modifying global Consumer or Editor tokens, and has no TDesign, Vue or Reka UI dependency. Adding `data-ylf-profile="admin"` on a container switches shared `--ylf-c-*`, `--ylf-radius-*`, and font semantics inside that scope to the Admin profile. Colors support `.dark` / `.ylf-theme-dark` and `.light` / `.ylf-theme-light`, or `data-ylf-admin-theme="dark"` / `"light"` for isolated previews (updating Admin surfaces together with scoped brand and semantic light/dark derived tokens alongside the base theme).
 
 ## Pages and controls
 

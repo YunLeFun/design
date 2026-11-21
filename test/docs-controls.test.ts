@@ -95,4 +95,33 @@ describe('shared native controls', () => {
     expect(wrapper.get('button').attributes('type')).toBe('button')
     expect(wrapper.get('button').attributes('aria-label')).toBe('Source')
   })
+
+  it('prevents link navigation when disabled, preserves loading focus, and inherits ancestor tone', async () => {
+    const parent = mount({
+      components: { YlfButton },
+      template: `<div data-ylf-tone="coral">
+        <YlfButton id="inherited">Inherited</YlfButton>
+        <YlfButton id="disabled-link" tag="a" href="#target" disabled>Disabled Link</YlfButton>
+        <YlfButton id="loading-btn" loading>Loading</YlfButton>
+      </div>`,
+    }, { attachTo: document.body })
+
+    const inherited = parent.get('#inherited')
+    expect(inherited.attributes('data-ylf-tone')).toBeUndefined()
+
+    const link = parent.get('#disabled-link')
+    expect(link.attributes('disabled')).toBeUndefined()
+    expect(link.attributes('aria-disabled')).toBe('true')
+    expect(link.attributes('tabindex')).toBe('-1')
+    const linkEvent = new MouseEvent('click', { bubbles: true, cancelable: true })
+    link.element.dispatchEvent(linkEvent)
+    expect(linkEvent.defaultPrevented).toBe(true)
+
+    const loading = parent.get('#loading-btn')
+    expect(loading.attributes('disabled')).toBeUndefined()
+    expect(loading.attributes('aria-disabled')).toBe('true')
+    expect(loading.attributes('aria-busy')).toBe('true')
+    ;(loading.element as HTMLButtonElement).focus()
+    expect(document.activeElement).toBe(loading.element)
+  })
 })

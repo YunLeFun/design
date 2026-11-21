@@ -27,7 +27,7 @@ const visibleScenes = computed(() => props.scenes.filter(scene => `${scene.name}
       <button v-for="scene in visibleScenes" :key="scene.id" type="button" class="outline-item" :aria-current="selected === scene.id ? 'true' : undefined" :title="scene.title" @click="emit('select', scene.id)">
         <span class="i-ri-file-text-line" aria-hidden="true" />
         <span class="outline-name">{{ scene.name }}</span>
-        <span v-if="scene.status === 'ready'" class="i-ri-check-line" :aria-label="english ? 'Ready' : '已就绪'" />
+        <span v-if="scene.status === 'ready'" class="i-ri-check-line" role="img" :aria-label="english ? 'Ready' : '已就绪'" />
       </button>
       <p v-if="!visibleScenes.length" class="outline-empty">
         {{ english ? 'No matching sections. Try another name.' : '没有匹配的片段，试试其他名称。' }}

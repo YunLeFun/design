@@ -27,4 +27,6 @@ export function generateBrandAssets(options: {
   png?: boolean
   /** Override token colors, e.g. a site accent; values must be hex. */
   palette?: Partial<BrandPalette>
+  /** Site base path prefixed to manifest start_url and icon URLs. Defaults to '/'. */
+  base?: string
 }): Promise<void>

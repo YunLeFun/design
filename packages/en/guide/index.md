@@ -8,22 +8,22 @@ Use the native VitePress language menu to switch between Simplified Chinese and 
 
 YunLeFun Design is the shared design system for YunLeFun applications. It brings together design guidelines, brand visuals and UI implementation. Vue components are maintained through npm; Reka UI supplies complex behavior and accessibility primitives, while `--ylf-*` tokens define their appearance.
 
-Projects that only need design tokens can use the CSS entry without Vue or Sass. Vue components are distributed as SFCs and require Sass in the consuming build. See [Public use and releases](/en/guide/adoption) for the supported scope and release criteria.
+Both `@yunlefun/ui` design tokens and `@yunlefun/vue` components (including Registry items) use native CSS variables with zero `sass` dependency in consumer builds (install `sass` only if you opt into the `@use '@yunlefun/ui/styles'` SCSS entry). See [Public use and releases](/en/guide/adoption) for the supported scope and release criteria.
 
 ## Installation {#安装}
 
 ```bash
 pnpm add @yunlefun/ui @yunlefun/vue
-pnpm add -D sass
 ```
 
-Load the design tokens once in your application. Choose either CSS or SCSS:
+Load the design tokens once in your application (native CSS via `@yunlefun/ui/css`, plus `@yunlefun/ui/tokens`, `@yunlefun/ui/unocss`, and optional SCSS `@yunlefun/ui/styles`):
 
 ```ts
 import '@yunlefun/ui/css'
 ```
 
 ```scss
+// Optional (requires sass):
 @use '@yunlefun/ui/styles';
 ```
 
@@ -32,7 +32,7 @@ Nuxt can register component auto imports:
 ```ts
 export default defineNuxtConfig({
   modules: ['@yunlefun/vue/nuxt'],
-  css: ['@yunlefun/ui/styles'],
+  css: ['@yunlefun/ui/css'],
 })
 ```
 

@@ -65,7 +65,7 @@ Preserve values when advanced settings collapse. Selecting a layer does not modi
 
 ## Integration {#接入}
 
-Load Editor styles explicitly. They do not modify consumer `--ylf-c-*` or `--ylf-radius-*` tokens:
+Editor tokens declare `--ylf-editor-*` without altering global consumer `--ylf-c-*` or `--ylf-radius-*` tokens. Add `data-ylf-profile="editor"` to a workspace root when shared components inside that scope should inherit Editor surfaces, radii, and font roles:
 
 ```ts
 import '@yunlefun/ui/css'
@@ -73,8 +73,8 @@ import '@yunlefun/ui/editor.css'
 ```
 
 ```html
-<section data-ylf-editor-theme="dark" class="my-editor">
-  <!-- Editor components consume --ylf-editor-* tokens. -->
+<section data-ylf-profile="editor" data-ylf-editor-theme="dark" class="my-editor">
+  <!-- Supports both --ylf-editor-* and profile-scoped --ylf-c-* / --ylf-radius-* tokens. -->
 </section>
 ```
 

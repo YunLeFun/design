@@ -15,7 +15,7 @@
     "build:ui": "pnpm -C packages/ui run build",
     "ci:publish": "node scripts/publish-packages.mjs",
     "dev": "pnpm run docs:dev",
-    "docs:dev": "pnpm build:theme && pnpm registry:build && vitepress dev packages",
+    "docs:dev": "pnpm build:ui && pnpm build:theme && pnpm registry:build && vitepress dev packages",
     "docs:build": "pnpm build:ui && pnpm build:theme && pnpm registry:build && vitepress build packages",
     "docs:preview": "vitepress preview packages",
     "lint": "eslint .",

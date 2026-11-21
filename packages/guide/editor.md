@@ -65,7 +65,7 @@ Editor 是云乐坊设计体系面向绘画、图像、时间线与其他复杂�
 
 ## 接入
 
-Editor 样式独立选择加载，不修改消费端 `--ylf-c-*` 与 `--ylf-radius-*`：
+Editor 样式默认仅声明 `--ylf-editor-*`，不覆盖全局消费端 `--ylf-c-*` 与 `--ylf-radius-*`；若希望作用域内的共享组件直接读取 Editor 表面与圆角语义，在工作台容器上添加 `data-ylf-profile="editor"`：
 
 ```ts
 import '@yunlefun/ui/css'
@@ -73,8 +73,8 @@ import '@yunlefun/ui/editor.css'
 ```
 
 ```html
-<section data-ylf-editor-theme="dark" class="my-editor">
-  <!-- 使用 --ylf-editor-* 的编辑器组件 -->
+<section data-ylf-profile="editor" data-ylf-editor-theme="dark" class="my-editor">
+  <!-- 既可使用 --ylf-editor-*，也可在作用域内直接复用 --ylf-c-* 与 --ylf-radius-* -->
 </section>
 ```
 

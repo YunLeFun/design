@@ -67,7 +67,8 @@ export function renderBrandAssets(mark, palette) {
 }
 
 /** Generated assets are committed; librsvg is needed only when regenerating PNGs. */
-export async function generateBrandAssets({ outDir, icon = 'brand-mark', title = 'YunLeFun', png = true, palette = {} }) {
+export async function generateBrandAssets({ outDir, icon = 'brand-mark', title = 'YunLeFun', png = true, palette = {}, base = '/' }) {
+  const normalizedBase = base.endsWith('/') ? base : `${base}/`
   const css = await readFile(fileURLToPath(import.meta.resolve('@yunlefun/ui/css')), 'utf8')
   const assets = renderBrandAssets(icon, { ...readBrandPalette(css), ...palette })
   await mkdir(resolve(outDir, 'brand'), { recursive: true })
@@ -92,10 +93,10 @@ export async function generateBrandAssets({ outDir, icon = 'brand-mark', title =
   await writeFile(resolve(outDir, 'site.webmanifest'), `${JSON.stringify({
     name: title,
     short_name: title,
-    start_url: '/',
+    start_url: normalizedBase,
     display: 'standalone',
     icons: png
-      ? [192, 512].map(size => ({ src: `/icon-${size}.png`, sizes: `${size}x${size}`, type: 'image/png' }))
-      : [{ src: '/brand/app-icon.svg', sizes: 'any', type: 'image/svg+xml' }],
+      ? [192, 512].map(size => ({ src: `${normalizedBase}icon-${size}.png`, sizes: `${size}x${size}`, type: 'image/png' }))
+      : [{ src: `${normalizedBase}brand/app-icon.svg`, sizes: 'any', type: 'image/svg+xml' }],
   }, null, 2)}\n`)
 }

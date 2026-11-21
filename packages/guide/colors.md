@@ -34,7 +34,8 @@ outline: deep
     ↓
 用途色：--ylf-accent-sun / -hover / -soft / -text / -on
     ↓
-组件上下文：data-ylf-tone="sun" → --ylf-accent / -hover / -soft / -text / -on
+组件上下文：data-ylf-tone="sun"
+    → --ylf-accent / -hover / -soft / -text / -on
     ↓
 Button、Badge、Card、Switch、Progress、Separator
 ```
@@ -51,7 +52,7 @@ Button、Badge、Card、Switch、Progress、Separator
 
 原始蓝色为 `--ylf-palette-blue`；`--ylf-accent-blue` 色组引用可随主题切换的品牌 token，与 `--ylf-c-brand` 保持一致。默认 `--ylf-accent*` 上下文也使用这组晴空蓝。不要直接把明黄或青色作为白底上的小字号文字，也不要用 `--ylf-c-text-on-accent` 代替新强调色的 `-on`：它属于主色操作。
 
-浅色和深色都保持鲜明的纯色。晴空蓝在深色主题中随品牌色提亮；辅助色的变化集中在浅底及其文字，避免深色模式把所有颜色都压灰。明暗值在 `@yunlefun/ui/styles/css-vars.scss` 维护，不在业务组件中复制。
+浅色和深色都保持鲜明的纯色。晴空蓝在深色主题中随品牌色提亮；辅助色的变化集中在浅底及其文字，避免深色模式把所有颜色都压灰。明暗值在 `packages/ui/tokens/source.mjs` 统一维护（构建为 CSS、SCSS 与 `@yunlefun/ui/tokens`），不在业务组件中复制。
 
 ## 状态也来自同一套色板
 

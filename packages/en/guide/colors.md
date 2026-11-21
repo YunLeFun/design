@@ -34,7 +34,8 @@ Raw palette: --ylf-palette-sun = #facc15
     ↓
 Purpose: --ylf-accent-sun / -hover / -soft / -text / -on
     ↓
-Component context: data-ylf-tone="sun" → --ylf-accent / -hover / -soft / -text / -on
+Component context: data-ylf-tone="sun"
+    → --ylf-accent / -hover / -soft / -text / -on
     ↓
 Button, Badge, Card, Switch, Progress, Separator
 ```
@@ -51,7 +52,7 @@ Button, Badge, Card, Switch, Progress, Separator
 
 `--ylf-palette-blue` is the raw blue. `--ylf-accent-blue` references theme aware brand tokens and stays aligned with `--ylf-c-brand`; it is also the default accent context. Do not use sun yellow or cyan for small text on white. `--ylf-c-text-on-accent` belongs to brand actions and does not replace each accent's `-on`.
 
-Solid accents remain vivid in both themes. Sky blue brightens with the dark brand color; secondary adjustments chiefly affect soft surfaces and their text. Maintain values in `@yunlefun/ui/styles/css-vars.scss` rather than duplicating them in applications.
+Solid accents remain vivid in both themes. Sky blue brightens with the dark brand color; secondary adjustments chiefly affect soft surfaces and their text. Maintain values centrally in `packages/ui/tokens/source.mjs` (built into CSS, SCSS, and `@yunlefun/ui/tokens`) rather than duplicating them in applications.
 
 ## States use the same palette {#状态也来自同一套色板}
 

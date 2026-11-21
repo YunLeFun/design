@@ -20,6 +20,8 @@ interface ViewTransitionDocument {
 export function provideAppearanceTransition() {
   const { isDark } = useData()
   let fadeTimer: ReturnType<typeof setTimeout> | undefined
+  let transitionToken = 0
+  let activeAnimations: Animation[] = []
   // 记住最近一次按下的位置，让夜幕或晴空从点击处扩散开。
   let lastPointer: { x: number, y: number, time: number } | undefined
   function recordPointer(event: PointerEvent) {
@@ -34,12 +36,22 @@ export function provideAppearanceTransition() {
       document.documentElement.classList.remove(fadeClass)
   }
 
+  function clearActiveReveal() {
+    for (const animation of activeAnimations)
+      animation.cancel()
+    activeAnimations = []
+    if (typeof document !== 'undefined')
+      document.documentElement.classList.remove(revealClass, nightClass, dayClass)
+  }
+
   function setAppearance(dark: boolean) {
     if (isDark.value === dark)
       return
 
     if (typeof document === 'undefined'
       || !window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+      transitionToken++
+      clearActiveReveal()
       cleanup()
       isDark.value = dark
       return
@@ -59,6 +71,8 @@ export function provideAppearanceTransition() {
   }
 
   function reveal(dark: boolean, startViewTransition: NonNullable<ViewTransitionDocument['startViewTransition']>) {
+    const token = ++transitionToken
+    clearActiveReveal()
     const root = document.documentElement
     const width = window.innerWidth
     const height = window.innerHeight
@@ -81,11 +95,15 @@ export function provideAppearanceTransition() {
     const animations: Animation[] = []
     const animate = (keyframes: Keyframe[] | PropertyIndexedKeyframes, options: KeyframeAnimationOptions) => {
       const animation = root.animate?.(keyframes, options)
-      if (animation)
+      if (animation) {
         animations.push(animation)
+        activeAnimations.push(animation)
+      }
     }
     // 用具体像素值驱动 WAAPI，并在快照就绪后立即开始；forwards 保持终态直到过渡结束。
     transition.ready.then(() => {
+      if (token !== transitionToken)
+        return
       const fill = 'forwards' as const
       const newView = '::view-transition-new(root)'
       const oldView = '::view-transition-old(root)'
@@ -99,7 +117,7 @@ export function provideAppearanceTransition() {
       }
       if (dark) {
         // 夜幕落下：带柔和下缘的夜色从屏幕顶端垂落，白天的页面随之暗下来。
-        const curtain = height * 1.5
+        const curtain = height * 1.3
         const timing = { duration: 820, easing: 'cubic-bezier(0.55, 0, 0.2, 1)', fill }
         animate({ maskPosition: [`0px ${-curtain}px`, '0px 0px'] }, { ...timing, pseudoElement: newView })
         animate({ filter: ['none', 'brightness(0.72) saturate(0.85)'] }, { ...timing, pseudoElement: oldView })
@@ -107,7 +125,7 @@ export function provideAppearanceTransition() {
       }
       // 晴空展开：光从点击处向外柔和铺开，新画面带一点刚放晴的明亮，再回到正常。
       const reach = Math.hypot(Math.max(x, width - x), Math.max(y, height - y))
-      const size = (reach * 2) / 0.7
+      const size = (reach * 2) / 0.78
       const timing = { duration: 720, easing: 'cubic-bezier(0.2, 0, 0, 1)', fill }
       animate(
         {
@@ -118,12 +136,15 @@ export function provideAppearanceTransition() {
       )
       animate(
         { filter: ['brightness(1.15) saturate(1.1)', 'none'] },
-        { ...timing, duration: 900, pseudoElement: newView },
+        { ...timing, duration: 720, pseudoElement: newView },
       )
     }, () => {})
     transition.finished.finally(() => {
       for (const animation of animations)
         animation.cancel()
+      if (token !== transitionToken)
+        return
+      activeAnimations = []
       root.classList.remove(revealClass)
       if (sceneClass)
         root.classList.remove(sceneClass)
@@ -138,6 +159,8 @@ export function provideAppearanceTransition() {
   provide(appearanceTransitionKey, appearance)
   provide('toggle-appearance', toggleAppearance)
   onScopeDispose(() => {
+    transitionToken++
+    clearActiveReveal()
     cleanup()
     if (typeof window !== 'undefined')
       window.removeEventListener('pointerdown', recordPointer, { capture: true })

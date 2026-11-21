@@ -126,8 +126,8 @@ describe('appearance transitions', () => {
     await nightSwitch.trigger('click')
     expect(nightSwitch.attributes('aria-checked')).toBe('true')
     await wrapper.findAll('button').find(button => button.text() === '重置')!.trigger('click')
-    expect(nightSwitch.attributes('aria-checked')).toBe('false')
-    expect(isDark.value).toBe(false)
+    expect(nightSwitch.attributes('aria-checked')).toBe('true')
+    expect(isDark.value).toBe(true)
   })
 
   function mockViewTransition(softMask: boolean) {
@@ -228,6 +228,52 @@ describe('appearance transitions', () => {
       await transition.finish()
       expect(transition.animations[0].cancel).toHaveBeenCalledOnce()
       expect(document.documentElement.classList.contains('ylf-appearance-reveal')).toBe(false)
+    }
+    finally {
+      transition.restore()
+    }
+  })
+
+  it('guards active View Transition classes and animations against stale rapid toggles', async () => {
+    const transition = mockViewTransition(true)
+    const finishers: (() => void)[] = []
+    ;(document as { startViewTransition?: unknown }).startViewTransition = vi.fn((update: () => Promise<void>) => {
+      void update()
+      return {
+        ready: Promise.resolve(),
+        finished: new Promise<void>((resolve) => {
+          finishers.push(resolve)
+        }),
+      }
+    })
+    try {
+      const wrapper = mountControls()
+      const header = wrapper.get('[aria-label="header"]')
+      const root = document.documentElement
+
+      await header.trigger('click')
+      await wrapper.vm.$nextTick()
+      await Promise.resolve()
+      expect(root.classList.contains('ylf-appearance-reveal')).toBe(true)
+      expect(root.classList.contains('ylf-appearance-night')).toBe(true)
+
+      await header.trigger('click')
+      await wrapper.vm.$nextTick()
+      await Promise.resolve()
+      expect(root.classList.contains('ylf-appearance-day')).toBe(true)
+
+      // Finish the first (now stale) transition; active #2 reveal/day classes must stay intact.
+      finishers[0]!()
+      await Promise.resolve()
+      await Promise.resolve()
+      expect(root.classList.contains('ylf-appearance-reveal')).toBe(true)
+      expect(root.classList.contains('ylf-appearance-day')).toBe(true)
+
+      finishers[1]!()
+      await Promise.resolve()
+      await Promise.resolve()
+      expect(root.classList.contains('ylf-appearance-reveal')).toBe(false)
+      expect(root.classList.contains('ylf-appearance-day')).toBe(false)
     }
     finally {
       transition.restore()

@@ -15,8 +15,8 @@ const emit = defineEmits<{ select: [id: string] }>()
     </h3>
     <div class="recommendations-grid">
       <YlfCard v-for="item in recommendations" :key="item.id" class="recommendation" :class="{ 'is-selected': selected === item.id }" :data-recommendation="item.id" :tone="item.tone" variant="tinted" padding="16px" :hoverable="false">
-        <div class="palette-swatches" :aria-label="item.colors.join(', ')">
-          <span v-for="color in item.colors" :key="color" class="palette-swatch" :style="{ backgroundColor: color }" />
+        <div class="palette-swatches" role="img" :aria-label="item.colors.join(', ')">
+          <span v-for="color in item.colors" :key="color" class="palette-swatch" aria-hidden="true" :style="{ backgroundColor: color }" />
         </div>
         <h4 class="recommendation-title">
           {{ item.title }}
@@ -33,6 +33,9 @@ const emit = defineEmits<{ select: [id: string] }>()
 </template>
 
 <style scoped>
+.recommendations {
+  container-type: inline-size;
+}
 .recommendations-heading {
   margin: 0 0 14px;
   font-size: 16px;
@@ -74,7 +77,7 @@ const emit = defineEmits<{ select: [id: string] }>()
   font-size: 12px;
   line-height: 1.6;
 }
-@media (max-width: 640px) {
+@container (max-width: 640px) {
   .recommendations-grid {
     grid-template-columns: minmax(0, 1fr);
   }

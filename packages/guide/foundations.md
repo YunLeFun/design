@@ -4,7 +4,7 @@ outline: deep
 
 # 视觉基础
 
-默认方向是**晴空蓝为主、高饱和纯色点缀**。所有组件读取 `@yunlefun/ui` 的语义变量，主题数值在 `packages/ui/styles/css-vars.scss` 中维护。
+默认方向是**晴空蓝为主、高饱和纯色点缀**。所有组件读取 `@yunlefun/ui` 的语义变量，唯一结构化权威定义在 `packages/ui/tokens/source.mjs` 中维护，统一构建为 `packages/ui/styles/tokens.css`、`compat.css`、`css-vars.scss` 与 `dist/tokens.json`。
 
 ## 颜色的角色
 
@@ -90,7 +90,7 @@ outline: deep
 
 ## 圆角、阴影与动效
 
-现有圆角 token 为 10、14、20、28px 和 pill。小控件、标准控件、内容容器依层次选用，胶囊用于按钮和标签等合适的形态。
+现有圆角 token 为 `4`（`2xs`）、`6`（`xs`）、`10`（`sm`）、`14`（`md`）、`20`（`lg`）、`28px`（`xl`）和 `pill`（`999px`），并配套定义了层级 `--ylf-z-*`、焦点环 `--ylf-ring-*` 与禁用透明度 `--ylf-disabled-opacity`。小控件、标准控件、内容容器依层次选用，胶囊用于按钮和标签等合适的形态。
 
 `--ylf-shadow-sm`、`--ylf-shadow`、`--ylf-shadow-lg` 表达表面层级。控件用 `--ylf-shadow-control` 保留细薄高光和接触阴影；轨道与凹槽用 `--ylf-shadow-inset`；Dialog、菜单和 Popover 用 `--ylf-shadow-panel` 表达悬浮层。主按钮的薄边与按压回应点击，品牌云景可以表达日夜变化；静态内容保持稳定。
 

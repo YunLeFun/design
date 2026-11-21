@@ -9,7 +9,7 @@
 
 ## 字族 Token
 
-定义在 [`@yunlefun/ui/styles/css-vars.scss`](https://github.com/YunLeFun/design/blob/main/packages/ui/styles/css-vars.scss)，组件以 `var(--ylf-font-*)` 引用：
+定义在 [`packages/ui/tokens/source.mjs`](https://github.com/YunLeFun/design/blob/main/packages/ui/tokens/source.mjs)（构建到 CSS、SCSS 与 `@yunlefun/ui/tokens`），组件以 `var(--ylf-font-*)` 引用：
 
 | Token                 | 角色                   | 说明                                                            |
 | --------------------- | ---------------------- | --------------------------------------------------------------- |

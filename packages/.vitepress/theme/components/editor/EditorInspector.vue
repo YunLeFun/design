@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import type { PlaygroundScene } from './playground-types'
+import { ylfTokens } from '@yunlefun/ui/tokens'
 import { useId } from 'vue'
 
 defineProps<{ scene: PlaygroundScene, english: boolean }>()
 const emit = defineEmits<{ update: [patch: Partial<PlaygroundScene>] }>()
 const id = useId()
+const editorBase = ylfTokens.profiles.editor.base
 
 function updateDuration(event: Event) {
   const input = event.target as HTMLInputElement
@@ -55,8 +57,8 @@ function updateDuration(event: Event) {
     <details class="inspector-section inspector-details">
       <summary>{{ english ? 'Design details' : '设计细节' }}</summary>
       <dl class="spec-list">
-        <div><dt>{{ english ? 'Controls' : '标准控件' }}</dt><dd>28 px</dd></div>
-        <div><dt>{{ english ? 'Corners' : '控件圆角' }}</dt><dd>5 px</dd></div>
+        <div><dt>{{ english ? 'Controls' : '标准控件' }}</dt><dd>{{ editorBase.control }}</dd></div>
+        <div><dt>{{ english ? 'Corners' : '控件圆角' }}</dt><dd>{{ editorBase.radius }}</dd></div>
         <div><dt>{{ english ? 'Accent' : '交互强调' }}</dt><dd>{{ english ? 'Sky blue' : '晴空蓝' }}</dd></div>
       </dl>
       <p class="inspector-note">
@@ -84,11 +86,11 @@ function updateDuration(event: Event) {
   font-weight: 600;
 }
 .inspector-section {
-  padding: 18px 16px;
+  padding: 14px 16px;
   border-bottom: 1px solid var(--ylf-editor-border);
 }
 .section-heading {
-  margin: 0 0 16px;
+  margin: 0 0 12px;
   font-size: 12px;
   font-weight: 600;
 }

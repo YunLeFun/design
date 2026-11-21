@@ -55,14 +55,14 @@ Radii distinguish controls from containers. Shadows express elevation. Motion re
 
 ## Sources of truth {#规范和代码的权威来源}
 
-| Content                             | Maintained in                                                  |
-| ----------------------------------- | -------------------------------------------------------------- |
-| Principles, visual roles and usage  | This page and [Visual foundations](/en/guide/foundations)      |
-| Executable theme values             | `packages/ui/styles/css-vars.scss`                             |
-| Public component APIs and behavior  | `packages/vue/components/Ylf*.vue` and component documentation |
-| Registry distribution relationships | Root `registry.json`                                           |
-| Component index                     | Metadata generated from component documentation                |
-| Product business rules              | Each application repository                                    |
+| Content                             | Maintained in                                                   |
+| ----------------------------------- | --------------------------------------------------------------- |
+| Principles, visual roles and usage  | This page and [Visual foundations](/en/guide/foundations)       |
+| Executable theme values             | `packages/ui/tokens/source.mjs` (builds CSS / SCSS / DTCG JSON) |
+| Public component APIs and behavior  | `packages/vue/components/Ylf*.vue` and component documentation  |
+| Registry distribution relationships | Root `registry.json`                                            |
+| Component index                     | Metadata generated from component documentation                 |
+| Product business rules              | Each application repository                                     |
 
 Update examples, documentation and generated Registry files with shared styles. Map legacy application variables through an adapter rather than maintaining another foundation theme.
 
